@@ -1,19 +1,20 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { host } from '../api.config';
-import { ILogin } from './types/registration.types';
+import { IAuth, ILogin } from './types/auth.types';
 
 export const userApi = createApi({
     reducerPath: 'userApi',
     baseQuery: fetchBaseQuery({baseUrl: host + '/users'}),
     endpoints: (build) => ({
-        registrate: build.mutation<ILogin, ILogin>({
+        registrate: build.mutation<IAuth, IAuth>({
             query: (post) => ({
                 url: '/registration',
                 method: 'POST',
                 body: post
             })
         }),
-        login: build.mutation<ILogin, ILogin>({
+        //Первый тип возращаемых данных, второй тип переданных аргрументов
+        login: build.mutation<IAuth, ILogin>({
             query: (post) => ({
                 url: '/login',
                 method: 'POST',
@@ -21,4 +22,4 @@ export const userApi = createApi({
             })
         })
     })
-})
+});
