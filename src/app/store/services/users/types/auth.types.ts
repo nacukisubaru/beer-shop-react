@@ -2,7 +2,11 @@ import { IUser } from "./user.types";
 
 export interface IAuth {
     accessToken: string,
-    user: IUser
+    user: IUser,
+    authError: {
+        status: number,
+        message: string
+    }
 }
 
 export interface ILogin {
