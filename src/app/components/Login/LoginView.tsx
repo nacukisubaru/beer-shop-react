@@ -9,13 +9,14 @@ import { useForm } from "react-hook-form";
 
 interface LoginProps {
     login: (post: ILogin) => void;
+    switchRegForm: () => void;
     error: {
         status: number, 
         message: string
     }
 }
 
-const LoginView: FC<LoginProps> = ({ login, error }) => {
+const LoginView: FC<LoginProps> = ({ login, switchRegForm, error }) => {
     const { register, handleSubmit, formState: { errors }} = useForm({
         defaultValues: {
             email: "",
@@ -24,7 +25,7 @@ const LoginView: FC<LoginProps> = ({ login, error }) => {
         mode: "onBlur"
     });
 
-    const onSubmit =  (data: any) => {
+    const onSubmit = (data: any) => {
         const {email, password} = data;
         login({email, password});
     };
@@ -82,10 +83,17 @@ const LoginView: FC<LoginProps> = ({ login, error }) => {
                              {error.message && <p style={styleError}>{error.message}</p>}
                             <Button
                                 variant="contained"
-                                style={{ width: "316px" }}
+                                style={{ width: "316px", marginBottom: "10px"}}
                                 type="submit"
                             >
                                 Войти
+                            </Button>
+                            <Button
+                                variant="contained"
+                                style={{ width: "316px" }}
+                                onClick={switchRegForm}
+                            >
+                                Регистрация
                             </Button>
                         </form>
                     </CardContent>

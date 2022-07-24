@@ -1,14 +1,17 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 import { useActions } from "../../hooks/useActions";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { IAuth, ILogin } from "../../store/services/users/types/auth.types";
+import { ILogin } from "../../store/services/users/types/auth.types";
 import { userApi } from "../../store/services/users/users.api";
 import LoginView from "./LoginView";
 
 export default function LoginContainer() {
     const [login] = userApi.useLoginMutation();
-    const {addUserData, addAuthError, resetAuthError} = useActions();
+    const {
+        addUserData, 
+        addAuthError, 
+        resetAuthError, switchRegForm} = useActions();
+
     const authError = useAppSelector(state => state.userReducer.authError);
 
     const loginUser = async (post: ILogin) => {
@@ -22,6 +25,6 @@ export default function LoginContainer() {
     }
 
     return (<>
-        <LoginView login={loginUser} error={authError}></LoginView>
+        <LoginView login={loginUser} switchRegForm={switchRegForm} error={authError}></LoginView>
     </>);
 }
