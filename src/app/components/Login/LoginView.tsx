@@ -70,12 +70,9 @@ const LoginView: FC<LoginProps> = ({ login, switchRegForm, error }) => {
                                 fullWidth
                                 id="outlined-required"
                                 label="Пароль"
+                                type="password"
                                 {...register("password", { 
                                     required: "Поле обязательно к заполнению",
-                                    // minLength: {
-                                    //     value: 5,
-                                    //     message: 'Минимум 5 символов'
-                                    // }
                                 })}
                                 style={{ marginBottom: "10px" }}
                             />

@@ -6,7 +6,7 @@ export const userApi = createApi({
     reducerPath: 'userApi',
     baseQuery: fetchBaseQuery({baseUrl: host + '/users'}),
     endpoints: (build) => ({
-        registrate: build.mutation<IAuth, IAuth>({
+        registrate: build.mutation<IAuth, ILogin>({
             query: (post) => ({
                 url: '/registration',
                 method: 'POST',
