@@ -12,17 +12,25 @@ interface LoginProps {
 }
 
 const LoginView: FC<LoginProps> = ({ login }) => {
-    const { register, handleSubmit, control } = useForm({
+    const { register, handleSubmit, formState: { errors }} = useForm({
         defaultValues: {
             email: "",
             password: "",
         },
+        mode: "onBlur"
     });
 
     const onSubmit = (data: any) => {
         const {email, password} = data;
         login({email, password});
     };
+
+    const styleError = {
+        display: 'flex',
+        justifyContent: 'left',
+        marginTop: '-6px',
+        color: 'red'
+    }
 
     return (
         <>
@@ -40,21 +48,33 @@ const LoginView: FC<LoginProps> = ({ login }) => {
                         </Typography>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <TextField
-                                {...register("email")}
-                                required
+                                {...register("email",  { 
+                                    required: "Поле обязательно к заполнению",
+                                    pattern: {
+                                        value: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                                        message: 'Некорректный email'
+                                    }
+                                })}
                                 fullWidth
                                 id="outlined-required"
                                 label="Email"
                                 style={{ marginBottom: "10px" }}
                             />
+                             {errors.email && <p style={styleError}>{errors.email.message}</p>}
                             <TextField
-                                required
                                 fullWidth
                                 id="outlined-required"
                                 label="Пароль"
-                                {...register("password")}
+                                {...register("password", { 
+                                    required: "Поле обязательно к заполнению",
+                                    minLength: {
+                                        value: 5,
+                                        message: 'Минимум 5 символов'
+                                    }
+                                })}
                                 style={{ marginBottom: "10px" }}
                             />
+                             {errors.password && <p style={styleError}>{errors.password.message}</p>}
                             <Button
                                 variant="contained"
                                 style={{ width: "316px" }}
