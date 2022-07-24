@@ -6,7 +6,7 @@ import { userApi } from "../../store/services/users/users.api";
 import LoginView from "./LoginView";
 
 export default function LoginContainer() {
-    const [login, { isLoading}] = userApi.useLoginMutation();
+    const [login] = userApi.useLoginMutation();
     const {addUserData} = useActions();
 
     const loginUser = async (post: ILogin) => {
