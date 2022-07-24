@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IError } from "../../../../types/error.types";
 import { IAuth } from "../types/auth.types";
 
 const initialState: IAuth = {
@@ -12,6 +13,11 @@ const initialState: IAuth = {
         isActivated: false,
         createdAt: '',
         updatedAt: ''
+    },
+
+    authError: { 
+        status: 0, 
+        message: ''
     }
 };
 
@@ -20,9 +26,14 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         addUserData: (state, action: PayloadAction<IAuth>) => {
-            console.log(action.payload);
             state.accessToken = action.payload.accessToken;
             state.user = action.payload.user;
+        },
+        addAuthError: (state, action: PayloadAction<IError>) => {
+            state.authError = action.payload;
+        },
+        resetAuthError: (state) => {
+            state.authError = {status: 0, message: ''};
         }
     }
 })

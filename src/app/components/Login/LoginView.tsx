@@ -9,9 +9,13 @@ import { useForm } from "react-hook-form";
 
 interface LoginProps {
     login: (post: ILogin) => void;
+    error: {
+        status: number, 
+        message: string
+    }
 }
 
-const LoginView: FC<LoginProps> = ({ login }) => {
+const LoginView: FC<LoginProps> = ({ login, error }) => {
     const { register, handleSubmit, formState: { errors }} = useForm({
         defaultValues: {
             email: "",
@@ -20,7 +24,7 @@ const LoginView: FC<LoginProps> = ({ login }) => {
         mode: "onBlur"
     });
 
-    const onSubmit = (data: any) => {
+    const onSubmit =  (data: any) => {
         const {email, password} = data;
         login({email, password});
     };
@@ -67,14 +71,15 @@ const LoginView: FC<LoginProps> = ({ login }) => {
                                 label="Пароль"
                                 {...register("password", { 
                                     required: "Поле обязательно к заполнению",
-                                    minLength: {
-                                        value: 5,
-                                        message: 'Минимум 5 символов'
-                                    }
+                                    // minLength: {
+                                    //     value: 5,
+                                    //     message: 'Минимум 5 символов'
+                                    // }
                                 })}
                                 style={{ marginBottom: "10px" }}
                             />
                              {errors.password && <p style={styleError}>{errors.password.message}</p>}
+                             {error.message && <p style={styleError}>{error.message}</p>}
                             <Button
                                 variant="contained"
                                 style={{ width: "316px" }}
