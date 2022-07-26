@@ -10,3 +10,10 @@ export interface IBeer {
     grades: IGrade[],
     product: IProduct
 }
+
+export interface IBeerProduct {
+    compound: string,
+    fortress: number,
+    ibu: number,
+    volume: number
+}

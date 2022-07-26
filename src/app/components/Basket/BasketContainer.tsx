@@ -1,10 +1,13 @@
 import React, { FC } from "react";
-import BasketView from "./BasketView";
+import { useAppSelector } from "../../hooks/useAppSelector";
+import BasketList from "./BasketList";
 
 interface BasketContainerProps {}
 
 const BasketContainer: FC<BasketContainerProps> = () => {
-    return (<BasketView />);
+   const basket = useAppSelector(state => state.basketReducer);
+
+    return (<BasketList basketList={basket}/>);
 }
 
 export default BasketContainer;

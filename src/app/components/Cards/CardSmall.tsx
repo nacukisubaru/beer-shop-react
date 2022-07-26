@@ -3,7 +3,8 @@ import React, { FC } from "react";
 import { ICard } from "../../types/card.types";
 import "./css/cards.css";
 
-const CardSmall: FC<ICard> = ({title, description, price, img}) => {
+const CardSmall: FC<ICard> = ({title, description, price, img, buy}) => {
+ 
     return (
         <>
             <Card sx={{ width: 300, height: 380, margin: "10px" }}>
@@ -26,6 +27,7 @@ const CardSmall: FC<ICard> = ({title, description, price, img}) => {
                 <Button
                     variant="contained"
                     style={{ width: "279px"}}
+                    onClick={buy}
                 >
                     Купить
                 </Button>

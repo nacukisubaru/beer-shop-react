@@ -18,6 +18,7 @@ const CardList: FC<CardListProps> = ({ cardsList }) => {
                         description={item.description}
                         price={item.price}
                         img={item.img}
+                        buy={item.buy}
                     ></CardSmall>
                 ))}
             </div>

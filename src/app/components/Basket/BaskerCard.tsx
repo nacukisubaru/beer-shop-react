@@ -1,14 +1,11 @@
-import { Button, Card, Stack, Typography } from "@mui/material";
-import { Box } from "@mui/system";
 import React, { FC } from "react";
-import "./css/basket.css";
-import img from "../../../assets/images/gus.jpg";
+import { Typography } from "@mui/material";
+import { Box } from "@mui/system";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import { IProductСharacteristics } from "../../types/product.types";
 
-interface BasketViewProps {}
-
-const BasketView: FC<BasketViewProps> = () => {
+const BasketCard: FC<IProductСharacteristics> = ({id, title, price, quantity, img, characteristics}) => {
     return (
         <>
             <div className="container">
@@ -34,7 +31,7 @@ const BasketView: FC<BasketViewProps> = () => {
                                     marginBottom: "10px",
                                 }}
                             >
-                                Жопецкий гусь
+                                {title}
                             </Typography>
                             <Typography
                                 variant="body2"
@@ -52,13 +49,11 @@ const BasketView: FC<BasketViewProps> = () => {
                         >
                             <div className="basket-quantity">
                                 <RemoveCircleOutlineIcon />
-                                <div>1</div>
+                                <div>{quantity}</div>
                                 <AddCircleOutlineIcon />
                             </div>
                         </div>
-                        <div className="basket-element basket-price">
-                            500 р
-                        </div>
+                        <div className="basket-element basket-price">{price} р</div>
                     </div>
                 </div>
             </div>
@@ -66,4 +61,4 @@ const BasketView: FC<BasketViewProps> = () => {
     );
 };
 
-export default BasketView;
+export default BasketCard;
