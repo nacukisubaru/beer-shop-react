@@ -1,14 +1,14 @@
 import { Box, Button, Card, Typography } from "@mui/material";
 import React, { FC } from "react";
 import img from "../../../assets/images/gus.jpg";
+import { ICard } from "../../types/card.types";
 import "./css/cards.css";
 
-interface CardProps {}
-
-const CardSmall: FC<CardProps> = ({}) => {
+const CardSmall: FC<ICard> = ({title, description, price, img}) => {
+    console.log(img);
     return (
         <>
-            <Card sx={{ width: 300, height: 350, margin: "10px" }}>
+            <Card sx={{ width: 300, height: 380, margin: "10px" }}>
                 <Box
                     className="card-img"
                     style={{ backgroundSize: "contain" }}
@@ -21,9 +21,10 @@ const CardSmall: FC<CardProps> = ({}) => {
                         fontSize: "18px",
                     }}
                 >
-                    Жопецкий гусь
+                    {title}
                 </Typography>
-                <Typography variant="body2" style={{ marginBottom: "10px"}}>Описание гуся</Typography>
+                <Typography variant="body2" style={{ marginBottom: "10px"}}>{description}</Typography>
+                <Typography variant="body2" style={{ marginBottom: "10px"}}>{price}</Typography>
                 <Button
                     variant="contained"
                     style={{ width: "279px"}}
