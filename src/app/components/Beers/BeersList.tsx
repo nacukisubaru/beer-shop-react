@@ -21,7 +21,13 @@ const BeersList: FC<BeersListProps> = () => {
     const beerList = useAppSelector(state => state.beerReducer.beerList);
    
     const dispath = useDispatch();
+    
+    useEffect(()=> {
+       dispath(getBeerList(page));
+    }, []);
+
     const fetchBeers = async (page:any) => {
+
         dispath(getBeerList(page));
     }
 
@@ -71,7 +77,7 @@ const BeersList: FC<BeersListProps> = () => {
     return (
         <>
           <Button onClick={()=>{dispath(getBeerList(page))}}>нажми</Button>
-            <CardList cardsList={productsMap(beerList)} fetch={fetchBeers} page={page}></CardList>
+            {beerList.length > 0 && <CardList cardsList={productsMap(beerList)} fetch={fetchBeers} page={page}></CardList>} 
             <Button onClick={getBeerList}>нажми</Button>
             <Link to="/basket">В корзину</Link>
         </>

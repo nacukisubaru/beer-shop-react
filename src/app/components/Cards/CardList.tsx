@@ -11,50 +11,35 @@ interface CardListProps {
 }
 
 const CardList: FC<CardListProps> = ({ cardsList, fetch, page }) => {
-    const [isFetching, setFetching] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
 
-    const ref = useRef();
-    
-    useEffect(()=> {
-        fetch(page);
-    }, []);
-
-    useEffect(() => {
-        const fetching = async () => {
-            if(isFetching) {
-                await fetch(page);
-                setTimeout(()=>{
-                    setFetching(false);
-                }, 2000);
-            }
-        }
-        fetching();
-    },[isFetching]);
+    const targetRef: any = useRef();
+    const callbackFunction = (entries: any) => {
+        const [entry] = entries;
+        setIsVisible(entry.isIntersecting);
+    };
 
     useEffect(() => {
-        const scroll:any = ref.current;
-        scroll.addEventListener('scroll', scrollHandler);
-        scroll.addEventListener('scroll', scrollHandler);
-        return function() {
-            scroll.removeEventListener('scroll', scrollHandler);
-        }    
-    }, []);
+        const observer = new IntersectionObserver(callbackFunction);
 
-    const scrollHandler = (e: any) => {
-        const scrollPosition = e.target.scrollHeight - e.target.scrollTop + window.innerHeight;
-        if(scrollPosition <= 1760) {
-            if(!isFetching) {
-                if(scrollPosition > 1500) {
-                    e.target.scrollTop = e.target.scrollTop - 1;
-                }
-                setFetching(true);
+        const setNewObserver = () => {
+            const currentTarget = targetRef.current;
+            if (currentTarget) {
+                observer.observe(currentTarget);
             }
+        };
+
+        if (isVisible) {
+            fetch(page);
+            setNewObserver();
         }
-    }
+
+        setNewObserver();
+    }, [targetRef, isVisible]);
 
     return (
         <>
-            <Box className="list-body" ref={ref}>
+            <Box className="list-body">
                 <div className="card-list">
                     {cardsList.map((item) => (
                         <CardSmall
@@ -65,6 +50,7 @@ const CardList: FC<CardListProps> = ({ cardsList, fetch, page }) => {
                             buy={item.buy}
                         ></CardSmall>
                     ))}
+                    <div ref={targetRef}></div>
                 </div>
             </Box>
         </>
