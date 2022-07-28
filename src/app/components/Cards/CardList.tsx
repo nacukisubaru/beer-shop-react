@@ -4,6 +4,7 @@ import { ICard } from "../../types/card.types";
 import CardSmall from "./CardSmall";
 import "./css/cards.css";
 import "../../../index.css";
+import { useObserverScroll } from "../../hooks/useObserverScroll";
 interface CardListProps {
     cardsList: ICard[];
     fetch: (page: number) => void;
@@ -11,32 +12,8 @@ interface CardListProps {
 }
 
 const CardList: FC<CardListProps> = ({ cardsList, fetch, page }) => {
-    const [isVisible, setIsVisible] = useState(false);
-
-    const targetRef: any = useRef();
-    const callbackFunction = (entries: any) => {
-        const [entry] = entries;
-        setIsVisible(entry.isIntersecting);
-    };
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(callbackFunction);
-
-        const setNewObserver = () => {
-            const currentTarget = targetRef.current;
-            if (currentTarget) {
-                observer.observe(currentTarget);
-            }
-        };
-
-        if (isVisible) {
-            fetch(page);
-            setNewObserver();
-        }
-
-        setNewObserver();
-    }, [targetRef, isVisible]);
-
+    const targetRef:any = useObserverScroll(fetch, page);
+    
     return (
         <>
             <Box className="list-body">
