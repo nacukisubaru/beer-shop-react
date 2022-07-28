@@ -1,8 +1,11 @@
-import React, { FC } from "react";
+import { Button } from "@mui/material";
+import React, { FC, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useActions } from "../../hooks/useActions";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { beerApi } from "../../store/services/beers/beer.api";
+//import { beerApi } from "../../store/services/beers/beer.api";
+import { getBeerList } from "../../store/services/beers/reducers/beer.slice";
 import {
     IProductItem,
     IProductСharacteristics,
@@ -12,12 +15,18 @@ import CardList from "../Cards/CardList";
 interface BeersListProps {}
 
 const BeersList: FC<BeersListProps> = () => {
-    const { data, isLoading } = beerApi.useFetchAllBeersQuery(0);
-    const { addItem, updateQuantity } = useActions();
+    const {page, status, total} = useAppSelector(state => state.beerReducer);
+    const { addItem, updateQuantity} = useActions();
     const basket = useAppSelector(state => state.basketReducer);
+    const beerList = useAppSelector(state => state.beerReducer.beerList);
+   
+    const dispath = useDispatch();
+    const fetchBeers = async (page:any) => {
+        dispath(getBeerList(page));
+    }
 
     const productsMap = (data: any) => {
-        return data.rows.map(
+        return data.map(
             (item: {
                 compound: string;
                 fortress: number;
@@ -53,15 +62,17 @@ const BeersList: FC<BeersListProps> = () => {
                             const index = basket.findIndex(item => item.id === product.id);
                             updateQuantity({id: index, value: 1});
                         }
-                        console.log(item);
                     },
                 };
             }
         );
     };
-
+  
     return (
-        <>{!isLoading && <CardList cardsList={productsMap(data)}></CardList>} 
+        <>
+          <Button onClick={()=>{dispath(getBeerList(page))}}>нажми</Button>
+            <CardList cardsList={productsMap(beerList)} fetch={fetchBeers} page={page}></CardList>
+            <Button onClick={getBeerList}>нажми</Button>
             <Link to="/basket">В корзину</Link>
         </>
     );

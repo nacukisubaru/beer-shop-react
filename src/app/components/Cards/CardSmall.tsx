@@ -32,6 +32,7 @@ const CardSmall: FC<ICard> = ({title, description, price, img, buy}) => {
                     Купить
                 </Button>
             </Card>
+            
         </>
     );
 };

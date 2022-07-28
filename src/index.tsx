@@ -5,16 +5,18 @@ import { store } from './app/store/store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
+import ReactDOM from 'react-dom';
 
 const container = document.getElementById('root')!;
-const root = createRoot(container);
+//const root = createRoot(container);
 
-root.render(
+ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <App />
     </Provider>
-  </React.StrictMode>
+  </React.StrictMode>,
+  container
 );
 
 // If you want to start measuring performance in your app, pass a function
