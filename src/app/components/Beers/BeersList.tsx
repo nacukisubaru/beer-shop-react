@@ -19,7 +19,7 @@ const BeersList: FC<BeersListProps> = () => {
         (state) => state.beerReducer
     );
     const { addItem, updateQuantity } = useActions();
-    const basket = useAppSelector((state) => state.basketReducer);
+    const basket = useAppSelector((state) => state.basketReducer.list);
     const beerList = useAppSelector((state) => state.beerReducer.beerList);
 
     const dispath = useDispatch();
