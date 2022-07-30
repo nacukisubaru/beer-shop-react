@@ -15,21 +15,22 @@ import CardList from "../Cards/CardList";
 interface BeersListProps {}
 
 const BeersList: FC<BeersListProps> = () => {
-    const {page, status, total} = useAppSelector(state => state.beerReducer);
-    const { addItem, updateQuantity} = useActions();
-    const basket = useAppSelector(state => state.basketReducer);
-    const beerList = useAppSelector(state => state.beerReducer.beerList);
-   
+    const { page, status, total } = useAppSelector(
+        (state) => state.beerReducer
+    );
+    const { addItem, updateQuantity } = useActions();
+    const basket = useAppSelector((state) => state.basketReducer);
+    const beerList = useAppSelector((state) => state.beerReducer.beerList);
+
     const dispath = useDispatch();
-    
-    useEffect(()=> {
-       dispath(getBeerList(page));
+
+    useEffect(() => {
+        dispath(getBeerList(page));
     }, []);
 
-    const fetchBeers = async (page:any) => {
-
+    const fetchBeers = async (page: any) => {
         dispath(getBeerList(page));
-    }
+    };
 
     const productsMap = (data: any) => {
         return data.map(
@@ -51,7 +52,9 @@ const BeersList: FC<BeersListProps> = () => {
                 return {
                     ...product,
                     buy: () => {
-                        const existInBasket = basket.some(item => item.id === product.id);
+                        const existInBasket = basket.some(
+                            (item) => item.id === product.id
+                        );
                         const basketItem: IProductСharacteristics = {
                             ...product,
                             quantity: 1,
@@ -62,24 +65,31 @@ const BeersList: FC<BeersListProps> = () => {
                                 volume: item.volume,
                             },
                         };
-                        if(!existInBasket) {
+                        if (!existInBasket) {
                             addItem(basketItem);
                         } else {
-                            const index = basket.findIndex(item => item.id === product.id);
-                            updateQuantity({id: index, value: 1});
+                            const index = basket.findIndex(
+                                (item) => item.id === product.id
+                            );
+                            updateQuantity({ id: index, value: 1 });
                         }
                     },
                 };
             }
         );
     };
-  
+
     return (
         <>
-          <Button onClick={()=>{dispath(getBeerList(page))}}>нажми</Button>
-            {beerList.length > 0 && <CardList cardsList={productsMap(beerList)} fetch={fetchBeers} page={page}></CardList>} 
-            <Button onClick={getBeerList}>нажми</Button>
-            <Link to="/basket">В корзину</Link>
+            {beerList.length > 0 && (
+                <>
+                    <CardList
+                        cardsList={productsMap(beerList)}
+                        fetch={fetchBeers}
+                        page={page}
+                    ></CardList>
+                </>
+            )}
         </>
     );
 };

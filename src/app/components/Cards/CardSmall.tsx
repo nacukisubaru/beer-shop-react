@@ -25,14 +25,14 @@ const CardSmall: FC<ICard> = ({title, description, price, img, buy}) => {
                 <Typography variant="body2" style={{ marginBottom: "10px"}}>{description}</Typography>
                 <Typography variant="body2" style={{ marginBottom: "10px"}}>{price}</Typography>
                 <Button
+                    className="card__button"
                     variant="contained"
-                    style={{ width: "279px"}}
+                    style={{ width: "279px", background:"#896043"}}
                     onClick={buy}
                 >
                     Купить
                 </Button>
-            </Card>
-            
+            </Card>  
         </>
     );
 };

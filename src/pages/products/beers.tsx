@@ -1,8 +1,14 @@
 import React, { useEffect } from "react";
 import BeersList from "../../app/components/Beers/BeersList";
-import CardList from "../../app/components/Cards/CardList";
+import "../../index.css";
+import Menu from "../../app/components/Drawer/Menu/Menu";
 
 export default function Beers() {
     
-    return (<BeersList />);
+    return (
+        <div className="page-container">
+            <Menu />
+            <BeersList />
+        </div>
+    );
 } 

@@ -5,6 +5,7 @@ import { accountFormsReducer } from "./reducers/account.form.slice";
 //import { beerApi } from "./services/beers/beer.api";
 import { basketReducer } from "./services/basket/reducers/basket.slice";
 import { beerReducer } from "./services/beers/reducers/beer.slice";
+import { drawerMenuReducer } from "./reducers/drawer.menu.slice";
 
 export const store = configureStore({
     reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
         accountFormsReducer,
         basketReducer,
         beerReducer,
+        drawerMenuReducer,
         [userApi.reducerPath]: userApi.reducer,
         // [beerApi.reducerPath]: beerApi.reducer
     }

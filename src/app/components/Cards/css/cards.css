@@ -2,6 +2,9 @@
     display: flex;
     justify-content: center;
     flex-flow: row wrap;
+    max-width: 2500px;
+    margin-left: 70px;
+    margin-right: 70px;
 }
 
 .card {
@@ -12,3 +15,30 @@
     height: 250px;
     position: relative;
 }
+
+.filter-wrapper-btn {
+    display: flex;
+    justify-content: right;
+}
+
+.filter-btn {
+    position: fixed;
+    bottom: 4px;
+    width: 48px;
+    height: 47px;
+    background: #896043;
+    border-radius: 62%;
+}
+
+
+/* Portrait */
+/* @media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 667px) 
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) { 
+    .filter-wrapper-btn {
+      
+        bottom: 10px;
+    }
+} */

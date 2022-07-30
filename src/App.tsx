@@ -3,16 +3,12 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Account from "./pages/account/account";
 import Beers from "./pages/products/beers";
 import Basket from "./pages/basket/basket";
-import { useEffect } from "react";
+import Header from "./app/components/Header/Header";
 
 function App() {
-    
-    useEffect(()=> {
-        console.log('fdf');
-
-    }, []);
     return (
         <div className="App">
+            <Header />
             <BrowserRouter>
                 <Routes>
                     <Route path="/account" element={<Account />} />
