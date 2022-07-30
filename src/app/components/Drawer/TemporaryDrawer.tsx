@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
@@ -14,6 +14,7 @@ import MailIcon from "@mui/icons-material/Mail";
 type Anchor = "top" | "left" | "bottom" | "right";
 
 interface IDrawer {
+    name:string;
     arrayList: [];
     additionalList: [];
     position: Anchor;
@@ -22,12 +23,23 @@ interface IDrawer {
 }
 
 const TemporaryDrawer: FC<IDrawer> = ({
+    name,
     arrayList,
     additionalList,
     position,
     isOpen = false,
     close,
 }) => {
+    
+    const [isOpenList, setOpen] = useState(true);
+    const handlerToggleList = () => {
+        if(!isOpenList) {
+            setOpen(true); 
+        } else {
+            setOpen(false); 
+        }
+    }
+
     const list = (anchor: Anchor) => (
         <Box
             sx={{
@@ -35,7 +47,14 @@ const TemporaryDrawer: FC<IDrawer> = ({
             }}
             role="presentation"
         >
-            <List>{arrayList.map((item) => item)}</List>
+            <List>
+                <ListItemButton onClick={handlerToggleList}>
+                    <ListItemText primary={name} style={{marginLeft: '6px'}}/>
+                </ListItemButton>
+                <div style={{marginLeft: '6px'}}>
+                    {isOpenList && arrayList.map((item) => item)}
+                </div>
+            </List>
             {additionalList.length > 0 && (
                 <>
                     <Divider />

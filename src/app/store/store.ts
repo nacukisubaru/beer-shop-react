@@ -6,6 +6,7 @@ import { accountFormsReducer } from "./reducers/account.form.slice";
 import { basketReducer } from "./services/basket/reducers/basket.slice";
 import { beerReducer } from "./services/beers/reducers/beer.slice";
 import { drawerMenuReducer } from "./reducers/drawer.menu.slice";
+import { gradeApi } from "./services/grades/grade.api";
 
 export const store = configureStore({
     reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
         beerReducer,
         drawerMenuReducer,
         [userApi.reducerPath]: userApi.reducer,
+        [gradeApi.reducerPath]: gradeApi.reducer
         // [beerApi.reducerPath]: beerApi.reducer
     }
 });
