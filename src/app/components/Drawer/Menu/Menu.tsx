@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { useActions } from "../../../hooks/useActions";
 import { useAppSelector } from "../../../hooks/useAppSelector";
+import { brandApi } from "../../../store/services/brands/brand.api";
 import { gradeApi } from "../../../store/services/grades/grade.api";
 import CheckboxFilterList from "../../Filters/Checkbox/CheckboxFilterList";
 import ItemFilterMenu from "../Items/ItemFilterMenu";
@@ -9,6 +10,7 @@ import TemporaryDrawer from "../TemporaryDrawer";
 
 const Menu: FC = () => {
     const grades:any = gradeApi.useGradesListQuery(0);
+    const brands: any = brandApi.useBrandsListQuery(0);
 
     const isFilterMenu = useAppSelector(
         (state) => state.drawerMenuReducer.isFilterMenu
@@ -25,7 +27,8 @@ const Menu: FC = () => {
     ];
 
     const arrayFilterList: any = [
-        <ItemFilterMenu name="Сорта" component={<CheckboxFilterList list={grades.data}/>}></ItemFilterMenu>
+        <ItemFilterMenu name="Сорта" component={<CheckboxFilterList list={grades.data}/>} />,
+        <ItemFilterMenu name="Бренд" component={<CheckboxFilterList list={brands.data}/>} />
     ];
 
     return (
