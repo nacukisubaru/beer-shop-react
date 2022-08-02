@@ -18,18 +18,29 @@ const BeersList: FC<BeersListProps> = () => {
     const { page, status, total } = useAppSelector(
         (state) => state.beerReducer
     );
-    const { addItem, updateQuantity } = useActions();
+    const { addItem, updateQuantity, dropBeerList} = useActions();
     const basket = useAppSelector((state) => state.basketReducer.list);
     const beerList = useAppSelector((state) => state.beerReducer.beerList);
+    const grades = useAppSelector((state) => state.filterProductsReducer.grades);
+    const brandIds = useAppSelector((state) => state.filterProductsReducer.brandIds);
 
     const dispath = useDispatch();
-
+    
     useEffect(() => {
-        dispath(getBeerList(page));
+        dispath(getBeerList({params:{page, limitPage: 8}}));
     }, []);
 
+    useEffect( () => {
+        dropBeerList();
+        dispath(getBeerList({action:'getListByFilter', params:{page:0, limitPage: 8, grades, brandIds}}));
+    }, [grades, brandIds]);
+
     const fetchBeers = async (page: any) => {
-        dispath(getBeerList(page));
+        if(grades.length > 0 || brandIds.length > 0) {
+            dispath(getBeerList({action:'getListByFilter', params:{page, limitPage: 8, grades, brandIds}}));
+        } else {
+            dispath(getBeerList({params:{page, limitPage: 8}}));
+        }
     };
 
     const productsMap = (data: any) => {

@@ -4,16 +4,19 @@ import CheckboxFilter from "./CheckboxFilter";
 
 interface ICheckboxFilterList {
     list: ICheckboxFilter[];
+    selectedList: number[];
+    setFilter: (id:number) => void;
 }
 
-const CheckboxFilterList: FC<ICheckboxFilterList> = ({ list }) => {
+const CheckboxFilterList: FC<ICheckboxFilterList> = ({ list, selectedList, setFilter }) => {
     return (
         <>
             {list.map((item) => {
                return <CheckboxFilter
                     id={item.id}
                     name={item.name}
-                    setFilter={item.setFilter}
+                    setFilter={setFilter}
+                    selectedList={selectedList}
                 />;
             })}
         </>
