@@ -4,11 +4,26 @@ import { Box } from "@mui/system";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import { IProductСharacteristics } from "../../types/product.types";
+import { useActions } from "../../hooks/useActions";
 
-const BasketCard: FC<IProductСharacteristics> = ({id, title, price, quantity, img, characteristics}) => {
+interface IBasketCard extends IProductСharacteristics {
+    index: number;
+}
+
+const BasketCard: FC<IBasketCard> = ({id, index, title, price, quantity, img, characteristics}) => {
+    const {plusQuantity, minusQuantity} = useActions();
+
+    const handlerPlusQuan = () =>{
+        return plusQuantity({id:index, value:1});
+    }
+
+    const handlerMinusQuan = () =>{
+        return minusQuantity({id:index, value:1});
+    }
+
     return (
         <>
-            <div className="container">
+            <div className="container" key={index}>
                 <div className="wrapper">
                     <div className="basket-container">
                         <div className="basket-element">
@@ -48,12 +63,12 @@ const BasketCard: FC<IProductСharacteristics> = ({id, title, price, quantity, i
                             className="basket-element"
                         >
                             <div className="basket-quantity">
-                                <RemoveCircleOutlineIcon />
-                                <div>{quantity}</div>
-                                <AddCircleOutlineIcon />
+                                <RemoveCircleOutlineIcon onClick={handlerMinusQuan} />
+                                    <div>{quantity}</div>
+                                <AddCircleOutlineIcon onClick={handlerPlusQuan} />
                             </div>
                         </div>
-                        <div className="basket-element basket-price">{price} р</div>
+                        <div className="basket-element basket-price">{price * quantity} р</div>
                     </div>
                 </div>
             </div>

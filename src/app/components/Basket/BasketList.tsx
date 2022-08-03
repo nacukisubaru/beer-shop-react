@@ -6,13 +6,14 @@ import TotalCard from "./TotalCard";
 
 interface BasketListProps {
     basketList: IProductСharacteristics[];
+    count: number
 }
 
-const BasketList: FC<BasketListProps> = ({basketList}) => {
+const BasketList: FC<BasketListProps> = ({basketList, count}) => {
     const prices = basketList.map((item) => {
         return item.price;
     });
-    
+
     const total:any = prices.reduce((previousValue:any, currentValue: any) => {
         return previousValue + currentValue;
     });
@@ -21,9 +22,10 @@ const BasketList: FC<BasketListProps> = ({basketList}) => {
         <>
             <div className="wrapper-basket-list">
                 <div className="container-basket-list">
-                    {basketList.map((item: IProductСharacteristics) => (
+                    {basketList.map((item: IProductСharacteristics, index: number) => (
                         <BasketCard
                             id={item.id}
+                            index={index}
                             title={item.title}
                             price={item.price}
                             quantity={item.quantity}
@@ -33,7 +35,7 @@ const BasketList: FC<BasketListProps> = ({basketList}) => {
                     ))}
                 </div>
                 <div className="basket-total-card">
-                    <TotalCard totalPrice={total}/>
+                    <TotalCard totalPrice={total * count}/>
                 </div>   
             </div>
         </>

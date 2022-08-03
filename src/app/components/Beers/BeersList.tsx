@@ -18,7 +18,7 @@ const BeersList: FC<BeersListProps> = () => {
     const { page, status, total } = useAppSelector(
         (state) => state.beerReducer
     );
-    const { addItem, updateQuantity, dropBeerList, resetFilters, resetBeerPage } = useActions();
+    const { addItem, plusQuantity, dropBeerList, resetFilters, resetBeerPage } = useActions();
     const basket = useAppSelector((state) => state.basketReducer.list);
     const beerList = useAppSelector((state) => state.beerReducer.beerList);
 
@@ -76,7 +76,7 @@ const BeersList: FC<BeersListProps> = () => {
                             const index = basket.findIndex(
                                 (item) => item.id === product.id
                             );
-                            updateQuantity({ id: index, value: 1 });
+                            plusQuantity({ id: index, value: 1 });
                         }
                     },
                 };

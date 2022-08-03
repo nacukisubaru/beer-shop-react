@@ -5,9 +5,9 @@ import BasketList from "./BasketList";
 interface BasketContainerProps {}
 
 const BasketContainer: FC<BasketContainerProps> = () => {
-   const basket = useAppSelector(state => state.basketReducer.list);
+    const {list, count} = useAppSelector((state) => state.basketReducer);
 
-    return (<BasketList basketList={basket}/>);
-}
+    return <BasketList basketList={list} count={count} />;
+};
 
 export default BasketContainer;
