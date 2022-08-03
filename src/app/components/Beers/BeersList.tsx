@@ -18,16 +18,18 @@ const BeersList: FC<BeersListProps> = () => {
     const { page, status, total } = useAppSelector(
         (state) => state.beerReducer
     );
-    const { addItem, updateQuantity, dropBeerList } = useActions();
+    
+    const { addItem, updateQuantity, dropBeerList, resetFilters } = useActions();
     const basket = useAppSelector((state) => state.basketReducer.list);
     const beerList = useAppSelector((state) => state.beerReducer.beerList);
 
     const dispath = useDispatch();
     const {fetchBeers} = useFilter();
-    
+
     useEffect(() => {
         const beerList = async () => {
            await dropBeerList();
+           await resetFilters();
            await dispath(getBeerList({params:{page, limitPage}}));
         }
         beerList();

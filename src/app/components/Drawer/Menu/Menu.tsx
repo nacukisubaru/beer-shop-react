@@ -11,10 +11,11 @@ import ItemMenu from "../Items/ItemMenu";
 import TemporaryDrawer from "../TemporaryDrawer";
 
 interface IMenu {
-    callbackApplyFilter: () => void
+    callbackApplyFilter: () => void,
+    callbackResetFilter: () => void
 }
 
-const Menu: FC<IMenu> = ({callbackApplyFilter}) => {
+const Menu: FC<IMenu> = ({callbackApplyFilter, callbackResetFilter}) => {
     const grades: any = gradeApi.useGradesListQuery(0);
     const brands: any = brandApi.useBrandsListQuery(0);
 
@@ -91,6 +92,7 @@ const Menu: FC<IMenu> = ({callbackApplyFilter}) => {
             close={closeAllMenues}
             showApplyBtn={isFilterMenu ? true : false}
             callbackApplyBtn={callbackApplyFilter}
+            callbackResetBtn={callbackResetFilter}
         ></TemporaryDrawer>
     );
 };

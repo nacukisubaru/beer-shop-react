@@ -9,7 +9,7 @@ export default function Basket() {
         <>
             <div className="page-container">
                 <Header />
-                <Menu callbackApplyFilter={()=>{}} />
+                <Menu callbackApplyFilter={()=>{}} callbackResetFilter={()=>{}}/>
                 <BasketContainer />
             </div>
         </>

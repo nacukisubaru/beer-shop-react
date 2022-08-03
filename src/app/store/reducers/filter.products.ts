@@ -62,6 +62,12 @@ export const filterProductsSlice = createSlice({
         },
         setMaxPrice: (state, action: PayloadAction<{price:number}>) => {
             state.maxPrice = action.payload.price;
+        },
+        resetFilters: (state) => {
+            state.grades = [];
+            state.brandIds = [];
+            state.minPrice = 0;
+            state.maxPrice = 0;
         }
     },
     extraReducers: {

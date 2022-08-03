@@ -21,6 +21,7 @@ interface IDrawer {
     close: () => void;
     showApplyBtn: boolean;
     callbackApplyBtn: () => void;
+    callbackResetBtn: () => void;
 }
 
 const TemporaryDrawer: FC<IDrawer> = ({
@@ -31,7 +32,8 @@ const TemporaryDrawer: FC<IDrawer> = ({
     isOpen = false,
     close,
     showApplyBtn = false,
-    callbackApplyBtn
+    callbackApplyBtn,
+    callbackResetBtn
 }) => {
     
     const [isOpenList, setOpen] = useState(true);
@@ -76,6 +78,7 @@ const TemporaryDrawer: FC<IDrawer> = ({
                     {showApplyBtn && (
                         <div className="container-apply-btn">
                             <div className="wrap-apply-btn">
+                                <Button onClick={callbackResetBtn}>Cбросить</Button>
                                 <Button onClick={callbackApplyBtn}>Применить</Button>
                             </div>
                         </div>
