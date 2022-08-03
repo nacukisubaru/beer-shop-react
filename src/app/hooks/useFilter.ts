@@ -1,4 +1,5 @@
 import { useDispatch } from "react-redux";
+import { limitPage } from "../store/services/api.config";
 import { getBeerList } from "../store/services/beers/reducers/beer.slice";
 import { useActions } from "./useActions";
 import { useAppSelector } from "./useAppSelector";
@@ -22,7 +23,7 @@ const useGetParams = ():IUseGetParams => {
     const minPrice = useAppSelector((state) => state.filterProductsReducer.minPrice);
     const maxPrice = useAppSelector((state) => state.filterProductsReducer.maxPrice);
 
-    const params:any = {page:0, limitPage: 8, grades, brandIds};
+    const params:any = {page:0, limitPage, grades, brandIds};
     if(minPrice > 0 && maxPrice > 0) {
         params.minPrice = minPrice;
         params.maxPrice = maxPrice;
@@ -46,7 +47,7 @@ export const useFilter = ():IUseFilter => {
         if(grades.length > 0 || brandIds.length > 0 || (minPrice > 0 && maxPrice > 0)) {
             dispath(getBeerList({action:'getListByFilter', params:{...params, page}}));
         } else {
-            dispath(getBeerList({params:{page, limitPage: 8}}));
+            dispath(getBeerList({params:{page, limitPage}}));
         }
     };
 

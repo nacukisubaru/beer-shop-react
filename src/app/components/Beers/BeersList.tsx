@@ -4,6 +4,7 @@ import { useActions } from "../../hooks/useActions";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useFilter } from "../../hooks/useFilter";
 import { getMinAndMaxPrice } from "../../store/reducers/filter.products";
+import { limitPage } from "../../store/services/api.config";
 import { getBeerList } from "../../store/services/beers/reducers/beer.slice";
 import {
     IProductItem,
@@ -17,7 +18,7 @@ const BeersList: FC<BeersListProps> = () => {
     const { page, status, total } = useAppSelector(
         (state) => state.beerReducer
     );
-    const { addItem, updateQuantity } = useActions();
+    const { addItem, updateQuantity, dropBeerList } = useActions();
     const basket = useAppSelector((state) => state.basketReducer.list);
     const beerList = useAppSelector((state) => state.beerReducer.beerList);
 
@@ -25,8 +26,12 @@ const BeersList: FC<BeersListProps> = () => {
     const {fetchBeers} = useFilter();
     
     useEffect(() => {
+        const beerList = async () => {
+           await dropBeerList();
+           await dispath(getBeerList({params:{page, limitPage}}));
+        }
+        beerList();
         dispath(getMinAndMaxPrice());
-        dispath(getBeerList({params:{page, limitPage: 8}}));
     }, []);
 
     const productsMap = (data: any) => {
@@ -84,7 +89,7 @@ const BeersList: FC<BeersListProps> = () => {
                         cardsList={productsMap(beerList)}
                         fetch={fetchBeers}
                         page={page}
-                        scrollList={status != 'rejected' ? true : false}
+                        scrollList={status == 'resolved' ? true : false}
                     ></CardList>
                 </>
             )}

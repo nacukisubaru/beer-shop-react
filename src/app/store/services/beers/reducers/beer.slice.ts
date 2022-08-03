@@ -31,6 +31,7 @@ export const beerSlice = createSlice({
     reducers: {
         dropBeerList: (state) => {
             state.beerList = [];
+            state.page = 0;
         }
         // addBeers: (state, action) => {
         //     state.beerList = state.beerList.concat(action.payload);
