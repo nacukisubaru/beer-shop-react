@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import React, { FC, useEffect, useRef, useState } from "react";
-import { ICard } from "../../types/card.types";
+import { ICardItem } from "../../types/card.types";
 import CardSmall from "./CardSmall";
 import "./css/cards.css";
 import "../../../index.css";
@@ -12,7 +12,7 @@ import { IAction } from "../../types/action.deal.types";
 import { useActions } from "../../hooks/useActions";
 
 interface CardListProps {
-    cardsList: ICard[];
+    cardsList: ICardItem[];
     fetch: (page: number) => void;
     page: number;
     scrollList: boolean
@@ -34,6 +34,7 @@ const CardList: FC<CardListProps> = ({ cardsList, fetch, page, scrollList = true
                     <div className="card-list">
                         {cardsList.map((item) => (
                             <CardSmall
+                                key={item.id}
                                 title={item.title}
                                 description={item.description}
                                 price={item.price}

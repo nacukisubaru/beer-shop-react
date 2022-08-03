@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 
 function valuetext(value: number) {
-    return `${value}°C`;
+    return `${value}`;
 }
 
 interface IRangeSliderFilter {
@@ -30,7 +30,7 @@ const RangeSliderFilter:FC<IRangeSliderFilter> = ({defaultMin, defaultMax, min, 
     return (
         <Box sx={{ width: 314, marginLeft: '25px' }}>
             <Slider
-                getAriaLabel={() => "Temperature range"}
+                getAriaLabel={() => "slider range"}
                 value={value}
                 onChange={handleChange}
                 onMouseUp={handleSetPrice}

@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import { userApi } from "./services/users/users.api";
 import { userReducer } from "./services/users/reducers/user.slice";
 import { accountFormsReducer } from "./reducers/account.form.slice";
@@ -22,7 +22,8 @@ export const store = configureStore({
         [gradeApi.reducerPath]: gradeApi.reducer,
         [brandApi.reducerPath]: brandApi.reducer
         // [beerApi.reducerPath]: beerApi.reducer
-    }
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false})
 });
 
 export type RootState = ReturnType<typeof store.getState>
