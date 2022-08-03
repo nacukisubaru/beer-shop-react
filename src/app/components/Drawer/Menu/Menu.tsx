@@ -59,6 +59,7 @@ const Menu: FC<IMenu> = ({callbackApplyFilter, callbackResetFilter}) => {
 
     const arrayFilterList: any = [
         <ItemFilterMenu
+            key={"Сорта"}
             name="Сорта"
             component={
                 <CheckboxFilterList
@@ -70,6 +71,7 @@ const Menu: FC<IMenu> = ({callbackApplyFilter, callbackResetFilter}) => {
         />,
         <ItemFilterMenu
             name="Бренд"
+            key={"Бренд"}
             component={
                 <CheckboxFilterList
                     list={brands.data}
@@ -81,6 +83,7 @@ const Menu: FC<IMenu> = ({callbackApplyFilter, callbackResetFilter}) => {
         
         <ItemFilterMenu
             name="Цена"
+            key={"Цена"}
             component={
                 <RangeSliderFilter 
                     defaultMin={minPriceDefault} 
