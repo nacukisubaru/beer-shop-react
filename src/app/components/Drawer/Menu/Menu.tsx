@@ -1,7 +1,6 @@
 import { FC } from "react";
 import { useActions } from "../../../hooks/useActions";
 import { useAppSelector } from "../../../hooks/useAppSelector";
-import { useFilter } from "../../../hooks/useFilter";
 import { brandApi } from "../../../store/services/brands/brand.api";
 import { gradeApi } from "../../../store/services/grades/grade.api";
 import CheckboxFilterList from "../../Filters/Checkbox/CheckboxFilterList";
