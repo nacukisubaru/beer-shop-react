@@ -5,3 +5,7 @@ export interface ICard {
     img: string,
     buy: () => void
 }
+
+export interface ICardItem extends ICard {
+    id: number
+}

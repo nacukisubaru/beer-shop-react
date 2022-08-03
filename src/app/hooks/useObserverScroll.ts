@@ -4,7 +4,7 @@ interface IObserverScroll {
     targetRef:any;
 }
 
-export const useObserverScroll = (fetch:any, page: number):IObserverScroll => {
+export const useObserverScroll = (fetch:any, page: number, scroll: boolean = true):IObserverScroll => {
 
     const [isVisible, setIsVisible] = useState(false);
     const targetRef: any = useRef();
@@ -25,8 +25,10 @@ export const useObserverScroll = (fetch:any, page: number):IObserverScroll => {
         };
 
         if (isVisible) {
-            fetch(page);
-            setNewObserver();
+            if(scroll) {
+                fetch(page);
+                setNewObserver();
+            }
         }
 
         setNewObserver();

@@ -12,20 +12,6 @@ code {
     monospace;
 }
 
-.list-body {
-  height: calc(171vh - 866px);
-  overflow-x: hidden;
-  overflow-y: scroll;  
-  padding-bottom: 80;
-}
-
-.list-body::-webkit-scrollbar {
-  width: 11px;
-  background: #F4F4F4;
-  border-radius: 10px;
-}
-
-.list-body::-webkit-scrollbar-thumb {
-  background: blue;
-  border-radius: 10px;
+.page-container {
+  min-height: 821px;
 }
