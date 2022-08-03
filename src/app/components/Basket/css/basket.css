@@ -64,4 +64,8 @@
     .basket-total-card {
         display: none;
     }
+
+    .container-basket-list {
+        margin: 0;
+    }
 }

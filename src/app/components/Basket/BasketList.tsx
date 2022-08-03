@@ -9,8 +9,12 @@ interface BasketListProps {
 }
 
 const BasketList: FC<BasketListProps> = ({basketList}) => {
-    const total:any = basketList.reduce((previousValue:any, currentValue: any) => {
-        return previousValue.price + currentValue.price;
+    const prices = basketList.map((item) => {
+        return item.price;
+    });
+    
+    const total:any = prices.reduce((previousValue:any, currentValue: any) => {
+        return previousValue + currentValue;
     });
 
     return (
