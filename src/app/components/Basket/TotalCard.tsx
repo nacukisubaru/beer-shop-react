@@ -9,7 +9,7 @@ const TotalCard: FC<ITotalCard> = ({totalPrice}) => {
 
     return (
         <>
-            <Card sx={{ width: 350, marginTop: "49px", height: "235px" }}>
+            <Card sx={{ width: 350, marginTop: "49px", height: "235px", position: 'fixed' }}>
                 <div className="total-card">
                     <Typography variant="h5">Итого</Typography>
                     <Typography variant="h5">{totalPrice} р</Typography>

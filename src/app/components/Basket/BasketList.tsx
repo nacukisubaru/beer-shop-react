@@ -11,13 +11,10 @@ interface BasketListProps {
 
 const BasketList: FC<BasketListProps> = ({basketList, count}) => {
     
-    const prices = basketList.length > 0 ? basketList.map((item) => {
-        return item.price;
-    }) : 0;
-
-    const total:any = prices ? prices.reduce((previousValue:any, currentValue: any) => {
-        return previousValue + currentValue;
-    }): 0;
+    const initialValue = 0;
+    const total:any =  basketList.length > 0 ? basketList.reduce((accumulator, currentValue: any) => {
+        return accumulator + currentValue.price * currentValue.quantity;
+    }, initialValue): 0;
 
     return (
         <>
@@ -25,6 +22,7 @@ const BasketList: FC<BasketListProps> = ({basketList, count}) => {
                 <div className="container-basket-list">
                     {basketList.map((item: IProductСharacteristics, index: number) => (
                         <BasketCard
+                            key={index}
                             id={item.id}
                             index={index}
                             title={item.title}
@@ -36,7 +34,7 @@ const BasketList: FC<BasketListProps> = ({basketList, count}) => {
                     ))}
                 </div>
                 <div className="basket-total-card">
-                    <TotalCard totalPrice={total * count}/>
+                    <TotalCard totalPrice={total}/>
                 </div>   
             </div>
         </>
