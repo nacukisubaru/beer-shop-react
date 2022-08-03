@@ -34,15 +34,16 @@ const useGetParams = ():IUseGetParams => {
 
 export const useFilter = ():IUseFilter => {
     const dispath = useDispatch();
-    const {dropBeerList} = useActions();
+    const {dropBeerList, openModalNotFoundByFilter} = useActions();
     const params = useGetParams();
     const {grades, brandIds, minPrice, maxPrice} = params;
 
     const fetchBeersByFilter:any = async () => {
         await dropBeerList();
-        const result = await dispath(getBeerList({action:'getListByFilter',  params}));
+        const result = await dispath(getBeerList({action:'getListByFilter', params}));
         if(result.error) {
             dispath(getBeerList({params:{page: 0, limitPage}}));
+            openModalNotFoundByFilter();
         }
     };
 

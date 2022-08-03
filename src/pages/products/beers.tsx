@@ -8,6 +8,7 @@ import { limitPage } from "../../app/store/services/api.config";
 import { useDispatch } from "react-redux";
 import { getBeerList } from "../../app/store/services/beers/reducers/beer.slice";
 import "../../index.css";
+import ResultNotFoundByFilter from "../../app/components/Modals/Messages/ResultNotFoundByFilter";
 
 export default function Beers() {
     const { fetchBeersByFilter } = useFilter();
@@ -34,6 +35,7 @@ export default function Beers() {
                 callbackResetFilter={handleResetFilter}
             />
             <BeersList />
+            <ResultNotFoundByFilter />
         </div>
     );
 }

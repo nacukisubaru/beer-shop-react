@@ -8,6 +8,7 @@ export const initialState = {
     maxPriceDefault:<number> 1000,
     minPrice:<number> 0,
     maxPrice:<number> 0,
+    modalNotFoundByFilter: false,
     status: '',
     error: ''
 }
@@ -68,6 +69,12 @@ export const filterProductsSlice = createSlice({
             state.brandIds = [];
             state.minPrice = 0;
             state.maxPrice = 0;
+        },
+        openModalNotFoundByFilter: (state) => {
+            state.modalNotFoundByFilter = true;
+        },
+        closeModalNotFoundByFilter: (state) => {
+            state.modalNotFoundByFilter = false;
         }
     },
     extraReducers: {
