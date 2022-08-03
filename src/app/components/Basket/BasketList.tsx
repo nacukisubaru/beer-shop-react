@@ -10,13 +10,14 @@ interface BasketListProps {
 }
 
 const BasketList: FC<BasketListProps> = ({basketList, count}) => {
-    const prices = basketList.map((item) => {
+    
+    const prices = basketList.length > 0 ? basketList.map((item) => {
         return item.price;
-    });
+    }) : 0;
 
-    const total:any = prices.reduce((previousValue:any, currentValue: any) => {
+    const total:any = prices ? prices.reduce((previousValue:any, currentValue: any) => {
         return previousValue + currentValue;
-    });
+    }): 0;
 
     return (
         <>
