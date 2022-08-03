@@ -39,8 +39,11 @@ export const useFilter = ():IUseFilter => {
     const {grades, brandIds, minPrice, maxPrice} = params;
 
     const fetchBeersByFilter:any = async () => {
-        dropBeerList();
-        dispath(getBeerList({action:'getListByFilter',  params}));
+        await dropBeerList();
+        const result = await dispath(getBeerList({action:'getListByFilter',  params}));
+        if(result.error) {
+            dispath(getBeerList({params:{page: 0, limitPage}}));
+        }
     };
 
     const fetchBeers:any = async (page: number) => {
