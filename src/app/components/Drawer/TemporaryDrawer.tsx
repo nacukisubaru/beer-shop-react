@@ -5,11 +5,10 @@ import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import ListItemButton from "@mui/material/ListItemButton";
+import "./css/style.css";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
@@ -75,10 +74,13 @@ const TemporaryDrawer: FC<IDrawer> = ({
                 <Drawer anchor={position} open={isOpen} onClose={close}>
                     {list(position)}
                     {showApplyBtn && (
-                         <Button style={{height: '100%', alignItems: 'end'}} onClick={callbackApplyBtn}>Применить</Button>
+                        <div className="container-apply-btn">
+                            <div className="wrap-apply-btn">
+                                <Button onClick={callbackApplyBtn}>Применить</Button>
+                            </div>
+                        </div>
                     )}
                 </Drawer>
-                
             </React.Fragment>
         </div>
     );
