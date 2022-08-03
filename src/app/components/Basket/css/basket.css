@@ -38,3 +38,30 @@
     justify-content: right;
     font-size: 20px;
 }
+
+.wrapper-basket-list {
+    display: flex;
+    justify-content: center;
+}
+
+.container-basket-list {
+    margin-right: 34px;
+}
+
+.total-card {
+    display: flex;
+    justify-content: space-around;
+    padding-top: 30px;
+    height: 152px;
+}
+
+/* Portrait */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 667px) 
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) { 
+    .basket-total-card {
+        display: none;
+    }
+}
