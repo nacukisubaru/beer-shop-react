@@ -7,31 +7,25 @@ function valuetext(value: number) {
 }
 
 interface IRangeSliderFilter {
-    minPrice: number,
-    maxPrice: number
+    defaultMin: number,
+    defaultMax: number,
+    min: number,
+    max: number,
     setFilterPrice: (min: number, max: number) => void
 }
 
-const RangeSliderFilter:FC<IRangeSliderFilter> = ({minPrice, maxPrice, setFilterPrice}) => {
-    const [value, setValue] = React.useState<number[]>([minPrice, maxPrice]);
+const RangeSliderFilter:FC<IRangeSliderFilter> = ({defaultMin, defaultMax, min, max, setFilterPrice}) => {
+    const stateMin = min ? min : defaultMin;
+    const stateMax = max ? max : defaultMax;
+    const [value, setValue] = React.useState<number[]>([stateMin, stateMax]);
 
     const handleChange = (event: Event, newValue: number | number[]) => {
-        // const arrayValues:any = newValue;
-        // const min:number = arrayValues[0];
-        // const max:number = arrayValues[1];
-        // setFilterPrice(min, max);
         setValue(newValue as number[]);
     };
+
     const handleSetPrice = () => {
         setFilterPrice(value[0], value[1]);
     }
-
-    // const handleChange = (event: Event, newValue:  number | number[]) => {
-    //     const arrayValues:any = newValue;
-    //     const min:number = arrayValues[0];
-    //     const max:number = arrayValues[1];
-    //     return setFilterPrice(min, max);
-    // };
 
     return (
         <Box sx={{ width: 314, marginLeft: '25px' }}>
@@ -41,8 +35,8 @@ const RangeSliderFilter:FC<IRangeSliderFilter> = ({minPrice, maxPrice, setFilter
                 onChange={handleChange}
                 onMouseUp={handleSetPrice}
                 valueLabelDisplay="auto"
-                min={minPrice} 
-                max={maxPrice} 
+                min={defaultMin} 
+                max={defaultMax} 
                 getAriaValueText={valuetext}
             />
         </Box>

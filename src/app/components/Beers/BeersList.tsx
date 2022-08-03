@@ -18,8 +18,7 @@ const BeersList: FC<BeersListProps> = () => {
     const { page, status, total } = useAppSelector(
         (state) => state.beerReducer
     );
-    
-    const { addItem, updateQuantity, dropBeerList, resetFilters } = useActions();
+    const { addItem, updateQuantity, dropBeerList, resetFilters, resetBeerPage } = useActions();
     const basket = useAppSelector((state) => state.basketReducer.list);
     const beerList = useAppSelector((state) => state.beerReducer.beerList);
 
@@ -28,10 +27,12 @@ const BeersList: FC<BeersListProps> = () => {
 
     useEffect(() => {
         const beerList = async () => {
-           await dropBeerList();
-           await resetFilters();
-           await dispath(getBeerList({params:{page, limitPage}}));
+            await resetBeerPage();
+            await dropBeerList();
+            await resetFilters();
+            await dispath(getBeerList({params:{page: 0, limitPage}}));
         }
+
         beerList();
         dispath(getMinAndMaxPrice());
     }, []);

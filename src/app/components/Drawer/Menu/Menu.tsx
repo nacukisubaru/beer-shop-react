@@ -33,8 +33,11 @@ const Menu: FC<IMenu> = ({callbackApplyFilter, callbackResetFilter}) => {
     const brandsList = useAppSelector(
         (state) => state.filterProductsReducer.brandIds
     );
-    const minPrice = useAppSelector((state) => state.filterProductsReducer.minPriceDefault);
-    const maxPrice = useAppSelector((state) => state.filterProductsReducer.maxPriceDefault);
+    const minPriceDefault = useAppSelector((state) => state.filterProductsReducer.minPriceDefault);
+    const maxPriceDefault = useAppSelector((state) => state.filterProductsReducer.maxPriceDefault);
+
+    const minPrice = useAppSelector((state) => state.filterProductsReducer.minPrice);
+    const maxPrice = useAppSelector((state) => state.filterProductsReducer.maxPrice);
 
     const addBrandFilter = (id: number) => {
         return addBrand({ id });
@@ -76,9 +79,16 @@ const Menu: FC<IMenu> = ({callbackApplyFilter, callbackResetFilter}) => {
             }
         />,
         
-        <ItemFilterMenu 
+        <ItemFilterMenu
             name="Цена"
-            component={<RangeSliderFilter minPrice={minPrice} maxPrice={maxPrice} setFilterPrice={setMinMaxPrice} />}
+            component={
+                <RangeSliderFilter 
+                    defaultMin={minPriceDefault} 
+                    defaultMax={maxPriceDefault} 
+                    min={minPrice} max={maxPrice} 
+                    setFilterPrice={setMinMaxPrice} 
+                />
+            }
         />
     ];
 

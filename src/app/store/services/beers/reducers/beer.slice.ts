@@ -31,6 +31,8 @@ export const beerSlice = createSlice({
     reducers: {
         dropBeerList: (state) => {
             state.beerList = [];
+        },
+        resetBeerPage: (state) => {
             state.page = 0;
         }
         // addBeers: (state, action) => {
