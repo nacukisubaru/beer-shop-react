@@ -20,6 +20,8 @@ interface IDrawer {
     position: Anchor;
     isOpen: boolean;
     close: () => void;
+    showApplyBtn: boolean;
+    callbackApplyBtn: () => void;
 }
 
 const TemporaryDrawer: FC<IDrawer> = ({
@@ -29,6 +31,8 @@ const TemporaryDrawer: FC<IDrawer> = ({
     position,
     isOpen = false,
     close,
+    showApplyBtn = false,
+    callbackApplyBtn
 }) => {
     
     const [isOpenList, setOpen] = useState(true);
@@ -43,7 +47,7 @@ const TemporaryDrawer: FC<IDrawer> = ({
     const list = (anchor: Anchor) => (
         <Box
             sx={{
-                width: anchor === "top" || anchor === "bottom" ? "auto" : 250,
+                width: anchor === "top" || anchor === "bottom" ? "auto" : 375,
             }}
             role="presentation"
         >
@@ -61,6 +65,7 @@ const TemporaryDrawer: FC<IDrawer> = ({
                     <List>{additionalList.map((item) => item)}</List>
                 </>
             )}
+          
         </Box>
     );
 
@@ -69,7 +74,11 @@ const TemporaryDrawer: FC<IDrawer> = ({
             <React.Fragment key={position}>
                 <Drawer anchor={position} open={isOpen} onClose={close}>
                     {list(position)}
+                    {showApplyBtn && (
+                         <Button style={{height: '100%', alignItems: 'end'}} onClick={callbackApplyBtn}>Применить</Button>
+                    )}
                 </Drawer>
+                
             </React.Fragment>
         </div>
     );

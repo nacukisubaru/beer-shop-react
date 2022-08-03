@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { IBeer } from "../types/beer.type";
-import { host } from "../../api.config";
 import { IQueryBuilder, queryBuilder } from "../../../../helpers/queryHelper";
 const initialState = {
     beerList:<IBeer[]> [],
@@ -23,7 +22,7 @@ export const getBeerList:any = createAsyncThunk(
             return rejectWithValue(error.message);
         }
     }
-)
+);
 
 
 export const beerSlice = createSlice({

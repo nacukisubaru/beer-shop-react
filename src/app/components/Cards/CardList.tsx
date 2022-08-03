@@ -15,10 +15,11 @@ interface CardListProps {
     cardsList: ICard[];
     fetch: (page: number) => void;
     page: number;
+    scrollList: boolean
 }
 
-const CardList: FC<CardListProps> = ({ cardsList, fetch, page }) => {
-    const targetRef: any = useObserverScroll(fetch, page);
+const CardList: FC<CardListProps> = ({ cardsList, fetch, page, scrollList = true }) => {
+    const targetRef: any = useObserverScroll(fetch, page, scrollList);
     const {switchFilterMenu, switchMainMenu} = useActions();
 
     const actions: IAction[] = [

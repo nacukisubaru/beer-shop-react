@@ -1,10 +1,9 @@
-import { Button } from "@mui/material";
 import React, { FC, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 import { useActions } from "../../hooks/useActions";
 import { useAppSelector } from "../../hooks/useAppSelector";
-//import { beerApi } from "../../store/services/beers/beer.api";
+import { useFilter } from "../../hooks/useFilter";
+import { getMinAndMaxPrice } from "../../store/reducers/filter.products";
 import { getBeerList } from "../../store/services/beers/reducers/beer.slice";
 import {
     IProductItem,
@@ -18,30 +17,17 @@ const BeersList: FC<BeersListProps> = () => {
     const { page, status, total } = useAppSelector(
         (state) => state.beerReducer
     );
-    const { addItem, updateQuantity, dropBeerList} = useActions();
+    const { addItem, updateQuantity } = useActions();
     const basket = useAppSelector((state) => state.basketReducer.list);
     const beerList = useAppSelector((state) => state.beerReducer.beerList);
-    const grades = useAppSelector((state) => state.filterProductsReducer.grades);
-    const brandIds = useAppSelector((state) => state.filterProductsReducer.brandIds);
 
     const dispath = useDispatch();
+    const {fetchBeers} = useFilter();
     
     useEffect(() => {
+        dispath(getMinAndMaxPrice());
         dispath(getBeerList({params:{page, limitPage: 8}}));
     }, []);
-
-    useEffect( () => {
-        dropBeerList();
-        dispath(getBeerList({action:'getListByFilter', params:{page:0, limitPage: 8, grades, brandIds}}));
-    }, [grades, brandIds]);
-
-    const fetchBeers = async (page: any) => {
-        if(grades.length > 0 || brandIds.length > 0) {
-            dispath(getBeerList({action:'getListByFilter', params:{page, limitPage: 8, grades, brandIds}}));
-        } else {
-            dispath(getBeerList({params:{page, limitPage: 8}}));
-        }
-    };
 
     const productsMap = (data: any) => {
         return data.map(
@@ -98,6 +84,7 @@ const BeersList: FC<BeersListProps> = () => {
                         cardsList={productsMap(beerList)}
                         fetch={fetchBeers}
                         page={page}
+                        scrollList={status != 'rejected' ? true : false}
                     ></CardList>
                 </>
             )}

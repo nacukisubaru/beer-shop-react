@@ -1,16 +1,24 @@
 import { FC } from "react";
 import { useActions } from "../../../hooks/useActions";
 import { useAppSelector } from "../../../hooks/useAppSelector";
+import { useFilter } from "../../../hooks/useFilter";
 import { brandApi } from "../../../store/services/brands/brand.api";
 import { gradeApi } from "../../../store/services/grades/grade.api";
 import CheckboxFilterList from "../../Filters/Checkbox/CheckboxFilterList";
+import RangeSliderFilter from "../../Filters/RangeSlider/RangeSliderFilter";
 import ItemFilterMenu from "../Items/ItemFilterMenu";
 import ItemMenu from "../Items/ItemMenu";
 import TemporaryDrawer from "../TemporaryDrawer";
 
-const Menu: FC = () => {
+interface IMenu {
+    callbackApplyFilter: () => void
+}
+
+const Menu: FC<IMenu> = ({callbackApplyFilter}) => {
     const grades: any = gradeApi.useGradesListQuery(0);
     const brands: any = brandApi.useBrandsListQuery(0);
+
+    const { closeAllMenues, addBrand, addGrade, setMinPrice, setMaxPrice } = useActions();
 
     const isFilterMenu = useAppSelector(
         (state) => state.drawerMenuReducer.isFilterMenu
@@ -24,13 +32,8 @@ const Menu: FC = () => {
     const brandsList = useAppSelector(
         (state) => state.filterProductsReducer.brandIds
     );
-
-    const { closeAllMenues, addBrand, addGrade } = useActions();
-
-    const arrayMenuList: any = [
-        <ItemMenu name="Пиво" link="/products/beers" />,
-        <ItemMenu name="Закуски" link="/products/snacks" />,
-    ];
+    const minPrice = useAppSelector((state) => state.filterProductsReducer.minPriceDefault);
+    const maxPrice = useAppSelector((state) => state.filterProductsReducer.maxPriceDefault);
 
     const addBrandFilter = (id: number) => {
         return addBrand({ id });
@@ -39,6 +42,16 @@ const Menu: FC = () => {
     const addGradeFilter = (id: number) => {
         return addGrade({ id });
     };
+
+    const setMinMaxPrice = (min: number, max: number) => {
+        setMinPrice({price: min});
+        setMaxPrice({price: max});
+    }
+
+    const arrayMenuList: any = [
+        <ItemMenu name="Пиво" link="/products/beers" />,
+        <ItemMenu name="Закуски" link="/products/snacks" />,
+    ];
 
     const arrayFilterList: any = [
         <ItemFilterMenu
@@ -61,6 +74,11 @@ const Menu: FC = () => {
                 />
             }
         />,
+        
+        <ItemFilterMenu 
+            name="Цена"
+            component={<RangeSliderFilter minPrice={minPrice} maxPrice={maxPrice} setFilterPrice={setMinMaxPrice} />}
+        />
     ];
 
     return (
@@ -71,6 +89,8 @@ const Menu: FC = () => {
             position={isFilterMenu ? "right" : "left"}
             isOpen={isMainMenu || isFilterMenu ? true : false}
             close={closeAllMenues}
+            showApplyBtn={isFilterMenu ? true : false}
+            callbackApplyBtn={callbackApplyFilter}
         ></TemporaryDrawer>
     );
 };
