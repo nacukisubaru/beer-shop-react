@@ -8,7 +8,9 @@ import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemButton from "@mui/material/ListItemButton";
+import CloseIcon from '@mui/icons-material/Close';
 import "./css/style.css";
+import { IconButton } from "@mui/material";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
@@ -52,6 +54,9 @@ const TemporaryDrawer: FC<IDrawer> = ({
             }}
             role="presentation"
         >
+            <IconButton onClick={close}>
+                <CloseIcon />
+            </IconButton>
             <List>
                 <ListItemButton onClick={handlerToggleList}>
                     <ListItemText primary={name} style={{marginLeft: '6px'}}/>
