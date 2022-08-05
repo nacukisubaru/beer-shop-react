@@ -1,23 +1,24 @@
 import React, { FC } from "react";
-import { Typography } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import { IProductСharacteristics } from "../../types/product.types";
 import { useActions } from "../../hooks/useActions";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 interface IBasketCard extends IProductСharacteristics {
     index: number;
 }
 
 const BasketCard: FC<IBasketCard> = ({id, index, title, price, quantity, img, characteristics}) => {
-    const {plusQuantity, minusQuantity} = useActions();
+    const {plusQuantity, minusQuantity, removeItem} = useActions();
 
     const handlerPlusQuan = () =>{
         return plusQuantity({id:index, value:1});
     }
 
-    const handlerMinusQuan = () =>{
+    const handlerMinusQuan = () => {
         return minusQuantity({id:index, value:1});
     }
 
@@ -25,6 +26,7 @@ const BasketCard: FC<IBasketCard> = ({id, index, title, price, quantity, img, ch
         <>
             <div className="container" key={index}>
                 <div className="wrapper">
+                    
                     <div className="basket-container">
                         <div className="basket-element">
                             <Box
@@ -68,7 +70,15 @@ const BasketCard: FC<IBasketCard> = ({id, index, title, price, quantity, img, ch
                                 <AddCircleOutlineIcon onClick={handlerPlusQuan} />
                             </div>
                         </div>
-                        <div className="basket-element basket-price">{price * quantity} р</div>
+                        <div className="basket-element basket-price">
+                            {price * quantity} р
+                            <div>
+                                <IconButton onClick={()=>{removeItem({id})}}>
+                                    <DeleteIcon />
+                                </IconButton>
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
