@@ -18,7 +18,7 @@ const BeersList: FC<BeersListProps> = () => {
     const { page, status, total } = useAppSelector(
         (state) => state.beerReducer
     );
-    const { addItem, plusQuantity, dropBeerList, resetFilters, resetBeerPage } = useActions();
+    const { addItem, plusQuantity, dropBeerList, resetFilters, resetBeerPage, getBeer, openBeer } = useActions();
     const basket = useAppSelector((state) => state.basketReducer.list);
     const beerList = useAppSelector((state) => state.beerReducer.beerList);
 
@@ -84,6 +84,11 @@ const BeersList: FC<BeersListProps> = () => {
         );
     };
 
+    const showBeer = (id: number) => {
+        getBeer({id});
+        openBeer();
+    }
+
     return (
         <>
             {beerList.length > 0 && (
@@ -93,6 +98,7 @@ const BeersList: FC<BeersListProps> = () => {
                         fetch={fetchBeers}
                         page={page}
                         scrollList={status == 'resolved' ? true : false}
+                        show={showBeer}
                     ></CardList>
                 </>
             )}

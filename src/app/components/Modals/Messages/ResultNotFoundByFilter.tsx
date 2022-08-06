@@ -1,5 +1,5 @@
-import { Typography } from "@mui/material";
 import { FC } from "react";
+import { Typography } from "@mui/material";
 import { useActions } from "../../../hooks/useActions";
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import BasicModal from "../BasicModal";

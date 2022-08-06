@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { getBeerList } from "../../app/store/services/beers/reducers/beer.slice";
 import "../../index.css";
 import ResultNotFoundByFilter from "../../app/components/Modals/Messages/ResultNotFoundByFilter";
+import BeerModal from "../../app/components/Modals/Products/BeerModal";
 
 export default function Beers() {
     const { fetchBeersByFilter } = useFilter();
@@ -36,6 +37,7 @@ export default function Beers() {
             />
             <BeersList />
             <ResultNotFoundByFilter />
+            <BeerModal />
         </div>
     );
 }
