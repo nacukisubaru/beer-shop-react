@@ -16,6 +16,7 @@ const ResultNotFoundByFilter: FC = () => {
                 open={isOpen}
                 setOpen={openModalNotFoundByFilter}
                 setClose={closeModalNotFoundByFilter}
+                showOkBtn={true}
                 body={
                     <>
                         <Typography

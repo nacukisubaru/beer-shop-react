@@ -1,3 +1,4 @@
+import { IconButton } from "@mui/material";
 import { FC } from "react";
 import { useActions } from "../../../hooks/useActions";
 import { useAppSelector } from "../../../hooks/useAppSelector";
@@ -13,6 +14,7 @@ const BeerModal: FC = () => {
                 open={showBeer}
                 setOpen={openBeer}
                 setClose={closeBeer}
+                showOkBtn={false}
                 body={
                     <>
                         Это детальная инфа по пиву

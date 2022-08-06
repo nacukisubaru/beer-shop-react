@@ -18,11 +18,12 @@ const style = {
 interface IBasicModal {
     open: boolean,
     body: any,
+    showOkBtn: boolean,
     setOpen: () => void,
     setClose: () => void,
 }
 
-const BasicModal: FC<IBasicModal> = ({ open, body, setOpen, setClose }) => {
+const BasicModal: FC<IBasicModal> = ({ open, body, showOkBtn = false, setOpen, setClose }) => {
     return (
         <div>
             <Modal
@@ -33,9 +34,11 @@ const BasicModal: FC<IBasicModal> = ({ open, body, setOpen, setClose }) => {
             >
                 <Box sx={style}>
                    {(body)}
-                   <div className="wrap-button">
-                        <Button onClick={setClose}>Ок</Button>
-                   </div>
+                   {showOkBtn && (
+                        <div className="wrap-button">
+                            <Button onClick={setClose}>Ок</Button>
+                        </div>
+                    )}
                 </Box>
             </Modal>
         </div>
