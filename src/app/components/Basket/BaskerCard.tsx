@@ -30,7 +30,6 @@ const BasketCard: FC<IBasketCard> = ({id, index, title, price, quantity, img, ch
                     <div className="basket-container">
                         <div className="basket-element">
                             <Box
-                                className="card-img"
                                 style={{
                                     backgroundSize: "contain",
                                     height: "150px",

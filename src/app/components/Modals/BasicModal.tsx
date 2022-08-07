@@ -1,46 +1,67 @@
 import { FC } from "react";
+import {
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    IconButton,
+} from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Modal from "@mui/material/Modal";
 import "./css/style.css";
-
-const style = {
-    position: "absolute" as "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    boxShadow: 24,
-    p: 4,
-};
+import { Close } from "@mui/icons-material";
 
 interface IBasicModal {
-    open: boolean,
-    body: any,
-    showOkBtn: boolean,
-    setOpen: () => void,
-    setClose: () => void,
+    open: boolean;
+    body: any;
+    title: string;
+    showOkBtn: boolean;
+    setOpen: () => void;
+    setClose: () => void;
 }
 
-const BasicModal: FC<IBasicModal> = ({ open, body, showOkBtn = false, setOpen, setClose }) => {
+const BasicModal: FC<IBasicModal> = ({
+    open,
+    body,
+    showOkBtn = false,
+    title,
+    setOpen,
+    setClose,
+}) => {
     return (
         <div>
-            <Modal
+            <Dialog
                 open={open}
-                onClose={setOpen}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
+                onClose={setClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+                maxWidth="sm"
+                fullWidth={true}
             >
-                <Box sx={style}>
-                   {(body)}
-                   {showOkBtn && (
-                        <div className="wrap-button">
-                            <Button onClick={setClose}>Ок</Button>
-                        </div>
-                    )}
+                { title && (
+                    <DialogTitle id="alert-dialog-title">
+                      {title}
+                    </DialogTitle>
+                )}
+                <Box position="absolute" top={0} right={0}>
+                    <IconButton onClick={setClose}>
+                        <Close />
+                    </IconButton>
                 </Box>
-            </Modal>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        {body}
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    {showOkBtn && (
+                        <Button onClick={setClose} autoFocus>
+                            ОК
+                        </Button>
+                    )}
+                </DialogActions>
+            </Dialog>
         </div>
     );
 };
