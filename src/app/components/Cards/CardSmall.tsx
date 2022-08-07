@@ -8,6 +8,11 @@ interface ICardSmall extends ICard {
 }
 
 const CardSmall: FC<ICardSmall> = ({ id, title, description, price, img, buy, show }) => {
+
+    const handleShow = () => {
+       return show(id);
+    }
+
     return (
         <>
             <Card
@@ -68,7 +73,7 @@ const CardSmall: FC<ICardSmall> = ({ id, title, description, price, img, buy, sh
                             background: "#896043",
                             height: '30px'
                         }}
-                        onClick={()=>{show(id)}}
+                        onClick={handleShow}
                     >
                         Детально
                     </Button>

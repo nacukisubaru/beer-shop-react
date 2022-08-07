@@ -22,6 +22,10 @@ const BasketCard: FC<IBasketCard> = ({id, index, title, price, quantity, img, ch
         return minusQuantity({id:index, value:1});
     }
 
+    const handleRemove = () => {
+        return removeItem({id});
+    }
+
     return (
         <>
             <div className="container" key={index}>
@@ -72,7 +76,7 @@ const BasketCard: FC<IBasketCard> = ({id, index, title, price, quantity, img, ch
                         <div className="basket-element basket-price">
                             {price * quantity} р
                             <div>
-                                <IconButton onClick={()=>{removeItem({id})}}>
+                                <IconButton onClick={handleRemove}>
                                     <DeleteIcon />
                                 </IconButton>
                             </div>
