@@ -46,7 +46,7 @@ const BeerModal: FC = () => {
                             </div>
                             <div>
                                 <Typography variant="body1">
-                                    Описание:
+                                    <span className="label-info">Описание:</span>
                                 </Typography> 
                                 <Typography variant="body1">
                                     <div className="modal-beer-desc">{description}</div>
