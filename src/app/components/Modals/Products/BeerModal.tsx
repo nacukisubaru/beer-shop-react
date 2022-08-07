@@ -32,23 +32,26 @@ const BeerModal: FC = () => {
                             ></Box>
                             <div className="modal-beer-info">
                                 <Typography variant="body1">
-                                    Состав: {compound}
+                                    <span className="label-info">Состав:</span> {compound}
                                 </Typography>
                                 <Typography variant="body1">
-                                    Объём: {volume}
+                                    <span className="label-info">Объём:</span>  {volume}
                                 </Typography>
                                 <Typography variant="body1">
-                                    Крепкость: {fortress}
+                                    <span className="label-info">Крепкость:</span> {fortress}
                                 </Typography>
                                 <Typography  variant="body1">
-                                    Ibu: {ibu}
+                                    <span className="label-info">Ibu:</span> {ibu}
                                 </Typography>
                             </div>
-
-                            <Typography variant="body1">
-                                Описание:
-                            </Typography>
-                            <div className="modal-beer-desc">{description}</div>
+                            <div>
+                                <Typography variant="body1">
+                                    Описание:
+                                </Typography> 
+                                <Typography variant="body1">
+                                    <div className="modal-beer-desc">{description}</div>
+                                </Typography>
+                            </div>
                         </div>
                     </>
                 }

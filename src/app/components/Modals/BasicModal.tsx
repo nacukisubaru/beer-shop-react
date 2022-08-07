@@ -50,9 +50,7 @@ const BasicModal: FC<IBasicModal> = ({
                     </IconButton>
                 </Box>
                 <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        {(body)}
-                    </DialogContentText>
+                    {(body)}
                 </DialogContent>
                 <DialogActions>
                     {showOkBtn && (

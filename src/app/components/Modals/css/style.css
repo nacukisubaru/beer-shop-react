@@ -22,3 +22,7 @@
     width: 63%;
     margin-bottom: 15px;
 }
+
+.label-info {
+    font-weight: bold;
+}

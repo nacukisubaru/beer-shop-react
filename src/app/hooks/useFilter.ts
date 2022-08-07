@@ -34,7 +34,7 @@ const useGetParams = ():IUseGetParams => {
 
 export const useFilter = ():IUseFilter => {
     const dispath = useDispatch();
-    const {dropBeerList, openModalNotFoundByFilter} = useActions();
+    const {dropBeerList, openModalNotFoundByFilter, resetFilters} = useActions();
     const params = useGetParams();
     const {grades, brandIds, minPrice, maxPrice} = params;
 
@@ -44,6 +44,7 @@ export const useFilter = ():IUseFilter => {
         if(result.error) {
             dispath(getBeerList({params:{page: 0, limitPage}}));
             openModalNotFoundByFilter();
+            resetFilters();
         }
     };
 
