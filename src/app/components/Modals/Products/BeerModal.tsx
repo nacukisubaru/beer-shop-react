@@ -2,15 +2,23 @@ import { FC } from "react";
 import { Box } from "@mui/system";
 import { useActions } from "../../../hooks/useActions";
 import { useAppSelector } from "../../../hooks/useAppSelector";
+import { Typography } from "@mui/material";
 import BasicModal from "../BasicModal";
 import "../css/style.css";
-import { Typography } from "@mui/material";
+import ProductContent from "./ProductContent";
 
 const BeerModal: FC = () => {
     const { showBeer, beer } = useAppSelector((state) => state.beerReducer);
     const { openBeer, closeBeer } = useActions();
     const { title, description, image } = beer.product;
     const {compound, volume, fortress, ibu} = beer;
+
+    const arrayBeer:any = [
+        {key:'Состав', value: compound},
+        {key:'Объём', value: volume},
+        {key:'Крепкость', value: fortress},
+        {key:'Ibu', value: ibu},
+    ];
 
     return (
         <>
@@ -22,37 +30,7 @@ const BeerModal: FC = () => {
                 showOkBtn={false}
                 body={
                     <>
-                        <div className="modal-beer-content">
-                            <Box
-                                className="modal-beer-img"
-                                style={{ backgroundSize: "contain" }}
-                                sx={{
-                                    background: `url(${image}) center center no-repeat`,
-                                }}
-                            ></Box>
-                            <div className="modal-beer-info">
-                                <Typography variant="body1">
-                                    <span className="label-info">Состав:</span> {compound}
-                                </Typography>
-                                <Typography variant="body1">
-                                    <span className="label-info">Объём:</span>  {volume}
-                                </Typography>
-                                <Typography variant="body1">
-                                    <span className="label-info">Крепкость:</span> {fortress}
-                                </Typography>
-                                <Typography  variant="body1">
-                                    <span className="label-info">Ibu:</span> {ibu}
-                                </Typography>
-                            </div>
-                            <div>
-                                <Typography variant="body1">
-                                    <span className="label-info">Описание:</span>
-                                </Typography> 
-                                <Typography variant="body1">
-                                    <div className="modal-beer-desc">{description}</div>
-                                </Typography>
-                            </div>
-                        </div>
+                        <ProductContent image={image} description={description} listInfo={arrayBeer} />
                     </>
                 }
             />
