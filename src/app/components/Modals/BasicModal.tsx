@@ -51,7 +51,7 @@ const BasicModal: FC<IBasicModal> = ({
                 </Box>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        {body}
+                        {(body)}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
