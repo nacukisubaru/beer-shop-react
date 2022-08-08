@@ -1,23 +1,27 @@
-import { FC } from "react";
-import { Box } from "@mui/system";
+import { FC, useCallback, useEffect } from "react";
 import { useActions } from "../../../hooks/useActions";
 import { useAppSelector } from "../../../hooks/useAppSelector";
-import { Typography } from "@mui/material";
 import BasicModal from "../BasicModal";
-import "../css/style.css";
 import ProductContent from "./ProductContent";
+import "../css/style.css";
+
+import { useBuyProduct } from "../../../hooks/useBuyProduct";
+import { useCreateBeerProductForBuy } from "../../../hooks/useBeerMap";
 
 const BeerModal: FC = () => {
     const { showBeer, beer } = useAppSelector((state) => state.beerReducer);
     const { openBeer, closeBeer } = useActions();
     const { title, description, image } = beer.product;
-    const {compound, volume, fortress, ibu} = beer;
+    const { compound, volume, fortress, ibu } = beer;
 
-    const arrayBeer:any = [
-        {key:'Состав', value: compound},
-        {key:'Объём', value: volume},
-        {key:'Крепкость', value: fortress},
-        {key:'Ibu', value: ibu},
+    const createBeerProductForBuy:any = useCreateBeerProductForBuy(beer);
+    const [buy] = useBuyProduct(createBeerProductForBuy);
+
+    const arrayBeer: any = [
+        { key: "Состав", value: compound },
+        { key: "Объём", value: volume },
+        { key: "Крепкость", value: fortress },
+        { key: "Ibu", value: ibu }
     ];
 
     return (
@@ -30,7 +34,10 @@ const BeerModal: FC = () => {
                 showOkBtn={false}
                 body={
                     <>
-                        <ProductContent image={image} description={description} listInfo={arrayBeer} />
+                        <ProductContent
+                            image={image}
+                            description={description}
+                            listInfo={arrayBeer} id={beer.id} buy={buy} />
                     </>
                 }
             />

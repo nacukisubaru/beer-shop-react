@@ -11,7 +11,7 @@ interface IBasketCard extends IProductСharacteristics {
     index: number;
 }
 
-const BasketCard: FC<IBasketCard> = ({id, index, title, price, quantity, img, characteristics}) => {
+const BasketCard: FC<IBasketCard> = ({id, index, title, price, quantity, image, description, characteristics}) => {
     const {plusQuantity, minusQuantity, removeItem} = useActions();
 
     const handlerPlusQuan = () =>{
@@ -39,7 +39,7 @@ const BasketCard: FC<IBasketCard> = ({id, index, title, price, quantity, img, ch
                                     height: "150px",
                                 }}
                                 sx={{
-                                    background: `url(${img}) center center no-repeat`,
+                                    background: `url(${image}) center center no-repeat`,
                                 }}
                             ></Box>
                         </div>

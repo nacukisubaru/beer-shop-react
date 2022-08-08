@@ -25,7 +25,8 @@ export interface IProductСharacteristics {
     id: number,
     title: string,
     price: number,
+    description:string,
     quantity: number,
-    img: string,
+    image: string,
     characteristics: IBeerProduct | ISnacks
 }

@@ -7,7 +7,7 @@ interface ICardSmall extends ICard {
     show: (id: number) => void
 }
 
-const CardSmall: FC<ICardSmall> = ({ id, title, description, price, img, buy, show }) => {
+const CardSmall: FC<ICardSmall> = ({ id, title, description, price, image, buy, show }) => {
 
     const handleShow = () => {
        return show(id);
@@ -28,7 +28,7 @@ const CardSmall: FC<ICardSmall> = ({ id, title, description, price, img, buy, sh
                     <Box
                         className="card-img"
                         style={{ backgroundSize: "contain" }}
-                        sx={{ background: `url(${img}) center center no-repeat` }}
+                        sx={{ background: `url(${image}) center center no-repeat` }}
                     ></Box>
                     <Typography
                         variant="body2"

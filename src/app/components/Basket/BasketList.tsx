@@ -29,8 +29,8 @@ const BasketList: FC<BasketListProps> = ({basketList, count}) => {
                             price={item.price}
                             quantity={item.quantity}
                             characteristics={item.characteristics}
-                            img={item.img}
-                        />
+                            image={item.image} 
+                            description={item.description} />
                     ))}
                 </div>
                 <div className="basket-total-card">
