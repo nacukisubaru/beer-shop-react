@@ -14,6 +14,9 @@ export const basketSlice = createSlice({
             state.list.push(action.payload);
             state.count = state.count + 1;
         },
+        setItem: (state, action) => {
+            state.list.push(action.payload);
+        },
         removeItem: (state, action) => {
             let itemToRemove: any = {};
             state.list = state.list.filter(item => {
@@ -28,7 +31,14 @@ export const basketSlice = createSlice({
         },
         plusQuantity: (state, action) => {
             const obj = action.payload;
-            state.list[obj.id].quantity = state.list[obj.id].quantity + obj.value;
+            console.log(state.list, obj);
+            const items = state.list.filter(item => {
+                if(item.id === obj.id) {
+                    return item;
+                }
+            });
+            
+            items[0].quantity = items[0].quantity + obj.value;
             state.count = state.count + 1;
         },
         minusQuantity: (state, action) => {
@@ -37,6 +47,18 @@ export const basketSlice = createSlice({
                 state.list[obj.id].quantity = state.list[obj.id].quantity - obj.value;
                 state.count = state.count - 1;
             }
+        },
+        setQuantity: (state, action) => {
+            const obj = action.payload;
+            const items = state.list.filter(item => {
+                if(item.id === obj.id) {
+                    return item;
+                }
+            });
+            items[0].quantity = obj.value;
+            console.log(state.count);
+            state.count = state.count +  items[0].quantity;
+            
         }
     }
 })

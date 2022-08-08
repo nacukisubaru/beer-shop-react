@@ -35,9 +35,11 @@ const BeerModal: FC = () => {
                 body={
                     <>
                         <ProductContent
+                            id={beer.id}
                             image={image}
                             description={description}
-                            listInfo={arrayBeer} id={beer.id} buy={buy} />
+                            listInfo={arrayBeer}
+                            buy={buy} />
                     </>
                 }
             />

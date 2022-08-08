@@ -3,20 +3,22 @@ import { useActions } from "./useActions";
 import { useAppSelector } from "./useAppSelector";
 
 export const useBuyProduct = (product: IProductСharacteristics) => {
-    const { addItem, plusQuantity } = useActions();
+    const { setItem, setQuantity } = useActions();
     const {list} = useAppSelector((state) => state.basketReducer);
-    const buy = () => {
+    const buy = async (quantity:number) => {
         const existInBasket = list.some(
             (item) => item.id === product.id
         );
      
         if (!existInBasket) {
-            addItem(product);
+            await setItem(product);
+            if(quantity) {
+               await setQuantity({ id: product.id, value: quantity });
+            }
         } else {
-            const index = list.findIndex(
-                (item) => item.id === product.id
-            );
-            plusQuantity({ id: index, value: 1 });
+            if(quantity) {
+                setQuantity({ id: product.id, value: quantity });
+            }
         }
     }
     

@@ -19,10 +19,7 @@ export const useProductMap = (list: IBeer[], createProductForBuy:any) => {
                 if (!existInBasket) {
                     addItem(product);
                 } else {
-                    const index = basketList.findIndex(
-                        (item) => item.id === product.id
-                    );
-                    plusQuantity({ id: index, value: 1 });
+                    plusQuantity({ id: item.id, value: 1 });
                 }
             }
 

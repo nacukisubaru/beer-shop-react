@@ -1,9 +1,10 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import "../css/style.css";
+import { useAppSelector } from "../../../hooks/useAppSelector";
 
 interface IListInfoItem {
     key: string,
@@ -15,13 +16,45 @@ interface IProductContent {
     listInfo: IListInfoItem[],
     description: string,
     image: string,
-    buy: (id: number) => void
+    buy: (quantity: number) => void
 }
 
 const ProductContent: FC<IProductContent> = ({id, listInfo, description, image, buy}) => {
-    
+    const {list} = useAppSelector(state => state.basketReducer);
+
+    const findItemInBasket = (id:number) => {
+        const items = list.filter(item => {
+            if(item.id === id) {
+                return item;
+            }
+        });
+
+        if(items.length <= 0) {
+            return false;
+        }
+
+        return items[0];
+    }
+
+    const quan = findItemInBasket(id);
+    const [quantity, setQuantity] = useState(quan ? quan.quantity : 1);
+    const [totalQuan, setTotalQuan] = useState(0);
+
+    const handlerPlusQuan = async () => {
+        await setQuantity(quantity + 1);
+        setTotalQuan(quantity + totalQuan);
+        console.log(totalQuan);
+    }
+
+    const handlerMinusQuan = async () => {
+        if(quantity > 1) {
+            await setQuantity(quantity - 1);
+            setTotalQuan(quantity - totalQuan);
+        }
+     }
+
     const handleBuy = () => {
-        return buy(id);
+        return buy(quantity);
     }
 
     return (
@@ -37,9 +70,9 @@ const ProductContent: FC<IProductContent> = ({id, listInfo, description, image, 
                     ></Box>
         
                     <div className="basket-quantity">
-                        <RemoveCircleOutlineIcon />
-                            <div>1</div>
-                        <AddCircleOutlineIcon />
+                        <RemoveCircleOutlineIcon onClick={handlerMinusQuan}/>
+                            <div>{quantity}</div>
+                        <AddCircleOutlineIcon  onClick={handlerPlusQuan}/>
                     </div>
                     <div className="buy-btn">
                         <Button onClick={handleBuy}>купить</Button>
