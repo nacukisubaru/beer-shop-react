@@ -3,6 +3,8 @@ import "./css/basket.css";
 import BasketCard from "./BaskerCard";
 import { IProductСharacteristics } from "../../types/product.types";
 import TotalCard from "./TotalCard";
+import { Button } from "@mui/material";
+import { Link } from "react-router-dom";
 
 interface BasketListProps {
     basketList: IProductСharacteristics[];
@@ -33,9 +35,20 @@ const BasketList: FC<BasketListProps> = ({basketList, count}) => {
                             description={item.description} />
                     ))}
                 </div>
-                <div className="basket-total-card">
-                    <TotalCard totalPrice={total}/>
-                </div>   
+                {basketList.length > 0 ? (
+                    <div className="basket-total-card">
+                        <TotalCard totalPrice={total}/>
+                    </div>   
+                ): (
+                    <div>
+                        <div className="empty-basket">Ваша корзина пуста</div>
+                        <div>
+                            <Link to={'/products/beers'} style={{textDecoration: 'none'}}>
+                                <Button variant="contained">Посмотреть каталог</Button>
+                            </Link>
+                        </div>
+                    </div>
+                )}
             </div>
         </>
     );
