@@ -5,7 +5,7 @@ import { useAppSelector } from "./useAppSelector";
 
 export const useProductMap = (list: IBeer[], createProductForBuy:any) => {
     const basketList = useAppSelector((state) => state.basketReducer.list);
-    const { addItem, plusQuantity } = useActions();
+    const { addItem, plusQuantity, plusCountPosition } = useActions();
 
     return list.map(
         (item) => {
@@ -18,6 +18,7 @@ export const useProductMap = (list: IBeer[], createProductForBuy:any) => {
             
                 if (!existInBasket) {
                     addItem(product);
+                    plusCountPosition();
                 } else {
                     plusQuantity({ id: item.id, value: 1 });
                 }

@@ -15,11 +15,11 @@ const BasketCard: FC<IBasketCard> = ({id, index, title, price, quantity, image})
     const {plusQuantity, minusQuantity, removeItem} = useActions();
 
     const handlerPlusQuan = () =>{
-        return plusQuantity({id:index, value:1});
+        return plusQuantity({id, value:1});
     }
 
     const handlerMinusQuan = () => {
-        return minusQuantity({id:index, value:1});
+        return minusQuantity({id, value:1});
     }
 
     const handleRemove = () => {

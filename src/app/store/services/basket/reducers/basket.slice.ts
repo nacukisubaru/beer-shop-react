@@ -12,10 +12,6 @@ export const basketSlice = createSlice({
     reducers: {
         addItem: (state, action) => {
             state.list.push(action.payload);
-            state.count = state.count + 1;
-        },
-        setItem: (state, action) => {
-            state.list.push(action.payload);
         },
         removeItem: (state, action) => {
             let itemToRemove: any = {};
@@ -27,7 +23,7 @@ export const basketSlice = createSlice({
                 }
             });
             
-            state.count = state.count - itemToRemove.quantity;
+            state.count = state.count - 1;
         },
         plusQuantity: (state, action) => {
             const obj = action.payload;
@@ -39,13 +35,11 @@ export const basketSlice = createSlice({
             });
             
             items[0].quantity = items[0].quantity + obj.value;
-            state.count = state.count + 1;
         },
         minusQuantity: (state, action) => {
             if(state.count > 2) {
                 const obj = action.payload;
                 state.list[obj.id].quantity = state.list[obj.id].quantity - obj.value;
-                state.count = state.count - 1;
             }
         },
         setQuantity: (state, action) => {
@@ -56,9 +50,12 @@ export const basketSlice = createSlice({
                 }
             });
             items[0].quantity = obj.value;
-            console.log(state.count);
-            state.count = state.count +  items[0].quantity;
-            
+        },
+        plusCountPosition: (state) => {
+            state.count = state.count + 1;
+        },
+        minusCountPosition: (state) => {
+            state.count = state.count - 1;
         }
     }
 })
