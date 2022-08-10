@@ -4,13 +4,11 @@
 }
 
 .modal-beer-content {
-    display: flex;
     flex-flow: wrap;
 }
 
 .modal-beer-img {
     height: 202px;
-    width: 200px;
     margin-bottom: 25px;
 }
 
