@@ -22,10 +22,10 @@ const CartBadge:FC<ICartBadge> = ({quantity}) => {
     return (
         <Link to="/basket">
         <IconButton aria-label="cart">
-                <StyledBadge badgeContent={quantity} color="secondary">
-                    <ShoppingCartIcon />
-                </StyledBadge>
-            </IconButton>
+            <StyledBadge badgeContent={quantity} color="secondary" style={{height: '30px', width: '30px'}}>
+                <ShoppingCartIcon style={{height: '30px', width: '30px'}}/>
+            </StyledBadge>
+        </IconButton>
         </Link>
     );
 }
