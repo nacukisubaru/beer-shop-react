@@ -1,10 +1,31 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { queryBuilder } from "../../../../helpers/queryHelper";
 import { IProductСharacteristics } from "../../../../types/product.types";
 
 const initialState = {
     list:<IProductСharacteristics[]> [],
-    count:<number> 0
+    count:<number> 0,
+    status: '',
+    error: ''
 };
+
+export const getBasketList:any = createAsyncThunk(
+    'basket/fetch',
+    async(id, {rejectWithValue}) => {
+        try {
+            const response = await fetch(queryBuilder({
+                action: 'getBasket/' + id,
+                params: {}
+            }, 'basket'));
+            if(!response.ok) {
+                throw new Error('server error!');
+            }
+            return await response.json();
+        } catch(error: any) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
 
 const findItemInBasket = (basket: IProductСharacteristics[], id: number): IProductСharacteristics => {
     let basketItem: any = false;
@@ -65,6 +86,21 @@ export const basketSlice = createSlice({
         },
         minusCountPosition: (state) => {
             state.count = state.count - 1;
+        }
+    },
+    extraReducers: {
+        [getBasketList.pending]: (state) => {
+            state.status = 'loading';
+            state.error = '';
+        },
+        [getBasketList.fulfilled]: (state, action: PayloadAction) => {
+            state.status = 'resolved';
+            console.log(action.payload);
+            //state.list = action.payload;
+        },
+        [getBasketList.rejected]: (state,action) => {
+            state.status = 'rejected';
+            state.error = action.payload;
         }
     }
 })
