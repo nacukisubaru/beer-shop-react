@@ -5,6 +5,7 @@ import { IProductBasket } from "../../types/product.types";
 import TotalCard from "./TotalCard";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useBasket } from "../../hooks/useBasket";
 
 interface BasketListProps {
     basketList: IProductBasket[];
@@ -18,8 +19,15 @@ const BasketList: FC<BasketListProps> = ({basketList, count}) => {
         return accumulator + currentValue.price * currentValue.quantity;
     }, initialValue): 0;
 
+    const {getBasketByUser} = useBasket();
+
+    const handlerGetBasket = () => {
+        getBasketByUser(7);
+    }
+
     return (
         <>
+            <Button onClick={handlerGetBasket}>нажми</Button>
             <div className="wrapper-basket-list">
                 <div className="container-basket-list">
                     {basketList.map((item: IProductBasket, index: number) => (
