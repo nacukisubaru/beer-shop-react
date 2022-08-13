@@ -28,14 +28,14 @@ export const getBasketList:any = createAsyncThunk(
     }
 );
 
-export const createProductForBuy = (product: IProduct): IProductBasket => {
+export const createProductForBuy = (product: IProduct, quantity: number = 1): IProductBasket => {
     const {id, price, title, description, image} = product;
     const prod: IProductBasket = {
         id,
         title,
         price,
         description,
-        quantity: 1,
+        quantity,
         image
     };
 
@@ -112,9 +112,9 @@ export const basketSlice = createSlice({
         [getBasketList.fulfilled]: (state, action: PayloadAction<IBasket>) => {
             state.status = 'resolved';
             const products = action.payload.products;
-        
+            console.log(products);
             state.list = products.map((item) => {
-               return createProductForBuy(item);
+               return createProductForBuy(item, item.BasketProducts.quantity);
             });
         },
         [getBasketList.rejected]: (state,action) => {
