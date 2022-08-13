@@ -1,12 +1,13 @@
 import { useDispatch } from "react-redux";
 import { basketApi } from "../store/services/basket/basket.api";
-import { getBasketList } from "../store/services/basket/reducers/basket.slice";
+import { getBasketByUserId, getBasketList } from "../store/services/basket/reducers/basket.slice";
 
 interface IUseBasket {
     add: (quantity: number, productId: number) => Promise<void>,
     remove: (productId: number) => Promise<void>,
     update: (productId: number, quantity: number) => Promise<void>,
-    getBasket: () => Promise<void>
+    getBasket: () => Promise<void>,
+    getBasketByUser: (userId: number) => Promise<void>
 }
 
 export const useBasket = ():IUseBasket => {
@@ -48,9 +49,13 @@ export const useBasket = ():IUseBasket => {
         }
     }
 
+    const getBasketByUser = async (userId: number) => {
+        dispatch(getBasketByUserId(userId));
+    }
+
     const getBasketId = () => {
         return Number(localStorage.getItem("basketId"));
     }
 
-    return {add, getBasket, update, remove};
+    return {add, getBasket, update, remove, getBasketByUser};
 }

@@ -25,9 +25,22 @@ export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
+        addUserDataWithStorage: (state, action: PayloadAction<IAuth>) => {
+            const token = action.payload.accessToken;
+            const user:any = action.payload.user;
+
+            state.accessToken = token;
+            state.user = user;
+            
+            localStorage.setItem("accessToken", token);
+            localStorage.setItem("user", JSON.stringify(user));
+        },
         addUserData: (state, action: PayloadAction<IAuth>) => {
-            state.accessToken = action.payload.accessToken;
-            state.user = action.payload.user;
+            const token = action.payload.accessToken;
+            const user:any = action.payload.user;
+
+            state.accessToken = token;
+            state.user = user;
         },
         addAuthError: (state, action: PayloadAction<IError>) => {
             state.authError = action.payload;

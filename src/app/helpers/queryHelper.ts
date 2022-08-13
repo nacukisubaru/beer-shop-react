@@ -27,3 +27,15 @@ export const queryBuilder = (query:IQueryBuilder, path: string) => {
 
     return url.slice(0, -1);
 }
+
+export const asyncThunkCallback = async(options: IQueryBuilder, rejectWithValue: any, path = '') => {
+    try {
+        const response:any = await fetch(queryBuilder(options, path));
+        if(!response.ok) {
+            throw new Error('server error!');
+        }
+        return await response.json();
+    } catch(error: any) {
+        return rejectWithValue(error.message);
+    }
+}

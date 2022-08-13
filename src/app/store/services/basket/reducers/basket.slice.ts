@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { queryBuilder } from "../../../../helpers/queryHelper";
+import { asyncThunkCallback, queryBuilder } from "../../../../helpers/queryHelper";
 import { IProduct, IProductBasket } from "../../../../types/product.types";
 import { IBasket } from "../types/basket.type";
 
@@ -13,18 +13,15 @@ const initialState = {
 export const getBasketList:any = createAsyncThunk(
     'basket/fetch',
     async(id, {rejectWithValue}) => {
-        try {
-            const response = await fetch(queryBuilder({
-                action: 'getBasket/' + id,
-                params: {}
-            }, 'basket'));
-            if(!response.ok) {
-                throw new Error('server error!');
-            }
-            return await response.json();
-        } catch(error: any) {
-            return rejectWithValue(error.message);
-        }
+        return asyncThunkCallback({action:'getBasket/' + id, params: {}}, rejectWithValue, 'basket');
+    }
+);
+
+
+export const getBasketByUserId:any = createAsyncThunk(
+    'getBasket/fetch',
+    async(id: number, {rejectWithValue}) => {
+        return asyncThunkCallback({action:'freeBasket/' + id, params: {}}, rejectWithValue, 'basket');
     }
 );
 
@@ -55,6 +52,13 @@ const findItemInBasket = (basket: IProductBasket[], id: number): IProductBasket 
         basketItem = items[0];
     }
     return basketItem;
+}
+
+const setStateProductList = (state: any, action: PayloadAction<IBasket>) => {
+    const products = action.payload.products;
+    state.list = products.map((item) => {
+        return createProductForBuy(item, item.BasketProducts.quantity);
+    });
 }
 
 export const basketSlice = createSlice({
@@ -111,13 +115,21 @@ export const basketSlice = createSlice({
         },
         [getBasketList.fulfilled]: (state, action: PayloadAction<IBasket>) => {
             state.status = 'resolved';
-            const products = action.payload.products;
-            console.log(products);
-            state.list = products.map((item) => {
-               return createProductForBuy(item, item.BasketProducts.quantity);
-            });
+            setStateProductList(state, action);
         },
         [getBasketList.rejected]: (state,action) => {
+            state.status = 'rejected';
+            state.error = action.payload;
+        },
+        [getBasketByUserId.pending]: (state) => {
+            state.status = 'loading';
+            state.error = '';
+        },
+        [getBasketByUserId.fulfilled]: (state, action: PayloadAction<IBasket>) => {
+            state.status = 'resolved';
+            setStateProductList(state, action);
+        },
+        [getBasketByUserId.rejected]: (state,action) => {
             state.status = 'rejected';
             state.error = action.payload;
         }

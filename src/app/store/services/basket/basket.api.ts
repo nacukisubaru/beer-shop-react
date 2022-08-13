@@ -26,6 +26,6 @@ export const basketApi = createApi({
                 method: 'POST',
                 body: post
             })
-        }),         
+        }),
     })
 });
