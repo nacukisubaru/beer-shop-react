@@ -1,4 +1,4 @@
-import { host } from "../store/services/api.config";
+import { host } from "../http/http.request.config";
 
 export interface IQueryBuilder {
     action: string,
@@ -28,11 +28,15 @@ export const queryBuilder = (query:IQueryBuilder, path: string) => {
     return url.slice(0, -1);
 }
 
-export const asyncThunkCallback = async(options: IQueryBuilder, rejectWithValue: any, path = '') => {
+export const asyncThunkCallback = async(options: IQueryBuilder, rejectWithValue: any, path = '', fetchData = fetch) => {
     try {
-        const response:any = await fetch(queryBuilder(options, path));
-        if(!response.ok) {
+        const response:any = await fetchData(queryBuilder(options, path));
+        if(response.statusText !== "OK") {
             throw new Error('server error!');
+        }
+
+        if(response.data) {
+            return response.data;
         }
         return await response.json();
     } catch(error: any) {

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { asyncThunkCallback, queryBuilder } from "../../../../helpers/queryHelper";
+import $api from "../../../../http/axios.middlewares";
 import { IProduct, IProductBasket } from "../../../../types/product.types";
 import { IBasket } from "../types/basket.type";
 
@@ -13,7 +14,7 @@ const initialState = {
 export const getBasketList:any = createAsyncThunk(
     'basket/fetch',
     async(id, {rejectWithValue}) => {
-        return asyncThunkCallback({action:'getBasket/' + id, params: {}}, rejectWithValue, 'basket');
+        return asyncThunkCallback({action:'getBasket/' + id, params: {}}, rejectWithValue, 'basket', fetch);
     }
 );
 
@@ -21,7 +22,7 @@ export const getBasketList:any = createAsyncThunk(
 export const getBasketByUserId:any = createAsyncThunk(
     'getBasket/fetch',
     async(id: number, {rejectWithValue}) => {
-        return asyncThunkCallback({action:'freeBasket/' + id, params: {}}, rejectWithValue, 'basket');
+        return asyncThunkCallback({action:'freeBasket/' + id, params: {}}, rejectWithValue, 'basket', $api.get);
     }
 );
 

@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { limitPage } from "../store/services/api.config";
+import { limitPage } from "../http/http.request.config";
 import { getBeerList } from "../store/services/beers/reducers/beer.slice";
 import { useActions } from "./useActions";
 import { useAppSelector } from "./useAppSelector";
