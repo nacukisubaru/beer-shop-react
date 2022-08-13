@@ -1,13 +1,13 @@
 import React, { FC } from "react";
 import "./css/basket.css";
 import BasketCard from "./BaskerCard";
-import { IProductСharacteristics } from "../../types/product.types";
+import { IProductBasket } from "../../types/product.types";
 import TotalCard from "./TotalCard";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 
 interface BasketListProps {
-    basketList: IProductСharacteristics[];
+    basketList: IProductBasket[];
     count: number
 }
 
@@ -22,7 +22,7 @@ const BasketList: FC<BasketListProps> = ({basketList, count}) => {
         <>
             <div className="wrapper-basket-list">
                 <div className="container-basket-list">
-                    {basketList.map((item: IProductСharacteristics, index: number) => (
+                    {basketList.map((item: IProductBasket, index: number) => (
                         <BasketCard
                             key={index}
                             id={item.id}
@@ -30,7 +30,7 @@ const BasketList: FC<BasketListProps> = ({basketList, count}) => {
                             title={item.title}
                             price={item.price}
                             quantity={item.quantity}
-                            characteristics={item.characteristics}
+                            //characteristics={item.characteristics}
                             image={item.image} 
                             description={item.description} />
                     ))}

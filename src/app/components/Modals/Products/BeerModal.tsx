@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect } from "react";
+import { FC } from "react";
 import { useActions } from "../../../hooks/useActions";
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import BasicModal from "../BasicModal";
@@ -6,7 +6,8 @@ import ProductContent from "./ProductContent";
 import "../css/style.css";
 
 import { useBuyProduct } from "../../../hooks/useBuyProduct";
-import { useCreateBeerProductForBuy } from "../../../hooks/useBeerMap";
+import { createProductForBuy } from "../../../store/services/basket/reducers/basket.slice";
+
 
 const BeerModal: FC = () => {
     const { showBeer, beer } = useAppSelector((state) => state.beerReducer);
@@ -14,7 +15,7 @@ const BeerModal: FC = () => {
     const { title, description, image } = beer.product;
     const { compound, volume, fortress, ibu } = beer;
 
-    const createBeerProductForBuy:any = useCreateBeerProductForBuy(beer);
+    const createBeerProductForBuy:any = createProductForBuy(beer.product);
     const [buy] = useBuyProduct(createBeerProductForBuy);
 
     const arrayBeer: any = [

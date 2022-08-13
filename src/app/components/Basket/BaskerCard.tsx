@@ -1,17 +1,17 @@
 import React, { FC } from "react";
 import { IconButton, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { IProductСharacteristics } from "../../types/product.types";
+import { IProductBasket } from "../../types/product.types";
 import { useActions } from "../../hooks/useActions";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import DeleteIcon from '@mui/icons-material/Delete';
 
-interface IBasketCard extends IProductСharacteristics {
+interface IBasketCard extends IProductBasket {
     index: number;
 }
 
-const BasketCard: FC<IBasketCard> = ({id, index, title, price, quantity, image}) => {
+const BasketCard: FC<IBasketCard> = ({id, index, title, price, quantity, image, description}) => {
     const {plusQuantity, minusQuantity, removeItem} = useActions();
 
     const handlerPlusQuan = () =>{
@@ -53,15 +53,17 @@ const BasketCard: FC<IBasketCard> = ({id, index, title, price, quantity, image})
                             >
                                 {title}
                             </Typography>
-                            <Typography
-                                variant="body2"
-                                style={{
-                                    fontSize: "12px",
-                                    marginBottom: "10px",
-                                }}
-                            >
-                                Лучшее пиво в мире
-                            </Typography>
+                            <div className="description">
+                                <Typography
+                                    variant="body2"
+                                    style={{
+                                        fontSize: "12px",
+                                        marginBottom: "10px",
+                                    }}
+                                >
+                                    {description}
+                                </Typography>
+                            </div>
                         </div>
                         <div
                             style={{ paddingTop: "45px" }}

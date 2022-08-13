@@ -1,9 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { queryBuilder } from "../../../../helpers/queryHelper";
-import { IProductСharacteristics } from "../../../../types/product.types";
+import { IProduct, IProductBasket } from "../../../../types/product.types";
+import { IBasket } from "../types/basket.type";
 
 const initialState = {
-    list:<IProductСharacteristics[]> [],
+    list:<IProductBasket[]> [],
     count:<number> 0,
     status: '',
     error: ''
@@ -27,9 +28,24 @@ export const getBasketList:any = createAsyncThunk(
     }
 );
 
-const findItemInBasket = (basket: IProductСharacteristics[], id: number): IProductСharacteristics => {
+export const createProductForBuy = (product: IProduct): IProductBasket => {
+    const {id, price, title, description, image} = product;
+    const prod: IProductBasket = {
+        id,
+        title,
+        price,
+        description,
+        quantity: 1,
+        image
+    };
+
+    return prod;
+}
+
+
+const findItemInBasket = (basket: IProductBasket[], id: number): IProductBasket => {
     let basketItem: any = false;
-    const items: IProductСharacteristics[] = basket.filter(item => {
+    const items: IProductBasket[] = basket.filter(item => {
         if(item.id === id) {
             return item;
         }
@@ -93,10 +109,13 @@ export const basketSlice = createSlice({
             state.status = 'loading';
             state.error = '';
         },
-        [getBasketList.fulfilled]: (state, action: PayloadAction) => {
+        [getBasketList.fulfilled]: (state, action: PayloadAction<IBasket>) => {
             state.status = 'resolved';
-            console.log(action.payload);
-            //state.list = action.payload;
+            const products = action.payload.products;
+        
+            state.list = products.map((item) => {
+               return createProductForBuy(item);
+            });
         },
         [getBasketList.rejected]: (state,action) => {
             state.status = 'rejected';

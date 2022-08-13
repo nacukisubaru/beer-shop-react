@@ -61,6 +61,14 @@
     margin-bottom: 26px;
 }
 
+.description {
+    display: -webkit-box;
+    max-width: 285px;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
 /* Portrait */
 @media only screen 
   and (min-device-width: 375px) 

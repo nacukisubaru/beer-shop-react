@@ -1,9 +1,9 @@
-import { IProductСharacteristics } from "../types/product.types";
+import { IProductBasket } from "../types/product.types";
 import { useActions } from "./useActions";
 import { useAppSelector } from "./useAppSelector";
 import { useBasket } from "./useBasket";
 
-export const useBuyProduct = (product: IProductСharacteristics) => {
+export const useBuyProduct = (product: IProductBasket) => {
     const { addItem, setQuantity, plusCountPosition } = useActions();
     const {list} = useAppSelector((state) => state.basketReducer);
     const {add} = useBasket();    

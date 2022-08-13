@@ -21,12 +21,11 @@ export interface IProductItem {
     image: string
 }
 
-export interface IProductСharacteristics {
+export interface IProductBasket {
     id: number,
     title: string,
     price: number,
     description:string,
     quantity: number,
-    image: string,
-    characteristics: IBeerProduct | ISnacks
+    image: string
 }

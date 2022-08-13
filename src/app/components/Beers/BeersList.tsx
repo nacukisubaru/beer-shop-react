@@ -2,8 +2,8 @@ import React, { FC, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useActions } from "../../hooks/useActions";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { useBeerMap } from "../../hooks/useBeerMap";
 import { useFilter } from "../../hooks/useFilter";
+import { useProductMap } from "../../hooks/useProductMap";
 import { getMinAndMaxPrice } from "../../store/reducers/filter.products";
 import { limitPage } from "../../store/services/api.config";
 import { getBeerList } from "../../store/services/beers/reducers/beer.slice";
@@ -17,7 +17,7 @@ const BeersList: FC<BeersListProps> = () => {
     );
     const { dropBeerList, resetFilters, resetBeerPage, getBeer, openBeer } = useActions();
     const {beerList} = useAppSelector((state) => state.beerReducer);
-    const beers = useBeerMap(beerList);
+    const beers = useProductMap(beerList);
 
     const dispath = useDispatch();
     const {fetchBeers} = useFilter();
