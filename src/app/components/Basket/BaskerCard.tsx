@@ -14,14 +14,16 @@ interface IBasketCard extends IProductBasket {
 
 const BasketCard: FC<IBasketCard> = ({id, index, title, price, quantity, image, description}) => {
     const {plusQuantity, minusQuantity, removeItem} = useActions();
-    const {remove} = useBasket();
+    const {remove, update} = useBasket();
 
-    const handlerPlusQuan = () =>{
-        return plusQuantity({id, value:1});
+    const handlerPlusQuan = async () =>{
+        await plusQuantity({id, value:1});
+        update(id, quantity + 1);
     }
 
-    const handlerMinusQuan = () => {
-        return minusQuantity({id, value:1});
+    const handlerMinusQuan = async () => {
+        await minusQuantity({id, value:1});
+        update(id, quantity -1);
     }
 
     const handleRemove = () => {

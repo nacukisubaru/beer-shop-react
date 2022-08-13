@@ -4,17 +4,19 @@ import { getBasketList } from "../store/services/basket/reducers/basket.slice";
 
 interface IUseBasket {
     add: (quantity: number, productId: number) => Promise<void>,
-    remove: (id: number) => Promise<void>,
+    remove: (productId: number) => Promise<void>,
+    update: (productId: number, quantity: number) => Promise<void>,
     getBasket: () => Promise<void>
 }
 
 export const useBasket = ():IUseBasket => {
     const [createBaket] = basketApi.useCreateBaketMutation();
     const [removeProduct] = basketApi.useRemoveProductMutation();
+    const [updateProduct] = basketApi.useUpdateProductMutation();
     const dispatch = useDispatch();
     
     const add = async (quantity: number, productId: number) => {
-        const basketId = localStorage.getItem("basketId");
+        const basketId = getBasketId();
         let obj:any = {quantity, productId};
         if(basketId && basketId !== undefined) {
             obj.id = basketId;
@@ -29,17 +31,26 @@ export const useBasket = ():IUseBasket => {
         return result.id;
     }
 
-    const remove = async (id: number) => {
-        const basketId = localStorage.getItem("basketId");
-        await removeProduct({id: Number(basketId), productId: id});
+    const update = async (productId: number, quantity: number) => {
+        const basketId = getBasketId();
+        updateProduct({id: basketId, productId, quantity});
+    }
+
+    const remove = async (productId: number) => {
+        const basketId = getBasketId();
+        await removeProduct({id: basketId, productId});
     }
 
     const getBasket = async () => {
-        const basketId = localStorage.getItem("basketId");
+        const basketId = getBasketId();
         if(basketId) {
             dispatch(getBasketList(basketId));
         }
     }
 
-    return {add, getBasket, remove};
+    const getBasketId = () => {
+        return Number(localStorage.getItem("basketId"));
+    }
+
+    return {add, getBasket, update, remove};
 }

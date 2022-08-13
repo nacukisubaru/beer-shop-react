@@ -19,3 +19,9 @@ export interface IRemoveProduct {
     id: number,
     productId: number
 }
+
+export interface IUpdateProduct {
+    id: number,
+    productId: number,
+    quantity:number
+}
