@@ -28,9 +28,10 @@ export const queryBuilder = (query:IQueryBuilder, path: string) => {
     return url.slice(0, -1);
 }
 
-export const asyncThunkCallback = async(options: IQueryBuilder, rejectWithValue: any, path = '', fetchData = fetch) => {
+
+export const asyncThunkCallback = async(request = ()=>{}, rejectWithValue: any) => {
     try {
-        const response:any = await fetchData(queryBuilder(options, path));
+        const response:any = await request();
         if(response.statusText !== "OK") {
             throw new Error('server error!');
         }

@@ -14,7 +14,10 @@ const initialState = {
 export const getBasketList:any = createAsyncThunk(
     'basket/fetch',
     async(id, {rejectWithValue}) => {
-        return asyncThunkCallback({action:'getBasket/' + id, params: {}}, rejectWithValue, 'basket', fetch);
+        const request = async () => {
+            return fetch(queryBuilder({action:'getBasket/' + id, params: {}}, 'basket'));
+        }
+        return asyncThunkCallback(request, rejectWithValue);
     }
 );
 
@@ -22,7 +25,10 @@ export const getBasketList:any = createAsyncThunk(
 export const getBasketByUserId:any = createAsyncThunk(
     'getBasket/fetch',
     async(id: number, {rejectWithValue}) => {
-        return asyncThunkCallback({action:'freeBasket/' + id, params: {}}, rejectWithValue, 'basket', $api.get);
+        const request = async () => {
+            return $api.get(queryBuilder({action:'freeBasket/' + id, params: {}}, 'basket'));
+        }
+        return asyncThunkCallback(request, rejectWithValue);
     }
 );
 

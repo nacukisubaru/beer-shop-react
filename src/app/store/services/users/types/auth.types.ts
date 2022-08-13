@@ -6,7 +6,9 @@ export interface IAuth {
     authError: {
         status: number,
         message: string
-    }
+    },
+    status: string,
+    error: string
 }
 
 export interface ILogin {

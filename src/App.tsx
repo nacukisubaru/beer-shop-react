@@ -24,7 +24,9 @@ function App() {
                     authError: {
                         status: 0,
                         message: ""
-                    }
+                    },
+                    status: "",
+                    error: ""
                 });
 
                 getBasketByUser(userParse.id);
