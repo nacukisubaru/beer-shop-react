@@ -24,6 +24,7 @@ $api.interceptors.response.use((config: any) => {
                 const response = await axios.get(`${host}/users/refresh`, {withCredentials: true});
                 if(response) {
                     localStorage.setItem('accessToken', response.data.accessToken);
+                    localStorage.setItem('user', response.data.user);
                     return $api.request(originalRequest);
                 }
             } catch (e) {

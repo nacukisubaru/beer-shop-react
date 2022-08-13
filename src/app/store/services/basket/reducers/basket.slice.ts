@@ -135,6 +135,7 @@ export const basketSlice = createSlice({
         [getBasketByUserId.fulfilled]: (state, action: PayloadAction<IBasket>) => {
             state.status = 'resolved';
             setStateProductList(state, action);
+            localStorage.setItem("basketId", String(action.payload.id));
         },
         [getBasketByUserId.rejected]: (state,action) => {
             state.status = 'rejected';
