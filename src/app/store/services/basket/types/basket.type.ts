@@ -14,3 +14,8 @@ export interface IBasket {
     amount: number,
     products: IBasketFieldsProduct[]
 }
+
+export interface IRemoveProduct {
+    id: number,
+    productId: number
+}

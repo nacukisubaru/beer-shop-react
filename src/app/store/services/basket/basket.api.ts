@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { host } from '../api.config';
+import { IRemoveProduct } from "./types/basket.type";
 
 export const basketApi = createApi({
     reducerPath: 'basket',
@@ -11,6 +12,13 @@ export const basketApi = createApi({
                 method: 'POST',
                 body: post
             })
-        })      
+        }),
+        removeProduct: build.mutation<boolean, IRemoveProduct>({
+            query: (post) => ({
+                url: 'removeProduct',
+                method: 'POST',
+                body: post
+            })
+        }),         
     })
 });

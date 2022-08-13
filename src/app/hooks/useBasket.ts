@@ -4,11 +4,13 @@ import { getBasketList } from "../store/services/basket/reducers/basket.slice";
 
 interface IUseBasket {
     add: (quantity: number, productId: number) => Promise<void>,
+    remove: (id: number) => Promise<void>,
     getBasket: () => Promise<void>
 }
 
 export const useBasket = ():IUseBasket => {
     const [createBaket] = basketApi.useCreateBaketMutation();
+    const [removeProduct] = basketApi.useRemoveProductMutation();
     const dispatch = useDispatch();
     
     const add = async (quantity: number, productId: number) => {
@@ -27,6 +29,11 @@ export const useBasket = ():IUseBasket => {
         return result.id;
     }
 
+    const remove = async (id: number) => {
+        const basketId = localStorage.getItem("basketId");
+        await removeProduct({id: Number(basketId), productId: id});
+    }
+
     const getBasket = async () => {
         const basketId = localStorage.getItem("basketId");
         if(basketId) {
@@ -34,5 +41,5 @@ export const useBasket = ():IUseBasket => {
         }
     }
 
-    return {add, getBasket};
+    return {add, getBasket, remove};
 }

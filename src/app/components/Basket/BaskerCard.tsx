@@ -6,6 +6,7 @@ import { useActions } from "../../hooks/useActions";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useBasket } from "../../hooks/useBasket";
 
 interface IBasketCard extends IProductBasket {
     index: number;
@@ -13,6 +14,7 @@ interface IBasketCard extends IProductBasket {
 
 const BasketCard: FC<IBasketCard> = ({id, index, title, price, quantity, image, description}) => {
     const {plusQuantity, minusQuantity, removeItem} = useActions();
+    const {remove} = useBasket();
 
     const handlerPlusQuan = () =>{
         return plusQuantity({id, value:1});
@@ -23,6 +25,7 @@ const BasketCard: FC<IBasketCard> = ({id, index, title, price, quantity, image, 
     }
 
     const handleRemove = () => {
+        remove(id);
         return removeItem({id});
     }
 
