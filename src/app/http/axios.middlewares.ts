@@ -1,4 +1,5 @@
 
+import { setObjStorage, setValStorage } from "../helpers/storageHelper";
 import { host } from "./http.request.config";
 
 export const axios = require('axios');
@@ -23,8 +24,8 @@ $api.interceptors.response.use((config: any) => {
             try {
                 const response = await axios.get(`${host}/users/refresh`, {withCredentials: true});
                 if(response) {
-                    localStorage.setItem('accessToken', response.data.accessToken);
-                    localStorage.setItem('user', response.data.user);
+                    setValStorage('accessToken', response.data.accessToken);
+                    setObjStorage('user', response.data.user);
                     return $api.request(originalRequest);
                 }
             } catch (e) {

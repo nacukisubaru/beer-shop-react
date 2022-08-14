@@ -6,21 +6,22 @@ import Basket from "./pages/basket/basket";
 import { useEffect } from "react";
 import { useBasket } from "./app/hooks/useBasket";
 import { useActions } from "./app/hooks/useActions";
+import { getObjStorage, getValStorage } from "./app/helpers/storageHelper";
 
 function App() {
     const {getBasket, getBasketByUser} = useBasket();  
     const {addUserData} = useActions();
 
     useEffect(()=>{
-        const user: any = localStorage.getItem("user");
-        const accessToken: string | null = localStorage.getItem("accessToken");
+        const user: any = getObjStorage("user")
+        const accessToken: string | null = getValStorage("accessToken");
 
         if(user) {
             if(accessToken) {
-                const userParse: any = JSON.parse(user);
+               
                 addUserData({
                     accessToken,
-                    user: userParse,
+                    user,
                     authError: {
                         status: 0,
                         message: ""
@@ -29,7 +30,7 @@ function App() {
                     error: ""
                 });
 
-                getBasketByUser(userParse.id);
+                getBasketByUser(user.id);
             }
         } else {
             getBasket();

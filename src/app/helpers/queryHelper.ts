@@ -32,9 +32,9 @@ export const queryBuilder = (query:IQueryBuilder, path: string) => {
 export const asyncThunkCallback = async(request = ()=>{}, rejectWithValue: any) => {
     try {
         const response:any = await request();
-        if(response.statusText !== "OK") {
-            throw new Error('server error!');
-        }
+        // if(response.statusText !== "OK") {
+        //     throw new Error('server error!');
+        // }
 
         if(response.data) {
             return response.data;

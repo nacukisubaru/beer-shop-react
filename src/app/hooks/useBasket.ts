@@ -1,4 +1,5 @@
 import { useDispatch } from "react-redux";
+import { getValStorage, setValStorage } from "../helpers/storageHelper";
 import { basketApi } from "../store/services/basket/basket.api";
 import { getBasketByUserId, getBasketList } from "../store/services/basket/reducers/basket.slice";
 
@@ -26,7 +27,7 @@ export const useBasket = ():IUseBasket => {
         const result:any = await createBaket(obj).unwrap();
         
         if(result.id) {
-            localStorage.setItem("basketId", result.id);
+            setValStorage("basketId", result.id);
         }
 
         return result.id;
@@ -54,7 +55,7 @@ export const useBasket = ():IUseBasket => {
     }
 
     const getBasketId = () => {
-        return Number(localStorage.getItem("basketId"));
+        return Number(getValStorage("basketId"));
     }
 
     return {add, getBasket, update, remove, getBasketByUser};

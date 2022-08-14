@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { asyncThunkCallback} from "../../../../helpers/queryHelper";
-import $api, { axios } from "../../../../http/axios.middlewares";
+import { setObjStorage, setValStorage } from "../../../../helpers/storageHelper";
+import $api from "../../../../http/axios.middlewares";
 import { IError } from "../../../../types/error.types";
 import { IAuth } from "../types/auth.types";
 
@@ -65,9 +66,8 @@ export const userSlice = createSlice({
 
             state.accessToken = token;
             state.user = user;
-
-            localStorage.setItem("accessToken", token);
-            localStorage.setItem("user", JSON.stringify(user));
+            setValStorage("accessToken", token);
+            setObjStorage("user", JSON.stringify(user));
         },
         [login.rejected]: (state,action) => {
             state.status = 'rejected';

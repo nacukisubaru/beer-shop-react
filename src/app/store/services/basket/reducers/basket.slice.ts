@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { asyncThunkCallback, queryBuilder } from "../../../../helpers/queryHelper";
+import { setObjStorage } from "../../../../helpers/storageHelper";
 import $api from "../../../../http/axios.middlewares";
 import { IProduct, IProductBasket } from "../../../../types/product.types";
 import { IBasket } from "../types/basket.type";
@@ -135,7 +136,7 @@ export const basketSlice = createSlice({
         [getBasketByUserId.fulfilled]: (state, action: PayloadAction<IBasket>) => {
             state.status = 'resolved';
             setStateProductList(state, action);
-            localStorage.setItem("basketId", String(action.payload.id));
+            setObjStorage("basketId", String(action.payload.id));
         },
         [getBasketByUserId.rejected]: (state,action) => {
             state.status = 'rejected';
