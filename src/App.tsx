@@ -13,12 +13,11 @@ function App() {
     const {addUserData} = useActions();
 
     useEffect(()=>{
-        const user: any = getObjStorage("user")
+        const user: any = getObjStorage("user");
         const accessToken: string | null = getValStorage("accessToken");
 
         if(user) {
             if(accessToken) {
-               
                 addUserData({
                     accessToken,
                     user,

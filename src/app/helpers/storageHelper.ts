@@ -12,8 +12,5 @@ export const getValStorage = (key: string) => {
 
 export const getObjStorage = (key: string) => {
     const data:any = localStorage.getItem(key);
-    if(data) {
-        return JSON.parse(data);
-    }
-    return false;
+    return JSON.parse(JSON.parse(data));
 }
