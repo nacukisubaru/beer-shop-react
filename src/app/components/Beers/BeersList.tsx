@@ -27,7 +27,7 @@ const BeersList: FC<BeersListProps> = () => {
             await resetBeerPage();
             await dropBeerList();
             await resetFilters();
-            await dispath(getBeerList({params:{page: 0, limitPage}}));
+            await dispath(getBeerList({path: '/beers/', params: {page: 0, limitPage}}));
         }
 
         beerList();

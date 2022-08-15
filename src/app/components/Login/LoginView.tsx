@@ -11,7 +11,6 @@ interface LoginProps {
     login: (post: ILogin) => void;
     switchRegForm: () => void;
     error: {
-        status: number, 
         message: string
     }
 }

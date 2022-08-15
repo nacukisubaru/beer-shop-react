@@ -11,11 +11,18 @@ const initialState = {
     error: ''
 };
 
+interface IBody {
+    path: string,
+    params: any
+}
+
 export const getBeerList:any = createAsyncThunk(
     'beers/fetch',
-    async(query:IQueryBuilder, {rejectWithValue}) => {
+    async(body: IBody, {rejectWithValue}) => {
+        const {path, params} = body;
         try {
-            const response = await fetch(queryBuilder(query, 'beers'));
+            console.log(body);
+            const response = await fetch(queryBuilder(path, params));
             if(!response.ok) {
                 throw new Error('server error!');
             }

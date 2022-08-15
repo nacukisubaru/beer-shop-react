@@ -9,22 +9,14 @@ import LoginView from "./LoginView";
 
 export default function LoginContainer() {
     const dispatch = useDispatch();
-    const {
-        addAuthError, 
-        resetAuthError, switchRegForm} = useActions();
-
+    const {switchRegForm} = useActions();
     const {getBasketByUser} = useBasket();
-
-    const authError = useAppSelector(state => state.userReducer.authError);
-    const {user} = useAppSelector(state => state.userReducer);
+    const authError = useAppSelector(state => state.userReducer.error);
 
     const loginUser = async (post: ILogin) => {
-        try {
-            await dispatch(login(post));      
-            await resetAuthError();
-            getBasketByUser(user.id);
-        } catch(e: any) {
-            addAuthError({status: e.status, message: e.data.message});
+        const data = await dispatch(login(post));
+        if(data.payload.user) {
+            getBasketByUser(data.payload.user.id);
         }
     }
 

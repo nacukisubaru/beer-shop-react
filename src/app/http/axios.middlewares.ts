@@ -24,14 +24,16 @@ $api.interceptors.response.use((config: any) => {
             try {
                 const response = await axios.get(`${host}/users/refresh`, {withCredentials: true});
                 if(response) {
-                    setValStorage('accessToken', response.data.accessToken);
-                    setObjStorage('user', response.data.user);
+                    localStorage.setItem("accessToken", response.data.accessToken);
+                    localStorage.setItem("userId", response.data.user.id);
                     return $api.request(originalRequest);
                 }
             } catch (e) {
-                console.log('НЕ АВТОРИЗОВАН');
+                localStorage.clear();
+                return Promise.reject(error.response.data);
             }
         }
+        return Promise.reject(error.response.data);
     }
  );
 

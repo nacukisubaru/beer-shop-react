@@ -4,9 +4,11 @@ import RegistrationContainer from "../../app/components/Registration/Registratio
 import { useAppSelector } from "../../app/hooks/useAppSelector";
 import Header from "../../app/components/Header/Header";
 import Menu from "../../app/components/Drawer/Menu/Menu";
+import ProfileView from "../../app/components/Profile/ProfileView";
 
 export default function Account() {
     const accountForm = useAppSelector((state) => state.accountFormsReducer);
+    const {isAuth} = useAppSelector(state => state.userReducer);
 
     return (
         <>
@@ -15,12 +17,12 @@ export default function Account() {
                callbackApplyFilter={()=>{}} 
                callbackResetFilter={()=>{}}
             />
-            {accountForm.isLoginForm ? (
+            {accountForm.isLoginForm && !isAuth  ? (
                 <LoginContainer />
-            ) : accountForm.isRegistrationForm ? (
+            ) : accountForm.isRegistrationForm && !isAuth  ? (
                 <RegistrationContainer />
             ) : (
-                <LoginContainer />
+               <ProfileView />
             )}
         </>
     );

@@ -31,7 +31,7 @@ export default function Beers() {
         closeFilterMenu();
         await resetFilters();
         await dropBeerList();
-        await dispath(getBeerList({ params: { page: 0, limitPage } }));
+        await dispath(getBeerList({path: '/beers/', params: { page: 0, limitPage }}));
     };
 
     return (

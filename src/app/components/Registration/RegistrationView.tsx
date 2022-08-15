@@ -13,7 +13,6 @@ interface RegistrationViewProps {
     registrate: (post: ILogin) => void;
     switchLoginForm: () => void;
     error: {
-        status: number, 
         message: string
     }
 }

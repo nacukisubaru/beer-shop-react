@@ -2,6 +2,8 @@ import { useDispatch } from "react-redux";
 import { getValStorage, setValStorage } from "../helpers/storageHelper";
 import { basketApi } from "../store/services/basket/basket.api";
 import { getBasketByUserId, getBasketList } from "../store/services/basket/reducers/basket.slice";
+import { useActions } from "./useActions";
+import { useAppSelector } from "./useAppSelector";
 
 interface IUseBasket {
     add: (quantity: number, productId: number) => Promise<void>,
@@ -16,30 +18,31 @@ export const useBasket = ():IUseBasket => {
     const [removeProduct] = basketApi.useRemoveProductMutation();
     const [updateProduct] = basketApi.useUpdateProductMutation();
     const dispatch = useDispatch();
+    const {setBasket} = useActions();
+    const basketId = useAppSelector(state => state.basketReducer.currentBasket);
     
-    const add = async (quantity: number, productId: number) => {
-        const basketId = getBasketId();
-        let obj:any = {quantity, productId};
-        if(basketId && basketId !== undefined) {
-            obj.id = basketId;
-        }
 
-        const result:any = await createBaket(obj).unwrap();
-        
-        if(result.id) {
-            setValStorage("basketId", result.id);
+    const add = async (quantity: number, productId: number) => {
+        const result:any = await createBaket(
+            {
+                quantity, 
+                productId, 
+                basketId
+            }
+        ).unwrap();
+       
+        if(result.id && !basketId) {
+            setBasket(result.id);
         }
 
         return result.id;
     }
 
     const update = async (productId: number, quantity: number) => {
-        const basketId = getBasketId();
         updateProduct({id: basketId, productId, quantity});
     }
 
     const remove = async (productId: number) => {
-        const basketId = getBasketId();
         await removeProduct({id: basketId, productId});
     }
 
@@ -55,7 +58,7 @@ export const useBasket = ():IUseBasket => {
     }
 
     const getBasketId = () => {
-        return Number(getValStorage("basketId"));
+        return Number(localStorage.getItem("basketId"));
     }
 
     return {add, getBasket, update, remove, getBasketByUser};

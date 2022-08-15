@@ -6,30 +6,22 @@ import Basket from "./pages/basket/basket";
 import { useEffect } from "react";
 import { useBasket } from "./app/hooks/useBasket";
 import { useActions } from "./app/hooks/useActions";
-import { getObjStorage, getValStorage } from "./app/helpers/storageHelper";
+import { getUser } from "./app/store/services/users/reducers/user.slice";
+import { useDispatch } from "react-redux";
 
 function App() {
     const {getBasket, getBasketByUser} = useBasket();  
     const {addUserData} = useActions();
+    const dispatch = useDispatch();
 
     useEffect(()=>{
-        const user: any = getObjStorage("user");
-        const accessToken: string | null = getValStorage("accessToken");
-
-        if(user) {
+        const userId: any = localStorage.getItem("userId");
+        const accessToken: string | null = localStorage.getItem("accessToken");
+        console.log(userId, accessToken)
+        if(userId) {
             if(accessToken) {
-                addUserData({
-                    accessToken,
-                    user,
-                    authError: {
-                        status: 0,
-                        message: ""
-                    },
-                    status: "",
-                    error: ""
-                });
-
-                getBasketByUser(user.id);
+                dispatch(getUser(userId));
+                getBasketByUser(userId);
             }
         } else {
             getBasket();

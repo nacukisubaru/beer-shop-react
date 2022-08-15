@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { asyncThunkCallback, queryBuilder } from "../../../../helpers/queryHelper";
-import { setObjStorage } from "../../../../helpers/storageHelper";
-import $api from "../../../../http/axios.middlewares";
+import { thunkAxiosGet } from "../../../../helpers/queryHelper";
 import { IProduct, IProductBasket } from "../../../../types/product.types";
 import { IBasket } from "../types/basket.type";
 
 const initialState = {
     list:<IProductBasket[]> [],
+    currentBasket: 0,
     count:<number> 0,
     status: '',
     error: ''
@@ -15,10 +14,7 @@ const initialState = {
 export const getBasketList:any = createAsyncThunk(
     'basket/fetch',
     async(id, {rejectWithValue}) => {
-        const request = async () => {
-            return fetch(queryBuilder({action:'getBasket/' + id, params: {}}, 'basket'));
-        }
-        return asyncThunkCallback(request, rejectWithValue);
+        return thunkAxiosGet('/basket/getBasket/' + id, {}, false, rejectWithValue);
     }
 );
 
@@ -26,10 +22,7 @@ export const getBasketList:any = createAsyncThunk(
 export const getBasketByUserId:any = createAsyncThunk(
     'getBasket/fetch',
     async(id: number, {rejectWithValue}) => {
-        const request = async () => {
-            return $api.get(queryBuilder({action:'freeBasket/' + id, params: {}}, 'basket'));
-        }
-        return asyncThunkCallback(request, rejectWithValue);
+        return thunkAxiosGet('/basket/freebasket/' + id, {}, true, rejectWithValue);
     }
 );
 
@@ -114,6 +107,14 @@ export const basketSlice = createSlice({
         },
         minusCountPosition: (state) => {
             state.count = state.count - 1;
+        },
+        setBasket: (state, action) => {
+            state.currentBasket = action.payload;
+            localStorage.setItem("basketId", action.payload);
+        },
+        resetBasket: (state) => {
+            state.list = [];
+            state.currentBasket = 0;
         }
     },
     extraReducers: {
@@ -123,6 +124,8 @@ export const basketSlice = createSlice({
         },
         [getBasketList.fulfilled]: (state, action: PayloadAction<IBasket>) => {
             state.status = 'resolved';
+            console.log(action);
+            state.currentBasket = action.payload.id;
             setStateProductList(state, action);
         },
         [getBasketList.rejected]: (state,action) => {
@@ -135,8 +138,8 @@ export const basketSlice = createSlice({
         },
         [getBasketByUserId.fulfilled]: (state, action: PayloadAction<IBasket>) => {
             state.status = 'resolved';
+            state.currentBasket = action.payload.id;
             setStateProductList(state, action);
-            setObjStorage("basketId", String(action.payload.id));
         },
         [getBasketByUserId.rejected]: (state,action) => {
             state.status = 'rejected';
