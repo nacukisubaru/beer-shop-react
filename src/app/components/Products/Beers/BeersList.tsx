@@ -4,6 +4,7 @@ import { useActions } from "../../../hooks/useActions";
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import { useFilter } from "../../../hooks/useFilter";
 import { useProductMap } from "../../../hooks/useProductMap";
+import { useBeerList } from "../../../hooks/useProducts";
 import { limitPage } from "../../../http/http.request.config";
 import { getMinAndMaxPrice } from "../../../store/reducers/filter.products";
 import { getBeerList } from "../../../store/services/beers/reducers/beer.slice";
@@ -12,27 +13,15 @@ import CardList from "../../Cards/CardList";
 interface BeersListProps {}
 
 const BeersList: FC<BeersListProps> = () => {
-    const { page, status, total } = useAppSelector(
+    const { page, status } = useAppSelector(
         (state) => state.beerReducer
     );
-    const { dropBeerList, resetFilters, resetBeerPage, getBeer, openBeer } = useActions();
+    const { getBeer, openBeer } = useActions();
     const {beerList} = useAppSelector((state) => state.beerReducer);
     const beers = useProductMap(beerList);
 
-    const dispath = useDispatch();
     const {fetchBeers} = useFilter();
-
-    useEffect(() => {
-        const beerList = async () => {
-            await resetBeerPage();
-            await dropBeerList();
-            await resetFilters();
-            await dispath(getBeerList({path: '/beers/', params: {page: 0, limitPage}}));
-        }
-
-        beerList();
-        dispath(getMinAndMaxPrice());
-    }, []);
+    useBeerList();
 
     const showBeer = (id: number) => {
         getBeer({id});
