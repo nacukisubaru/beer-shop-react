@@ -20,16 +20,23 @@ export const useBasket = ():IUseBasket => {
     const dispatch = useDispatch();
     const {setBasket} = useActions();
     const basketId = useAppSelector(state => state.basketReducer.currentBasket);
-    
+    const {user} = useAppSelector(state => state.userReducer);
 
     const add = async (quantity: number, productId: number) => {
-        const result:any = await createBaket(
-            {
-                quantity, 
-                productId, 
-                id: basketId
-            }
-        ).unwrap();
+        const prodObj:any = {
+            quantity, 
+            productId
+        };
+
+        if(basketId) {
+            prodObj.id = basketId;
+        }
+
+        if(user.id) {
+            prodObj.userId = user.id;
+        }
+
+        const result:any = await createBaket(prodObj).unwrap();
        
         if(result.id && !basketId) {
             setBasket(result.id);

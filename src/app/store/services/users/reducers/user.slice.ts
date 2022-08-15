@@ -20,6 +20,13 @@ const initialState: IAuth = {
     error: {message: ''}
 };
 
+export const registrate:any = createAsyncThunk(
+    'registration/post',
+    async(body: any, {rejectWithValue}) => {
+       return thunkAxiosPost('/users/registration', body, true, rejectWithValue);
+    }
+);
+
 export const login:any = createAsyncThunk(
     'login/post',
     async(body: any, {rejectWithValue}) => {
@@ -83,7 +90,6 @@ export const userSlice = createSlice({
             state.status = 'rejected';
             state.error = action.payload;
         },
-
         [getUser.pending]: (state) => {
             state.status = 'loading';
         },
@@ -96,6 +102,25 @@ export const userSlice = createSlice({
             state.status = 'rejected';
             state.error = action.payload;
         },
+        [registrate.pending]: (state) => {
+            state.status = 'loading';
+        },
+        [registrate.fulfilled]: (state, action: PayloadAction<IAuth>) => {
+            state.status = 'resolved';
+            const token = action.payload.accessToken;
+            const user:any = action.payload.user;
+
+            state.accessToken = token;
+            state.user = user;
+            state.isAuth = true;
+            localStorage.setItem("accessToken", token);
+            localStorage.setItem("userId", user.id);
+        },
+        [registrate.rejected]: (state,action) => {
+            state.status = 'rejected';
+            state.error = action.payload;
+            state.isAuth = false;
+        },        
     }
 })
 
