@@ -9,6 +9,7 @@ import { drawerMenuReducer } from "./reducers/drawer.menu.slice";
 import { gradeApi } from "./services/grades/grade.api";
 import { brandApi } from "./services/brands/brand.api";
 import { filterProductsReducer } from "./reducers/filter.products";
+import { snackReducer } from "./services/snacks/reducers/snack.slice";
 
 export const store = configureStore({
     reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
         beerReducer,
         drawerMenuReducer,
         filterProductsReducer,
+        snackReducer,
         [userApi.reducerPath]: userApi.reducer,
         [gradeApi.reducerPath]: gradeApi.reducer,
         [brandApi.reducerPath]: brandApi.reducer

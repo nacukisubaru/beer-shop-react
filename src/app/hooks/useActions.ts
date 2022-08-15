@@ -6,6 +6,7 @@ import { basketActions } from "../store/services/basket/reducers/basket.slice";
 import { beerActions } from "../store/services/beers/reducers/beer.slice";
 import { drawerMenuActions } from "../store/reducers/drawer.menu.slice";
 import { filterProductsActions } from "../store/reducers/filter.products";
+import { snackActions } from "../store/services/snacks/reducers/snack.slice";
 
 const allActions = {
     ...userActions,
@@ -13,7 +14,8 @@ const allActions = {
     ...basketActions,
     ...beerActions,
     ...drawerMenuActions,
-    ...filterProductsActions
+    ...filterProductsActions,
+    ...snackActions
 }
 
 export const useActions = () => {
