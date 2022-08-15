@@ -1,5 +1,5 @@
-import { Typography } from "@mui/material";
 import { FC } from "react";
+import { Typography } from "@mui/material";
 import { useActions } from "../../../hooks/useActions";
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import BasicModal from "../BasicModal";
@@ -16,6 +16,8 @@ const ResultNotFoundByFilter: FC = () => {
                 open={isOpen}
                 setOpen={openModalNotFoundByFilter}
                 setClose={closeModalNotFoundByFilter}
+                title={""}
+                showOkBtn={true}
                 body={
                     <>
                         <Typography

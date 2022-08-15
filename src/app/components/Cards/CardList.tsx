@@ -1,24 +1,25 @@
+import React, { FC } from "react";
 import { Box } from "@mui/material";
-import React, { FC, useEffect, useRef, useState } from "react";
-import { ICardItem } from "../../types/card.types";
-import CardSmall from "./CardSmall";
-import "./css/cards.css";
-import "../../../index.css";
+import { ICard } from "../../types/card.types";
 import { useObserverScroll } from "../../hooks/useObserverScroll";
+import { IAction } from "../../types/action.deal.types";
+import { useActions } from "../../hooks/useActions";
+import CardSmall from "./CardSmall";
 import BasicSpeedDial from "../SpeedDial/BasicSpeedDial";
 import MenuIcon from "@mui/icons-material/Menu";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import { IAction } from "../../types/action.deal.types";
-import { useActions } from "../../hooks/useActions";
+import "./css/cards.css";
+import "../../../index.css";
 
 interface CardListProps {
-    cardsList: ICardItem[];
-    fetch: (page: number) => void;
-    page: number;
-    scrollList: boolean
+    cardsList: ICard[],
+    page: number,
+    scrollList: boolean,
+    fetch: (page: number) => void,
+    show: (id: number) => void
 }
 
-const CardList: FC<CardListProps> = ({ cardsList, fetch, page, scrollList = true }) => {
+const CardList: FC<CardListProps> = ({ cardsList, fetch, page, scrollList = true, show }) => {
     const targetRef: any = useObserverScroll(fetch, page, scrollList);
     const {switchFilterMenu, switchMainMenu} = useActions();
 
@@ -34,12 +35,14 @@ const CardList: FC<CardListProps> = ({ cardsList, fetch, page, scrollList = true
                     <div className="card-list">
                         {cardsList.map((item) => (
                             <CardSmall
+                                id={item.id}
                                 key={item.id}
                                 title={item.title}
                                 description={item.description}
                                 price={item.price}
-                                img={item.img}
+                                image={item.image}
                                 buy={item.buy}
+                                show={show}
                             ></CardSmall>
                         ))}
 

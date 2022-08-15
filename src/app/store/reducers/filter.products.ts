@@ -17,7 +17,7 @@ export const getMinAndMaxPrice:any = createAsyncThunk(
     'prices/fetch',
     async(_, {rejectWithValue}) => {
         try {
-            const response = await fetch(queryBuilder({action:'minMaxPrices', params:{}}, 'products'));
+            const response = await fetch(queryBuilder('/products/minMaxPrices', {}));
             if(!response.ok) {
                 throw new Error('server error!');
             }

@@ -1,19 +1,28 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IBeer } from "../types/beer.type";
 import { IQueryBuilder, queryBuilder } from "../../../../helpers/queryHelper";
 const initialState = {
     beerList:<IBeer[]> [],
+    beer:<IBeer> {},
     page: 0,
     total: 0,
+    showBeer: false,
     status: '',
     error: ''
 };
 
+interface IBody {
+    path: string,
+    params: any
+}
+
 export const getBeerList:any = createAsyncThunk(
     'beers/fetch',
-    async(query:IQueryBuilder, {rejectWithValue}) => {
+    async(body: IBody, {rejectWithValue}) => {
+        const {path, params} = body;
         try {
-            const response = await fetch(queryBuilder(query, 'beers'));
+            console.log(body);
+            const response = await fetch(queryBuilder(path, params));
             if(!response.ok) {
                 throw new Error('server error!');
             }
@@ -24,7 +33,6 @@ export const getBeerList:any = createAsyncThunk(
     }
 );
 
-
 export const beerSlice = createSlice({
     name: 'beer',
     initialState,
@@ -34,6 +42,20 @@ export const beerSlice = createSlice({
         },
         resetBeerPage: (state) => {
             state.page = 0;
+        },
+        getBeer: (state, action: PayloadAction<{id:number}>) => {
+            const id = action.payload.id;
+            state.beer = state.beerList.filter((item: IBeer) => {
+                if(item.id === id) {
+                    return item;
+                }
+            })[0];
+        },
+        openBeer: (state) => {
+            state.showBeer = true;
+        },
+        closeBeer: (state) => {
+            state.showBeer = false;
         }
         // addBeers: (state, action) => {
         //     state.beerList = state.beerList.concat(action.payload);

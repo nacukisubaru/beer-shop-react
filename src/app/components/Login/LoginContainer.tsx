@@ -1,26 +1,22 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { useActions } from "../../hooks/useActions";
 import { useAppSelector } from "../../hooks/useAppSelector";
+import { useBasket } from "../../hooks/useBasket";
+import { login } from "../../store/services/users/reducers/user.slice";
 import { ILogin } from "../../store/services/users/types/auth.types";
-import { userApi } from "../../store/services/users/users.api";
 import LoginView from "./LoginView";
 
 export default function LoginContainer() {
-    const [login] = userApi.useLoginMutation();
-    const {
-        addUserData, 
-        addAuthError, 
-        resetAuthError, switchRegForm} = useActions();
-
-    const authError = useAppSelector(state => state.userReducer.authError);
+    const dispatch = useDispatch();
+    const {switchRegForm} = useActions();
+    const {getBasketByUser} = useBasket();
+    const authError = useAppSelector(state => state.userReducer.error);
 
     const loginUser = async (post: ILogin) => {
-        try {
-            const data = await login(post).unwrap();
-            addUserData(data);
-            resetAuthError();
-        } catch(e: any) {
-            addAuthError({status: e.status, message: e.data.message});
+        const data = await dispatch(login(post));
+        if(data.payload.user) {
+            getBasketByUser(data.payload.user.id);
         }
     }
 

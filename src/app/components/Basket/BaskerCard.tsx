@@ -1,40 +1,50 @@
 import React, { FC } from "react";
-import { Typography } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import { IProductBasket } from "../../types/product.types";
+import { useActions } from "../../hooks/useActions";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
-import { IProductСharacteristics } from "../../types/product.types";
-import { useActions } from "../../hooks/useActions";
+import DeleteIcon from '@mui/icons-material/Delete';
+import { useBasket } from "../../hooks/useBasket";
 
-interface IBasketCard extends IProductСharacteristics {
+interface IBasketCard extends IProductBasket {
     index: number;
 }
 
-const BasketCard: FC<IBasketCard> = ({id, index, title, price, quantity, img, characteristics}) => {
-    const {plusQuantity, minusQuantity} = useActions();
+const BasketCard: FC<IBasketCard> = ({id, index, title, price, quantity, image, description}) => {
+    const {plusQuantity, minusQuantity, removeItem} = useActions();
+    const {remove, update} = useBasket();
 
-    const handlerPlusQuan = () =>{
-        return plusQuantity({id:index, value:1});
+    const handlerPlusQuan = async () =>{
+        await plusQuantity({id, value:1});
+        update(id, quantity + 1);
     }
 
-    const handlerMinusQuan = () =>{
-        return minusQuantity({id:index, value:1});
+    const handlerMinusQuan = async () => {
+        await minusQuantity({id, value:1});
+        update(id, quantity -1);
+    }
+
+    const handleRemove = () => {
+        remove(id);
+        return removeItem({id});
     }
 
     return (
         <>
             <div className="container" key={index}>
                 <div className="wrapper">
+                    
                     <div className="basket-container">
                         <div className="basket-element">
                             <Box
-                                className="card-img"
                                 style={{
                                     backgroundSize: "contain",
                                     height: "150px",
                                 }}
                                 sx={{
-                                    background: `url(${img}) center center no-repeat`,
+                                    background: `url(${image}) center center no-repeat`,
                                 }}
                             ></Box>
                         </div>
@@ -48,15 +58,17 @@ const BasketCard: FC<IBasketCard> = ({id, index, title, price, quantity, img, ch
                             >
                                 {title}
                             </Typography>
-                            <Typography
-                                variant="body2"
-                                style={{
-                                    fontSize: "12px",
-                                    marginBottom: "10px",
-                                }}
-                            >
-                                Лучшее пиво в мире
-                            </Typography>
+                            <div className="description">
+                                <Typography
+                                    variant="body2"
+                                    style={{
+                                        fontSize: "12px",
+                                        marginBottom: "10px",
+                                    }}
+                                >
+                                    {description}
+                                </Typography>
+                            </div>
                         </div>
                         <div
                             style={{ paddingTop: "45px" }}
@@ -68,7 +80,15 @@ const BasketCard: FC<IBasketCard> = ({id, index, title, price, quantity, img, ch
                                 <AddCircleOutlineIcon onClick={handlerPlusQuan} />
                             </div>
                         </div>
-                        <div className="basket-element basket-price">{price * quantity} р</div>
+                        <div className="basket-element basket-price">
+                            {price * quantity} р
+                            <div>
+                                <IconButton onClick={handleRemove}>
+                                    <DeleteIcon />
+                                </IconButton>
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
             </div>

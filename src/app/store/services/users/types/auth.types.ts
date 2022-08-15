@@ -3,10 +3,9 @@ import { IUser } from "./user.types";
 export interface IAuth {
     accessToken: string,
     user: IUser,
-    authError: {
-        status: number,
-        message: string
-    }
+    isAuth: boolean,
+    status: string,
+    error: {message: string}
 }
 
 export interface ILogin {

@@ -9,17 +9,12 @@ interface RegistrationContainerProps {}
 
 const RegistrationContainer:FC<RegistrationContainerProps>  = () => {
     const [registrate] = userApi.useRegistrateMutation();
-    const {addUserData, switchLoginForm, addAuthError, resetAuthError} = useActions();
-    const regError = useAppSelector(state => state.userReducer.authError);
+    const {addUserData, switchLoginForm} = useActions();
+    const regError = useAppSelector(state => state.userReducer.error);
 
     const registrateUser = async (post: ILogin) => {
-        try {
-            const data = await registrate(post).unwrap();
-            addUserData(data);
-            resetAuthError();
-        } catch(e: any) {
-            addAuthError({status: e.status, message: e.data.message});
-        }
+        const data = await registrate(post).unwrap();
+        addUserData(data);  
     }
 
     return (

@@ -1,29 +1,75 @@
-import { host } from "../store/services/api.config";
+import axios from "axios";
+import $api from "../http/axios.middlewares";
+import { host } from "../http/http.request.config";
 
 export interface IQueryBuilder {
     action: string,
     params: any
 }
 
-export const queryBuilder = (query:IQueryBuilder, path: string) => {
-    let url: string = host + '/' + path;
-    if(query.action) {
-        url += '/' + query.action + '/';
-    }
-
-    if(query.params) {
+export const queryBuilder = (path: string, params: any) => {
+    let url: string = host + path;
+    if (params) {
         url += '?';
     }
-    
-    for(let inc in  query.params) {
-        if(Array.isArray(query.params[inc])) {
-            query.params[inc].map((item: string) => {
+
+    for (let inc in params) {
+        if (Array.isArray(params[inc])) {
+            params[inc].map((item: string) => {
                 url += inc + '[]=' + item + "&";
             });
         } else {
-            url += inc + '=' +  query.params[inc] + "&";
+            url += inc + '=' + params[inc] + "&";
         }
     }
 
     return url.slice(0, -1);
+}
+
+
+export const thunkAxiosPost = async (path = "", params = {}, isApi = false, rejectWithValue: any) => {
+    let request = axios;
+    if (isApi) {
+        request = $api;
+    }
+
+    try {
+        const response = await request.post(path, params);
+        console.log(response);
+        if (!response || !response.data) {
+            throw new Error('error');
+        }
+
+        return response.data;
+    } catch (error: any) {
+        console.log(error);
+        return rejectWithValue(error);
+    }
+}
+
+export const thunkAxiosGet = async (path = "", params = {}, isApi = false, rejectWithValue: any) => {
+    const url = queryBuilder(path, params);
+    let request = axios;
+    if (isApi) {
+        request = $api;
+    }
+
+    try {
+        let errorMessage = '';
+        let response: any = {};
+
+        await request.get(url).then((res) => {
+            response = res;
+        }).catch((error) => {
+            errorMessage = error;
+        });
+        
+        if (errorMessage) {
+            throw new Error(errorMessage);
+        }
+
+        return response.data;
+    } catch (error: any) {
+        return rejectWithValue(error);
+    }
 }

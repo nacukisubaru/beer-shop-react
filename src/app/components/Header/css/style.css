@@ -1,0 +1,44 @@
+.wrapper-header {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.contacts {
+    color: black;
+    flex-flow: column;
+    display: flex;
+    justify-content: center;
+}
+
+.header-nav-element {
+    display: flex;
+}
+
+.nav-element-burger {
+    margin-right: '34px';
+    padding-top: '23px';
+    padding-top: 20px;
+    padding-right: 13px;
+}
+
+.wrapper-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.phone-link {
+    text-decoration: none;
+    color: unset;
+}
+
+/* Portrait */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 667px) 
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) { 
+    .contacts {
+        display: none;
+    }
+}

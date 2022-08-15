@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { host } from '../api.config';
+import { host } from '../../../http/http.request.config';
+
 import { IBrand } from './types/brand.types';
 
 export const brandApi = createApi({

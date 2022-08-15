@@ -2,3 +2,30 @@
     display: flex;
     justify-content: center;
 }
+
+.modal-beer-content {
+    flex-flow: wrap;
+}
+
+.modal-beer-img {
+    height: 202px;
+    margin-bottom: 25px;
+}
+
+.modal-beer-desc {
+    width: 100%;
+}
+
+.modal-beer-info {
+    width: 63%;
+    margin-bottom: 15px;
+}
+
+.label-info {
+    font-weight: bold;
+}
+
+.buy-btn {
+    display: flex;
+    justify-content: center;
+}
