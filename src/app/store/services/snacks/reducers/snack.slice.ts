@@ -17,15 +17,15 @@ interface IBody {
 }
 
 export const getSnackList:any = createAsyncThunk(
-    'beers/fetch',
+    'snacks/fetch',
     async(body: IBody, {rejectWithValue}) => {
         const {path, params} = body;
-        thunkAxiosGet(path, params, false, rejectWithValue);
+        return thunkAxiosGet(path, params, false, rejectWithValue);
     }
 );
 
 export const snackSlice = createSlice({
-    name: 'beer',
+    name: 'snack',
     initialState,
     reducers: {
         dropSnackList: (state) => {

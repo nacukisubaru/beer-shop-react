@@ -1,11 +1,12 @@
 import { createProductForBuy } from "../store/services/basket/reducers/basket.slice";
 import { IBeer } from "../store/services/beers/types/beer.type";
+import { ISnack } from "../store/services/snacks/types/snacks.types";
 import { IProduct, IProductBasket } from "../types/product.types";
 import { useActions } from "./useActions";
 import { useAppSelector } from "./useAppSelector";
 import { useBasket } from "./useBasket";
 
-export const useProductMap = (list: IBeer[]) => {
+export const useProductMap = (list: IBeer[] | ISnack[]) => {
     const basketList = useAppSelector((state) => state.basketReducer.list);
     const { addItem, plusQuantity, plusCountPosition } = useActions();
     const {add, update} = useBasket();  
