@@ -11,13 +11,11 @@ import { useDispatch } from "react-redux";
 
 function App() {
     const {getBasket, getBasketByUser} = useBasket();  
-    const {addUserData} = useActions();
     const dispatch = useDispatch();
 
     useEffect(()=>{
         const userId: any = localStorage.getItem("userId");
         const accessToken: string | null = localStorage.getItem("accessToken");
-        console.log(userId, accessToken)
         if(userId) {
             if(accessToken) {
                 dispatch(getUser(userId));

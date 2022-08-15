@@ -56,10 +56,13 @@ const findItemInBasket = (basket: IProductBasket[], id: number): IProductBasket 
 }
 
 const setStateProductList = (state: any, action: PayloadAction<IBasket>) => {
+    let countPosition = 0;
     const products = action.payload.products;
     state.list = products.map((item) => {
+        countPosition++;
         return createProductForBuy(item, item.BasketProducts.quantity);
     });
+    state.count = countPosition;
 }
 
 export const basketSlice = createSlice({
