@@ -6,7 +6,7 @@ import { useBasket } from "./useBasket";
 export const useBuyProduct = (product: IProductBasket) => {
     const { addItem, setQuantity, plusCountPosition } = useActions();
     const {list} = useAppSelector((state) => state.basketReducer);
-    const {add} = useBasket();    
+    const {add, update} = useBasket();    
 
     const buy = async (quantity:number) => {
         const existInBasket = list.some(
@@ -15,6 +15,7 @@ export const useBuyProduct = (product: IProductBasket) => {
      
         if (!existInBasket) {
             await addItem(product);
+            add(quantity, product.id);
             plusCountPosition();
             if(quantity) {
                await setQuantity({ id: product.id, value: quantity });
@@ -22,10 +23,9 @@ export const useBuyProduct = (product: IProductBasket) => {
         } else {
             if(quantity) {
                 setQuantity({ id: product.id, value: quantity });
+                update(product.id, quantity);
             }
         }
-
-        add(quantity, product.id);
     }
     
     return [buy];

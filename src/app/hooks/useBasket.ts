@@ -27,7 +27,7 @@ export const useBasket = ():IUseBasket => {
             {
                 quantity, 
                 productId, 
-                basketId
+                id: basketId
             }
         ).unwrap();
        
