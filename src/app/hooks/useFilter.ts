@@ -56,8 +56,8 @@ export const useFilter = (): IUseFilter => {
         }
     };
 
-    const fetchSnacks: any = async () => {
-        console.log('fetch snacks');
+    const fetchSnacks: any = async (page:number) => {
+        dispath(getBeerList({ path:'/snacks/',  params: { page, limitPage }}));
     };
 
     return { fetchBeersByFilter, fetchSnacks, fetchBeers };
