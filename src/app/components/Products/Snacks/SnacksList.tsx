@@ -29,16 +29,16 @@ const SnacksList: FC<SnacksListProps> = () => {
 
     return (<>
        {snackList.length > 0 && (
-                <>
-                    <CardList
-                        cardsList={snacks}
-                        fetch={fetchSnacks}
-                        page={page}
-                        scrollList={status == 'resolved' ? true : false}
-                        show={showSnack}
-                    ></CardList>
-                </>
-            )}
+            <>
+                <CardList
+                    cardsList={snacks}
+                    fetch={fetchSnacks}
+                    page={page}
+                    scrollList={status == 'resolved' ? true : false}
+                    show={showSnack}
+                ></CardList>
+            </>
+        )}
     </>);
 }
 

@@ -21,12 +21,12 @@ export const useProductMap = (list: IBeer[] | ISnack[]) => {
                 );
             
                 if (!existInBasket) {
-                    add(1, item.id);
+                    add(1, item.product.id);
                     addItem(product);
                     plusCountPosition();
                 } else {
                     const productBasket: IProductBasket[] = basketList.filter((item) => {return item.id === product.id});
-                    update(item.id, productBasket[0].quantity + 1)
+                    update(item.product.id, productBasket[0].quantity + 1)
                     plusQuantity({ id: item.id, value: 1 });
                 }
             }
