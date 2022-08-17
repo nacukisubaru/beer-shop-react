@@ -62,6 +62,11 @@ const setStateProductList = (state: any, action: PayloadAction<IBasket>) => {
         countPosition++;
         return createProductForBuy(item, item.BasketProducts.quantity);
     });
+
+    state.list = state.list.sort((a:any, b:any)=> {
+        return a.id - b.id;
+    });
+    
     state.count = countPosition;
 }
 
@@ -71,6 +76,9 @@ export const basketSlice = createSlice({
     reducers: {
         addItem: (state, action) => {
             state.list.push(action.payload);
+            state.list = state.list.sort((a:any, b:any)=> {
+                return a.id - b.id;
+            });
         },
         removeItem: (state, action: PayloadAction<{id: number}>) => {
             let itemToRemove: any = {};
