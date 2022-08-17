@@ -9,34 +9,31 @@ import { useBuyProduct } from "../../../hooks/useBuyProduct";
 import { createProductForBuy } from "../../../store/services/basket/reducers/basket.slice";
 
 
-const BeerModal: FC = () => {
-    const { showBeer, beer } = useAppSelector((state) => state.beerReducer);
-    const { openBeer, closeBeer } = useActions();
-    const { title, description, image } = beer.product;
-    const { compound, volume, fortress, ibu } = beer;
+const SnackModal: FC = () => {
+    const { showSnack, snack } = useAppSelector((state) => state.snackReducer);
+    const { openSnack, closeSnack } = useActions();
+    const { title, description, image } = snack.product;
+    const {weight} = snack;
 
-    const createBeerProductForBuy:any = createProductForBuy(beer.product);
+    const createBeerProductForBuy:any = createProductForBuy(snack.product);
     const [buy] = useBuyProduct(createBeerProductForBuy);
 
     const arrayBeer: any = [
-        { key: "Состав", value: compound },
-        { key: "Объём", value: volume },
-        { key: "Крепкость", value: fortress },
-        { key: "Ibu", value: ibu }
+        { key: "Вес", value: weight }
     ];
 
     return (
         <>
             <BasicModal
-                open={showBeer}
-                setOpen={openBeer}
-                setClose={closeBeer}
+                open={showSnack}
+                setOpen={openSnack}
+                setClose={closeSnack}
                 title={title}
                 showOkBtn={false}
                 body={
                     <>
                         <ProductContent
-                            id={beer.productId}
+                            id={snack.productId}
                             image={image}
                             description={description}
                             listInfo={arrayBeer}
@@ -48,4 +45,4 @@ const BeerModal: FC = () => {
     );
 };
 
-export default BeerModal;
+export default SnackModal;

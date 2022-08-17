@@ -37,7 +37,7 @@ export const snackSlice = createSlice({
         getSnack: (state, action: PayloadAction<{id:number}>) => {
             const id = action.payload.id;
             state.snack = state.snackList.filter((item: ISnack) => {
-                if(item.id === id) {
+                if(item.product.id === id) {
                     return item;
                 }
             })[0];

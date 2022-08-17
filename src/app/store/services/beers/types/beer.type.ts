@@ -3,6 +3,7 @@ import { IGrade } from "../../grades/types/grade.type";
 
 export interface IBeer {
     id: number,
+    productId: number,
     compound: string,
     fortress: number,
     ibu: number,
