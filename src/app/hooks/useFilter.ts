@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import { limitPage } from "../http/http.request.config";
 import { getBeerList } from "../store/services/beers/reducers/beer.slice";
+import { getSnackList } from "../store/services/snacks/reducers/snack.slice";
 import { useActions } from "./useActions";
 import { useAppSelector } from "./useAppSelector";
 
@@ -8,6 +9,7 @@ interface IUseFilter {
     fetchBeers: (page: number) => void;
     fetchBeersByFilter: () => void;
     fetchSnacks: () => void;
+    fetchSnacksByFilter: () => void; 
 }
 
 interface IUseGetParams {
@@ -34,7 +36,7 @@ const useGetParams = (): IUseGetParams => {
 
 export const useFilter = (): IUseFilter => {
     const dispath = useDispatch();
-    const { dropBeerList, openModalNotFoundByFilter, resetFilters } = useActions();
+    const { dropBeerList, openModalNotFoundByFilter, resetFilters, dropSnackList } = useActions();
     const params = useGetParams();
     const { grades, brandIds, minPrice, maxPrice } = params;
 
@@ -56,9 +58,23 @@ export const useFilter = (): IUseFilter => {
         }
     };
 
-    const fetchSnacks: any = async (page:number) => {
-        dispath(getBeerList({ path:'/snacks/',  params: { page, limitPage }}));
+    const fetchSnacksByFilter: any = async () => {
+        await dropSnackList();
+        const result = await dispath(getSnackList({ path: '/snacks/getListByFilter/', params }));
+        if (result.error) {
+            dispath(getSnackList({ path: '/snacks/', params: { page: 0, limitPage } }));
+            openModalNotFoundByFilter();
+            resetFilters();
+        }
     };
 
-    return { fetchBeersByFilter, fetchSnacks, fetchBeers };
+    const fetchSnacks: any = async (page:number) => {
+        if (brandIds.length > 0 || (minPrice > 0 && maxPrice > 0)) {
+            dispath(getSnackList({ path: '/snacks/getListByFilter/', params: { ...params, page }}));
+        } else {
+            dispath(getSnackList({ path:'/snacks/',  params: { page, limitPage }}));
+        }
+    };
+
+    return { fetchBeersByFilter, fetchSnacks, fetchBeers, fetchSnacksByFilter };
 }
