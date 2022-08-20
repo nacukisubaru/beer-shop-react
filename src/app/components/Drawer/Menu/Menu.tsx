@@ -11,10 +11,11 @@ import TemporaryDrawer from "../TemporaryDrawer";
 
 interface IMenu {
     callbackApplyFilter: () => void,
-    callbackResetFilter: () => void
+    callbackResetFilter: () => void,
+    filter: {minPrice: number, maxPrice: number}
 }
 
-const Menu: FC<IMenu> = ({callbackApplyFilter, callbackResetFilter}) => {
+const Menu: FC<IMenu> = ({callbackApplyFilter, callbackResetFilter, filter}) => {
     const grades: any = gradeApi.useGradesListQuery(0);
     const brands: any = brandApi.useBrandsListQuery(0);
 
@@ -32,11 +33,9 @@ const Menu: FC<IMenu> = ({callbackApplyFilter, callbackResetFilter}) => {
     const brandsList = useAppSelector(
         (state) => state.filterProductsReducer.brandIds
     );
-    const minPriceDefault = useAppSelector((state) => state.filterProductsReducer.minPriceDefault);
-    const maxPriceDefault = useAppSelector((state) => state.filterProductsReducer.maxPriceDefault);
-
     const minPrice = useAppSelector((state) => state.filterProductsReducer.minPrice);
     const maxPrice = useAppSelector((state) => state.filterProductsReducer.maxPrice);
+
 
     const addBrandFilter = (id: number) => {
         return addBrand({ id });
@@ -85,9 +84,9 @@ const Menu: FC<IMenu> = ({callbackApplyFilter, callbackResetFilter}) => {
             key={"Цена"}
             component={
                 <RangeSliderFilter 
-                    defaultMin={minPriceDefault} 
-                    defaultMax={maxPriceDefault} 
-                    min={minPrice} max={maxPrice} 
+                    defaultMin={filter.minPrice} 
+                    defaultMax={filter.maxPrice} 
+                    min={minPrice} max={maxPrice}
                     setFilterPrice={setMinMaxPrice} 
                 />
             }

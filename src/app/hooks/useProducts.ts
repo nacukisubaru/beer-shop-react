@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { limitPage } from "../http/http.request.config";
 import { getMinAndMaxPrice } from "../store/reducers/filter.products";
-import { getBeerList } from "../store/services/beers/reducers/beer.slice";
-import { getSnackList } from "../store/services/snacks/reducers/snack.slice";
+import { getBeerList, getMinAndMaxPriceBeers } from "../store/services/beers/reducers/beer.slice";
+import { getMinAndMaxPriceSnacks, getSnackList } from "../store/services/snacks/reducers/snack.slice";
 import { useActions } from "./useActions";
 
 export const useBeerList = () => {
@@ -18,7 +18,7 @@ export const useBeerList = () => {
             await dispatch(getBeerList({path: '/beers/', params: {page: 0, limitPage}}));
         }
         beerList();
-        dispatch(getMinAndMaxPrice());
+        dispatch(getMinAndMaxPriceBeers());
     }, []);
 }
 
@@ -36,6 +36,6 @@ export const useSnackList = () => {
         }
 
         snackList();
-        dispatch(getMinAndMaxPrice());
+        dispatch(getMinAndMaxPriceSnacks());
     }, []);
 }

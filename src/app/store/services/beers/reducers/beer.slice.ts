@@ -1,9 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IBeer } from "../types/beer.type";
-import { IQueryBuilder, queryBuilder } from "../../../../helpers/queryHelper";
+import { IQueryBuilder, queryBuilder, thunkAxiosGet } from "../../../../helpers/queryHelper";
 const initialState = {
     beerList:<IBeer[]> [],
     beer:<IBeer> {},
+    minPrice: 0,
+    maxPrice:0,
     page: 0,
     total: 0,
     showBeer: false,
@@ -30,6 +32,13 @@ export const getBeerList:any = createAsyncThunk(
         } catch(error: any) {
             return rejectWithValue(error.message);
         }
+    }
+);
+
+export const getMinAndMaxPriceBeers:any = createAsyncThunk(
+    'prices_beers/fetch',
+    async(_, {rejectWithValue}) => {
+       return thunkAxiosGet('/products/minMaxPrices', {productType: 'beers'}, false, rejectWithValue);
     }
 );
 
@@ -80,6 +89,19 @@ export const beerSlice = createSlice({
             state.status = 'rejected';
             state.error = action.payload;
             state.page = 0;
+        },
+        [getMinAndMaxPriceBeers.pending]: (state) => {
+            state.status = 'loading';
+            state.error = '';
+        },
+        [getMinAndMaxPriceBeers.fulfilled]: (state, action: PayloadAction<{minPrice: number, maxPrice: number}[]>) => {
+            state.status = 'resolved';
+            state.minPrice = action.payload[0].minPrice;
+            state.maxPrice = action.payload[0].maxPrice;
+        },
+        [getMinAndMaxPriceBeers.rejected]: (state,action) => {
+            state.status = 'rejected';
+            state.error = action.payload;
         }
     }
 });

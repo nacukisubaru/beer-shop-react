@@ -17,6 +17,8 @@ export default function Snacks () {
     const { snack, snackList } = useAppSelector(
         (state) => state.snackReducer
     );
+    const minPrice: number = useAppSelector((state) => state.snackReducer.minPrice);
+    const maxPrice: number = useAppSelector((state) => state.snackReducer.maxPrice);
     const {closeFilterMenu, dropSnackList, resetFilters} = useActions();
 
     const handleApplyFilter = () => {
@@ -37,6 +39,7 @@ export default function Snacks () {
             <Menu
                 callbackApplyFilter={handleApplyFilter}
                 callbackResetFilter={handleResetFilter}
+                filter={{minPrice, maxPrice}}
             />
             <SnacksList />
             <ResultNotFoundByFilter />

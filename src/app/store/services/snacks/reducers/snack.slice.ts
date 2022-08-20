@@ -4,6 +4,8 @@ import { ISnack } from "../types/snacks.types";
 const initialState = {
     snackList:<ISnack[]> [],
     snack:<ISnack> {},
+    minPrice: 0,
+    maxPrice: 0,
     page: 0,
     total: 0,
     showSnack: false,
@@ -21,6 +23,13 @@ export const getSnackList:any = createAsyncThunk(
     async(body: IBody, {rejectWithValue}) => {
         const {path, params} = body;
         return thunkAxiosGet(path, params, false, rejectWithValue);
+    }
+);
+
+export const getMinAndMaxPriceSnacks:any = createAsyncThunk(
+    'prices_snacks/fetch',
+    async(_, {rejectWithValue}) => {
+       return thunkAxiosGet('/products/minMaxPrices', {productType: 'snacks'}, false, rejectWithValue);
     }
 );
 
@@ -65,6 +74,19 @@ export const snackSlice = createSlice({
             state.status = 'rejected';
             state.error = action.payload;
             state.page = 0;
+        },
+        [getMinAndMaxPriceSnacks.pending]: (state) => {
+            state.status = 'loading';
+            state.error = '';
+        },
+        [getMinAndMaxPriceSnacks.fulfilled]: (state, action: PayloadAction<{minPrice: number, maxPrice: number}[]>) => {
+            state.status = 'resolved';
+            state.minPrice = action.payload[0].minPrice;
+            state.maxPrice = action.payload[0].maxPrice;
+        },
+        [getMinAndMaxPriceSnacks.rejected]: (state,action) => {
+            state.status = 'rejected';
+            state.error = action.payload;
         }
     }
 });

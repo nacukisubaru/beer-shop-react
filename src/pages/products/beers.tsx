@@ -20,6 +20,9 @@ export default function Beers() {
         (state) => state.beerReducer
     );
 
+    const minPrice:number = useAppSelector((state) => state.beerReducer.minPrice);
+    const maxPrice:number = useAppSelector((state) => state.beerReducer.maxPrice);
+
     const dispath = useDispatch();
 
     const handleApplyFilter = () => {
@@ -40,6 +43,7 @@ export default function Beers() {
             <Menu
                 callbackApplyFilter={handleApplyFilter}
                 callbackResetFilter={handleResetFilter}
+                filter={{minPrice, maxPrice}}
             />
             <BeersList />
             <ResultNotFoundByFilter />

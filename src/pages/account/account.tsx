@@ -16,6 +16,7 @@ export default function Account() {
             <Menu
                callbackApplyFilter={()=>{}} 
                callbackResetFilter={()=>{}}
+               filter={{minPrice: 0, maxPrice: 0}}
             />
             {accountForm.isLoginForm && !isAuth  ? (
                 <LoginContainer />
