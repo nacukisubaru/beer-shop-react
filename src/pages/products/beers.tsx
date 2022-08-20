@@ -12,10 +12,13 @@ import ResultNotFoundByFilter from "../../app/components/Modals/Messages/ResultN
 import BeerModal from "../../app/components/Modals/Products/BeerModal";
 import "../../index.css";
 import { limitPage } from "../../app/http/http.request.config";
+import ItemFilterMenu from "../../app/components/Drawer/Items/ItemFilterMenu";
+import CheckboxFilterList from "../../app/components/Filters/Checkbox/CheckboxFilterList";
+import { gradeApi } from "../../app/store/services/grades/grade.api";
 
 export default function Beers() {
     const { fetchBeersByFilter } = useFilter();
-    const { resetFilters, dropBeerList, closeFilterMenu } = useActions();
+    const { resetFilters, dropBeerList, closeFilterMenu, addGrade } = useActions();
     const { beer, beerList } = useAppSelector(
         (state) => state.beerReducer
     );
@@ -37,13 +40,39 @@ export default function Beers() {
         await dispath(getBeerList({path: '/beers/', params: { page: 0, limitPage }}));
     };
 
+    const grades: any = gradeApi.useGradesListQuery(0);
+    
+    const addGradeFilter = (id: number) => {
+        return addGrade({ id });
+    };
+
+    const gradesList = useAppSelector(
+        (state) => state.filterProductsReducer.grades
+    );
+
     return (
         <div className="page-container">
             <Header />
             <Menu
                 callbackApplyFilter={handleApplyFilter}
                 callbackResetFilter={handleResetFilter}
-                filter={{minPrice, maxPrice}}
+                filter={{minPrice, maxPrice, brandType: 'beers'}}
+                filterList={[
+                    <>         
+                        <ItemFilterMenu
+                            key={"Сорта"}
+                            name="Сорта"
+                            component={
+                                <CheckboxFilterList
+                                    list={grades.data}
+                                    selectedList={gradesList}
+                                    setFilter={addGradeFilter}
+                                />
+                            }
+                        />
+                    </>
+                ]
+                }
             />
             <BeersList />
             <ResultNotFoundByFilter />

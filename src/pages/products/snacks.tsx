@@ -39,7 +39,8 @@ export default function Snacks () {
             <Menu
                 callbackApplyFilter={handleApplyFilter}
                 callbackResetFilter={handleResetFilter}
-                filter={{minPrice, maxPrice}}
+                filter={{minPrice, maxPrice, brandType:'snacks'}}
+                filterList={[]}
             />
             <SnacksList />
             <ResultNotFoundByFilter />

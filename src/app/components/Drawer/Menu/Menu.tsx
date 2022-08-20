@@ -2,7 +2,6 @@ import { FC } from "react";
 import { useActions } from "../../../hooks/useActions";
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import { brandApi } from "../../../store/services/brands/brand.api";
-import { gradeApi } from "../../../store/services/grades/grade.api";
 import CheckboxFilterList from "../../Filters/Checkbox/CheckboxFilterList";
 import RangeSliderFilter from "../../Filters/RangeSlider/RangeSliderFilter";
 import ItemFilterMenu from "../Items/ItemFilterMenu";
@@ -12,23 +11,18 @@ import TemporaryDrawer from "../TemporaryDrawer";
 interface IMenu {
     callbackApplyFilter: () => void,
     callbackResetFilter: () => void,
-    filter: {minPrice: number, maxPrice: number}
+    filterList: any[],
+    filter: {minPrice: number, maxPrice: number, brandType: string}
 }
 
-const Menu: FC<IMenu> = ({callbackApplyFilter, callbackResetFilter, filter}) => {
-    const grades: any = gradeApi.useGradesListQuery(0);
-    const brands: any = brandApi.useBrandsListQuery(0);
-
-    const { closeAllMenues, addBrand, addGrade, setMinPrice, setMaxPrice } = useActions();
-
+const Menu: FC<IMenu> = ({callbackApplyFilter, callbackResetFilter, filter, filterList = []}) => {
+    const brands: any = brandApi.useBrandsListQuery(filter.brandType);
+    const { closeAllMenues, addBrand, setMinPrice, setMaxPrice } = useActions();
     const isFilterMenu = useAppSelector(
         (state) => state.drawerMenuReducer.isFilterMenu
     );
     const isMainMenu = useAppSelector(
         (state) => state.drawerMenuReducer.isMainMenu
-    );
-    const gradesList = useAppSelector(
-        (state) => state.filterProductsReducer.grades
     );
     const brandsList = useAppSelector(
         (state) => state.filterProductsReducer.brandIds
@@ -36,13 +30,8 @@ const Menu: FC<IMenu> = ({callbackApplyFilter, callbackResetFilter, filter}) => 
     const minPrice = useAppSelector((state) => state.filterProductsReducer.minPrice);
     const maxPrice = useAppSelector((state) => state.filterProductsReducer.maxPrice);
 
-
     const addBrandFilter = (id: number) => {
         return addBrand({ id });
-    };
-
-    const addGradeFilter = (id: number) => {
-        return addGrade({ id });
     };
 
     const setMinMaxPrice = (min: number, max: number) => {
@@ -56,17 +45,6 @@ const Menu: FC<IMenu> = ({callbackApplyFilter, callbackResetFilter, filter}) => 
     ];
 
     const arrayFilterList: any = [
-        <ItemFilterMenu
-            key={"Сорта"}
-            name="Сорта"
-            component={
-                <CheckboxFilterList
-                    list={grades.data}
-                    selectedList={gradesList}
-                    setFilter={addGradeFilter}
-                />
-            }
-        />,
         <ItemFilterMenu
             name="Бренд"
             key={"Бренд"}
@@ -96,7 +74,7 @@ const Menu: FC<IMenu> = ({callbackApplyFilter, callbackResetFilter, filter}) => 
     return (
         <TemporaryDrawer
             name={isMainMenu ? "Категории" : "Фильтры"}
-            arrayList={isMainMenu ? arrayMenuList : arrayFilterList}
+            arrayList={isMainMenu ? arrayMenuList : arrayFilterList.concat(filterList)}
             additionalList={[]}
             position={isFilterMenu ? "right" : "left"}
             isOpen={isMainMenu || isFilterMenu ? true : false}
