@@ -8,16 +8,15 @@ import { useBasket } from "./app/hooks/useBasket";
 import { useActions } from "./app/hooks/useActions";
 import { getUser } from "./app/store/services/users/reducers/user.slice";
 import { useDispatch } from "react-redux";
+import Snacks from "./pages/products/snacks";
 
 function App() {
     const {getBasket, getBasketByUser} = useBasket();  
-    const {addUserData} = useActions();
     const dispatch = useDispatch();
 
     useEffect(()=>{
         const userId: any = localStorage.getItem("userId");
         const accessToken: string | null = localStorage.getItem("accessToken");
-        console.log(userId, accessToken)
         if(userId) {
             if(accessToken) {
                 dispatch(getUser(userId));
@@ -34,6 +33,7 @@ function App() {
                 <Routes>
                     <Route path="/account" element={<Account />} />
                     <Route path="/products/beers" element={<Beers />}></Route>
+                    <Route path="/products/snacks" element={<Snacks />}></Route>
                     <Route path="/basket" element={<Basket />}></Route>
                 </Routes>
             </BrowserRouter>

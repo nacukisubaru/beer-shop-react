@@ -1,11 +1,12 @@
 import { createProductForBuy } from "../store/services/basket/reducers/basket.slice";
 import { IBeer } from "../store/services/beers/types/beer.type";
+import { ISnack } from "../store/services/snacks/types/snacks.types";
 import { IProduct, IProductBasket } from "../types/product.types";
 import { useActions } from "./useActions";
 import { useAppSelector } from "./useAppSelector";
 import { useBasket } from "./useBasket";
 
-export const useProductMap = (list: IBeer[]) => {
+export const useProductMap = (list: IBeer[] | ISnack[]) => {
     const basketList = useAppSelector((state) => state.basketReducer.list);
     const { addItem, plusQuantity, plusCountPosition } = useActions();
     const {add, update} = useBasket();  
@@ -20,12 +21,12 @@ export const useProductMap = (list: IBeer[]) => {
                 );
             
                 if (!existInBasket) {
-                    add(1, item.id);
+                    add(1, item.product.id);
                     addItem(product);
                     plusCountPosition();
                 } else {
                     const productBasket: IProductBasket[] = basketList.filter((item) => {return item.id === product.id});
-                    update(item.id, productBasket[0].quantity + 1)
+                    update(item.product.id, productBasket[0].quantity + 1)
                     plusQuantity({ id: item.id, value: 1 });
                 }
             }

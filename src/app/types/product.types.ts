@@ -1,5 +1,4 @@
 import { IBeer, IBeerProduct } from "../store/services/beers/types/beer.type"
-import { ISnacks } from "../store/services/snacks/types/snacks.types"
 
 export interface IProduct {
     id: number,

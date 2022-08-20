@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { getBeerList } from "../../app/store/services/beers/reducers/beer.slice";
 import { useAppSelector } from "../../app/hooks/useAppSelector";
 import { isEmptyObject } from "../../app/helpers/typesHelper";
-import BeersList from "../../app/components/Beers/BeersList";
+import BeersList from "../../app/components/Products/Beers/BeersList";
 import Menu from "../../app/components/Drawer/Menu/Menu";
 import Header from "../../app/components/Header/Header";
 import ResultNotFoundByFilter from "../../app/components/Modals/Messages/ResultNotFoundByFilter";
