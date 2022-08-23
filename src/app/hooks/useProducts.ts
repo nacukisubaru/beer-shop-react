@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { limitPage } from "../http/http.request.config";
 import { getMinAndMaxPrice } from "../store/reducers/filter.products";
-import { getBeerList, getMinAndMaxPriceBeers } from "../store/services/beers/reducers/beer.slice";
+import { getBeerList, getMinAndMaxFortressBeers, getMinAndMaxPriceBeers, getMinAndMaxVolumeBeers } from "../store/services/beers/reducers/beer.slice";
 import { getMinAndMaxPriceSnacks, getSnackList } from "../store/services/snacks/reducers/snack.slice";
 import { useActions } from "./useActions";
 
@@ -19,6 +19,8 @@ export const useBeerList = () => {
         }
         beerList();
         dispatch(getMinAndMaxPriceBeers());
+        dispatch(getMinAndMaxVolumeBeers());
+        dispatch(getMinAndMaxFortressBeers());
     }, []);
 }
 

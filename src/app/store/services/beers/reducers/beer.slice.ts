@@ -6,6 +6,10 @@ const initialState = {
     beer:<IBeer> {},
     minPrice: 0,
     maxPrice:0,
+    minVolume: 0,
+    maxVolume: 0,
+    minFortress: 0,
+    maxFortress: 0,
     page: 0,
     total: 0,
     showBeer: false,
@@ -39,6 +43,20 @@ export const getMinAndMaxPriceBeers:any = createAsyncThunk(
     'prices_beers/fetch',
     async(_, {rejectWithValue}) => {
        return thunkAxiosGet('/products/minMaxPrices', {productType: 'beers'}, false, rejectWithValue);
+    }
+);
+
+export const getMinAndMaxVolumeBeers:any = createAsyncThunk(
+    'volume_beers/fetch',
+    async(_, {rejectWithValue}) => {
+       return thunkAxiosGet('/beers/getMinAndMaxVolume', {}, false, rejectWithValue);
+    }
+);
+
+export const getMinAndMaxFortressBeers:any = createAsyncThunk(
+    'fortress_beers/fetch',
+    async(_, {rejectWithValue}) => {
+       return thunkAxiosGet('/beers/getMinAndMaxFortress', {}, false, rejectWithValue);
     }
 );
 
@@ -100,6 +118,32 @@ export const beerSlice = createSlice({
             state.maxPrice = action.payload[0].maxPrice;
         },
         [getMinAndMaxPriceBeers.rejected]: (state,action) => {
+            state.status = 'rejected';
+            state.error = action.payload;
+        },
+        [getMinAndMaxVolumeBeers.pending]: (state) => {
+            state.status = 'loading';
+            state.error = '';
+        },
+        [getMinAndMaxVolumeBeers.fulfilled]: (state, action: PayloadAction<{minVolume: number, maxVolume: number}[]>) => {
+            state.status = 'resolved';
+            state.minVolume = action.payload[0].minVolume;
+            state.maxVolume = action.payload[0].maxVolume;
+        },
+        [getMinAndMaxVolumeBeers.rejected]: (state,action) => {
+            state.status = 'rejected';
+            state.error = action.payload;
+        },
+        [getMinAndMaxFortressBeers.pending]: (state) => {
+            state.status = 'loading';
+            state.error = '';
+        },
+        [getMinAndMaxFortressBeers.fulfilled]: (state, action: PayloadAction<{minFortress: number, maxFortress: number}[]>) => {
+            state.status = 'resolved';
+            state.minFortress = action.payload[0].minFortress;
+            state.maxFortress = action.payload[0].maxFortress;
+        },
+        [getMinAndMaxFortressBeers.rejected]: (state,action) => {
             state.status = 'rejected';
             state.error = action.payload;
         }
