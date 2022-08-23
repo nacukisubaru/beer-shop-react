@@ -15,18 +15,16 @@ import { limitPage } from "../../app/http/http.request.config";
 import ItemFilterMenu from "../../app/components/Drawer/Items/ItemFilterMenu";
 import CheckboxFilterList from "../../app/components/Filters/Checkbox/CheckboxFilterList";
 import { gradeApi } from "../../app/store/services/grades/grade.api";
+import RangeSliderFilter from "../../app/components/Filters/RangeSlider/RangeSliderFilter";
+import Filters from "../../app/components/Products/Beers/Filters";
 
 export default function Beers() {
+    const dispath = useDispatch();
     const { fetchBeersByFilter } = useFilter();
-    const { resetFilters, dropBeerList, closeFilterMenu, addGrade } = useActions();
-    const { beer, beerList } = useAppSelector(
+    const { resetFilters, dropBeerList, closeFilterMenu} = useActions();
+    const { beer, beerList, minPrice, maxPrice } = useAppSelector(
         (state) => state.beerReducer
     );
-
-    const minPrice:number = useAppSelector((state) => state.beerReducer.minPrice);
-    const maxPrice:number = useAppSelector((state) => state.beerReducer.maxPrice);
-
-    const dispath = useDispatch();
 
     const handleApplyFilter = () => {
         fetchBeersByFilter();
@@ -40,16 +38,6 @@ export default function Beers() {
         await dispath(getBeerList({path: '/beers/', params: { page: 0, limitPage }}));
     };
 
-    const grades: any = gradeApi.useGradesListQuery(0);
-    
-    const addGradeFilter = (id: number) => {
-        return addGrade({ id });
-    };
-
-    const gradesList = useAppSelector(
-        (state) => state.filterProductsReducer.grades
-    );
-
     return (
         <div className="page-container">
             <Header />
@@ -58,21 +46,8 @@ export default function Beers() {
                 callbackResetFilter={handleResetFilter}
                 filter={{minPrice, maxPrice, brandType: 'beers'}}
                 filterList={[
-                    <>         
-                        <ItemFilterMenu
-                            key={"Сорта"}
-                            name="Сорта"
-                            component={
-                                <CheckboxFilterList
-                                    list={grades.data}
-                                    selectedList={gradesList}
-                                    setFilter={addGradeFilter}
-                                />
-                            }
-                        />
-                    </>
-                ]
-                }
+                  <Filters />
+                ]}
             />
             <BeersList />
             <ResultNotFoundByFilter />

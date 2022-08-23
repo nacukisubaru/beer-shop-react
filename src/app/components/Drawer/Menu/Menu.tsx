@@ -65,7 +65,7 @@ const Menu: FC<IMenu> = ({callbackApplyFilter, callbackResetFilter, filter, filt
                     defaultMin={filter.minPrice} 
                     defaultMax={filter.maxPrice} 
                     min={minPrice} max={maxPrice}
-                    setFilterPrice={setMinMaxPrice} 
+                    setFilterValue={setMinMaxPrice} 
                 />
             }
         />

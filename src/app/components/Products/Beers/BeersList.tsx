@@ -6,7 +6,6 @@ import { useFilter } from "../../../hooks/useFilter";
 import { useProductMap } from "../../../hooks/useProductMap";
 import { useBeerList } from "../../../hooks/useProducts";
 import { limitPage } from "../../../http/http.request.config";
-import { getMinAndMaxPrice } from "../../../store/reducers/filter.products";
 import { getBeerList } from "../../../store/services/beers/reducers/beer.slice";
 import CardList from "../../Cards/CardList";
 

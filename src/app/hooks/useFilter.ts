@@ -12,23 +12,31 @@ interface IUseFilter {
     fetchSnacksByFilter: () => void; 
 }
 
-interface IUseGetParams {
-    grades: [],
-    brandIds: [],
-    minPrice: number,
-    maxPrice: number
-}
+const useGetParams = () => {
+    const {grades, brandIds, minPrice, maxPrice, minVolumeVal, maxVolumeVal, minFortressVal, maxFortressVal} = useAppSelector((state) => state.filterProductsReducer);
+    const params: any = {};
 
-const useGetParams = (): IUseGetParams => {
-    const grades = useAppSelector((state) => state.filterProductsReducer.grades);
-    const brandIds = useAppSelector((state) => state.filterProductsReducer.brandIds);
-    const minPrice = useAppSelector((state) => state.filterProductsReducer.minPrice);
-    const maxPrice = useAppSelector((state) => state.filterProductsReducer.maxPrice);
+    if(grades.length > 0) {
+        params.grades = grades;
+    }
 
-    const params: any = { page: 0, limitPage, grades, brandIds };
+    if(brandIds.length > 0) {
+        params.brandIds = brandIds ;
+    }
+
     if (minPrice > 0 && maxPrice > 0) {
         params.minPrice = minPrice;
         params.maxPrice = maxPrice;
+    }
+
+    if(minVolumeVal > 0 && maxVolumeVal > 0) {
+        params.minVolume = minVolumeVal;
+        params.maxVolume = maxVolumeVal;
+    }
+
+    if(minFortressVal > 0 && maxFortressVal > 0) {
+        params.minFortress = minFortressVal;
+        params.maxFortress = maxFortressVal;
     }
 
     return params;
@@ -37,8 +45,9 @@ const useGetParams = (): IUseGetParams => {
 export const useFilter = (): IUseFilter => {
     const dispath = useDispatch();
     const { dropBeerList, openModalNotFoundByFilter, resetFilters, dropSnackList } = useActions();
-    const params = useGetParams();
-    const { grades, brandIds, minPrice, maxPrice } = params;
+    const params: any = useGetParams();
+    params.page = 0;
+    params.limitPage = limitPage;
 
     const fetchBeersByFilter: any = async () => {
         await dropBeerList();
@@ -51,7 +60,7 @@ export const useFilter = (): IUseFilter => {
     };
 
     const fetchBeers: any = async (page: number) => {
-        if (grades.length > 0 || brandIds.length > 0 || (minPrice > 0 && maxPrice > 0)) {
+        if (params !== {}) {
             dispath(getBeerList({ path: '/beers/getListByFilter/', params: { ...params, page } }));
         } else {
             dispath(getBeerList({ path:'/beers/',  params: { page, limitPage } }));
@@ -69,7 +78,7 @@ export const useFilter = (): IUseFilter => {
     };
 
     const fetchSnacks: any = async (page:number) => {
-        if (brandIds.length > 0 || (minPrice > 0 && maxPrice > 0)) {
+        if (params !== {}) {
             dispath(getSnackList({ path: '/snacks/getListByFilter/', params: { ...params, page }}));
         } else {
             dispath(getSnackList({ path:'/snacks/',  params: { page, limitPage }}));
