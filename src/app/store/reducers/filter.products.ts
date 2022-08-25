@@ -10,7 +10,6 @@ export const initialState = {
     maxVolume:<number> 0,
     minFortress:<number> 0,
     maxFortress:<number> 0,
-    modalNotFoundByFilter: false,
 }
 
 const removeItem = (state:any, id:number) => {
@@ -66,12 +65,6 @@ export const filterProductsSlice = createSlice({
             state.brandIds = [];
             state.minPrice = 0;
             state.maxPrice = 0;
-        },
-        openModalNotFoundByFilter: (state) => {
-            state.modalNotFoundByFilter = true;
-        },
-        closeModalNotFoundByFilter: (state) => {
-            state.modalNotFoundByFilter = false;
         }
     }
 });

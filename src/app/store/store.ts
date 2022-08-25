@@ -11,6 +11,7 @@ import { brandApi } from "./services/brands/brand.api";
 import { filterProductsReducer } from "./reducers/filter.products";
 import { snackReducer } from "./services/snacks/reducers/snack.slice";
 import { typePackagingApi } from "./services/type-packaging/type-packaging.api";
+import { notFoundReducer } from "./reducers/notFound.slice";
 
 export const store = configureStore({
     reducer: {
@@ -21,6 +22,7 @@ export const store = configureStore({
         drawerMenuReducer,
         filterProductsReducer,
         snackReducer,
+        notFoundReducer,
         [userApi.reducerPath]: userApi.reducer,
         [gradeApi.reducerPath]: gradeApi.reducer,
         [brandApi.reducerPath]: brandApi.reducer,
