@@ -28,11 +28,7 @@ export const useFilter = (): IUseFilter => {
     };
 
     const fetchBeers: any = async (page: number) => {
-        if (params !== {}) {
-            dispath(getBeerList({ path: '/beers/getListByFilter/', params: { ...params, page, limitPage } }));
-        } else {
-            dispath(getBeerList({ path:'/beers/',  params: { page, limitPage } }));
-        }
+        dispath(getBeerList({ path: '/beers/getListByFilter/', params: { ...params, page, limitPage } }));
     };
 
     const fetchSnacksByFilter: any = async () => {
@@ -46,11 +42,7 @@ export const useFilter = (): IUseFilter => {
     };
 
     const fetchSnacks: any = async (page:number) => {
-        if (params !== {}) {
-            dispath(getSnackList({ path: '/snacks/getListByFilter/', params: { ...params, page, limitPage }}));
-        } else {
-            dispath(getSnackList({ path:'/snacks/',  params: { page, limitPage }}));
-        }
+        dispath(getSnackList({ path: '/snacks/getListByFilter/', params: { ...params, page, limitPage }}));
     };
 
     return { fetchBeersByFilter, fetchSnacks, fetchBeers, fetchSnacksByFilter };

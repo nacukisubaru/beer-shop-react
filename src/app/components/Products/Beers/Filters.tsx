@@ -3,6 +3,7 @@ import { useActions } from "../../../hooks/useActions";
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import { gradeApi } from "../../../store/services/grades/grade.api";
 import ItemFilterMenu from "../../Drawer/Items/ItemFilterMenu";
+import BoolCheckboxFilter from "../../Filters/BoolCheckbox/BoolCheckboxFilter";
 import CheckboxFilterList from "../../Filters/Checkbox/CheckboxFilterList";
 import RangeSliderFilter from "../../Filters/RangeSlider/RangeSliderFilter";
 
@@ -14,12 +15,14 @@ const Filters: FC = () => {
         setMinFortress,
         setMaxFortress,
         addGrade,
+        setFiltered,
+        setBottling
     } = useActions();
 
     const { minVolumeDef, maxVolumeDef, minFortressDef, maxFortressDef } = useAppSelector(
         (state) => state.beerReducer
     );
-    const { minVolume, maxVolume, minFortress, maxFortress } = useAppSelector(
+    const { minVolume, maxVolume, minFortress, maxFortress, forBottling, filtered } = useAppSelector(
         (state) => state.filterProductsReducer
     );
 
@@ -41,8 +44,42 @@ const Filters: FC = () => {
         (state) => state.filterProductsReducer.grades
     );
 
+    const setBeerFilter = (filtered: boolean) => {
+        setFiltered({filtered});
+    }
+
+    const setBeerIsBottling = (forBottling: boolean) => {
+        setBottling({forBottling});
+    }
+
     return (
         <>
+            <ItemFilterMenu 
+                name="Фильтрация"
+                key={"Фильтрация"}
+                component={
+                    <BoolCheckboxFilter 
+                        nameTrue="Фильтрованное"
+                        nameFalse="Не фильтрованное"
+                        setBoolFilter={setBeerFilter}
+                        initialStateTrue={filtered === true ? filtered: false}
+                        initialStateFalse={filtered === false ? true: false}
+                    />
+                }
+            />
+            <ItemFilterMenu 
+                name="Разливное"
+                key={"Разливное"}
+                component={
+                    <BoolCheckboxFilter 
+                        nameTrue="Да"
+                        nameFalse="Нет"
+                        setBoolFilter={setBeerIsBottling}
+                        initialStateTrue={forBottling === true ? forBottling: false}
+                        initialStateFalse={forBottling === false ? true: false}
+                    />
+                }
+            />
             <ItemFilterMenu
                 key={"Сорта"}
                 name="Сорта"

@@ -10,6 +10,8 @@ export const initialState = {
     maxVolume:<number> 0,
     minFortress:<number> 0,
     maxFortress:<number> 0,
+    forBottling:<any> undefined,
+    filtered:<any> undefined 
 }
 
 const removeItem = (state:any, id:number) => {
@@ -60,11 +62,24 @@ export const filterProductsSlice = createSlice({
         setMaxFortress: (state, action: PayloadAction<{maxFortress: number}>) => {
             state.maxFortress = action.payload.maxFortress;
         },
+        setBottling: (state, action: PayloadAction<{forBottling: boolean}>) => {
+            state.forBottling = action.payload.forBottling;
+        },
+        setFiltered: (state, action: PayloadAction<{filtered: boolean}>) => {
+            state.filtered = action.payload.filtered;
+        },
         resetFilters: (state) => {
             state.grades = [];
             state.brandIds = [];
+            state.typesPackagingIds = [];
             state.minPrice = 0;
             state.maxPrice = 0;
+            state.maxVolume = 0;
+            state.minVolume = 0;
+            state.minFortress = 0;
+            state.maxFortress = 0;
+            state.forBottling = undefined;
+            state.filtered = undefined;
         }
     }
 });

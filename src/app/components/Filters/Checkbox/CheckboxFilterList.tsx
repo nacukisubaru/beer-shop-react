@@ -1,9 +1,8 @@
 import React, { FC } from "react";
-import { ICheckboxFilter } from "../../../types/checkbox.filter.types";
 import CheckboxFilter from "./CheckboxFilter";
 
 interface ICheckboxFilterList {
-    list: ICheckboxFilter[];
+    list: {id: number, name:string}[];
     selectedList: number[];
     setFilter: (id:number) => void;
 }
