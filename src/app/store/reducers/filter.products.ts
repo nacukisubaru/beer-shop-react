@@ -1,5 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { queryBuilder } from "../../helpers/queryHelper";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 export const initialState = {
     grades:<number[]> [],
@@ -7,13 +6,11 @@ export const initialState = {
     typesPackagingIds:<number[]> [],
     minPrice:<number> 0,
     maxPrice:<number> 0,
-    minVolumeVal:<number> 0,
-    maxVolumeVal:<number> 0,
-    minFortressVal:<number> 0,
-    maxFortressVal:<number> 0,
+    minVolume:<number> 0,
+    maxVolume:<number> 0,
+    minFortress:<number> 0,
+    maxFortress:<number> 0,
     modalNotFoundByFilter: false,
-    status: '',
-    error: ''
 }
 
 const removeItem = (state:any, id:number) => {
@@ -53,16 +50,16 @@ export const filterProductsSlice = createSlice({
             state.maxPrice = action.payload.price;
         },
         setMinVolume: (state, action: PayloadAction<{minVolume: number}>) => {
-            state.minVolumeVal = action.payload.minVolume;
+            state.minVolume = action.payload.minVolume;
         },
         setMaxVolume: (state, action: PayloadAction<{maxVolume: number}>) => {
-            state.maxVolumeVal = action.payload.maxVolume;
+            state.maxVolume = action.payload.maxVolume;
         },
         setMinFortress: (state, action: PayloadAction<{minFortress: number}>) => {
-            state.minFortressVal = action.payload.minFortress;
+            state.minFortress = action.payload.minFortress;
         },
         setMaxFortress: (state, action: PayloadAction<{maxFortress: number}>) => {
-            state.maxFortressVal = action.payload.maxFortress;
+            state.maxFortress = action.payload.maxFortress;
         },
         resetFilters: (state) => {
             state.grades = [];

@@ -1,15 +1,15 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IBeer } from "../types/beer.type";
-import { IQueryBuilder, queryBuilder, thunkAxiosGet } from "../../../../helpers/queryHelper";
+import { queryBuilder, thunkAxiosGet } from "../../../../helpers/queryHelper";
 const initialState = {
     beerList:<IBeer[]> [],
     beer:<IBeer> {},
     minPrice: 0,
     maxPrice:0,
-    minVolume: 0,
-    maxVolume: 0,
-    minFortress: 0,
-    maxFortress: 0,
+    minVolumeDef: 0,
+    maxVolumeDef: 0,
+    minFortressDef: 0,
+    maxFortressDef: 0,
     page: 0,
     total: 0,
     showBeer: false,
@@ -73,7 +73,7 @@ export const beerSlice = createSlice({
         getBeer: (state, action: PayloadAction<{id:number}>) => {
             const id = action.payload.id;
             state.beer = state.beerList.filter((item: IBeer) => {
-                if(item.id === id) {
+                if(item.productId === id) {
                     return item;
                 }
             })[0];
@@ -84,12 +84,6 @@ export const beerSlice = createSlice({
         closeBeer: (state) => {
             state.showBeer = false;
         }
-        // addBeers: (state, action) => {
-        //     state.beerList = state.beerList.concat(action.payload);
-        // },
-        // setBeerPage: (state) => {
-        //     state.page = state.page +1;
-        // }, 
     },
     extraReducers: {
         [getBeerList.pending]: (state) => {
@@ -127,8 +121,8 @@ export const beerSlice = createSlice({
         },
         [getMinAndMaxVolumeBeers.fulfilled]: (state, action: PayloadAction<{minVolume: number, maxVolume: number}[]>) => {
             state.status = 'resolved';
-            state.minVolume = action.payload[0].minVolume;
-            state.maxVolume = action.payload[0].maxVolume;
+            state.minVolumeDef = action.payload[0].minVolume;
+            state.maxVolumeDef = action.payload[0].maxVolume;
         },
         [getMinAndMaxVolumeBeers.rejected]: (state,action) => {
             state.status = 'rejected';
@@ -140,8 +134,8 @@ export const beerSlice = createSlice({
         },
         [getMinAndMaxFortressBeers.fulfilled]: (state, action: PayloadAction<{minFortress: number, maxFortress: number}[]>) => {
             state.status = 'resolved';
-            state.minFortress = action.payload[0].minFortress;
-            state.maxFortress = action.payload[0].maxFortress;
+            state.minFortressDef = action.payload[0].minFortress;
+            state.maxFortressDef = action.payload[0].maxFortress;
         },
         [getMinAndMaxFortressBeers.rejected]: (state,action) => {
             state.status = 'rejected';

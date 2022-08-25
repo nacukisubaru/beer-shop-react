@@ -12,46 +12,14 @@ interface IUseFilter {
     fetchSnacksByFilter: () => void; 
 }
 
-const useGetParams = () => {
-    const {grades, brandIds, minPrice, maxPrice, minVolumeVal, maxVolumeVal, minFortressVal, maxFortressVal} = useAppSelector((state) => state.filterProductsReducer);
-    const params: any = {};
-
-    if(grades.length > 0) {
-        params.grades = grades;
-    }
-
-    if(brandIds.length > 0) {
-        params.brandIds = brandIds ;
-    }
-
-    if (minPrice > 0 && maxPrice > 0) {
-        params.minPrice = minPrice;
-        params.maxPrice = maxPrice;
-    }
-
-    if(minVolumeVal > 0 && maxVolumeVal > 0) {
-        params.minVolume = minVolumeVal;
-        params.maxVolume = maxVolumeVal;
-    }
-
-    if(minFortressVal > 0 && maxFortressVal > 0) {
-        params.minFortress = minFortressVal;
-        params.maxFortress = maxFortressVal;
-    }
-
-    return params;
-}
-
 export const useFilter = (): IUseFilter => {
     const dispath = useDispatch();
     const { dropBeerList, openModalNotFoundByFilter, resetFilters, dropSnackList } = useActions();
-    const params: any = useGetParams();
-    params.page = 0;
-    params.limitPage = limitPage;
+    const params: any = useAppSelector((state) => state.filterProductsReducer);
 
     const fetchBeersByFilter: any = async () => {
         await dropBeerList();
-        const result = await dispath(getBeerList({ path: '/beers/getListByFilter/', params }));
+        const result = await dispath(getBeerList({ path: '/beers/getListByFilter/', params:{...params, page:0, limitPage} }));
         if (result.error) {
             dispath(getBeerList({ path: '/beers/', params: { page: 0, limitPage } }));
             openModalNotFoundByFilter();
@@ -61,7 +29,7 @@ export const useFilter = (): IUseFilter => {
 
     const fetchBeers: any = async (page: number) => {
         if (params !== {}) {
-            dispath(getBeerList({ path: '/beers/getListByFilter/', params: { ...params, page } }));
+            dispath(getBeerList({ path: '/beers/getListByFilter/', params: { ...params, page, limitPage } }));
         } else {
             dispath(getBeerList({ path:'/beers/',  params: { page, limitPage } }));
         }
@@ -69,7 +37,7 @@ export const useFilter = (): IUseFilter => {
 
     const fetchSnacksByFilter: any = async () => {
         await dropSnackList();
-        const result = await dispath(getSnackList({ path: '/snacks/getListByFilter/', params }));
+        const result = await dispath(getSnackList({ path: '/snacks/getListByFilter/', params:{...params, page:0, limitPage} }));
         if (result.error) {
             dispath(getSnackList({ path: '/snacks/', params: { page: 0, limitPage } }));
             openModalNotFoundByFilter();
@@ -79,7 +47,7 @@ export const useFilter = (): IUseFilter => {
 
     const fetchSnacks: any = async (page:number) => {
         if (params !== {}) {
-            dispath(getSnackList({ path: '/snacks/getListByFilter/', params: { ...params, page }}));
+            dispath(getSnackList({ path: '/snacks/getListByFilter/', params: { ...params, page, limitPage }}));
         } else {
             dispath(getSnackList({ path:'/snacks/',  params: { page, limitPage }}));
         }

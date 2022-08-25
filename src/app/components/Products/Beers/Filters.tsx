@@ -16,10 +16,10 @@ const Filters: FC = () => {
         addGrade,
     } = useActions();
 
-    const { minVolume, maxVolume, minFortress, maxFortress } = useAppSelector(
+    const { minVolumeDef, maxVolumeDef, minFortressDef, maxFortressDef } = useAppSelector(
         (state) => state.beerReducer
     );
-    const { minVolumeVal, maxVolumeVal, minFortressVal, maxFortressVal } = useAppSelector(
+    const { minVolume, maxVolume, minFortress, maxFortress } = useAppSelector(
         (state) => state.filterProductsReducer
     );
 
@@ -59,10 +59,10 @@ const Filters: FC = () => {
                 key={"Объем"}
                 component={
                     <RangeSliderFilter
-                        defaultMin={minVolume}
-                        defaultMax={maxVolume}
-                        min={minVolumeVal}
-                        max={maxVolumeVal}
+                        defaultMin={minVolumeDef}
+                        defaultMax={maxVolumeDef}
+                        min={minVolume}
+                        max={maxVolume}
                         setFilterValue={setMinMaxVolume}
                     />
                 }
@@ -72,10 +72,10 @@ const Filters: FC = () => {
                 key={"Крепкость"}
                 component={
                     <RangeSliderFilter 
-                        defaultMin={minFortress}
-                        defaultMax={maxFortress}
-                        min={minFortressVal}
-                        max={maxFortressVal}
+                        defaultMin={minFortressDef}
+                        defaultMax={maxFortressDef}
+                        min={minFortress}
+                        max={maxFortress}
                         setFilterValue={setMinMaxFortress}
                     />
                 }
