@@ -4,6 +4,7 @@ import { queryBuilder } from "../../helpers/queryHelper";
 export const initialState = {
     grades:<number[]> [],
     brandIds:<number[]> [],
+    typesPackagingIds:<number[]> [],
     minPrice:<number> 0,
     maxPrice:<number> 0,
     minVolumeVal:<number> 0,
@@ -39,6 +40,11 @@ export const filterProductsSlice = createSlice({
             const id = action.payload.id;
             const result = removeItem(state.brandIds, id);
             result ? state.brandIds = result : state.brandIds.push(id);
+        },
+        addTypePackaging: (state, action: PayloadAction<{id:number}>) => {
+            const id = action.payload.id;
+            const result = removeItem(state.typesPackagingIds, id);
+            result ? state.typesPackagingIds = result : state.typesPackagingIds.push(id);
         },
         setMinPrice: (state, action: PayloadAction<{price:number}>) => {
             state.minPrice = action.payload.price;

@@ -9,7 +9,7 @@ export default function Basket() {
         <>
             <div className="page-container">
                 <Header />
-                <Menu callbackApplyFilter={()=>{}} callbackResetFilter={()=>{}} filter={{minPrice: 0, maxPrice: 0, brandType: ''}} filterList={[]}/>
+                <Menu callbackApplyFilter={()=>{}} callbackResetFilter={()=>{}} filter={{minPrice: 0, maxPrice: 0, productType: ''}} filterList={[]}/>
                 <BasketContainer />
             </div>
         </>

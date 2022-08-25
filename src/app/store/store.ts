@@ -10,6 +10,7 @@ import { gradeApi } from "./services/grades/grade.api";
 import { brandApi } from "./services/brands/brand.api";
 import { filterProductsReducer } from "./reducers/filter.products";
 import { snackReducer } from "./services/snacks/reducers/snack.slice";
+import { typePackagingApi } from "./services/type-packaging/type-packaging.api";
 
 export const store = configureStore({
     reducer: {
@@ -22,7 +23,8 @@ export const store = configureStore({
         snackReducer,
         [userApi.reducerPath]: userApi.reducer,
         [gradeApi.reducerPath]: gradeApi.reducer,
-        [brandApi.reducerPath]: brandApi.reducer
+        [brandApi.reducerPath]: brandApi.reducer,
+        [typePackagingApi.reducerPath]: typePackagingApi.reducer
         // [beerApi.reducerPath]: beerApi.reducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false})

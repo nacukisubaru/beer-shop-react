@@ -44,7 +44,7 @@ export default function Beers() {
             <Menu
                 callbackApplyFilter={handleApplyFilter}
                 callbackResetFilter={handleResetFilter}
-                filter={{minPrice, maxPrice, brandType: 'beers'}}
+                filter={{minPrice, maxPrice, productType: 'beers'}}
                 filterList={[
                   <Filters />
                 ]}

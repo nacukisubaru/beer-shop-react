@@ -2,6 +2,7 @@ import { FC } from "react";
 import { useActions } from "../../../hooks/useActions";
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import { brandApi } from "../../../store/services/brands/brand.api";
+import { typePackagingApi } from "../../../store/services/type-packaging/type-packaging.api";
 import CheckboxFilterList from "../../Filters/Checkbox/CheckboxFilterList";
 import RangeSliderFilter from "../../Filters/RangeSlider/RangeSliderFilter";
 import ItemFilterMenu from "../Items/ItemFilterMenu";
@@ -12,26 +13,31 @@ interface IMenu {
     callbackApplyFilter: () => void,
     callbackResetFilter: () => void,
     filterList: any[],
-    filter: {minPrice: number, maxPrice: number, brandType: string}
+    filter: {minPrice: number, maxPrice: number, productType: string}
 }
 
 const Menu: FC<IMenu> = ({callbackApplyFilter, callbackResetFilter, filter, filterList = []}) => {
-    const brands: any = brandApi.useBrandsListQuery(filter.brandType);
-    const { closeAllMenues, addBrand, setMinPrice, setMaxPrice } = useActions();
-    const isFilterMenu = useAppSelector(
-        (state) => state.drawerMenuReducer.isFilterMenu
+    const brands: any = brandApi.useBrandsListQuery(filter.productType);
+    const typesPackaging: any = typePackagingApi.useTypesPackagingListQuery(filter.productType);
+
+    const { closeAllMenues, addBrand, addTypePackaging, setMinPrice, setMaxPrice } = useActions();
+    const {isFilterMenu, isMainMenu} = useAppSelector(
+        (state) => state.drawerMenuReducer
     );
-    const isMainMenu = useAppSelector(
-        (state) => state.drawerMenuReducer.isMainMenu
+
+    const {typesPackagingIds, brandIds } = useAppSelector(
+        (state) => state.filterProductsReducer
     );
-    const brandsList = useAppSelector(
-        (state) => state.filterProductsReducer.brandIds
-    );
+
     const minPrice = useAppSelector((state) => state.filterProductsReducer.minPrice);
     const maxPrice = useAppSelector((state) => state.filterProductsReducer.maxPrice);
 
     const addBrandFilter = (id: number) => {
         return addBrand({ id });
+    };
+
+    const addPackagingFilter = (id: number) => {
+        return addTypePackaging({id});
     };
 
     const setMinMaxPrice = (min: number, max: number) => {
@@ -51,8 +57,20 @@ const Menu: FC<IMenu> = ({callbackApplyFilter, callbackResetFilter, filter, filt
             component={
                 <CheckboxFilterList
                     list={brands.data}
-                    selectedList={brandsList}
+                    selectedList={brandIds}
                     setFilter={addBrandFilter}
+                />
+            }
+        />,
+
+        <ItemFilterMenu
+            name="Вид упаковки"
+            key={"Вид упаковки"}
+            component={
+                <CheckboxFilterList
+                    list={typesPackaging.data}
+                    selectedList={typesPackagingIds}
+                    setFilter={addPackagingFilter}
                 />
             }
         />,
