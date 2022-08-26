@@ -1,6 +1,8 @@
 .wrapper-header {
     display: flex;
     justify-content: space-evenly;
+    margin-left: 100px;
+    margin-right: 100px;
 }
 
 .contacts {
@@ -40,5 +42,77 @@
   and (orientation: portrait) { 
     .contacts {
         display: none;
+    }
+}
+
+@media screen and (max-width: 385px) and (min-width: 383px) {
+    .contacts {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 642px) and (min-width: 640px){
+    .contacts {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 321px) and (min-width: 319px) {
+    .contacts {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 481px) and (min-width: 479px){
+    .contacts {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 500px) and (max-width: 720px){
+    .wrapper-header {
+        margin-left: unset;
+        margin-right: unset;
+    }
+}
+
+@media screen and (min-width: 200px) and (max-width: 653px){
+    .contacts {
+        display: none;
+    }
+}
+
+@media only screen 
+  and (min-device-width: 800px) 
+  and (max-device-width: 1280px) 
+  and (-webkit-min-device-pixel-ratio: 1.5) 
+  and (orientation: portrait) {
+    .wrapper-header {
+        margin-left: unset;
+        margin-right: unset;
+    }
+}
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+  and (-webkit-min-device-pixel-ratio: 1) {
+    .wrapper-header {
+        margin-left: unset;
+        margin-right: unset;
+    }
+}
+
+/* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 568px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+    .wrapper-header {
+        margin-left: unset;
+        margin-right: unset;
     }
 }

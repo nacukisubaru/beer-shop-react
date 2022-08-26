@@ -14,7 +14,7 @@
 
 .basket-element {
     padding: 10px;
-    width: 150px;
+    width: 195px;
 }
 
 .product-info-wrapper {
@@ -42,6 +42,9 @@
 .wrapper-basket-list {
     display: flex;
     justify-content: center;
+    /* margin-right: 330px; */
+    margin-right: 585px;
+    margin-left: 250px;
 }
 
 .container-basket-list {
@@ -81,5 +84,223 @@
 
     .container-basket-list {
         margin: 0;
+    }
+
+    .basket-element {
+        width: 150px;
+    }
+
+    .wrapper-basket-list {
+        margin-right: unset;
+        margin-left: unset;
+    }
+}
+
+
+@media screen and (max-width: 385px) and (min-width: 383px) {
+    .basket-total-card {
+        display: none;
+    }
+
+    .container-basket-list {
+        margin: 0;
+    }
+
+    .basket-element {
+        width: 150px;
+    }
+
+    .wrapper-basket-list {
+        margin-right: unset;
+        margin-left: unset;
+    }
+}
+
+@media screen and (max-width: 642px) and (min-width: 640px){
+    .basket-total-card {
+        display: none;
+    }
+
+    .container-basket-list {
+        margin: 0;
+    }
+
+    .basket-element {
+        width: 150px;
+    }
+
+    .wrapper-basket-list {
+        margin-right: unset;
+        margin-left: unset;
+    }
+}
+
+@media screen and (max-width: 321px) and (min-width: 319px) {
+    .basket-total-card {
+        display: none;
+    }
+
+    .container-basket-list {
+        margin: 0;
+    }
+
+    .basket-element {
+        width: 150px;
+    }
+
+    .wrapper-basket-list {
+        margin-right: unset;
+        margin-left: unset;
+    }
+}
+
+@media screen and (max-width: 481px) and (min-width: 479px){
+    .basket-total-card {
+        display: none;
+    }
+
+    .container-basket-list {
+        margin: 0;
+    }
+
+    .basket-element {
+        width: 150px;
+    }
+
+    .wrapper-basket-list {
+        margin-right: unset;
+        margin-left: unset;
+    }
+}
+
+@media screen and (min-width: 500px) and (max-width: 720px){
+    .basket-total-card {
+        display: none;
+    }
+
+    .container-basket-list {
+        margin: 0;
+    }
+
+    .basket-element {
+        width: 150px;
+    }
+
+    .wrapper-basket-list {
+        margin-right: unset;
+        margin-left: unset;
+    }
+}
+
+@media screen and (min-width: 200px) and (max-width: 653px){
+    .basket-total-card {
+        display: none;
+    }
+
+    .container-basket-list {
+        margin: 0;
+    }
+
+    .basket-element {
+        width: 150px;
+    }
+
+    .wrapper-basket-list {
+        margin-right: unset;
+        margin-left: unset;
+    }
+}
+
+@media only screen 
+  and (min-device-width: 800px) 
+  and (max-device-width: 1280px) 
+  and (-webkit-min-device-pixel-ratio: 1.5) 
+  and (orientation: portrait) {
+    .basket-total-card {
+        display: none;
+    }
+
+    .container-basket-list {
+        margin: 0;
+    }
+
+    .basket-element {
+        width: 150px;
+    }
+
+    .wrapper-basket-list {
+        margin-right: unset;
+        margin-left: unset;
+    }
+}
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+  and (-webkit-min-device-pixel-ratio: 1) {
+    .basket-total-card {
+        display: none;
+    }
+
+    .container-basket-list {
+        margin: 0;
+    }
+
+    .basket-element {
+        width: 150px;
+    }
+
+    .wrapper-basket-list {
+        margin-right: unset;
+        margin-left: unset;
+    }
+}
+
+/* Portrait and Landscape */
+@media 
+  (min-device-width: 800px) 
+  and (max-device-width: 1280px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+    .basket-total-card {
+        display: none;
+    }
+
+    .container-basket-list {
+        margin: 0;
+    }
+
+    .basket-element {
+        width: 150px;
+    }
+
+    .wrapper-basket-list {
+        margin-right: unset;
+        margin-left: unset;
+    }
+}
+
+/* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 568px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+    .basket-total-card {
+        display: none;
+    }
+
+    .container-basket-list {
+        margin: 0;
+    }
+
+    .basket-element {
+        width: 150px;
+    }
+
+    .wrapper-basket-list {
+        margin-right: unset;
+        margin-left: unset;
     }
 }
