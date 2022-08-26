@@ -17,10 +17,9 @@
 }
 
 .nav-element-burger {
-    margin-right: '34px';
-    padding-top: '23px';
     padding-top: 20px;
     padding-right: 13px;
+    margin-top: 7px;
 }
 
 .wrapper-icons {
@@ -34,6 +33,12 @@
     color: unset;
 }
 
+.logo {
+    height: 88px; 
+    width: 121px;
+    margin-bottom: 9px;
+}
+
 /* Portrait */
 @media only screen 
   and (min-device-width: 375px) 
@@ -43,11 +48,17 @@
     .contacts {
         display: none;
     }
+    .logo {
+        width: 92px;
+    }
 }
 
 @media screen and (max-width: 385px) and (min-width: 383px) {
     .contacts {
         display: none;
+    }
+    .logo {
+        width: 92px;
     }
 }
 
@@ -55,17 +66,29 @@
     .contacts {
         display: none;
     }
+
+    .logo {
+        width: 92px;
+    }
 }
 
 @media screen and (max-width: 321px) and (min-width: 319px) {
     .contacts {
         display: none;
     }
+
+    .logo {
+        width: 92px;
+    }
 }
 
 @media screen and (max-width: 481px) and (min-width: 479px){
     .contacts {
         display: none;
+    }
+
+    .logo {
+        width: 92px;
     }
 }
 
@@ -79,6 +102,10 @@
 @media screen and (min-width: 200px) and (max-width: 653px){
     .contacts {
         display: none;
+    }
+
+    .logo {
+        width: 92px;
     }
 }
 
@@ -114,5 +141,23 @@
     .wrapper-header {
         margin-left: unset;
         margin-right: unset;
+    }
+
+    .vk-icon {
+        display: none;
+    }
+}
+
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 533px)
+ {
+    .wrapper-header {
+        margin-left: unset;
+        margin-right: unset;
+    }
+
+    .vk-icon {
+        display: none;
     }
 }

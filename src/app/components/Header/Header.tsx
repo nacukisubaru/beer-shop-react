@@ -43,7 +43,8 @@ const Header: FC = () => {
                             </div>
                             <div>
                                 <Box 
-                                    style={{ backgroundSize: "contain", height: '88px', width: '121px' }}
+                                    className="logo"
+                                    style={{ backgroundSize: "contain"}}
                                     sx={{ background: `url(${logo}) center center no-repeat` }} 
                                 >
                                 </Box>
@@ -58,14 +59,12 @@ const Header: FC = () => {
                             <div>ул. Братьев Луканиных, 7, Калуга</div>
                         </div>
                         <div className="wrapper-icons">
-                            <a href="https://vk.com/id474817801" target="blank">
+                            <a className="vk-icon" href="https://vk.com/id474817801" target="blank">
                                 <Box 
                                     style={{ backgroundSize: "contain", height: '36px', width: '37px' }}
                                     sx={{ background: `url(${vkIcon}) center center no-repeat` }} 
                                 />
                             </a>
-                        </div>
-                        <div className="wrapper-icons">
                             <div>
                                 <IconButton>
                                     <RoomIcon style={{height: '30px', width: '30px'}}/>
