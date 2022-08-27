@@ -62,7 +62,7 @@ const BasketCard: FC<IBasketCard> = ({id, index, title, price, quantity, image, 
                                 <Typography
                                     variant="body2"
                                     style={{
-                                        fontSize: "12px",
+                                        fontSize: "13px",
                                         marginBottom: "10px",
                                     }}
                                 >
