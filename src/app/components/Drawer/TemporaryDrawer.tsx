@@ -83,8 +83,8 @@ const TemporaryDrawer: FC<IDrawer> = ({
                     {showApplyBtn && (
                         <div className="container-apply-btn">
                             <div className="wrap-apply-btn">
-                                <Button onClick={callbackResetBtn}>Cбросить</Button>
-                                <Button onClick={callbackApplyBtn}>Применить</Button>
+                                <Button variant="outlined" onClick={callbackResetBtn} style={{marginRight: '5px'}}>Cбросить</Button>
+                                <Button variant="contained" onClick={callbackApplyBtn}>Применить</Button>
                             </div>
                         </div>
                     )}

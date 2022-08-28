@@ -56,8 +56,7 @@ const CardSmall: FC<ICardSmall> = ({ id, title, description, price, image, buy, 
                         className="card__button"
                         variant="contained"
                         style={{ 
-                            width: "279px", 
-                            background: "#896043",
+                            width: "279px",
                             marginBottom: '5px',
                             height: '30px'
                         }}
@@ -70,7 +69,6 @@ const CardSmall: FC<ICardSmall> = ({ id, title, description, price, image, buy, 
                         variant="contained"
                         style={{ 
                             width: "279px", 
-                            background: "#896043",
                             height: '30px'
                         }}
                         onClick={handleShow}

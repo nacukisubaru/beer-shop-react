@@ -56,7 +56,7 @@ const Header: FC = () => {
                                     <PhonelinkRingIcon /> +7 920 899 77 72
                                 </div>
                             </a>
-                            <div>ул. Братьев Луканиных, 7, Калуга</div>
+                            <div><a className="phone-link" href="https://2gis.ru/kaluga/firm/70000001036699976" target="blank">ул. Братьев Луканиных, 7, Калуга</a></div>
                         </div>
                         <div className="wrapper-icons">
                             <a className="vk-icon" href="https://vk.com/id474817801" target="blank">

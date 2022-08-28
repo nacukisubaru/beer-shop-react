@@ -8,4 +8,5 @@
 .wrap-apply-btn {
     display: flex; 
     align-items: flex-end;
+    margin-bottom: 17px;
 }
