@@ -69,13 +69,13 @@ const ProductContent: FC<IProductContent> = ({id, listInfo, description, image, 
                         }}
                     ></Box>
         
-                    <div className="basket-quantity">
+                    <div className="quantity">
                         <RemoveCircleOutlineIcon onClick={handlerMinusQuan}/>
                             <div>{quantity}</div>
                         <AddCircleOutlineIcon  onClick={handlerPlusQuan}/>
                     </div>
                     <div className="buy-btn">
-                        <Button onClick={handleBuy}>купить</Button>
+                        <Button variant="outlined" style={{width:'200px'}} onClick={handleBuy}>купить</Button>
                     </div>
                 </div>
                

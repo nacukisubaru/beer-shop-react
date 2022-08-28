@@ -11,24 +11,34 @@ const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
         top: 13,
         border: `2px solid ${theme.palette.background.paper}`,
         padding: "0 4px",
-        backgroundColor: '#B05326'
+        backgroundColor: "#B05326",
+        fontWeight: "bold"
     },
 }));
 
 interface ICartBadge {
-    quantity: number
+    quantity: number;
 }
 
-const CartBadge:FC<ICartBadge> = ({quantity}) => {
+const CartBadge: FC<ICartBadge> = ({ quantity }) => {
     return (
         <Link to="/basket">
-        <IconButton aria-label="cart">
-            <StyledBadge badgeContent={quantity} color="secondary" style={{height: '30px', width: '30px'}}>
-                <ShoppingCartIcon style={{height: '30px', width: '30px'}}/>
-            </StyledBadge>
-        </IconButton>
+            <IconButton aria-label="cart">
+                <StyledBadge
+                    badgeContent={quantity}
+                    color="secondary"
+                    style={{
+                        height: "30px",
+                        width: "30px"
+                    }}
+                >
+                    <ShoppingCartIcon
+                        style={{ height: "30px", width: "30px" }}
+                    />
+                </StyledBadge>
+            </IconButton>
         </Link>
     );
-}
+};
 
 export default CartBadge;

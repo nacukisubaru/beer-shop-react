@@ -6,11 +6,13 @@ import {
     DialogContentText,
     DialogTitle,
     IconButton,
+    Typography,
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import "./css/style.css";
 import { Close } from "@mui/icons-material";
+import { fontWeight } from "@mui/system";
 
 interface IBasicModal {
     open: boolean;
@@ -41,7 +43,7 @@ const BasicModal: FC<IBasicModal> = ({
             >
                 { title && (
                     <DialogTitle id="alert-dialog-title">
-                      {title}
+                       <Typography style={{fontWeight: 'bold', fontSize: '20px'}}>{title}</Typography> 
                     </DialogTitle>
                 )}
                 <Box position="absolute" top={0} right={0}>

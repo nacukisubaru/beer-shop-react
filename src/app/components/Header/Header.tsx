@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { IconButton } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import { useActions } from "../../hooks/useActions";
 import { Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
@@ -53,10 +53,14 @@ const Header: FC = () => {
                         <div className="contacts">
                             <a className="phone-link" href="tel:+7 920 899 77 72">
                                 <div className="wrapper-icons">
-                                    <PhonelinkRingIcon /> +7 920 899 77 72
+                                <PhonelinkRingIcon /><Typography> +7 920 899 77 72 </Typography>
                                 </div>
                             </a>
-                            <div><a className="phone-link" href="https://2gis.ru/kaluga/firm/70000001036699976" target="blank">ул. Братьев Луканиных, 7, Калуга</a></div>
+                            <div>
+                                <Typography>
+                                    <a className="phone-link" href="https://2gis.ru/kaluga/firm/70000001036699976" target="blank">ул. Братьев Луканиных, 7, Калуга</a>
+                                </Typography>
+                            </div>
                         </div>
                         <div className="wrapper-icons">
                             <a className="vk-icon" href="https://vk.com/id474817801" target="blank">

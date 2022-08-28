@@ -34,7 +34,19 @@ function App() {
             primary: {
                 main: '#b05326'
             }
-        }
+        },
+        typography: {
+            fontFamily: [
+                'Montserrat',
+                'sans-serif',
+                '"Helvetica Neue"',
+                'Arial',
+                'sans-serif'
+            ].join(','),
+            button: {
+                fontWeight: 'bold'
+            }
+        },
     });
 
     return (

@@ -28,4 +28,11 @@
 .buy-btn {
     display: flex;
     justify-content: center;
+    margin-bottom: 15px;
+}
+
+.quantity {
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 15px;
 }
