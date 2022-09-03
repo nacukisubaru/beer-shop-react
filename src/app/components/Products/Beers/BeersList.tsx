@@ -5,6 +5,7 @@ import { useAppSelector } from "../../../hooks/useAppSelector";
 import { useFilter } from "../../../hooks/useFilter";
 import { useProductMap } from "../../../hooks/useProductMap";
 import { useBeerList } from "../../../hooks/useProducts";
+import { beerApi } from "../../../store/services/beers/beer.api";
 import CardList from "../../Cards/CardList";
 import SortPanel from "../../SortPanel/SortPanel";
 
@@ -15,8 +16,9 @@ const BeersList: FC<BeersListProps> = () => {
         (state) => state.beerReducer
     );
     const { getBeer, openBeer } = useActions();
-    const {beerList} = useAppSelector((state) => state.beerReducer);
-    const beers = useProductMap(beerList);
+    const {beerList, beer} = useAppSelector((state) => state.beerReducer);
+    const beers = useProductMap(beerList, true);
+    const [addShowBeer] = beerApi.useAddShowBeerMutation();
 
     const {fetchBeers, fetchBeersWithSort} = useFilter();
     useBeerList();
@@ -24,6 +26,7 @@ const BeersList: FC<BeersListProps> = () => {
     const showBeer = (id: number) => {
         getBeer({id});
         openBeer();
+        addShowBeer(id);
     }
 
     return (
@@ -31,7 +34,6 @@ const BeersList: FC<BeersListProps> = () => {
          <SortPanel fetchData={fetchBeersWithSort}></SortPanel>
             {beerList.length > 0 && (
                 <>
-                   
                     <CardList
                         cardsList={beers}
                         fetch={fetchBeers}

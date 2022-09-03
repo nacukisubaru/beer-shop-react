@@ -22,7 +22,7 @@ const SortPanel:FC<ISortPanel> = ({fetchData}) => {
                 />
                 <Sort
                     name="Популярности" 
-                    fieldOrder="popular"
+                    fieldOrder="show"
                     action={fetchData}
                     orderValue="DESC"
                 />

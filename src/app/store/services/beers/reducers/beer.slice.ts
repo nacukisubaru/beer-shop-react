@@ -79,7 +79,6 @@ export const beerSlice = createSlice({
                     return item;
                 }
             })[0];
-         
         },
         openBeer: (state) => {
             state.showBeer = true;
