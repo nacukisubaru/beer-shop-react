@@ -8,37 +8,39 @@ import { useSnackList } from "../../../hooks/useProducts";
 import { limitPage } from "../../../http/http.request.config";
 import { getSnackList } from "../../../store/services/snacks/reducers/snack.slice";
 import CardList from "../../Cards/CardList";
+import SortPanel from "../../SortPanel/SortPanel";
 
 interface SnacksListProps {}
 
 const SnacksList: FC<SnacksListProps> = () => {
-    const { page, status } = useAppSelector(
-        (state) => state.snackReducer
-    );
-    const {snackList} = useAppSelector((state) => state.snackReducer);
-    const {getSnack, openSnack} = useActions();
+    const { page, status } = useAppSelector((state) => state.snackReducer);
+    const { snackList } = useAppSelector((state) => state.snackReducer);
+    const { getSnack, openSnack } = useActions();
     const snacks = useProductMap(snackList);
-    const {fetchSnacks} = useFilter();
+    const { fetchSnacks, fetchSnacksWithSort } = useFilter();
     useSnackList();
 
     const showSnack = (id: number) => {
-        getSnack({id});
+        getSnack({ id });
         openSnack();
-    }
+    };
 
-    return (<>
-       {snackList.length > 0 && (
-            <>
-                <CardList
-                    cardsList={snacks}
-                    fetch={fetchSnacks}
-                    page={page}
-                    scrollList={status == 'resolved' ? true : false}
-                    show={showSnack}
-                ></CardList>
-            </>
-        )}
-    </>);
-}
+    return (
+        <>
+            <SortPanel fetchData={fetchSnacksWithSort}></SortPanel>
+            {snackList.length > 0 && (
+                <>
+                    <CardList
+                        cardsList={snacks}
+                        fetch={fetchSnacks}
+                        page={page}
+                        scrollList={status == "resolved" ? true : false}
+                        show={showSnack}
+                    ></CardList>
+                </>
+            )}
+        </>
+    );
+};
 
 export default SnacksList;

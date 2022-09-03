@@ -5,9 +5,8 @@ import { useAppSelector } from "../../../hooks/useAppSelector";
 import { useFilter } from "../../../hooks/useFilter";
 import { useProductMap } from "../../../hooks/useProductMap";
 import { useBeerList } from "../../../hooks/useProducts";
-import { limitPage } from "../../../http/http.request.config";
-import { getBeerList } from "../../../store/services/beers/reducers/beer.slice";
 import CardList from "../../Cards/CardList";
+import SortPanel from "../../SortPanel/SortPanel";
 
 interface BeersListProps {}
 
@@ -19,7 +18,7 @@ const BeersList: FC<BeersListProps> = () => {
     const {beerList} = useAppSelector((state) => state.beerReducer);
     const beers = useProductMap(beerList);
 
-    const {fetchBeers} = useFilter();
+    const {fetchBeers, fetchBeersWithSort} = useFilter();
     useBeerList();
 
     const showBeer = (id: number) => {
@@ -29,8 +28,10 @@ const BeersList: FC<BeersListProps> = () => {
 
     return (
         <>
+         <SortPanel fetchData={fetchBeersWithSort}></SortPanel>
             {beerList.length > 0 && (
                 <>
+                   
                     <CardList
                         cardsList={beers}
                         fetch={fetchBeers}

@@ -33,6 +33,11 @@ function App() {
         palette: {
             primary: {
                 main: '#b05326'
+            },
+            text: {
+                primary: '#000000',
+                secondary: '#757575',
+                
             }
         },
         typography: {
@@ -43,6 +48,7 @@ function App() {
                 'Arial',
                 'sans-serif'
             ].join(','),
+            
             button: {
                 fontWeight: 'bold'
             }

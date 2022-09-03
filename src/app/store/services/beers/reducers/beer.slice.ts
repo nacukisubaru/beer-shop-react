@@ -72,16 +72,21 @@ export const beerSlice = createSlice({
         },
         getBeer: (state, action: PayloadAction<{id:number}>) => {
             const id = action.payload.id;
+            console.log(state.beerList);
             state.beer = state.beerList.filter((item: IBeer) => {
                 if(item.productId === id) {
+                    console.log(item.productId);
                     return item;
                 }
             })[0];
+         
         },
         openBeer: (state) => {
             state.showBeer = true;
+            console.log(state);
         },
         closeBeer: (state) => {
+            console.log(state);
             state.showBeer = false;
         }
     },

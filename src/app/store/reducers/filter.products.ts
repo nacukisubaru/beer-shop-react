@@ -11,7 +11,8 @@ export const initialState = {
     minFortress:<number> 0,
     maxFortress:<number> 0,
     forBottling:<any> undefined,
-    filtered:<any> undefined 
+    filtered:<any> undefined,
+    sort: ['price', 'ASC']
 }
 
 const removeItem = (state:any, id:number) => {
@@ -67,6 +68,9 @@ export const filterProductsSlice = createSlice({
         },
         setFiltered: (state, action: PayloadAction<{filtered: boolean}>) => {
             state.filtered = action.payload.filtered;
+        },
+        setSort: (state, action: PayloadAction<{field: string, value: string}>) => {
+            state.sort = [action.payload.field, action.payload.value];
         },
         resetFilters: (state) => {
             state.grades = [];
