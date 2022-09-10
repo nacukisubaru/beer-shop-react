@@ -6,23 +6,24 @@ import { useAppSelector } from "../../hooks/useAppSelector";
 import "./style.css";
 
 interface IInputSearch {
-    search: (q: string, sort: string[]) => void,
-    reset: () => void
+    search: (q: string, sort: string[]) => void;
+    reset: () => void;
 }
 
 const InputSearch: FC<IInputSearch> = ({ search, reset }) => {
     const { setSearch } = useActions();
-    const {q, sort} = useAppSelector((state) => state.filterProductsReducer);
+    const { q, sort } = useAppSelector((state) => state.filterProductsReducer);
     const ref = useRef();
 
-    const handleSearch = async () => {
+    const handleSearch = async (e: any) => {
+        e.preventDefault();
         const input: any = ref.current;
         const q = input.value;
         if (q) {
             await setSearch({ q });
             const data: any = await search(q, sort);
             if (!data) {
-                await setSearch({q: ''});
+                await setSearch({ q: "" });
                 input.value = "";
             }
         }
@@ -30,14 +31,14 @@ const InputSearch: FC<IInputSearch> = ({ search, reset }) => {
 
     const handleReset = () => {
         const input: any = ref.current;
-        if(input.value === "") {
-            setSearch({q: ''});
+        if (input.value === "") {
+            setSearch({ q: "" });
             reset();
         }
-    }
+    };
 
     useEffect(() => {
-        if(q === '') {
+        if (q === "") {
             const input: any = ref.current;
             input.value = "";
         }
@@ -45,27 +46,33 @@ const InputSearch: FC<IInputSearch> = ({ search, reset }) => {
 
     return (
         <>
-            <Box
-                sx={{
-                    "& .MuiOutlinedInput-root": {
-                        borderTopRightRadius: "0px",
-                        borderBottomRightRadius: "0px",
-                    },
-                }}
-                className="search-wrapper"
-            >
-                <TextField inputRef={ref} onChange={handleReset} fullWidth />
-                <Button
-                    variant="contained"
-                    style={{
-                        borderTopLeftRadius: "0px",
-                        borderBottomLeftRadius: "0px",
+            <form onSubmit={handleSearch}>
+                <Box
+                    sx={{
+                        "& .MuiOutlinedInput-root": {
+                            borderTopRightRadius: "0px",
+                            borderBottomRightRadius: "0px",
+                        },
                     }}
-                    onClick={handleSearch}
+                    className="search-wrapper"
                 >
-                    <Search />
-                </Button>
-            </Box>
+                    <TextField
+                        inputRef={ref}
+                        onChange={handleReset}
+                        fullWidth
+                    />
+                    <Button
+                        variant="contained"
+                        style={{
+                            borderTopLeftRadius: "0px",
+                            borderBottomLeftRadius: "0px",
+                        }}
+                        type="submit"
+                    >
+                        <Search />
+                    </Button>
+                </Box>
+            </form>
         </>
     );
 };

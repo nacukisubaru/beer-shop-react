@@ -1,6 +1,7 @@
 .search-wrapper {
     margin-left: auto;
     margin-right: auto;
+    margin-top: 25px;
     width: 40%;
     display: flex;
     justify-content: center;
