@@ -16,6 +16,10 @@ interface IUseFilter {
     beersSearchByName: () => void;
     resetListAndFetchBeers: () => void;
     fetchBeersBySearchWithSort: () => void;
+    fetchSnacksBySearch: () => void;
+    fetchSnacksBySearchWithSort: () => void;
+    snacksSearchByName: () => void;
+    resetListAndFetchSnacks: () => void;
 }
 
 export const useFilter = (): IUseFilter => {
@@ -99,6 +103,32 @@ export const useFilter = (): IUseFilter => {
         fetchSnacks(0, sort);
     }
 
+    const fetchSnacksBySearch: any = (page: number) => {
+        dispath(getSnackList({path: '/snacks/search/', params: { q: params.q, sort: params.sort, page, limitPage }}));
+    }
+
+    const fetchSnacksBySearchWithSort: any = async (sort: string[]) => {
+        await dropSnackList();
+        dispath(getSnackList({path: '/snacks/search/', params: { q: params.q, sort, page: 0, limitPage }}));
+    }
+
+    const snacksSearchByName: any = async (q: string, sort: string[]) => {
+        await dropSnackList();
+        resetFilters();
+        const result = await dispath(getSnackList({path: '/snacks/search/', params: { q, sort, page: 0, limitPage }}));
+        if (result.error) {
+            dispath(getSnackList({ path: '/snacks/', params: { page: 0, limitPage } }));
+            openModalNotFoundByFilter();
+            return false;
+        }
+        return true;
+    }
+
+    const resetListAndFetchSnacks: any = async() => {
+        await dropSnackList();
+        fetchSnacks(0, []);
+    }
+
     return { 
         fetchBeersByFilter, 
         fetchSnacks, 
@@ -109,6 +139,10 @@ export const useFilter = (): IUseFilter => {
         fetchBeersBySearch,
         beersSearchByName,
         resetListAndFetchBeers,
-        fetchBeersBySearchWithSort
+        fetchBeersBySearchWithSort,
+        fetchSnacksBySearch,
+        fetchSnacksBySearchWithSort,
+        snacksSearchByName,
+        resetListAndFetchSnacks
     };
 }

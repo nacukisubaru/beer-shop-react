@@ -9,6 +9,7 @@ import { limitPage } from "../../../http/http.request.config";
 import { getSnackList } from "../../../store/services/snacks/reducers/snack.slice";
 import { snackApi } from "../../../store/services/snacks/snack.api";
 import CardList from "../../Cards/CardList";
+import InputSearch from "../../Search/InputSearch";
 import SortPanel from "../../SortPanel/SortPanel";
 
 interface SnacksListProps {}
@@ -16,9 +17,10 @@ interface SnacksListProps {}
 const SnacksList: FC<SnacksListProps> = () => {
     const { page, status } = useAppSelector((state) => state.snackReducer);
     const { snackList, snack } = useAppSelector((state) => state.snackReducer);
+    const {q} = useAppSelector((state) => state.filterProductsReducer);
     const { getSnack, openSnack } = useActions();
     const snacks = useProductMap(snackList, false);
-    const { fetchSnacks, fetchSnacksWithSort } = useFilter();
+    const { fetchSnacks, fetchSnacksWithSort, snacksSearchByName, resetListAndFetchSnacks, fetchSnacksBySearch, fetchSnacksBySearchWithSort } = useFilter();
     const [addShowSnack] = snackApi.useAddShowSnackMutation();
     useSnackList();
 
@@ -30,12 +32,13 @@ const SnacksList: FC<SnacksListProps> = () => {
 
     return (
         <>
-            <SortPanel fetchData={fetchSnacksWithSort}></SortPanel>
+            <InputSearch search={snacksSearchByName} reset={resetListAndFetchSnacks} />
+            <SortPanel fetchData={q ? fetchSnacksBySearchWithSort : fetchSnacksWithSort}></SortPanel>
             {snackList.length > 0 && (
                 <>
                     <CardList
                         cardsList={snacks}
-                        fetch={fetchSnacks}
+                        fetch={q ? fetchSnacksBySearch: fetchSnacks}
                         page={page}
                         scrollList={status == "resolved" ? true : false}
                         show={showSnack}

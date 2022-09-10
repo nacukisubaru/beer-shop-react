@@ -19,7 +19,7 @@ export default function Snacks () {
     );
     const minPrice: number = useAppSelector((state) => state.snackReducer.minPrice);
     const maxPrice: number = useAppSelector((state) => state.snackReducer.maxPrice);
-    const {closeFilterMenu, dropSnackList, resetFilters} = useActions();
+    const {closeFilterMenu, dropSnackList, resetFilters, setSearch} = useActions();
 
     const handleApplyFilter = () => {
         fetchSnacksByFilter();
@@ -28,6 +28,7 @@ export default function Snacks () {
 
     const handleResetFilter = async () => {
         closeFilterMenu();
+        await setSearch({q:''});
         await resetFilters();
         await dropSnackList();
         await dispatch(getSnackList({path: '/snacks/', params: { page: 0, limitPage }}));
