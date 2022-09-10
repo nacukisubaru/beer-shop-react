@@ -65,6 +65,7 @@ export const useFilter = (): IUseFilter => {
 
     const beersSearchByName: any = async (q: string, sort: string[]) => {
         await dropBeerList();
+        resetFilters();
         const result = await dispath(getBeerList({path: '/beers/search/', params: { q, sort, page: 0, limitPage }}));
         if (result.error) {
             dispath(getBeerList({ path: '/beers/', params: { page: 0, limitPage } }));
