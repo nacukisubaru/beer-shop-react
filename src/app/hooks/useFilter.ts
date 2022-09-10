@@ -6,22 +6,27 @@ import { useActions } from "./useActions";
 import { useAppSelector } from "./useAppSelector";
 
 interface IUseFilter {
-    fetchBeers: (page: number) => void;
+    fetchBeers: () => void;
     fetchBeersByFilter: () => void;
     fetchSnacks: () => void;
     fetchSnacksByFilter: () => void;
     fetchBeersWithSort: () => void;
     fetchSnacksWithSort: () => void;
+    fetchBeersBySearch: () => void;
+    beersSearchByName: () => void;
+    resetListAndFetchBeers: () => void;
+    fetchBeersBySearchWithSort: () => void;
 }
 
 export const useFilter = (): IUseFilter => {
     const dispath = useDispatch();
-    const { dropBeerList, openModalNotFoundByFilter, resetFilters, dropSnackList, resetBeerPage, resetSnackPage } = useActions();
+    const { dropBeerList, openModalNotFoundByFilter, resetFilters, dropSnackList, resetBeerPage, resetSnackPage, setSearch} = useActions();
     const params: any = useAppSelector((state) => state.filterProductsReducer);
 
     const fetchBeersByFilter: any = async () => {
         await dropBeerList();
         const result = await dispath(getBeerList({ path: '/beers/getListByFilter/', params: { ...params, page: 0, limitPage } }));
+        setSearch({q:''});
         if (result.error) {
             dispath(getBeerList({ path: '/beers/', params: { page: 0, limitPage } }));
             openModalNotFoundByFilter();
@@ -34,13 +39,39 @@ export const useFilter = (): IUseFilter => {
         if (sort.length > 0) {
             obj.sort = sort;
         }
+
         dispath(getBeerList({ path: '/beers/getListByFilter/', params: obj }));
     };
+
+    const resetListAndFetchBeers: any = async() => {
+        await dropBeerList();
+        fetchBeers(0, []);
+    }
 
     const fetchBeersWithSort: any = async (sort: string[]) => {
         await resetBeerPage();
         await dropBeerList();
         fetchBeers(0, sort);
+    }
+
+    const fetchBeersBySearch: any = (page: number) => {
+        dispath(getBeerList({path: '/beers/search/', params: { q: params.q, sort: params.sort, page, limitPage }}));
+    }
+
+    const fetchBeersBySearchWithSort: any = async (sort: string[]) => {
+        await dropBeerList();
+        dispath(getBeerList({path: '/beers/search/', params: { q: params.q, sort, page: 0, limitPage }}));
+    }
+
+    const beersSearchByName: any = async (q: string, sort: string[]) => {
+        await dropBeerList();
+        const result = await dispath(getBeerList({path: '/beers/search/', params: { q, sort, page: 0, limitPage }}));
+        if (result.error) {
+            dispath(getBeerList({ path: '/beers/', params: { page: 0, limitPage } }));
+            openModalNotFoundByFilter();
+            return false;
+        }
+        return true;
     }
 
     const fetchSnacksByFilter: any = async () => {
@@ -67,5 +98,16 @@ export const useFilter = (): IUseFilter => {
         fetchSnacks(0, sort);
     }
 
-    return { fetchBeersByFilter, fetchSnacks, fetchBeers, fetchSnacksByFilter, fetchBeersWithSort, fetchSnacksWithSort };
+    return { 
+        fetchBeersByFilter, 
+        fetchSnacks, 
+        fetchBeers, 
+        fetchSnacksByFilter, 
+        fetchBeersWithSort, 
+        fetchSnacksWithSort, 
+        fetchBeersBySearch,
+        beersSearchByName,
+        resetListAndFetchBeers,
+        fetchBeersBySearchWithSort
+    };
 }
