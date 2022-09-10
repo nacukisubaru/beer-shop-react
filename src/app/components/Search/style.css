@@ -6,3 +6,50 @@
     display: flex;
     justify-content: center;
 }
+
+/* Portrait */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 667px) 
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) { 
+   .search-wrapper {
+        width: 80%;
+   }
+}
+
+@media screen and (max-width: 385px) and (min-width: 383px) {
+    .search-wrapper {
+        width: 80%;
+   }
+}
+
+@media screen and (max-width: 642px) and (min-width: 640px){
+    .search-wrapper {
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 321px) and (min-width: 319px) {
+    .search-wrapper {
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 481px) and (min-width: 479px){
+    .search-wrapper {
+        width: 80%;
+    }
+}
+
+@media screen and (min-width: 500px) and (max-width: 720px){
+    .search-wrapper {
+        width: 80%;
+    }
+}
+
+@media screen and (min-width: 200px) and (max-width: 653px){
+    .search-wrapper {
+        width: 80%;
+    }
+}

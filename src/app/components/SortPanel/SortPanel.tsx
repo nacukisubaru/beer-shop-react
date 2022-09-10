@@ -10,7 +10,7 @@ interface ISortPanel {
 const SortPanel:FC<ISortPanel> = ({fetchData}) => {
     return (
         <>
-            <div className="sort-panel-wrapper">
+            <div className="sort-panel-wrapper sort-desktop">
                 <Typography variant="body1" color='text.secondary' style={{marginRight: '18px'}}>
                     Сортировать по:
                 </Typography>
