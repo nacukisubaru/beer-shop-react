@@ -1,0 +1,109 @@
+.sort-panel-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.sort-element {
+    margin-right: 18px;
+}
+
+.sort-active {
+    color: #b05326;
+    border-bottom: 1px dashed #b05326;
+    cursor: pointer;
+}
+
+.sort-deactive {
+    color: black;
+    border-bottom: 1px dashed black;
+    cursor: pointer;
+}
+
+.sort-mobile {
+    display: none;
+}
+
+/* Portrait */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 667px) 
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) { 
+   .sort-desktop {
+        display: none;
+   }
+   .sort-mobile {
+        display: block;
+   }
+}
+
+/* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 568px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+    .sort-desktop {
+        display: none;
+    }
+    .sort-mobile {
+        display: block;
+   }
+}
+
+@media screen and (max-width: 385px) and (min-width: 383px) {
+    .sort-desktop {
+        display: none;
+    }
+    .sort-mobile {
+        display: block;
+   }
+}
+
+@media screen and (max-width: 642px) and (min-width: 640px){
+    .sort-desktop {
+        display: none;
+    }
+    .sort-mobile {
+        display: block;
+   }
+}
+
+@media screen and (max-width: 321px) and (min-width: 319px) {
+    .sort-desktop {
+        display: none;
+    }
+    .sort-mobile {
+        display: block;
+    }
+}
+
+@media screen and (max-width: 481px) and (min-width: 479px){
+    .sort-desktop {
+        display: none;
+    }
+    .sort-mobile {
+        display: block;
+    }
+}
+
+@media screen and (min-width: 500px) and (max-width: 720px){
+    .sort-desktop {
+        display: none;
+    }
+    .sort-mobile {
+        display: block;
+    }
+}
+
+@media screen and (min-width: 200px) and (max-width: 653px){
+    .sort-desktop {
+        display: none;
+    }
+    .sort-mobile {
+        display: block;
+    }
+}

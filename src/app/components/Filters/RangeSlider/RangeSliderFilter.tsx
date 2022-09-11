@@ -11,10 +11,10 @@ interface IRangeSliderFilter {
     defaultMax: number,
     min: number,
     max: number,
-    setFilterPrice: (min: number, max: number) => void
+    setFilterValue: (min: number, max: number) => void
 }
 
-const RangeSliderFilter:FC<IRangeSliderFilter> = ({defaultMin, defaultMax, min, max, setFilterPrice}) => {
+const RangeSliderFilter:FC<IRangeSliderFilter> = ({defaultMin, defaultMax, min, max, setFilterValue}) => {
     const stateMin = min ? min : defaultMin;
     const stateMax = max ? max : defaultMax;
     const [value, setValue] = React.useState<number[]>([stateMin, stateMax]);
@@ -24,7 +24,7 @@ const RangeSliderFilter:FC<IRangeSliderFilter> = ({defaultMin, defaultMax, min, 
     };
 
     const handleSetPrice = () => {
-        setFilterPrice(value[0], value[1]);
+        setFilterValue(value[0], value[1]);
     }
 
     return (

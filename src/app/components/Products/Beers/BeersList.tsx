@@ -5,38 +5,41 @@ import { useAppSelector } from "../../../hooks/useAppSelector";
 import { useFilter } from "../../../hooks/useFilter";
 import { useProductMap } from "../../../hooks/useProductMap";
 import { useBeerList } from "../../../hooks/useProducts";
-import { limitPage } from "../../../http/http.request.config";
-import { getMinAndMaxPrice } from "../../../store/reducers/filter.products";
-import { getBeerList } from "../../../store/services/beers/reducers/beer.slice";
+import { beerApi } from "../../../store/services/beers/beer.api";
 import CardList from "../../Cards/CardList";
+import InputSearch from "../../Search/InputSearch";
+import SortPanel from "../../SortPanel/SortPanel";
 
 interface BeersListProps {}
 
 const BeersList: FC<BeersListProps> = () => {
-    const { page, status } = useAppSelector(
-        (state) => state.beerReducer
-    );
+    const { page, status } = useAppSelector((state) => state.beerReducer);
     const { getBeer, openBeer } = useActions();
-    const {beerList} = useAppSelector((state) => state.beerReducer);
-    const beers = useProductMap(beerList);
+    const { beerList, beer } = useAppSelector((state) => state.beerReducer);
+    const {q} = useAppSelector((state) => state.filterProductsReducer);
+    const beers = useProductMap(beerList, true);
+    const [addShowBeer] = beerApi.useAddShowBeerMutation();
 
-    const {fetchBeers} = useFilter();
+    const { fetchBeers, fetchBeersWithSort, fetchBeersBySearch, beersSearchByName, resetListAndFetchBeers, fetchBeersBySearchWithSort } = useFilter();
     useBeerList();
 
     const showBeer = (id: number) => {
-        getBeer({id});
+        getBeer({ id });
         openBeer();
-    }
+        addShowBeer(id);
+    };
 
     return (
         <>
+            <InputSearch search={beersSearchByName} reset={resetListAndFetchBeers} />
+            <SortPanel fetchData={q ? fetchBeersBySearchWithSort : fetchBeersWithSort} />
             {beerList.length > 0 && (
                 <>
                     <CardList
                         cardsList={beers}
-                        fetch={fetchBeers}
+                        fetch={q ? fetchBeersBySearch: fetchBeers}
                         page={page}
-                        scrollList={status == 'resolved' ? true : false}
+                        scrollList={status == "resolved" ? true : false}
                         show={showBeer}
                     ></CardList>
                 </>

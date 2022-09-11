@@ -50,10 +50,11 @@ const BasketCard: FC<IBasketCard> = ({id, index, title, price, quantity, image, 
                         </div>
                         <div className="basket-element product-info-wrapper">
                             <Typography
-                                variant="body2"
+                                variant="h4"
                                 style={{
-                                    fontSize: "15px",
+                                    fontSize: "17px",
                                     marginBottom: "10px",
+                                    fontWeight: 'bold'
                                 }}
                             >
                                 {title}
@@ -62,7 +63,7 @@ const BasketCard: FC<IBasketCard> = ({id, index, title, price, quantity, image, 
                                 <Typography
                                     variant="body2"
                                     style={{
-                                        fontSize: "12px",
+                                        fontSize: "15px",
                                         marginBottom: "10px",
                                     }}
                                 >

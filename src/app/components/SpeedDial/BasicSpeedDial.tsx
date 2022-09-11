@@ -1,16 +1,15 @@
-
 import Box from "@mui/material/Box";
 import SpeedDial from "@mui/material/SpeedDial";
 import SpeedDialAction from "@mui/material/SpeedDialAction";
-import MenuBookIcon from '@mui/icons-material/MenuBook';
+import MenuBookIcon from "@mui/icons-material/MenuBook";
 import React, { FC } from "react";
 import { IAction } from "../../types/action.deal.types";
 
 interface ISpeedDeal {
-    actions: IAction[]
+    actions: IAction[];
 }
 
-const BasicSpeedDial:FC<ISpeedDeal> = ({actions}) => {
+const BasicSpeedDial: FC<ISpeedDeal> = ({ actions }) => {
     return (
         <Box
             sx={{
@@ -19,13 +18,17 @@ const BasicSpeedDial:FC<ISpeedDeal> = ({actions}) => {
                 position: "fixed",
                 bottom: "1px",
                 marginLeft: "25px",
-                background: "#896043",
+                background: "#B05326",
             }}
         >
-
             <SpeedDial
                 ariaLabel="SpeedDial basic example"
-                sx={{ position: "absolute", bottom: 16, right: 16, '& .MuiFab-primary': { backgroundColor: '#896043', color: 'white' } }}
+                sx={{
+                    position: "absolute",
+                    bottom: 16,
+                    right: 16,
+                   
+                }}
                 icon={<MenuBookIcon />}
             >
                 {actions.map((action) => (
@@ -39,6 +42,6 @@ const BasicSpeedDial:FC<ISpeedDeal> = ({actions}) => {
             </SpeedDial>
         </Box>
     );
-}
+};
 
 export default BasicSpeedDial;

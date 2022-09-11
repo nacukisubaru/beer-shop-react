@@ -12,14 +12,16 @@ import { createProductForBuy } from "../../../store/services/basket/reducers/bas
 const SnackModal: FC = () => {
     const { showSnack, snack } = useAppSelector((state) => state.snackReducer);
     const { openSnack, closeSnack } = useActions();
-    const { title, description, image } = snack.product;
+    const { title, description, image, brandName, typePackagingName } = snack.product;
     const {weight} = snack;
 
     const createBeerProductForBuy:any = createProductForBuy(snack.product);
     const [buy] = useBuyProduct(createBeerProductForBuy);
 
     const arrayBeer: any = [
-        { key: "Вес", value: weight }
+        { key: "Вес", value: weight },
+        { key: "Бренд", value: brandName },
+        { key: "Вид упаковки", value: typePackagingName },
     ];
 
     return (

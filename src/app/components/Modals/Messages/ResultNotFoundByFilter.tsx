@@ -7,7 +7,7 @@ import BasicModal from "../BasicModal";
 const ResultNotFoundByFilter: FC = () => {
     const { openModalNotFoundByFilter, closeModalNotFoundByFilter } = useActions();
     const isOpen = useAppSelector(
-        (state) => state.filterProductsReducer.modalNotFoundByFilter
+        (state) => state.notFoundReducer.modalNotFoundByFilter
     );
 
     return (

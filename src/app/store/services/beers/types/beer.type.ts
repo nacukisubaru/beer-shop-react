@@ -8,6 +8,8 @@ export interface IBeer {
     fortress: number,
     ibu: number,
     volume: number,
+    forBottling: boolean,
+    filtered: boolean,
     grades: IGrade[],
     product: IProduct
 }

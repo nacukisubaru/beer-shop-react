@@ -7,6 +7,7 @@ import { beerActions } from "../store/services/beers/reducers/beer.slice";
 import { drawerMenuActions } from "../store/reducers/drawer.menu.slice";
 import { filterProductsActions } from "../store/reducers/filter.products";
 import { snackActions } from "../store/services/snacks/reducers/snack.slice";
+import { notFoundActions } from "../store/reducers/notFound.slice";
 
 const allActions = {
     ...userActions,
@@ -15,7 +16,8 @@ const allActions = {
     ...beerActions,
     ...drawerMenuActions,
     ...filterProductsActions,
-    ...snackActions
+    ...snackActions,
+    ...notFoundActions
 }
 
 export const useActions = () => {

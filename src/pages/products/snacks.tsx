@@ -17,7 +17,9 @@ export default function Snacks () {
     const { snack, snackList } = useAppSelector(
         (state) => state.snackReducer
     );
-    const {closeFilterMenu, dropSnackList, resetFilters} = useActions();
+    const minPrice: number = useAppSelector((state) => state.snackReducer.minPrice);
+    const maxPrice: number = useAppSelector((state) => state.snackReducer.maxPrice);
+    const {closeFilterMenu, dropSnackList, resetFilters, setSearch} = useActions();
 
     const handleApplyFilter = () => {
         fetchSnacksByFilter();
@@ -26,6 +28,7 @@ export default function Snacks () {
 
     const handleResetFilter = async () => {
         closeFilterMenu();
+        await setSearch({q:''});
         await resetFilters();
         await dropSnackList();
         await dispatch(getSnackList({path: '/snacks/', params: { page: 0, limitPage }}));
@@ -37,6 +40,8 @@ export default function Snacks () {
             <Menu
                 callbackApplyFilter={handleApplyFilter}
                 callbackResetFilter={handleResetFilter}
+                filter={{minPrice, maxPrice, productType:'snacks'}}
+                filterList={[]}
             />
             <SnacksList />
             <ResultNotFoundByFilter />
