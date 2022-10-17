@@ -8,7 +8,7 @@ import {
 import React, { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ILogin } from "../../store/services/users/types/auth.types";
-import AccessibleTabs from "../Tabs/AccessibleTabs";
+import InputMask from "react-input-mask";
 
 interface RegistrationViewProps {
     registrate: (post: ILogin) => void;
@@ -19,9 +19,10 @@ interface RegistrationViewProps {
 
 const RegistrationView: FC<RegistrationViewProps> = ({registrate, error}) => {
     const [passwordsEquals, setEqualsPasswords] = useState(true);
-
+    const [phoneInput, setPhoneInput] = useState("");
     const { register, handleSubmit, formState: { errors }} = useForm({
         defaultValues: {
+            phone: "",
             email: "",
             password: "",
             retryPassword: ""
@@ -30,14 +31,18 @@ const RegistrationView: FC<RegistrationViewProps> = ({registrate, error}) => {
     });
 
     const onSubmit = (data: any) => {
-        const {email, password, retryPassword} = data;
+        const {phone, password, retryPassword} = data;
         if(password === retryPassword) {
-            registrate({email, password});
+            registrate({phone, password});
             setEqualsPasswords(true);
         } else {
             setEqualsPasswords(false);
         }
     };
+
+    const fillInputPhone = (e:any) => {
+        setPhoneInput(e.target.value)
+    }
 
     const styleError = {
         display: 'flex',
@@ -49,6 +54,25 @@ const RegistrationView: FC<RegistrationViewProps> = ({registrate, error}) => {
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)}>
+                <InputMask
+                    {...register("phone",  { 
+                        required: "Поле обязательно к заполнению",
+                    })}
+                    mask="+7 (999) 99 99 999"
+                    value={phoneInput}
+                    onChange={(e)=>{fillInputPhone(e)}}
+                    
+                >
+                    <TextField
+                        fullWidth
+                        id="outlined-required"
+                        label="Номер телефона"
+                        style={{ marginBottom: "10px" }}
+                       
+                    />
+                </InputMask>
+                {errors.phone && <p style={styleError}>{errors.phone.message}</p>}
+                
                 <TextField
                     {...register("email", {
                         required: "Поле обязательно к заполнению",

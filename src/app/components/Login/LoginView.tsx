@@ -1,80 +1,95 @@
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { ILogin } from "../../store/services/users/types/auth.types";
 import { useForm } from "react-hook-form";
-import AccessibleTabs from "../Tabs/AccessibleTabs";
-
+import InputMask from "react-input-mask";
 interface LoginProps {
     login: (post: ILogin) => void;
     error: {
-        message: string
-    }
+        message: string;
+    };
 }
 
 const LoginView: FC<LoginProps> = ({ login, error }) => {
-    const { register, handleSubmit, formState: { errors }} = useForm({
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
         defaultValues: {
-            email: "",
+            phone: "",
             password: "",
         },
-        mode: "onBlur"
+        mode: "onBlur",
     });
 
+    const [phoneInput, setPhoneInput] = useState("");
+
+    const fillInputPhone = (e:any) => {
+        setPhoneInput(e.target.value)
+    }
+
     const onSubmit = (data: any) => {
-        const {email, password} = data;
-        login({email, password});
+        const { phone, password } = data;
+        console.log(phone);
+        login({ phone, password });
+        console.log(phoneInput);
     };
 
     const styleError = {
-        display: 'flex',
-        justifyContent: 'left',
-        marginTop: '-6px',
-        color: 'red'
-    }
+        display: "flex",
+        justifyContent: "left",
+        marginTop: "-6px",
+        color: "red",
+    };
 
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <TextField
-                    {...register("email",  { 
+                <InputMask
+                    {...register("phone",  { 
                         required: "Поле обязательно к заполнению",
-                        pattern: {
-                            value: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                            message: 'Некорректный email'
-                        }
                     })}
-                    fullWidth
-                    id="outlined-required"
-                    label="Email"
-                    style={{ marginBottom: "10px" }}
-                />
-                    {errors.email && <p style={styleError}>{errors.email.message}</p>}
+                    mask="+7 (999) 99 99 999"
+                    value={phoneInput}
+                    onChange={(e)=>{fillInputPhone(e)}}
+                    
+                >
+                    <TextField
+                        fullWidth
+                        id="outlined-required"
+                        label="Номер телефона"
+                        style={{ marginBottom: "10px" }}
+                       
+                    />
+                </InputMask>
+                {errors.phone && <p style={styleError}>{errors.phone.message}</p>}
+
                 <TextField
                     fullWidth
                     id="outlined-required"
                     label="Пароль"
                     type="password"
-                    {...register("password", { 
+                    {...register("password", {
                         required: "Поле обязательно к заполнению",
                     })}
                     style={{ marginBottom: "10px" }}
                 />
-                    {errors.password && <p style={styleError}>{errors.password.message}</p>}
-                    {error.message && <p style={styleError}>{error.message}</p>}
+                {errors.password && (
+                    <p style={styleError}>{errors.password.message}</p>
+                )}
+                {error.message && <p style={styleError}>{error.message}</p>}
                 <Button
                     variant="contained"
-                    style={{ width: "316px", marginBottom: "10px"}}
+                    style={{ width: "316px", marginBottom: "10px" }}
                     type="submit"
                 >
                     Войти
                 </Button>
                 <Button
                     variant="contained"
-                    style={{ width: "316px", marginBottom: "10px"}}
+                    style={{ width: "316px", marginBottom: "10px" }}
                     type="submit"
                 >
                     Войти по коду
