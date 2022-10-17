@@ -12,7 +12,10 @@ interface LoginProps {
 }
 
 const LoginView: FC<LoginProps> = ({ login, error }) => {
+    const [phoneInput, setPhoneInput] = useState("");
     const {
+        setError,
+        setValue,
         register,
         handleSubmit,
         formState: { errors },
@@ -24,18 +27,26 @@ const LoginView: FC<LoginProps> = ({ login, error }) => {
         mode: "onBlur",
     });
 
-    const [phoneInput, setPhoneInput] = useState("");
-
     const fillInputPhone = (e:any) => {
         setPhoneInput(e.target.value)
     }
 
     const onSubmit = (data: any) => {
         const { phone, password } = data;
-        console.log(phone);
         login({ phone, password });
-        console.log(phoneInput);
     };
+
+    const checkFillPhoneInput = () => {
+        console.log(phoneInput);
+        if (!phoneInput || '+7 (___) __ __ ___' == phoneInput) {
+           setError("phone", {type: "custom", message: "Поле обязательно к заполнению"});
+        } else {
+            setValue("phone", phoneInput, {
+                shouldValidate: true,
+                shouldDirty: true
+            })
+        }
+    }
 
     const styleError = {
         display: "flex",
@@ -48,11 +59,9 @@ const LoginView: FC<LoginProps> = ({ login, error }) => {
         <>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <InputMask
-                    {...register("phone",  { 
-                        required: "Поле обязательно к заполнению",
-                    })}
                     mask="+7 (999) 99 99 999"
                     value={phoneInput}
+                    onBlur={checkFillPhoneInput}
                     onChange={(e)=>{fillInputPhone(e)}}
                     
                 >
@@ -64,6 +73,15 @@ const LoginView: FC<LoginProps> = ({ login, error }) => {
                        
                     />
                 </InputMask>
+
+                <input
+                    {...register("phone",  { 
+                        required: "Поле обязательно к заполнению",
+                    })}
+                    id="phone-input-hidden"
+                    hidden={true}
+                    style={{ marginBottom: "10px" }}
+                />
                 {errors.phone && <p style={styleError}>{errors.phone.message}</p>}
 
                 <TextField

@@ -1,9 +1,6 @@
 import {
     Button,
-    Card,
-    CardContent,
     TextField,
-    Typography,
 } from "@mui/material";
 import React, { FC, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -18,9 +15,9 @@ interface RegistrationViewProps {
 }
 
 const RegistrationView: FC<RegistrationViewProps> = ({registrate, error}) => {
-    const [passwordsEquals, setEqualsPasswords] = useState(true);
     const [phoneInput, setPhoneInput] = useState("");
-    const { register, handleSubmit, formState: { errors }} = useForm({
+    const [passwordsEquals, setEqualsPasswords] = useState(true);
+    const { setError, setValue, register, handleSubmit, formState: { errors }} = useForm({
         defaultValues: {
             phone: "",
             email: "",
@@ -39,6 +36,18 @@ const RegistrationView: FC<RegistrationViewProps> = ({registrate, error}) => {
             setEqualsPasswords(false);
         }
     };
+
+    const checkFillPhoneInput = () => {
+        console.log(phoneInput);
+        if( !phoneInput || '+7 (___) __ __ ___' == phoneInput) {
+            setError("phone", {type: "custom", message: "Поле обязательно к заполнению"});
+        } else {
+            setValue("phone", phoneInput, {
+                shouldValidate: true,
+                shouldDirty: true
+            });
+        }
+    }
 
     const fillInputPhone = (e:any) => {
         setPhoneInput(e.target.value)
@@ -59,6 +68,7 @@ const RegistrationView: FC<RegistrationViewProps> = ({registrate, error}) => {
                         required: "Поле обязательно к заполнению",
                     })}
                     mask="+7 (999) 99 99 999"
+                    onBlur={checkFillPhoneInput}
                     value={phoneInput}
                     onChange={(e)=>{fillInputPhone(e)}}
                     
