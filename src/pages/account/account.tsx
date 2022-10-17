@@ -5,9 +5,9 @@ import { useAppSelector } from "../../app/hooks/useAppSelector";
 import Header from "../../app/components/Header/Header";
 import Menu from "../../app/components/Drawer/Menu/Menu";
 import ProfileView from "../../app/components/Profile/ProfileView";
+import LoginAndRegistrationForm from "../../app/components/Login/LoginAndRegForm";
 
 export default function Account() {
-    const accountForm = useAppSelector((state) => state.accountFormsReducer);
     const {isAuth} = useAppSelector(state => state.userReducer);
 
     return (
@@ -19,13 +19,8 @@ export default function Account() {
                filter={{minPrice: 0, maxPrice: 0, productType: ''}}
                filterList={[]}
             />
-            {accountForm.isLoginForm && !isAuth  ? (
-                <LoginContainer />
-            ) : accountForm.isRegistrationForm && !isAuth  ? (
-                <RegistrationContainer />
-            ) : (
-               <ProfileView />
-            )}
+            {isAuth ? (<ProfileView />) : 
+            (<LoginAndRegistrationForm />)}
         </>
     );
 }

@@ -9,7 +9,6 @@ import LoginView from "./LoginView";
 
 export default function LoginContainer() {
     const dispatch = useDispatch();
-    const {switchRegForm} = useActions();
     const {getBasketByUser} = useBasket();
     const authError = useAppSelector(state => state.userReducer.error);
 
@@ -21,6 +20,6 @@ export default function LoginContainer() {
     }
 
     return (<>
-        <LoginView login={loginUser} switchRegForm={switchRegForm} error={authError}></LoginView>
+        <LoginView login={loginUser} error={authError}></LoginView>
     </>);
 }

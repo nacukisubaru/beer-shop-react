@@ -10,7 +10,6 @@ interface RegistrationContainerProps {}
 
 const RegistrationContainer:FC<RegistrationContainerProps>  = () => {
     const dispatch = useDispatch();
-    const {switchLoginForm} = useActions();
     const regError = useAppSelector(state => state.userReducer.error);
 
     const registrateUser = async (post: ILogin) => {
@@ -18,7 +17,7 @@ const RegistrationContainer:FC<RegistrationContainerProps>  = () => {
     }
 
     return (
-        <RegistrationView registrate={registrateUser} switchLoginForm={switchLoginForm} error={regError} />
+        <RegistrationView registrate={registrateUser} error={regError} />
     );
 }
 
