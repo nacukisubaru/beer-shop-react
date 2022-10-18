@@ -4,6 +4,7 @@ import React, { FC, useState } from "react";
 import { ILogin } from "../../store/services/users/types/auth.types";
 import { useForm } from "react-hook-form";
 import InputMask from "react-input-mask";
+import { useActions } from "../../hooks/useActions";
 interface LoginProps {
     login: (post: ILogin) => void;
     error: {
@@ -12,6 +13,7 @@ interface LoginProps {
 }
 
 const LoginView: FC<LoginProps> = ({ login, error }) => {
+    const {switchVerificationForm} = useActions();
     const [phoneInput, setPhoneInput] = useState("");
     const {
         setError,
@@ -108,7 +110,7 @@ const LoginView: FC<LoginProps> = ({ login, error }) => {
                 <Button
                     variant="contained"
                     style={{ width: "316px", marginBottom: "10px" }}
-                    type="submit"
+                    onClick={switchVerificationForm}
                 >
                     Войти по коду
                 </Button>
