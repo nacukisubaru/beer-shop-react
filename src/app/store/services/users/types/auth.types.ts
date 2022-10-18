@@ -12,3 +12,7 @@ export interface ILogin {
     phone: string,
     password: string
 }
+
+export interface ILoginByCode {
+    phone: string,
+}

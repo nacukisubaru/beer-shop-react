@@ -4,16 +4,15 @@ import React, { FC, useState } from "react";
 import { ILogin } from "../../store/services/users/types/auth.types";
 import { useForm } from "react-hook-form";
 import InputMask from "react-input-mask";
-import { useActions } from "../../hooks/useActions";
 interface LoginProps {
     login: (post: ILogin) => void;
+    loginByCode: (phone: string) => void;
     error: {
         message: string;
     };
 }
 
-const LoginView: FC<LoginProps> = ({ login, error }) => {
-    const {switchVerificationForm} = useActions();
+const LoginView: FC<LoginProps> = ({ login, loginByCode, error }) => {
     const [phoneInput, setPhoneInput] = useState("");
     const {
         setError,
@@ -29,9 +28,9 @@ const LoginView: FC<LoginProps> = ({ login, error }) => {
         mode: "onBlur",
     });
 
-    const fillInputPhone = (e:any) => {
-        setPhoneInput(e.target.value)
-    }
+    const fillInputPhone = (e: any) => {
+        setPhoneInput(e.target.value);
+    };
 
     const onSubmit = (data: any) => {
         const { phone, password } = data;
@@ -39,21 +38,35 @@ const LoginView: FC<LoginProps> = ({ login, error }) => {
     };
 
     const checkFillPhoneInput = () => {
-        console.log(phoneInput);
-        if (!phoneInput || '+7 (___) __ __ ___' == phoneInput) {
-           setError("phone", {type: "custom", message: "Поле обязательно к заполнению"});
+        if (!phoneInput || "+7 (___) __ __ ___" == phoneInput) {
+            setError("phone", {
+                type: "custom",
+                message: "Поле обязательно к заполнению",
+            });
         } else {
             setValue("phone", phoneInput, {
                 shouldValidate: true,
-                shouldDirty: true
-            })
+                shouldDirty: true,
+            });
         }
-    }
+    };
+
+    const handlerLoginByCode = () => {
+        if (phoneInput) {
+            loginByCode(phoneInput);
+        } else {
+            setError("phone", {
+                type: "custom",
+                message: "Поле обязательно к заполнению",
+            });
+        }
+    };
 
     const styleError = {
         display: "flex",
         justifyContent: "left",
-        marginTop: "-6px",
+        marginTop: "-9px",
+        height: "6px",
         color: "red",
     };
 
@@ -64,27 +77,27 @@ const LoginView: FC<LoginProps> = ({ login, error }) => {
                     mask="+7 (999) 99 99 999"
                     value={phoneInput}
                     onBlur={checkFillPhoneInput}
-                    onChange={(e)=>{fillInputPhone(e)}}
-                    
+                    onChange={(e) => {
+                        fillInputPhone(e);
+                    }}
                 >
                     <TextField
                         fullWidth
                         id="outlined-required"
                         label="Номер телефона"
                         style={{ marginBottom: "10px" }}
-                       
                     />
                 </InputMask>
 
                 <input
-                    {...register("phone",  { 
+                    {...register("phone", {
                         required: "Поле обязательно к заполнению",
                     })}
                     id="phone-input-hidden"
                     hidden={true}
                     style={{ marginBottom: "10px" }}
                 />
-                {errors.phone && <p style={styleError}>{errors.phone.message}</p>}
+                <p style={styleError}>{errors.phone && errors.phone.message}</p>
 
                 <TextField
                     fullWidth
@@ -96,9 +109,7 @@ const LoginView: FC<LoginProps> = ({ login, error }) => {
                     })}
                     style={{ marginBottom: "10px" }}
                 />
-                {errors.password && (
-                    <p style={styleError}>{errors.password.message}</p>
-                )}
+                <p style={styleError}>{errors.password && errors.password.message}</p>
                 {error.message && <p style={styleError}>{error.message}</p>}
                 <Button
                     variant="contained"
@@ -110,7 +121,9 @@ const LoginView: FC<LoginProps> = ({ login, error }) => {
                 <Button
                     variant="contained"
                     style={{ width: "316px", marginBottom: "10px" }}
-                    onClick={switchVerificationForm}
+                    onClick={() => {
+                        handlerLoginByCode();
+                    }}
                 >
                     Войти по коду
                 </Button>

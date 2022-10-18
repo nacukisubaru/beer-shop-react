@@ -10,8 +10,9 @@ import LoginView from "./LoginView";
 export default function LoginContainer() {
     const dispatch = useDispatch();
     const {getBasketByUser} = useBasket();
+    const {setPhone, switchVerificationForm} = useActions();
     const authError = useAppSelector(state => state.userReducer.error);
-
+    
     const loginUser = async (post: ILogin) => {
         const data = await dispatch(login(post));
         if(data.payload.user) {
@@ -19,7 +20,12 @@ export default function LoginContainer() {
         }
     }
 
+    const setPhoneAndOpenVerificationForm = async (phone: string) => {
+        await setPhone({phone});
+        switchVerificationForm();
+    }
+
     return (<>
-        <LoginView login={loginUser} error={authError}></LoginView>
+        <LoginView login={loginUser} loginByCode={setPhoneAndOpenVerificationForm} error={authError}></LoginView>
     </>);
 }

@@ -13,6 +13,8 @@ import { snackReducer } from "./services/snacks/reducers/snack.slice";
 import { typePackagingApi } from "./services/type-packaging/type-packaging.api";
 import { notFoundReducer } from "./reducers/notFound.slice";
 import { snackApi } from "./services/snacks/snack.api";
+import { verificationCodeApi } from "./services/verification-code/verification-code.api";
+import { verificationCodeReducer } from "./services/verification-code/reducers/verification-code.slice";
 
 export const store = configureStore({
     reducer: {
@@ -24,12 +26,14 @@ export const store = configureStore({
         filterProductsReducer,
         snackReducer,
         notFoundReducer,
+        verificationCodeReducer,
         [userApi.reducerPath]: userApi.reducer,
         [gradeApi.reducerPath]: gradeApi.reducer,
         [brandApi.reducerPath]: brandApi.reducer,
         [typePackagingApi.reducerPath]: typePackagingApi.reducer,
         [beerApi.reducerPath]: beerApi.reducer,
-        [snackApi.reducerPath]: snackApi.reducer
+        [snackApi.reducerPath]: snackApi.reducer,
+        [verificationCodeApi.reducerPath]: verificationCodeApi.reducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false})
 });

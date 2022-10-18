@@ -1,7 +1,4 @@
-import {
-    Button,
-    TextField,
-} from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import React, { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ILogin } from "../../store/services/users/types/auth.types";
@@ -10,27 +7,33 @@ import InputMask from "react-input-mask";
 interface RegistrationViewProps {
     registrate: (post: ILogin) => void;
     error: {
-        message: string
-    }
+        message: string;
+    };
 }
 
-const RegistrationView: FC<RegistrationViewProps> = ({registrate, error}) => {
+const RegistrationView: FC<RegistrationViewProps> = ({ registrate, error }) => {
     const [phoneInput, setPhoneInput] = useState("");
     const [passwordsEquals, setEqualsPasswords] = useState(true);
-    const { setError, setValue, register, handleSubmit, formState: { errors }} = useForm({
+    const {
+        setError,
+        setValue,
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
         defaultValues: {
             phone: "",
             email: "",
             password: "",
-            retryPassword: ""
+            retryPassword: "",
         },
-        mode: "onBlur"
+        mode: "onBlur",
     });
 
     const onSubmit = (data: any) => {
-        const {phone, password, retryPassword} = data;
-        if(password === retryPassword) {
-            registrate({phone, password});
+        const { phone, password, retryPassword } = data;
+        if (password === retryPassword) {
+            registrate({ phone, password });
             setEqualsPasswords(true);
         } else {
             setEqualsPasswords(false);
@@ -39,50 +42,54 @@ const RegistrationView: FC<RegistrationViewProps> = ({registrate, error}) => {
 
     const checkFillPhoneInput = () => {
         console.log(phoneInput);
-        if( !phoneInput || '+7 (___) __ __ ___' == phoneInput) {
-            setError("phone", {type: "custom", message: "Поле обязательно к заполнению"});
+        if (!phoneInput || "+7 (___) __ __ ___" == phoneInput) {
+            setError("phone", {
+                type: "custom",
+                message: "Поле обязательно к заполнению",
+            });
         } else {
             setValue("phone", phoneInput, {
                 shouldValidate: true,
-                shouldDirty: true
+                shouldDirty: true,
             });
         }
-    }
+    };
 
-    const fillInputPhone = (e:any) => {
-        setPhoneInput(e.target.value)
-    }
+    const fillInputPhone = (e: any) => {
+        setPhoneInput(e.target.value);
+    };
 
     const styleError = {
-        display: 'flex',
-        justifyContent: 'left',
-        marginTop: '-6px',
-        color: 'red'
-    }
+        display: "flex",
+        justifyContent: "left",
+        marginTop: "-9px",
+        height: "6px",
+        color: "red",
+    };
 
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <InputMask
-                    {...register("phone",  { 
+                    {...register("phone", {
                         required: "Поле обязательно к заполнению",
                     })}
                     mask="+7 (999) 99 99 999"
                     onBlur={checkFillPhoneInput}
                     value={phoneInput}
-                    onChange={(e)=>{fillInputPhone(e)}}
-                    
+                    onChange={(e) => {
+                        fillInputPhone(e);
+                    }}
                 >
                     <TextField
                         fullWidth
                         id="outlined-required"
                         label="Номер телефона"
                         style={{ marginBottom: "10px" }}
-                       
                     />
                 </InputMask>
-                {errors.phone && <p style={styleError}>{errors.phone.message}</p>}
-                
+                <p style={styleError}>{errors.phone && errors.phone.message}</p>
+
                 <TextField
                     {...register("email", {
                         required: "Поле обязательно к заполнению",
@@ -96,9 +103,7 @@ const RegistrationView: FC<RegistrationViewProps> = ({registrate, error}) => {
                     label="Email"
                     style={{ marginBottom: "10px" }}
                 />
-                {errors.email && (
-                    <p style={styleError}>{errors.email.message}</p>
-                )}
+                <p style={styleError}>{errors.email && errors.email.message}</p>
                 <TextField
                     fullWidth
                     id="outlined-required"
@@ -108,16 +113,14 @@ const RegistrationView: FC<RegistrationViewProps> = ({registrate, error}) => {
                         required: "Поле обязательно к заполнению",
                         minLength: {
                             value: 5,
-                            message: 'Минимум 5 символов'
-                        }
+                            message: "Минимум 5 символов",
+                        },
                     })}
                     style={{ marginBottom: "10px" }}
                 />
-                    {errors.password && (
-                    <p style={styleError}>
-                        {errors.password.message}
-                    </p>
-                )}
+                <p style={styleError}>
+                    {errors.password && errors.password.message}
+                </p>
                 <TextField
                     fullWidth
                     id="outlined-required"
@@ -127,31 +130,29 @@ const RegistrationView: FC<RegistrationViewProps> = ({registrate, error}) => {
                         required: "Поле обязательно к заполнению",
                         minLength: {
                             value: 5,
-                            message: 'Минимум 5 символов'
-                        }
+                            message: "Минимум 5 символов",
+                        },
                     })}
                     style={{ marginBottom: "10px" }}
                 />
                 {errors.retryPassword && (
-                    <p style={styleError}>
-                        {errors.retryPassword.message}
-                    </p>
+                    <p style={styleError}>{errors.retryPassword.message}</p>
                 )}
-                {!passwordsEquals && (<p style={styleError}>Пароли не совпадают</p>)}
-                {error.message && (
-                    <p style={styleError}>{error.message}</p>
-                )}
-                    <Button
+                <p style={styleError}>
+                    {!passwordsEquals && "Пароли не совпадают"}
+                </p>
+                {error.message && <p style={styleError}>{error.message}</p>}
+                <Button
                     variant="contained"
                     style={{
-                            width: "316px",
-                            marginBottom: "10px" 
+                        width: "316px",
+                        marginBottom: "10px",
                     }}
                     type="submit"
                 >
                     Зарегистрироваться
                 </Button>
-            </form>   
+            </form>
         </>
     );
 };

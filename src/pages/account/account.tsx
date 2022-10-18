@@ -1,6 +1,4 @@
 import React from "react";
-import LoginContainer from "../../app/components/Login/LoginContainer";
-import RegistrationContainer from "../../app/components/Registration/RegistrationContainer";
 import { useAppSelector } from "../../app/hooks/useAppSelector";
 import Header from "../../app/components/Header/Header";
 import Menu from "../../app/components/Drawer/Menu/Menu";
