@@ -16,3 +16,10 @@ export interface ILogin {
 export interface ILoginByCode {
     phone: string,
 }
+export interface IVerification {
+    balance: number,
+    call_id: string,
+    cost: number,
+    status: string,
+    status_text: string
+}

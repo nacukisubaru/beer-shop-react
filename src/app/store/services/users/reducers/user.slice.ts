@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {thunkAxiosGet, thunkAxiosPost} from "../../../../helpers/queryHelper";
-import { IAuth } from "../types/auth.types";
+import { IAuth, IVerification } from "../types/auth.types";
 import { IUser } from "../types/user.types";
 
 const initialState: IAuth = {
@@ -34,6 +34,13 @@ export const login:any = createAsyncThunk(
     }
 );
 
+export const loginByCode:any = createAsyncThunk(
+    'loginByCode/post',
+    async(body: any, {rejectWithValue}) => {
+       return thunkAxiosPost('/users/loginByCode', body, true, rejectWithValue);
+    }
+);
+
 export const logout:any = createAsyncThunk(
     'logout/post',
     async(_, {rejectWithValue}) => {
@@ -45,6 +52,13 @@ export const getUser:any = createAsyncThunk(
     'getUser/get',
     async(id: number, {rejectWithValue}) => {
        return thunkAxiosGet('/users/' + id, {}, false, rejectWithValue);
+    }
+);
+
+export const sendCodeByCall:any = createAsyncThunk(
+    'sendCodeByCall/get',
+    async(body: {phone:string}, {rejectWithValue}) => {
+       return thunkAxiosGet('/verification-code/sendCodeByCall', body, false, rejectWithValue);
     }
 );
 
@@ -75,6 +89,25 @@ export const userSlice = createSlice({
             localStorage.setItem("userId", user.id);
         },
         [login.rejected]: (state,action) => {
+            state.status = 'rejected';
+            state.error = action.payload;
+            state.isAuth = false;
+        },
+        [loginByCode.pending]: (state) => {
+            state.status = 'loading';
+        },
+        [loginByCode.fulfilled]: (state, action: PayloadAction<IAuth>) => {
+            state.status = 'resolved';
+            const token = action.payload.accessToken;
+            const user:any = action.payload.user;
+
+            state.accessToken = token;
+            state.user = user;
+            state.isAuth = true;
+            localStorage.setItem("accessToken", token);
+            localStorage.setItem("userId", user.id);
+        },
+        [loginByCode.rejected]: (state,action) => {
             state.status = 'rejected';
             state.error = action.payload;
             state.isAuth = false;
@@ -120,7 +153,22 @@ export const userSlice = createSlice({
             state.status = 'rejected';
             state.error = action.payload;
             state.isAuth = false;
-        },        
+        },      
+        [sendCodeByCall.pending]: (state) => {
+            state.status = 'loading';
+        },
+        [sendCodeByCall.fulfilled]: (state, action: PayloadAction<IVerification>) => {
+            state.status = 'resolved';
+            const payload = action.payload;
+            if(payload.status === "ERROR") {
+                state.error = {message: payload.status_text}
+            }
+        },
+        [sendCodeByCall.rejected]: (state,action) => {
+            state.status = 'rejected';
+            state.error = action.payload;
+            state.isAuth = false;
+        },
     }
 })
 

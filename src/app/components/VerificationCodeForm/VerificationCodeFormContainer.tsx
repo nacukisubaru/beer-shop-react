@@ -1,21 +1,41 @@
-import { unwrapResult } from "@reduxjs/toolkit";
-import { FC, useEffect } from "react";
+import { FC } from "react";
+import { useDispatch } from "react-redux";
+import { useActions } from "../../hooks/useActions";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { userApi } from "../../store/services/users/users.api";
-import { verificationCodeApi } from "../../store/services/verification-code/verification-code.api";
+import {
+    loginByCode,
+    sendCodeByCall,
+} from "../../store/services/users/reducers/user.slice";
 import VerificationCodeFormView from "./VerificationCodeFormView";
 
 interface VerificationCodeFormContainer {}
 
 const VerificationCodeFormContainer: FC<VerificationCodeFormContainer> = () => {
-   const {phone} = useAppSelector(state => state.verificationCodeReducer);
-    const verificationCodeResp = verificationCodeApi.useSendCodeByCallQuery(phone);
-    let verificationError: any = verificationCodeResp.error;
-    if(verificationCodeResp.error) {
-        verificationError = verificationError.data.message;
-    }
+    const { setMinutesResend, setSecondsResend, setCanResendCode } = useActions();
+    const { phone } = useAppSelector(
+        (state) => state.verificationCodeReducer
+    );
 
-    return <VerificationCodeFormView requestCode={verificationCodeResp.refetch} error={verificationError} />;
+    let verificationError = "";
+    const dispatch = useDispatch();
+    const handlerLoginByCode = (code: string) => {
+        dispatch(loginByCode({ phone, code }));
+    };
+
+    const handlerRequestCode = () => {
+        dispatch(sendCodeByCall({ phone }));
+        setMinutesResend({minutes: 4});
+        setSecondsResend({seconds: 59});
+        setCanResendCode({resendCode: false});
+    };
+
+    return (
+        <VerificationCodeFormView
+            requestCode={handlerRequestCode}
+            login={handlerLoginByCode}
+            error={verificationError}
+        />
+    );
 };
 
 export default VerificationCodeFormContainer;
