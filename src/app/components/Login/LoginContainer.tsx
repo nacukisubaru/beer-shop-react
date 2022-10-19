@@ -24,6 +24,8 @@ export default function LoginContainer() {
     const setPhoneAndOpenVerificationForm = async (phone: string) => {
         let isUserExist = await dispatch(checkUserExistByPhone(phone));
         if(!isUserExist.error) { 
+            await setSecondsResend({seconds: 59});
+            await setMinutesResend({minutes: 1});
             await setPhone({phone});
             const res = await dispatch(sendCodeByCall(phone));
             const data: ISendCodeByCallResponse = unwrapResult(res);
