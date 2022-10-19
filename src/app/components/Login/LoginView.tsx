@@ -70,6 +70,13 @@ const LoginView: FC<LoginProps> = ({ login, loginByCode, error }) => {
         color: "red",
     };
 
+    const styleGlobalError = {
+        display: "flex",
+        justifyContent: "left",
+        //marginTop: "-9px",
+        color: "red",
+    };
+
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -110,7 +117,7 @@ const LoginView: FC<LoginProps> = ({ login, loginByCode, error }) => {
                     style={{ marginBottom: "10px" }}
                 />
                 <p style={styleError}>{errors.password && errors.password.message}</p>
-                {error.message && <p style={styleError}>{error.message}</p>}
+                {error.message && <p style={styleGlobalError}>{error.message}</p>}
                 <Button
                     variant="contained"
                     style={{ width: "316px", marginBottom: "10px" }}

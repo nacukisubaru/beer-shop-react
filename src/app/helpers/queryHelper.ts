@@ -55,21 +55,13 @@ export const thunkAxiosGet = async (path = "", params = {}, isApi = false, rejec
     }
 
     try {
-        let errorMessage = '';
-        let response: any = {};
 
-        await request.get(url).then((res) => {
-            response = res;
-        }).catch((error) => {
-            errorMessage = error;
-        });
-        
-        if (errorMessage) {
-            throw new Error(errorMessage);
+        const response = await request.get(url);
+        if (!response || !response.data) {
+            throw new Error('error');
         }
-
         return response.data;
     } catch (error: any) {
-        return rejectWithValue(error);
+        return rejectWithValue(error.response.data);
     }
 }

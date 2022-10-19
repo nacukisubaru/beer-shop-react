@@ -26,8 +26,8 @@ const Timer: FC<TimerProps> = ({minutes, seconds, setSeconds, setMinutes}) => {
                 if (minutes === 0) {
                     clearInterval(myInterval);             
                 } else {
-                    setMinutes({minutes: minutes - 1});
                     setSeconds({seconds: 59});
+                    setMinutes({minutes: minutes - 1});
                 }
             } 
         }, 1000);

@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { removePhoneMask } from "../../../../helpers/stringHelper";
+import { removeMask } from "../../../../helpers/stringHelper";
 
 const initialState = {
     phone: "",
-    minutesResend: 4,
+    minutesResend: 1,
     secondsResend: 59,
     canResendCode: false
 };
@@ -13,7 +13,7 @@ export const verificationCodeSlice = createSlice({
     initialState,
     reducers: {
         setPhone: (state, action: PayloadAction<{phone:string}>) => {
-            const phone = removePhoneMask(action.payload.phone);
+            const phone = removeMask(action.payload.phone);
             state.phone = phone;
         },
         setMinutesResend: (state, action: PayloadAction<{minutes: number}>) => {

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {thunkAxiosGet, thunkAxiosPost} from "../../../../helpers/queryHelper";
-import { removePhoneMask } from "../../../../helpers/stringHelper";
+import { removeMask } from "../../../../helpers/stringHelper";
 import { IAuth, ILogin, ILoginByCode, IRegistration, ISendCodeByCallResponse } from "../types/auth.types";
 import { IUser } from "../types/user.types";
 
@@ -24,7 +24,7 @@ const initialState: IAuth = {
 export const registrate:any = createAsyncThunk(
     'registration/post',
     async(body: IRegistration, {rejectWithValue}) => {
-        const phone = removePhoneMask(body.phone);
+        const phone = removeMask(body.phone);
         return thunkAxiosPost('/users/registration', {...body, phone}, true, rejectWithValue);
     }
 );
@@ -32,7 +32,7 @@ export const registrate:any = createAsyncThunk(
 export const login:any = createAsyncThunk(
     'login/post',
     async(body: ILogin, {rejectWithValue}) => {
-        const phone = removePhoneMask(body.phone);
+        const phone = removeMask(body.phone);
         return thunkAxiosPost('/users/login', {...body, phone}, true, rejectWithValue);
     }
 );
@@ -40,7 +40,7 @@ export const login:any = createAsyncThunk(
 export const loginByCode:any = createAsyncThunk(
     'loginByCode/post',
     async(body: ILoginByCode, {rejectWithValue}) => {
-        const phone = removePhoneMask(body.phone);
+        const phone = removeMask(body.phone);
         return thunkAxiosPost('/users/loginByCode', {...body, phone}, true, rejectWithValue);
     }
 );
@@ -62,8 +62,16 @@ export const getUser:any = createAsyncThunk(
 export const sendCodeByCall:any = createAsyncThunk(
     'sendCodeByCall/get',
     async(phone: string, {rejectWithValue}) => {
-        phone = removePhoneMask(phone);
+        phone = removeMask(phone);
         return thunkAxiosGet('/verification-code/sendCodeByCall', {phone}, false, rejectWithValue);
+    }
+);
+
+export const checkUserExistByPhone:any = createAsyncThunk(
+    'checkUserExistByPhone/get',
+    async(phone: string, {rejectWithValue}) => {
+        phone = removeMask(phone);
+        return thunkAxiosGet('/users/checkUserExistByPhone/', {phone}, false, rejectWithValue);
     }
 );
 
@@ -87,6 +95,7 @@ export const userSlice = createSlice({
             const token = action.payload.accessToken;
             const user:any = action.payload.user;
 
+            state.error =  {message: ''}
             state.accessToken = token;
             state.user = user;
             state.isAuth = true;
@@ -106,6 +115,7 @@ export const userSlice = createSlice({
             const token = action.payload.accessToken;
             const user:any = action.payload.user;
 
+            state.error =  {message: ''}
             state.accessToken = token;
             state.user = user;
             state.isAuth = true;
@@ -167,12 +177,25 @@ export const userSlice = createSlice({
             const payload = action.payload;
             if(payload.status === "ERROR") {
                 state.error = {message: payload.status_text}
+            } else {
+                state.error =  {message: ''}
             }
         },
         [sendCodeByCall.rejected]: (state,action) => {
             state.status = 'rejected';
             state.error = action.payload;
             state.isAuth = false;
+        },
+        [checkUserExistByPhone.pending]: (state) => {
+            state.status = 'loading';
+        },
+        [checkUserExistByPhone.fulfilled]: (state, action) => {
+            state.status = 'resolved';
+            state.error =  {message: ''}
+        },
+        [checkUserExistByPhone.rejected]: (state,action) => {
+            state.status = 'rejected';
+            state.error = action.payload;
         },
     }
 })

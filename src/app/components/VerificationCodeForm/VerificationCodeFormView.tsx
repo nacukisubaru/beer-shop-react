@@ -8,6 +8,7 @@ import Timer from "../Timer/Timer";
 import { useActions } from "../../hooks/useActions";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import "./css/style.css";
+import InputMask from "react-input-mask";
 
 interface VerificationCodeFormView {
     error: string;
@@ -63,14 +64,19 @@ const VerificationCodeFormView: FC<VerificationCodeFormView> = ({
                             <h2>Введите код</h2>
                         </Typography>
                         <form onSubmit={handleSubmit}>
+                        <InputMask
+                            mask="9 9 9 9"
+                            value={code}
+                            onChange={(e)=>{handleChangeCode(e)}}
+                        >
                             <TextField
                                 fullWidth
                                 id="outlined-required"
                                 label="Код"
                                 type="text"
-                                onChange={handleChangeCode}
                                 style={{ marginBottom: "10px" }}
                             />
+                         </InputMask>
                             {error && <p style={styleError}>{error}</p>}
                             {!canResendCode && (
                                 <div className="code-again-text">
