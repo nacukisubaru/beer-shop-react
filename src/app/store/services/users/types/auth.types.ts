@@ -8,6 +8,12 @@ export interface IAuth {
     error: {message: string}
 }
 
+export interface IRegistration {
+    phone: string,
+    email: string,
+    password: string
+}
+
 export interface ILogin {
     phone: string,
     password: string
@@ -15,7 +21,9 @@ export interface ILogin {
 
 export interface ILoginByCode {
     phone: string,
+    code: string
 }
+
 export interface IVerification {
     balance: number,
     call_id: string,

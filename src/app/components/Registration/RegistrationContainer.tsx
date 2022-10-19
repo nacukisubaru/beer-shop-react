@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { ILogin } from "../../store/services/users/types/auth.types";
+import { IRegistration } from "../../store/services/users/types/auth.types";
 import { useDispatch } from "react-redux";
 import { registrate } from "../../store/services/users/reducers/user.slice";
 import RegistrationView from "./RegistrationView";
@@ -11,7 +11,7 @@ const RegistrationContainer:FC<RegistrationContainerProps>  = () => {
     const dispatch = useDispatch();
     const regError = useAppSelector(state => state.userReducer.error);
 
-    const registrateUser = async (post: ILogin) => {
+    const registrateUser = async (post: IRegistration) => {
         await dispatch(registrate(post));
     }
 

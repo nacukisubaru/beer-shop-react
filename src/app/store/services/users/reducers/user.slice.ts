@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {thunkAxiosGet, thunkAxiosPost} from "../../../../helpers/queryHelper";
-import { IAuth, IVerification } from "../types/auth.types";
+import { removePhoneMask } from "../../../../helpers/stringHelper";
+import { IAuth, ILogin, ILoginByCode, IRegistration, IVerification } from "../types/auth.types";
 import { IUser } from "../types/user.types";
 
 const initialState: IAuth = {
@@ -22,22 +23,25 @@ const initialState: IAuth = {
 
 export const registrate:any = createAsyncThunk(
     'registration/post',
-    async(body: any, {rejectWithValue}) => {
-       return thunkAxiosPost('/users/registration', body, true, rejectWithValue);
+    async(body: IRegistration, {rejectWithValue}) => {
+        const phone = removePhoneMask(body.phone);
+        return thunkAxiosPost('/users/registration', {...body, phone}, true, rejectWithValue);
     }
 );
 
 export const login:any = createAsyncThunk(
     'login/post',
-    async(body: any, {rejectWithValue}) => {
-       return thunkAxiosPost('/users/login', body, true, rejectWithValue);
+    async(body: ILogin, {rejectWithValue}) => {
+        const phone = removePhoneMask(body.phone);
+        return thunkAxiosPost('/users/login', {...body, phone}, true, rejectWithValue);
     }
 );
 
 export const loginByCode:any = createAsyncThunk(
     'loginByCode/post',
-    async(body: any, {rejectWithValue}) => {
-       return thunkAxiosPost('/users/loginByCode', body, true, rejectWithValue);
+    async(body: ILoginByCode, {rejectWithValue}) => {
+        const phone = removePhoneMask(body.phone);
+        return thunkAxiosPost('/users/loginByCode', {...body, phone}, true, rejectWithValue);
     }
 );
 
@@ -57,8 +61,9 @@ export const getUser:any = createAsyncThunk(
 
 export const sendCodeByCall:any = createAsyncThunk(
     'sendCodeByCall/get',
-    async(body: {phone:string}, {rejectWithValue}) => {
-       return thunkAxiosGet('/verification-code/sendCodeByCall', body, false, rejectWithValue);
+    async(phone: string, {rejectWithValue}) => {
+        phone = removePhoneMask(phone);
+        return thunkAxiosGet('/verification-code/sendCodeByCall', {phone}, false, rejectWithValue);
     }
 );
 

@@ -23,7 +23,7 @@ export default function LoginContainer() {
 
     const setPhoneAndOpenVerificationForm = async (phone: string) => {
         await setPhone({phone});
-        const res = await dispatch(sendCodeByCall({phone}));
+        const res = await dispatch(sendCodeByCall(phone));
         const data = unwrapResult(res);
         if(data.status !== "ERROR") {
             switchVerificationForm();

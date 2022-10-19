@@ -1,11 +1,11 @@
 import { Button, TextField } from "@mui/material";
 import React, { FC, useState } from "react";
 import { useForm } from "react-hook-form";
-import { ILogin } from "../../store/services/users/types/auth.types";
+import { IRegistration } from "../../store/services/users/types/auth.types";
 import InputMask from "react-input-mask";
 
 interface RegistrationViewProps {
-    registrate: (post: ILogin) => void;
+    registrate: (post: IRegistration) => void;
     error: {
         message: string;
     };
@@ -31,9 +31,9 @@ const RegistrationView: FC<RegistrationViewProps> = ({ registrate, error }) => {
     });
 
     const onSubmit = (data: any) => {
-        const { phone, password, retryPassword } = data;
+        const { phone, email, password, retryPassword } = data;
         if (password === retryPassword) {
-            registrate({ phone, password });
+            registrate({ phone, email, password });
             setEqualsPasswords(true);
         } else {
             setEqualsPasswords(false);

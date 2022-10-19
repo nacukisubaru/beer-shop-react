@@ -1,7 +1,9 @@
+import { unwrapResult } from "@reduxjs/toolkit";
 import { FC } from "react";
 import { useDispatch } from "react-redux";
 import { useActions } from "../../hooks/useActions";
 import { useAppSelector } from "../../hooks/useAppSelector";
+import { useBasket } from "../../hooks/useBasket";
 import {
     loginByCode,
     sendCodeByCall,
@@ -15,15 +17,17 @@ const VerificationCodeFormContainer: FC<VerificationCodeFormContainer> = () => {
     const { phone } = useAppSelector(
         (state) => state.verificationCodeReducer
     );
-
+    const {getBasketByUser} = useBasket();
     let verificationError = "";
     const dispatch = useDispatch();
-    const handlerLoginByCode = (code: string) => {
-        dispatch(loginByCode({ phone, code }));
+    const handlerLoginByCode = async (code: string) => {
+        let userData = await dispatch(loginByCode({ phone, code }));
+        userData = unwrapResult(userData);
+        getBasketByUser(userData.user.id);
     };
 
     const handlerRequestCode = () => {
-        dispatch(sendCodeByCall({ phone }));
+        dispatch(sendCodeByCall(phone));
         setMinutesResend({minutes: 4});
         setSecondsResend({seconds: 59});
         setCanResendCode({resendCode: false});
