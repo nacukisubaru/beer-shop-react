@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {thunkAxiosGet, thunkAxiosPost} from "../../../../helpers/queryHelper";
 import { removePhoneMask } from "../../../../helpers/stringHelper";
-import { IAuth, ILogin, ILoginByCode, IRegistration, IVerification } from "../types/auth.types";
+import { IAuth, ILogin, ILoginByCode, IRegistration, ISendCodeByCallResponse } from "../types/auth.types";
 import { IUser } from "../types/user.types";
 
 const initialState: IAuth = {
@@ -162,7 +162,7 @@ export const userSlice = createSlice({
         [sendCodeByCall.pending]: (state) => {
             state.status = 'loading';
         },
-        [sendCodeByCall.fulfilled]: (state, action: PayloadAction<IVerification>) => {
+        [sendCodeByCall.fulfilled]: (state, action: PayloadAction<ISendCodeByCallResponse>) => {
             state.status = 'resolved';
             const payload = action.payload;
             if(payload.status === "ERROR") {

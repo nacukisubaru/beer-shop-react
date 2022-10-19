@@ -24,10 +24,16 @@ export interface ILoginByCode {
     code: string
 }
 
-export interface IVerification {
+export interface IRemainingTime {
+    minutes: number,
+    seconds: number
+}
+
+export interface ISendCodeByCallResponse {
     balance: number,
     call_id: string,
     cost: number,
     status: string,
-    status_text: string
+    status_text: string,
+    remainingTime: IRemainingTime
 }

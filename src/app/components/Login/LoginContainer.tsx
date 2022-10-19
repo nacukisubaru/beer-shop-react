@@ -5,13 +5,13 @@ import { useActions } from "../../hooks/useActions";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useBasket } from "../../hooks/useBasket";
 import { login, sendCodeByCall } from "../../store/services/users/reducers/user.slice";
-import { ILogin } from "../../store/services/users/types/auth.types";
+import { ILogin, ISendCodeByCallResponse } from "../../store/services/users/types/auth.types";
 import LoginView from "./LoginView";
 
 export default function LoginContainer() {
     const dispatch = useDispatch();
     const {getBasketByUser} = useBasket();
-    const {setPhone, switchVerificationForm} = useActions();
+    const {setPhone, switchVerificationForm, setMinutesResend, setSecondsResend} = useActions();
     const authError = useAppSelector(state => state.userReducer.error);
     
     const loginUser = async (post: ILogin) => {
@@ -24,7 +24,12 @@ export default function LoginContainer() {
     const setPhoneAndOpenVerificationForm = async (phone: string) => {
         await setPhone({phone});
         const res = await dispatch(sendCodeByCall(phone));
-        const data = unwrapResult(res);
+        const data: ISendCodeByCallResponse = unwrapResult(res);
+        if(data.status == "ERROR_LIMIT_TIME") {
+            const {minutes, seconds} = data.remainingTime;
+            setMinutesResend({minutes});
+            setSecondsResend({seconds});
+        }
         if(data.status !== "ERROR") {
             switchVerificationForm();
         }
