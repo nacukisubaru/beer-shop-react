@@ -67,6 +67,12 @@ const RegistrationView: FC<RegistrationViewProps> = ({ registrate, error }) => {
         color: "red",
     };
 
+    const styleGlobalError = {
+        display: "flex",
+        justifyContent: "left",
+        color: "red",
+    };
+
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -141,7 +147,7 @@ const RegistrationView: FC<RegistrationViewProps> = ({ registrate, error }) => {
                 <p style={styleError}>
                     {!passwordsEquals && "Пароли не совпадают"}
                 </p>
-                {error.message && <p style={styleError}>{error.message}</p>}
+                {error.message && <p style={styleGlobalError}>{error.message}</p>}
                 <Button
                     variant="contained"
                     style={{

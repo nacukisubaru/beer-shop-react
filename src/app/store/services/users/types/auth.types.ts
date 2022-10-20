@@ -14,6 +14,11 @@ export interface IRegistration {
     password: string
 }
 
+export interface IUserRegData {
+    phone: string,
+    email: string,
+}
+
 export interface ILogin {
     phone: string,
     password: string

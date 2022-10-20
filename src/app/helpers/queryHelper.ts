@@ -35,12 +35,12 @@ export const thunkAxiosPost = async (path = "", params = {}, isApi = false, reje
 
     try {
         const response = await request.post(path, params);
-        console.log(response);
         if (!response || !response.data) {
             throw new Error('error');
         }
 
         return response.data;
+
     } catch (error: any) {
         console.log(error);
         return rejectWithValue(error);
@@ -55,12 +55,13 @@ export const thunkAxiosGet = async (path = "", params = {}, isApi = false, rejec
     }
 
     try {
-
         const response = await request.get(url);
         if (!response || !response.data) {
             throw new Error('error');
         }
+
         return response.data;
+
     } catch (error: any) {
         return rejectWithValue(error.response.data);
     }

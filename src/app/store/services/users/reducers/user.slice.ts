@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {thunkAxiosGet, thunkAxiosPost} from "../../../../helpers/queryHelper";
 import { removeMask } from "../../../../helpers/stringHelper";
-import { IAuth, ILogin, ILoginByCode, IRegistration, ISendCodeByCallResponse } from "../types/auth.types";
+import { IAuth, ILogin, ILoginByCode, IRegistration, ISendCodeByCallResponse, IUserRegData } from "../types/auth.types";
 import { IUser } from "../types/user.types";
 
 const initialState: IAuth = {
@@ -72,6 +72,14 @@ export const checkUserExistByPhone:any = createAsyncThunk(
     async(phone: string, {rejectWithValue}) => {
         phone = removeMask(phone);
         return thunkAxiosGet('/users/checkUserExistByPhone/', {phone}, false, rejectWithValue);
+    }
+);
+
+export const checkUserNotExistByEmailAndPhone:any = createAsyncThunk(
+    'checkUserNotExistByEmailAndPhone/get',
+    async(body: IUserRegData, {rejectWithValue}) => {
+        const phone = removeMask(body.phone);
+        return thunkAxiosGet('/users/checkUserNotExistByEmailAndPhone/', {...body, phone}, false, rejectWithValue);
     }
 );
 
@@ -158,11 +166,11 @@ export const userSlice = createSlice({
             const token = action.payload.accessToken;
             const user:any = action.payload.user;
 
-            state.accessToken = token;
-            state.user = user;
-            state.isAuth = true;
-            localStorage.setItem("accessToken", token);
-            localStorage.setItem("userId", user.id);
+            //state.accessToken = token;
+            //state.user = user;
+            //state.isAuth = true;
+            //localStorage.setItem("accessToken", token);
+            //localStorage.setItem("userId", user.id);
         },
         [registrate.rejected]: (state,action) => {
             state.status = 'rejected';
@@ -194,6 +202,17 @@ export const userSlice = createSlice({
             state.error =  {message: ''}
         },
         [checkUserExistByPhone.rejected]: (state,action) => {
+            state.status = 'rejected';
+            state.error = action.payload;
+        },
+        [checkUserNotExistByEmailAndPhone.pending]: (state) => {
+            state.status = 'loading';
+        },
+        [checkUserNotExistByEmailAndPhone.fulfilled]: (state, action) => {
+            state.status = 'resolved';
+            state.error =  {message: ''}
+        },
+        [checkUserNotExistByEmailAndPhone.rejected]: (state,action) => {
             state.status = 'rejected';
             state.error = action.payload;
         },
