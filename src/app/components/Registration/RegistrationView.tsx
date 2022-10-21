@@ -1,32 +1,35 @@
 import { Button, TextField } from "@mui/material";
 import React, { FC, useState } from "react";
 import { useForm } from "react-hook-form";
-import { IRegistration } from "../../store/services/users/types/auth.types";
+import { IRegistration, IRegistrationFields } from "../../store/services/users/types/auth.types";
 import InputMask from "react-input-mask";
 
 interface RegistrationViewProps {
     registrate: (post: IRegistration) => void;
+    setRegistrationFields: (fields: IRegistrationFields) => void;
+    defaultValues: {
+        phone: string,
+        email: string,
+        password: string,
+        retryPassword: string
+    }
     error: {
         message: string;
     };
 }
 
-const RegistrationView: FC<RegistrationViewProps> = ({ registrate, error }) => {
-    const [phoneInput, setPhoneInput] = useState("");
+const RegistrationView: FC<RegistrationViewProps> = ({ registrate, setRegistrationFields, defaultValues, error }) => {
+    const [phoneInput, setPhoneInput] = useState(defaultValues.phone);
     const [passwordsEquals, setEqualsPasswords] = useState(true);
     const {
         setError,
         setValue,
         register,
+        getValues,
         handleSubmit,
         formState: { errors },
     } = useForm({
-        defaultValues: {
-            phone: "",
-            email: "",
-            password: "",
-            retryPassword: "",
-        },
+        defaultValues,
         mode: "onBlur",
     });
 
@@ -59,6 +62,16 @@ const RegistrationView: FC<RegistrationViewProps> = ({ registrate, error }) => {
         setPhoneInput(e.target.value);
     };
 
+    const updateField = (e:any) => {
+        setValue(e.target.name, e.target.value, {
+            shouldValidate: true,
+            shouldDirty: true,
+        });
+
+        const {phone, email, password, retryPassword} = getValues();
+        setRegistrationFields({phone, email, password, retryPassword});
+    }
+
     const styleError = {
         display: "flex",
         justifyContent: "left",
@@ -85,6 +98,7 @@ const RegistrationView: FC<RegistrationViewProps> = ({ registrate, error }) => {
                     value={phoneInput}
                     onChange={(e) => {
                         fillInputPhone(e);
+                        updateField(e);
                     }}
                 >
                     <TextField
@@ -104,6 +118,7 @@ const RegistrationView: FC<RegistrationViewProps> = ({ registrate, error }) => {
                             message: "Некорректный email",
                         },
                     })}
+                    onChange={updateField}
                     fullWidth
                     id="outlined-required"
                     label="Email"
@@ -122,6 +137,7 @@ const RegistrationView: FC<RegistrationViewProps> = ({ registrate, error }) => {
                             message: "Минимум 5 символов",
                         },
                     })}
+                    onChange={updateField}
                     style={{ marginBottom: "10px" }}
                 />
                 <p style={styleError}>
@@ -139,6 +155,7 @@ const RegistrationView: FC<RegistrationViewProps> = ({ registrate, error }) => {
                             message: "Минимум 5 символов",
                         },
                     })}
+                    onChange={updateField}
                     style={{ marginBottom: "10px" }}
                 />
                 {errors.retryPassword && (

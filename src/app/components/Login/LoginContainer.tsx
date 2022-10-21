@@ -1,25 +1,20 @@
+import { useAppSelector } from "../../hooks/useAppSelector";
+import { useAuthorizationUser } from "../../hooks/useAuthorizationUser";
 import React from "react";
 import LoginView from "./LoginView";
-import { useDispatch } from "react-redux";
-import { useAppSelector } from "../../hooks/useAppSelector";
-import { useBasket } from "../../hooks/useBasket";
-import { useAuthorizationUser } from "../../hooks/useAuthorizationUser";
-import { login } from "../../store/services/users/reducers/user.slice";
-import { ILogin } from "../../store/services/users/types/auth.types";
+import { useActions } from "../../hooks/useActions";
 
 export default function LoginContainer() {
-    const dispatch = useDispatch();
-    const {getBasketByUser} = useBasket();
+    const {authByCodeStepSendCode, loginUser} = useAuthorizationUser();
+    const {setLoginPhone} = useActions();
     const authError = useAppSelector(state => state.userReducer.error);
-    const {authByCodeStepSendCode} = useAuthorizationUser();
-    const loginUser = async (post: ILogin) => {
-        const data = await dispatch(login(post));
-        if(data.payload.user) {
-            getBasketByUser(data.payload.user.id);
-        }
+    const {loginPhone} = useAppSelector(state => state.verificationCodeReducer);
+
+    const setPhone = (phone: string) => {
+        setLoginPhone({phone});
     }
 
     return (<>
-        <LoginView login={loginUser} loginByCode={authByCodeStepSendCode} error={authError}></LoginView>
+        <LoginView login={loginUser} loginByCode={authByCodeStepSendCode} setLoginPhone={setPhone} phone={loginPhone} error={authError}></LoginView>
     </>);
 }

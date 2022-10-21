@@ -4,7 +4,8 @@ import { IAccountForms} from "../../types/account.form.types";
 const initialState: IAccountForms = {
     isRegistrationForm: false,
     isLoginForm: true,
-    isVerificationCodeForm: false
+    isVerificationCodeForm: false,
+    lastestForm: "login"
 };
 
 export const accountFormsSlice = createSlice({
@@ -15,11 +16,13 @@ export const accountFormsSlice = createSlice({
             state.isLoginForm = true;
             state.isRegistrationForm = false;
             state.isVerificationCodeForm = false;
+            state.lastestForm = "login";
         },
         switchRegForm: (state) => {
             state.isRegistrationForm = true;
             state.isLoginForm = false;
             state.isVerificationCodeForm = false;
+            state.lastestForm = "registration";
         },
         switchVerificationForm: (state) => {
             state.isVerificationCodeForm = true;

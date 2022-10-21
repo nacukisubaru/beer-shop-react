@@ -92,6 +92,9 @@ export const userSlice = createSlice({
             const user:any = action.payload.user;
             state.accessToken = token;
             state.user = user;
+        },
+        clearUserErrors: (state) => {
+            state.error = {message: ''};
         }
     },
     extraReducers: {

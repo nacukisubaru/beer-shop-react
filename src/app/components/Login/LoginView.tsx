@@ -1,19 +1,22 @@
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { ILogin } from "../../store/services/users/types/auth.types";
 import { useForm } from "react-hook-form";
 import InputMask from "react-input-mask";
+
 interface LoginProps {
-    login: (post: ILogin) => void;
-    loginByCode: (phone: string) => void;
+    login: (post: ILogin) => void,
+    loginByCode: (phone: string) => void,
+    setLoginPhone: (phone: string) => void,
+    phone: string,
     error: {
         message: string;
-    };
+    }
 }
 
-const LoginView: FC<LoginProps> = ({ login, loginByCode, error }) => {
-    const [phoneInput, setPhoneInput] = useState("");
+const LoginView: FC<LoginProps> = ({ login, loginByCode, setLoginPhone, phone, error }) => {
+    const [phoneInput, setPhoneInput] = useState(phone);
     const {
         setError,
         setValue,
@@ -28,8 +31,18 @@ const LoginView: FC<LoginProps> = ({ login, loginByCode, error }) => {
         mode: "onBlur",
     });
 
+    useEffect(() => {
+        if(phone) {
+            setValue("phone", phoneInput, {
+                shouldValidate: true,
+                shouldDirty: true,
+            });
+        }
+    }, [phone]);
+
     const fillInputPhone = (e: any) => {
         setPhoneInput(e.target.value);
+        setLoginPhone(e.target.value);
     };
 
     const onSubmit = (data: any) => {

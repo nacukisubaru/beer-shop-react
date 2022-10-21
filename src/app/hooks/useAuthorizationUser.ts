@@ -4,17 +4,17 @@ import { removeMask } from "../helpers/stringHelper";
 import { checkUserNotExistByEmailAndPhone, checkUserExistByPhone, loginByCode, sendCodeByCall, registrate, login } from "../store/services/users/reducers/user.slice";
 import { ILogin, IRegistration, ISendCodeByCallResponse } from "../store/services/users/types/auth.types";
 import { useActions } from "./useActions";
+import { useAppSelector } from "./useAppSelector";
 import { useBasket } from "./useBasket";
 
 export const useAuthorizationUser = () => {
-    const { setPhone, switchVerificationForm, setMinutesResend, setSecondsResend, switchLoginForm } = useActions();
+    const { setLoginPhone, setPhone, switchVerificationForm, setMinutesResend, setSecondsResend, switchLoginForm, setCanResendCode, resetRegFields } = useActions();
     const dispatch = useDispatch();
     const { getBasketByUser } = useBasket();
 
     const sendCode = async (phone: string): Promise<boolean> => {
         await setSecondsResend({ seconds: 59 });
         await setMinutesResend({ minutes: 1 });
-        await setPhone({ phone });
 
         const res = await dispatch(sendCodeByCall(phone));
         const data: ISendCodeByCallResponse = unwrapResult(res);
@@ -28,6 +28,7 @@ export const useAuthorizationUser = () => {
             setMinutesResend({ minutes });
         }
 
+        setCanResendCode({resendCode: false});
         switchVerificationForm();
         return true;
     }
@@ -38,11 +39,14 @@ export const useAuthorizationUser = () => {
             phone: userData.phone
         }));
 
-        const isUserNotExist =unwrapResult(result);
+        const isUserNotExist = unwrapResult(result);
         if (isUserNotExist.result) {
+            await setPhone({phone: userData.phone});
             const result = await sendCode(userData.phone);
             if (result) {
-                dispatch(registrate(userData));
+                await dispatch(registrate(userData));
+                resetRegFields();
+                setLoginPhone({phone: userData.phone});
             }
         }
     }
@@ -50,6 +54,7 @@ export const useAuthorizationUser = () => {
     const authByCodeStepSendCode = async (phone: string) => {
         let isUserExist = await dispatch(checkUserExistByPhone(phone));
         if (!isUserExist.error) {
+            await setLoginPhone({phone});
             sendCode(phone);
         }
     }

@@ -12,7 +12,17 @@ interface LoginAndRegistrationForm {}
 const LoginAndRegistrationForm: FC<LoginAndRegistrationForm> = () => {
     const accountForm = useAppSelector((state) => state.accountFormsReducer);
     const {isAuth} = useAppSelector(state => state.userReducer);
-    const {switchRegForm, switchLoginForm} = useActions();
+    const {switchRegForm, switchLoginForm, clearUserErrors} = useActions();
+
+    const handlerLoginClick = () => {
+        switchLoginForm();
+        clearUserErrors();
+    }
+
+    const handlerRegClick = () => {
+        switchRegForm();
+        clearUserErrors();
+    }
 
     return (
         <>
@@ -34,11 +44,11 @@ const LoginAndRegistrationForm: FC<LoginAndRegistrationForm> = () => {
                             items={[
                                 {
                                     name: "Войти",
-                                    onClick: () => {switchLoginForm();},
+                                    onClick: handlerLoginClick,
                                 },
                                 {
                                     name: "Регистрация",
-                                    onClick: () => {switchRegForm()},
+                                    onClick: handlerRegClick,
                                 },
                             ]}
                         />

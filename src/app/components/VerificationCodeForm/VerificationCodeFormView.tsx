@@ -1,25 +1,28 @@
 import { FC, useEffect, useState } from "react";
+import { useActions } from "../../hooks/useActions";
+import { useAppSelector } from "../../hooks/useAppSelector";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Timer from "../Timer/Timer";
-import { useActions } from "../../hooks/useActions";
-import { useAppSelector } from "../../hooks/useAppSelector";
-import "./css/style.css";
 import InputMask from "react-input-mask";
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import "./css/style.css";
 
 interface VerificationCodeFormView {
     error: string;
     requestCode: () => void;
     login: (code: string) => void;
+    back: () => void;
 }
 
 const VerificationCodeFormView: FC<VerificationCodeFormView> = ({
     requestCode,
     login,
     error,
+    back
 }) => {
     const { setMinutesResend, setSecondsResend, setCanResendCode } =
         useActions();
@@ -60,6 +63,10 @@ const VerificationCodeFormView: FC<VerificationCodeFormView> = ({
             >
                 <Card sx={{ width: 350 }}>
                     <CardContent>
+                        <KeyboardBackspaceIcon 
+                            style={{display: 'flex', cursor: 'pointer'}}
+                            onClick={back}
+                        />
                         <Typography variant="h5" component="div">
                             <h2>Введите код</h2>
                         </Typography>

@@ -14,6 +14,10 @@ export interface IRegistration {
     password: string
 }
 
+export interface IRegistrationFields extends IRegistration {
+    retryPassword: string
+}
+
 export interface IUserRegData {
     phone: string,
     email: string,
