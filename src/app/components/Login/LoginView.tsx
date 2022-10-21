@@ -1,100 +1,153 @@
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { ILogin } from "../../store/services/users/types/auth.types";
 import { useForm } from "react-hook-form";
+import InputMask from "react-input-mask";
 
 interface LoginProps {
-    login: (post: ILogin) => void;
-    switchRegForm: () => void;
+    login: (post: ILogin) => void,
+    loginByCode: (phone: string) => void,
+    setLoginPhone: (phone: string) => void,
+    phone: string,
     error: {
-        message: string
+        message: string;
     }
 }
 
-const LoginView: FC<LoginProps> = ({ login, switchRegForm, error }) => {
-    const { register, handleSubmit, formState: { errors }} = useForm({
+const LoginView: FC<LoginProps> = ({ login, loginByCode, setLoginPhone, phone, error }) => {
+    const [phoneInput, setPhoneInput] = useState(phone);
+    const {
+        setError,
+        setValue,
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
         defaultValues: {
-            email: "",
+            phone: "",
             password: "",
         },
-        mode: "onBlur"
+        mode: "onBlur",
     });
 
+    useEffect(() => {
+        if(phone) {
+            setValue("phone", phoneInput, {
+                shouldValidate: true,
+                shouldDirty: true,
+            });
+        }
+    }, [phone]);
+
+    const fillInputPhone = (e: any) => {
+        setPhoneInput(e.target.value);
+        setLoginPhone(e.target.value);
+    };
+
     const onSubmit = (data: any) => {
-        const {email, password} = data;
-        login({email, password});
+        const { phone, password } = data;
+        login({ phone, password });
+    };
+
+    const checkFillPhoneInput = () => {
+        if (!phoneInput || "+7 (___) __ __ ___" == phoneInput) {
+            setError("phone", {
+                type: "custom",
+                message: "Поле обязательно к заполнению",
+            });
+        } else {
+            setValue("phone", phoneInput, {
+                shouldValidate: true,
+                shouldDirty: true,
+            });
+        }
+    };
+
+    const handlerLoginByCode = () => {
+        if (phoneInput) {
+            loginByCode(phoneInput);
+        } else {
+            setError("phone", {
+                type: "custom",
+                message: "Поле обязательно к заполнению",
+            });
+        }
     };
 
     const styleError = {
-        display: 'flex',
-        justifyContent: 'left',
-        marginTop: '-6px',
-        color: 'red'
-    }
+        display: "flex",
+        justifyContent: "left",
+        marginTop: "-9px",
+        height: "6px",
+        color: "red",
+    };
+
+    const styleGlobalError = {
+        display: "flex",
+        justifyContent: "left",
+        //marginTop: "-9px",
+        color: "red",
+    };
 
     return (
         <>
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    margin: "50px auto 0",
-                }}
-            >
-                <Card sx={{ width: 350 }}>
-                    <CardContent>
-                        <Typography variant="h5" component="div">
-                            <h2>Авторизация</h2>
-                        </Typography>
-                        <form onSubmit={handleSubmit(onSubmit)}>
-                            <TextField
-                                {...register("email",  { 
-                                    required: "Поле обязательно к заполнению",
-                                    pattern: {
-                                        value: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                                        message: 'Некорректный email'
-                                    }
-                                })}
-                                fullWidth
-                                id="outlined-required"
-                                label="Email"
-                                style={{ marginBottom: "10px" }}
-                            />
-                             {errors.email && <p style={styleError}>{errors.email.message}</p>}
-                            <TextField
-                                fullWidth
-                                id="outlined-required"
-                                label="Пароль"
-                                type="password"
-                                {...register("password", { 
-                                    required: "Поле обязательно к заполнению",
-                                })}
-                                style={{ marginBottom: "10px" }}
-                            />
-                             {errors.password && <p style={styleError}>{errors.password.message}</p>}
-                             {error.message && <p style={styleError}>{error.message}</p>}
-                            <Button
-                                variant="contained"
-                                style={{ width: "316px", marginBottom: "10px"}}
-                                type="submit"
-                            >
-                                Войти
-                            </Button>
-                            <Button
-                                variant="contained"
-                                style={{ width: "316px" }}
-                                onClick={switchRegForm}
-                            >
-                                Регистрация
-                            </Button>
-                        </form>
-                    </CardContent>
-                </Card>
-            </div>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <InputMask
+                    mask="+7 (999) 99 99 999"
+                    value={phoneInput}
+                    onBlur={checkFillPhoneInput}
+                    onChange={(e) => {
+                        fillInputPhone(e);
+                    }}
+                >
+                    <TextField
+                        fullWidth
+                        id="outlined-required"
+                        label="Номер телефона"
+                        style={{ marginBottom: "10px" }}
+                    />
+                </InputMask>
+
+                <input
+                    {...register("phone", {
+                        required: "Поле обязательно к заполнению",
+                    })}
+                    id="phone-input-hidden"
+                    hidden={true}
+                    style={{ marginBottom: "10px" }}
+                />
+                <p style={styleError}>{errors.phone && errors.phone.message}</p>
+
+                <TextField
+                    fullWidth
+                    id="outlined-required"
+                    label="Пароль"
+                    type="password"
+                    {...register("password", {
+                        required: "Поле обязательно к заполнению",
+                    })}
+                    style={{ marginBottom: "10px" }}
+                />
+                <p style={styleError}>{errors.password && errors.password.message}</p>
+                {error.message && <p style={styleGlobalError}>{error.message}</p>}
+                <Button
+                    variant="contained"
+                    style={{ width: "316px", marginBottom: "10px" }}
+                    type="submit"
+                >
+                    Войти
+                </Button>
+                <Button
+                    variant="contained"
+                    style={{ width: "316px", marginBottom: "10px" }}
+                    onClick={() => {
+                        handlerLoginByCode();
+                    }}
+                >
+                    Войти по коду
+                </Button>
+            </form>
         </>
     );
 };

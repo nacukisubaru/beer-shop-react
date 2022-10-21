@@ -8,8 +8,9 @@ import { useActions } from "../../hooks/useActions";
 
 const ProfileView: FC = () => {
     const dispatch = useDispatch();
-    const {resetBasket} = useActions();
-    const handleLogout = async () => {    
+    const {resetBasket, setLoginPhone} = useActions();
+    const handleLogout = async () => {   
+       await setLoginPhone({phone:""}); 
        await dispatch(logout());
        resetBasket();
        localStorage.clear();

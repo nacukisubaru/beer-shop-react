@@ -1,25 +1,27 @@
 import React, { FC } from "react";
-import { useActions } from "../../hooks/useActions";
-import { useAppSelector } from "../../hooks/useAppSelector";
-import { ILogin } from "../../store/services/users/types/auth.types";
-import { useDispatch } from "react-redux";
-import { registrate } from "../../store/services/users/reducers/user.slice";
 import RegistrationView from "./RegistrationView";
+import { useAppSelector } from "../../hooks/useAppSelector";
+import { useAuthorizationUser } from "../../hooks/useAuthorizationUser";
+import { useActions } from "../../hooks/useActions";
 
 interface RegistrationContainerProps {}
 
-const RegistrationContainer:FC<RegistrationContainerProps>  = () => {
-    const dispatch = useDispatch();
-    const {switchLoginForm} = useActions();
-    const regError = useAppSelector(state => state.userReducer.error);
-
-    const registrateUser = async (post: ILogin) => {
-        await dispatch(registrate(post));
-    }
+const RegistrationContainer: FC<RegistrationContainerProps> = () => {
+    const regError = useAppSelector((state) => state.userReducer.error);
+    const { phone, email, password, retryPassword } = useAppSelector(
+        (state) => state.verificationCodeReducer
+    );
+    const { registrateUser } = useAuthorizationUser();
+    const { setRegFields } = useActions();
 
     return (
-        <RegistrationView registrate={registrateUser} switchLoginForm={switchLoginForm} error={regError} />
+        <RegistrationView
+            registrate={registrateUser}
+            setRegistrationFields={setRegFields}
+            defaultValues={{ phone, email, password, retryPassword }}
+            error={regError}
+        />
     );
-}
+};
 
 export default RegistrationContainer;

@@ -1,5 +1,6 @@
 export interface IAccountForms {
     isRegistrationForm: boolean;
     isLoginForm: boolean;
-    isSmsCodeForm: boolean;
+    isVerificationCodeForm: boolean;
+    lastestForm: string;
 }

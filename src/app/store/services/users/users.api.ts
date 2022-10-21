@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query";
 import { host } from '../../../http/http.request.config';
 import { IAuth, ILogin } from './types/auth.types';
 

@@ -1,148 +1,181 @@
-import {
-    Button,
-    Card,
-    CardContent,
-    TextField,
-    Typography,
-} from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import React, { FC, useState } from "react";
 import { useForm } from "react-hook-form";
-import { ILogin } from "../../store/services/users/types/auth.types";
+import { IRegistration, IRegistrationFields } from "../../store/services/users/types/auth.types";
+import InputMask from "react-input-mask";
 
 interface RegistrationViewProps {
-    registrate: (post: ILogin) => void;
-    switchLoginForm: () => void;
-    error: {
-        message: string
+    registrate: (post: IRegistration) => void;
+    setRegistrationFields: (fields: IRegistrationFields) => void;
+    defaultValues: {
+        phone: string,
+        email: string,
+        password: string,
+        retryPassword: string
     }
+    error: {
+        message: string;
+    };
 }
 
-const RegistrationView: FC<RegistrationViewProps> = ({registrate, switchLoginForm, error}) => {
+const RegistrationView: FC<RegistrationViewProps> = ({ registrate, setRegistrationFields, defaultValues, error }) => {
+    const [phoneInput, setPhoneInput] = useState(defaultValues.phone);
     const [passwordsEquals, setEqualsPasswords] = useState(true);
-
-    const { register, handleSubmit, formState: { errors }} = useForm({
-        defaultValues: {
-            email: "",
-            password: "",
-            retryPassword: ""
-        },
-        mode: "onBlur"
+    const {
+        setError,
+        setValue,
+        register,
+        getValues,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
+        defaultValues,
+        mode: "onBlur",
     });
 
     const onSubmit = (data: any) => {
-        const {email, password, retryPassword} = data;
-        if(password === retryPassword) {
-            registrate({email, password});
+        const { phone, email, password, retryPassword } = data;
+        if (password === retryPassword) {
+            registrate({ phone, email, password });
             setEqualsPasswords(true);
         } else {
             setEqualsPasswords(false);
         }
     };
 
-    const styleError = {
-        display: 'flex',
-        justifyContent: 'left',
-        marginTop: '-6px',
-        color: 'red'
+    const checkFillPhoneInput = () => {
+        console.log(phoneInput);
+        if (!phoneInput || "+7 (___) __ __ ___" == phoneInput) {
+            setError("phone", {
+                type: "custom",
+                message: "Поле обязательно к заполнению",
+            });
+        } else {
+            setValue("phone", phoneInput, {
+                shouldValidate: true,
+                shouldDirty: true,
+            });
+        }
+    };
+
+    const fillInputPhone = (e: any) => {
+        setPhoneInput(e.target.value);
+    };
+
+    const updateField = (e:any) => {
+        setValue(e.target.name, e.target.value, {
+            shouldValidate: true,
+            shouldDirty: true,
+        });
+
+        const {phone, email, password, retryPassword} = getValues();
+        setRegistrationFields({phone, email, password, retryPassword});
     }
+
+    const styleError = {
+        display: "flex",
+        justifyContent: "left",
+        marginTop: "-9px",
+        height: "6px",
+        color: "red",
+    };
+
+    const styleGlobalError = {
+        display: "flex",
+        justifyContent: "left",
+        color: "red",
+    };
 
     return (
         <>
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    margin: "50px auto 0",
-                }}
-            >
-                <Card sx={{ width: 350 }}>
-                    <CardContent>
-                        <Typography variant="h5" component="div">
-                            <h2>Регистрация</h2>
-                        </Typography>
-                        <form onSubmit={handleSubmit(onSubmit)}>
-                            <TextField
-                                {...register("email", {
-                                    required: "Поле обязательно к заполнению",
-                                    pattern: {
-                                        value: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                                        message: "Некорректный email",
-                                    },
-                                })}
-                                fullWidth
-                                id="outlined-required"
-                                label="Email"
-                                style={{ marginBottom: "10px" }}
-                            />
-                            {errors.email && (
-                                <p style={styleError}>{errors.email.message}</p>
-                            )}
-                            <TextField
-                                fullWidth
-                                id="outlined-required"
-                                label="Пароль"
-                                type="password"
-                                {...register("password", {
-                                    required: "Поле обязательно к заполнению",
-                                    minLength: {
-                                        value: 5,
-                                        message: 'Минимум 5 символов'
-                                    }
-                                })}
-                                style={{ marginBottom: "10px" }}
-                            />
-                             {errors.password && (
-                                <p style={styleError}>
-                                    {errors.password.message}
-                                </p>
-                            )}
-                            <TextField
-                                fullWidth
-                                id="outlined-required"
-                                label="Повторите пароль"
-                                type="password"
-                                {...register("retryPassword", {
-                                    required: "Поле обязательно к заполнению",
-                                    minLength: {
-                                        value: 5,
-                                        message: 'Минимум 5 символов'
-                                    }
-                                })}
-                                style={{ marginBottom: "10px" }}
-                            />
-                            {errors.retryPassword && (
-                                <p style={styleError}>
-                                    {errors.retryPassword.message}
-                                </p>
-                            )}
-                            {!passwordsEquals && (<p style={styleError}>Пароли не совпадают</p>)}
-                            {error.message && (
-                                <p style={styleError}>{error.message}</p>
-                            )}
-                              <Button
-                                variant="contained"
-                                style={{
-                                     width: "316px",
-                                     marginBottom: "10px" 
-                                }}
-                                type="submit"
-                            >
-                                Зарегистрироваться
-                            </Button>
-                            <Button
-                                variant="contained"
-                                style={{
-                                    width: "316px",
-                                    marginBottom: "10px",
-                                }}
-                                onClick={switchLoginForm}
-                            >
-                                Войти
-                            </Button>
-                        </form>
-                    </CardContent>
-                </Card>
-            </div>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <InputMask
+                    {...register("phone", {
+                        required: "Поле обязательно к заполнению",
+                    })}
+                    mask="+7 (999) 99 99 999"
+                    onBlur={checkFillPhoneInput}
+                    value={phoneInput}
+                    onChange={(e) => {
+                        fillInputPhone(e);
+                        updateField(e);
+                    }}
+                >
+                    <TextField
+                        fullWidth
+                        id="outlined-required"
+                        label="Номер телефона"
+                        style={{ marginBottom: "10px" }}
+                    />
+                </InputMask>
+                <p style={styleError}>{errors.phone && errors.phone.message}</p>
+
+                <TextField
+                    {...register("email", {
+                        required: "Поле обязательно к заполнению",
+                        pattern: {
+                            value: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                            message: "Некорректный email",
+                        },
+                    })}
+                    onChange={updateField}
+                    fullWidth
+                    id="outlined-required"
+                    label="Email"
+                    style={{ marginBottom: "10px" }}
+                />
+                <p style={styleError}>{errors.email && errors.email.message}</p>
+                <TextField
+                    fullWidth
+                    id="outlined-required"
+                    label="Пароль"
+                    type="password"
+                    {...register("password", {
+                        required: "Поле обязательно к заполнению",
+                        minLength: {
+                            value: 5,
+                            message: "Минимум 5 символов",
+                        },
+                    })}
+                    onChange={updateField}
+                    style={{ marginBottom: "10px" }}
+                />
+                <p style={styleError}>
+                    {errors.password && errors.password.message}
+                </p>
+                <TextField
+                    fullWidth
+                    id="outlined-required"
+                    label="Повторите пароль"
+                    type="password"
+                    {...register("retryPassword", {
+                        required: "Поле обязательно к заполнению",
+                        minLength: {
+                            value: 5,
+                            message: "Минимум 5 символов",
+                        },
+                    })}
+                    onChange={updateField}
+                    style={{ marginBottom: "10px" }}
+                />
+                {errors.retryPassword && (
+                    <p style={styleError}>{errors.retryPassword.message}</p>
+                )}
+                <p style={styleError}>
+                    {!passwordsEquals && "Пароли не совпадают"}
+                </p>
+                {error.message && <p style={styleGlobalError}>{error.message}</p>}
+                <Button
+                    variant="contained"
+                    style={{
+                        width: "316px",
+                        marginBottom: "10px",
+                    }}
+                    type="submit"
+                >
+                    Зарегистрироваться
+                </Button>
+            </form>
         </>
     );
 };
