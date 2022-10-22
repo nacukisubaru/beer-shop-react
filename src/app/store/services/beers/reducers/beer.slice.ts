@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IBeer } from "../types/beer.type";
 import { queryBuilder, thunkAxiosGet } from "../../../../helpers/queryHelper";
+//warning типы исправить
 const initialState = {
     beerList:<IBeer[]> [],
     beer:<IBeer> {},
@@ -28,6 +29,7 @@ export const getBeerList:any = createAsyncThunk(
         const {path, params} = body;
         try {
             console.log(body);
+            await beerSlice.actions.dropBeerList();
             const response = await fetch(queryBuilder(path, params));
             if(!response.ok) {
                 throw new Error('server error!');
@@ -78,6 +80,7 @@ export const beerSlice = createSlice({
                     console.log(item.productId);
                     return item;
                 }
+                return false;
             })[0];
         },
         openBeer: (state) => {
@@ -97,6 +100,7 @@ export const beerSlice = createSlice({
         },
         [getBeerList.fulfilled]: (state,action) => {
             state.status = 'resolved';
+            
             state.beerList = state.beerList.concat(action.payload.rows);
             state.page = action.payload.nextPage;
             state.total = action.payload.count;

@@ -12,11 +12,12 @@ export const queryBuilder = (path: string, params: any) => {
     if (params) {
         url += '?';
     }
-
+    //warning нужно исправить
     for (let inc in params) {
         if (Array.isArray(params[inc])) {
             params[inc].map((item: string) => {
                 url += inc + '[]=' + item + "&";
+                return url;
             });
         } else {
             url += inc + '=' + params[inc] + "&";

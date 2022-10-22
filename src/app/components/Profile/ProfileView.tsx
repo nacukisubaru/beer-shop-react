@@ -17,7 +17,6 @@ const ProfileView: FC = () => {
     }
 
     return (<>
-
         <Button onClick={handleLogout}>Выйти</Button>
     </>);
 }

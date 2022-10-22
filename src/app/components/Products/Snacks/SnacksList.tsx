@@ -1,12 +1,9 @@
-import React, { FC, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React, { FC } from "react";
 import { useActions } from "../../../hooks/useActions";
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import { useFilter } from "../../../hooks/useFilter";
 import { useProductMap } from "../../../hooks/useProductMap";
 import { useSnackList } from "../../../hooks/useProducts";
-import { limitPage } from "../../../http/http.request.config";
-import { getSnackList } from "../../../store/services/snacks/reducers/snack.slice";
 import { snackApi } from "../../../store/services/snacks/snack.api";
 import CardList from "../../Cards/CardList";
 import InputSearch from "../../Search/InputSearch";
@@ -16,7 +13,7 @@ interface SnacksListProps {}
 
 const SnacksList: FC<SnacksListProps> = () => {
     const { page, status } = useAppSelector((state) => state.snackReducer);
-    const { snackList, snack } = useAppSelector((state) => state.snackReducer);
+    const { snackList } = useAppSelector((state) => state.snackReducer);
     const {q} = useAppSelector((state) => state.filterProductsReducer);
     const { getSnack, openSnack } = useActions();
     const snacks = useProductMap(snackList, false);
@@ -40,7 +37,7 @@ const SnacksList: FC<SnacksListProps> = () => {
                         cardsList={snacks}
                         fetch={q ? fetchSnacksBySearch: fetchSnacks}
                         page={page}
-                        scrollList={status == "resolved" ? true : false}
+                        scrollList={status === "resolved" ? true : false}
                         show={showSnack}
                     ></CardList>
                 </>

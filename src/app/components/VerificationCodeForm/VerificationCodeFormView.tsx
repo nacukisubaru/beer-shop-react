@@ -11,14 +11,14 @@ import InputMask from "react-input-mask";
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import "./css/style.css";
 
-interface VerificationCodeFormView {
+interface VerificationCodeFormViewProps {
     error: string;
     requestCode: () => void;
     login: (code: string) => void;
     back: () => void;
 }
 
-const VerificationCodeFormView: FC<VerificationCodeFormView> = ({
+const VerificationCodeFormView: FC<VerificationCodeFormViewProps> = ({
     requestCode,
     login,
     error,
@@ -47,10 +47,10 @@ const VerificationCodeFormView: FC<VerificationCodeFormView> = ({
     };
 
     useEffect(() => {
-        if (minutesResend == 0 && secondsResend == 0) {
+        if (minutesResend === 0 && secondsResend === 0) {
             setCanResendCode({ resendCode: true });
         }
-    }, [minutesResend, secondsResend]);
+    }, [minutesResend, secondsResend, setCanResendCode]);
 
     return (
         <>
@@ -109,7 +109,7 @@ const VerificationCodeFormView: FC<VerificationCodeFormView> = ({
                                 variant="contained"
                                 style={{ width: "316px", marginBottom: "10px" }}
                                 onClick={requestCode}
-                                disabled={canResendCode == true ? false : true}
+                                disabled={canResendCode === true ? false : true}
                             >
                                 Запросить код
                             </Button>

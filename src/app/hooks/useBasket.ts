@@ -1,5 +1,4 @@
 import { useDispatch } from "react-redux";
-import { getValStorage, setValStorage } from "../helpers/storageHelper";
 import { basketApi } from "../store/services/basket/basket.api";
 import { getBasketByUserId, getBasketList } from "../store/services/basket/reducers/basket.slice";
 import { useActions } from "./useActions";

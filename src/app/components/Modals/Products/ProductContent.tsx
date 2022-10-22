@@ -27,6 +27,7 @@ const ProductContent: FC<IProductContent> = ({id, listInfo, description, image, 
             if(item.id === id) {
                 return item;
             }
+            return false;
         });
 
         if(items.length <= 0) {

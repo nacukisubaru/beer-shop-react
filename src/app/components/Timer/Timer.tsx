@@ -1,5 +1,4 @@
 import { FC, useEffect } from "react";
-import { Typography } from '@mui/material';
 
 interface ISecondsArgs {
     seconds: number

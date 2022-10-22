@@ -46,8 +46,8 @@ const Menu: FC<IMenu> = ({callbackApplyFilter, callbackResetFilter, filter, filt
     }
 
     const arrayMenuList: any = [
-        <ItemMenu name="Пиво" link="/products/beers" />,
-        <ItemMenu name="Закуски" link="/products/snacks" />,
+        <ItemMenu name="Пиво" link="/products/beers" onClick={callbackResetFilter}/>,
+        <ItemMenu name="Закуски" link="/products/snacks" onClick={callbackResetFilter}/>,
     ];
 
     const arrayFilterList: any = [

@@ -1,15 +1,14 @@
+import React, { FC } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import React, { FC } from "react";
 import AccessibleTabs from "../Tabs/AccessibleTabs";
 import LoginContainer from "./LoginContainer";
 import RegistrationContainer from "../Registration/RegistrationContainer";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useActions } from "../../hooks/useActions";
-interface LoginAndRegistrationForm {}
 
-const LoginAndRegistrationForm: FC<LoginAndRegistrationForm> = () => {
+const LoginAndRegistrationForm: FC = () => {
     const accountForm = useAppSelector((state) => state.accountFormsReducer);
     const {isAuth} = useAppSelector(state => state.userReducer);
     const {switchRegForm, switchLoginForm, clearUserErrors} = useActions();

@@ -45,7 +45,7 @@ const RegistrationView: FC<RegistrationViewProps> = ({ registrate, setRegistrati
 
     const checkFillPhoneInput = () => {
         console.log(phoneInput);
-        if (!phoneInput || "+7 (___) __ __ ___" == phoneInput) {
+        if (!phoneInput || "+7 (___) __ __ ___" === phoneInput) {
             setError("phone", {
                 type: "custom",
                 message: "Поле обязательно к заполнению",
