@@ -16,11 +16,11 @@ const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
     },
 }));
 
-interface ICartBadge {
+interface ICartBadgeProps {
     quantity: number;
 }
 
-const CartBadge: FC<ICartBadge> = ({ quantity }) => {
+const CartBadge: FC<ICartBadgeProps> = ({ quantity }) => {
     return (
         <Link to="/basket">
             <IconButton aria-label="cart">

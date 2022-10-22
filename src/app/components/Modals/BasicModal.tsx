@@ -3,7 +3,6 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogContentText,
     DialogTitle,
     IconButton,
     Typography,
@@ -12,7 +11,6 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import "./css/style.css";
 import { Close } from "@mui/icons-material";
-import { fontWeight } from "@mui/system";
 
 interface IBasicModal {
     open: boolean;

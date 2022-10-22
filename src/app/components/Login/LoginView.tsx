@@ -16,7 +16,6 @@ interface LoginProps {
 }
 
 const LoginView: FC<LoginProps> = ({ login, loginByCode, setLoginPhone, phone, error }) => {
-    const [phoneInput, setPhoneInput] = useState(phone);
     const {
         setError,
         setValue,
@@ -30,6 +29,7 @@ const LoginView: FC<LoginProps> = ({ login, loginByCode, setLoginPhone, phone, e
         },
         mode: "onBlur",
     });
+    const [phoneInput, setPhoneInput] = useState(phone);
 
     useEffect(() => {
         if(phone) {
@@ -38,7 +38,7 @@ const LoginView: FC<LoginProps> = ({ login, loginByCode, setLoginPhone, phone, e
                 shouldDirty: true,
             });
         }
-    }, [phone]);
+    }, [phone, phoneInput, setValue]);
 
     const fillInputPhone = (e: any) => {
         setPhoneInput(e.target.value);
@@ -51,7 +51,7 @@ const LoginView: FC<LoginProps> = ({ login, loginByCode, setLoginPhone, phone, e
     };
 
     const checkFillPhoneInput = () => {
-        if (!phoneInput || "+7 (___) __ __ ___" == phoneInput) {
+        if (!phoneInput || "+7 (___) __ __ ___" === phoneInput) {
             setError("phone", {
                 type: "custom",
                 message: "Поле обязательно к заполнению",

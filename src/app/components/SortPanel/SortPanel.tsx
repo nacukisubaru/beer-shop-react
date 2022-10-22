@@ -1,10 +1,8 @@
 import {
     FormControl,
     InputLabel,
-    MenuItem,
     Select,
     Typography,
-    Box
 } from "@mui/material";
 import { FC } from "react";
 import Sort from "./Sort";

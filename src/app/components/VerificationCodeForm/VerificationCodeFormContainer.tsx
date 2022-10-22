@@ -8,9 +8,7 @@ import {
 } from "../../store/services/users/reducers/user.slice";
 import VerificationCodeFormView from "./VerificationCodeFormView";
 
-interface VerificationCodeFormContainer {}
-
-const VerificationCodeFormContainer: FC<VerificationCodeFormContainer> = () => {
+const VerificationCodeFormContainer: FC = () => {
     const { setMinutesResend, setSecondsResend, setCanResendCode, switchLoginForm, clearUserErrors } = useActions();
     const { phone, loginPhone } = useAppSelector(
         (state) => state.verificationCodeReducer

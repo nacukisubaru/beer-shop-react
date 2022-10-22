@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { thunkAxiosGet } from "../../../../helpers/queryHelper";
 import { IProduct, IProductBasket } from "../../../../types/product.types";
 import { IBasket } from "../types/basket.type";
-
+//warning типы исправить
 const initialState = {
     list:<IProductBasket[]> [],
     currentBasket: 0,

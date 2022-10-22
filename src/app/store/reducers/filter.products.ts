@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-
+//warning типы исправить
 export const initialState = {
     grades:<number[]> [],
     brandIds:<number[]> [],

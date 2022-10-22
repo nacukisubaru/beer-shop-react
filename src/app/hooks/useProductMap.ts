@@ -3,7 +3,7 @@ import { beerApi } from "../store/services/beers/beer.api";
 import { IBeer } from "../store/services/beers/types/beer.type";
 import { snackApi } from "../store/services/snacks/snack.api";
 import { ISnack } from "../store/services/snacks/types/snacks.types";
-import { IProduct, IProductBasket } from "../types/product.types";
+import { IProductBasket } from "../types/product.types";
 import { useActions } from "./useActions";
 import { useAppSelector } from "./useAppSelector";
 import { useBasket } from "./useBasket";

@@ -4,7 +4,6 @@ import { removeMask } from "../helpers/stringHelper";
 import { checkUserNotExistByEmailAndPhone, checkUserExistByPhone, loginByCode, sendCodeByCall, registrate, login } from "../store/services/users/reducers/user.slice";
 import { ILogin, IRegistration, ISendCodeByCallResponse } from "../store/services/users/types/auth.types";
 import { useActions } from "./useActions";
-import { useAppSelector } from "./useAppSelector";
 import { useBasket } from "./useBasket";
 
 export const useAuthorizationUser = () => {
@@ -22,7 +21,7 @@ export const useAuthorizationUser = () => {
             return false;
         }
 
-        if (data.status == "ERROR_LIMIT_TIME") {
+        if (data.status === "ERROR_LIMIT_TIME") {
             const { minutes, seconds } = data.remainingTime;
             setSecondsResend({ seconds });
             setMinutesResend({ minutes });

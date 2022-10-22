@@ -1,5 +1,3 @@
-
-import { setObjStorage, setValStorage } from "../helpers/storageHelper";
 import { host } from "./http.request.config";
 
 export const axios = require('axios');
@@ -19,7 +17,7 @@ $api.interceptors.response.use((config: any) => {
 },
     async (error:any) => {
         const originalRequest = error.config;
-        if(error.response.status == 401 && error.config && !error.config._isRetry) {
+        if(error.response.status === 401 && error.config && !error.config._isRetry) {
             originalRequest._isRetry = true;
             try {
                 const response = await axios.get(`${host}/users/refresh`, {withCredentials: true});

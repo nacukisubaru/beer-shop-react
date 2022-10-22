@@ -1,5 +1,4 @@
-import React, { FC, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React, { FC } from "react";
 import { useActions } from "../../../hooks/useActions";
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import { useFilter } from "../../../hooks/useFilter";
@@ -15,7 +14,7 @@ interface BeersListProps {}
 const BeersList: FC<BeersListProps> = () => {
     const { page, status } = useAppSelector((state) => state.beerReducer);
     const { getBeer, openBeer } = useActions();
-    const { beerList, beer } = useAppSelector((state) => state.beerReducer);
+    const { beerList } = useAppSelector((state) => state.beerReducer);
     const {q} = useAppSelector((state) => state.filterProductsReducer);
     const beers = useProductMap(beerList, true);
     const [addShowBeer] = beerApi.useAddShowBeerMutation();
@@ -39,7 +38,7 @@ const BeersList: FC<BeersListProps> = () => {
                         cardsList={beers}
                         fetch={q ? fetchBeersBySearch: fetchBeers}
                         page={page}
-                        scrollList={status == "resolved" ? true : false}
+                        scrollList={status === "resolved" ? true : false}
                         show={showBeer}
                     ></CardList>
                 </>
