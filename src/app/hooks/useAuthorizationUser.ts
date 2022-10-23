@@ -1,6 +1,7 @@
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import { removeMask } from "../helpers/stringHelper";
+import { basketApi } from "../store/services/basket/basket.api";
 import { checkUserNotExistByEmailAndPhone, checkUserExistByPhone, loginByCode, sendCodeByCall, registrate, login } from "../store/services/users/reducers/user.slice";
 import { ILogin, IRegistration, ISendCodeByCallResponse } from "../store/services/users/types/auth.types";
 import { useActions } from "./useActions";
@@ -62,14 +63,14 @@ export const useAuthorizationUser = () => {
         code = removeMask(code);
         let userData = await dispatch(loginByCode({ phone, code }));
         userData = unwrapResult(userData);
-        getBasketByUser(userData.user.id);
+        getBasketByUser();
         switchLoginForm();
     }
 
     const loginUser = async (post: ILogin) => {
         const data = await dispatch(login(post));
         if (data.payload.user) {
-            getBasketByUser(data.payload.user.id);
+            getBasketByUser();
         }
     }
 

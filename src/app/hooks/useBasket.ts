@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { basketApi } from "../store/services/basket/basket.api";
-import { getBasketByUserId, getBasketList } from "../store/services/basket/reducers/basket.slice";
+import { getBasketByUserId, getBasketById } from "../store/services/basket/reducers/basket.slice";
 import { useActions } from "./useActions";
 import { useAppSelector } from "./useAppSelector";
 
@@ -9,7 +9,7 @@ interface IUseBasket {
     remove: (productId: number) => Promise<void>,
     update: (productId: number, quantity: number) => Promise<void>,
     getBasket: () => Promise<void>,
-    getBasketByUser: (userId: number) => Promise<void>
+    getBasketByUser: () => Promise<void>
 }
 
 export const useBasket = ():IUseBasket => {
@@ -55,12 +55,15 @@ export const useBasket = ():IUseBasket => {
     const getBasket = async () => {
         const basketId = getBasketId();
         if(basketId) {
-            dispatch(getBasketList(basketId));
+            dispatch(getBasketById(basketId));
         }
     }
 
-    const getBasketByUser = async (userId: number) => {
-        dispatch(getBasketByUserId(userId));
+    const getBasketByUser = async () => {
+        const basketId = getBasketId();
+        if(basketId) {
+            dispatch(getBasketByUserId(basketId));
+        }
     }
 
     const getBasketId = () => {

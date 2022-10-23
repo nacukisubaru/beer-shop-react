@@ -11,18 +11,17 @@ const initialState = {
     error: ''
 };
 
-export const getBasketList:any = createAsyncThunk(
+export const getBasketById:any = createAsyncThunk(
     'basket/fetch',
     async(id, {rejectWithValue}) => {
         return thunkAxiosGet('/basket/getBasket/' + id, {}, false, rejectWithValue);
     }
 );
 
-
 export const getBasketByUserId:any = createAsyncThunk(
     'getBasket/fetch',
-    async(id: number, {rejectWithValue}) => {
-        return thunkAxiosGet('/basket/freebasket/' + id, {}, true, rejectWithValue);
+    async(basketId: number, {rejectWithValue}) => {
+        return thunkAxiosGet('/basket/freebasket/', {basketId}, true, rejectWithValue);
     }
 );
 
@@ -129,17 +128,17 @@ export const basketSlice = createSlice({
         }
     },
     extraReducers: {
-        [getBasketList.pending]: (state) => {
+        [getBasketById.pending]: (state) => {
             state.status = 'loading';
             state.error = '';
         },
-        [getBasketList.fulfilled]: (state, action: PayloadAction<IBasket>) => {
+        [getBasketById.fulfilled]: (state, action: PayloadAction<IBasket>) => {
             state.status = 'resolved';
             console.log(action);
             state.currentBasket = action.payload.id;
             setStateProductList(state, action);
         },
-        [getBasketList.rejected]: (state,action) => {
+        [getBasketById.rejected]: (state,action) => {
             state.status = 'rejected';
             state.error = action.payload;
         },

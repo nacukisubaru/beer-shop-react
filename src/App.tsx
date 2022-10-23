@@ -5,11 +5,9 @@ import Beers from "./pages/products/beers";
 import Basket from "./pages/basket/basket";
 import { useEffect } from "react";
 import { useBasket } from "./app/hooks/useBasket";
-import { useActions } from "./app/hooks/useActions";
 import { getUser } from "./app/store/services/users/reducers/user.slice";
 import { useDispatch } from "react-redux";
 import Snacks from "./pages/products/snacks";
-import Checkbox from '@mui/material/Checkbox';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 function App() {
@@ -22,7 +20,7 @@ function App() {
         if(userId) {
             if(accessToken) {
                 dispatch(getUser(userId));
-                getBasketByUser(userId);
+                getBasketByUser();
             }
         } else {
             getBasket();
