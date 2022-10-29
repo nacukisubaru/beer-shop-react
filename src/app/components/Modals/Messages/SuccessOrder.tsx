@@ -6,11 +6,12 @@ import BasicModal from "../BasicModal";
 import { useNavigate } from "react-router-dom";
 
 const SuccessOrder: FC = () => {
-    const { openModalSuccessOrder, closeModalSuccessOrder } = useActions();
+    const { openModalSuccessOrder, closeModalSuccessOrder, resetBasket } = useActions();
     const { modalSuccessOrder, orderId } = useAppSelector((state) => state.orderReducer);
     const navigate = useNavigate();
 
     const closeHandler = async () => {
+        await resetBasket();
         await closeModalSuccessOrder();
         navigate('/products/beers');
     }
