@@ -9,19 +9,28 @@ interface IBasketFieldsProduct extends IProduct {
 }
 
 export interface IBasket {
-    id: number,
+    hash: string,
     userId: number,
     amount: number,
     products: IBasketFieldsProduct[]
 }
 
 export interface IRemoveProduct {
-    id: number,
+    hash: string,
     productId: number
 }
 
 export interface IUpdateProduct {
-    id: number,
+    hash: string,
+    productId: number,
+    quantity:number
+}
+
+export interface getBasket {
+    hash: string
+}
+
+export interface ICreateBasket {
     productId: number,
     quantity:number
 }

@@ -29,13 +29,14 @@ export const queryBuilder = (path: string, params: any) => {
 
 
 export const thunkAxiosPost = async (path = "", params = {}, isApi = false, rejectWithValue: any) => {
+    const url = host + path;
     let request = axios;
     if (isApi) {
         request = $api;
     }
 
     try {
-        const response = await request.post(path, params);
+        const response = await request.post(url, params);
         if (!response || !response.data) {
             throw new Error('error');
         }

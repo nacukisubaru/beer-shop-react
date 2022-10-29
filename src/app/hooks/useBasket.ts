@@ -1,6 +1,7 @@
+import { unwrapResult } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import { basketApi } from "../store/services/basket/basket.api";
-import { getBasketByUserId, getBasketById } from "../store/services/basket/reducers/basket.slice";
+import { getBasketByUserId, getBasketById, createBasketByUser } from "../store/services/basket/reducers/basket.slice";
 import { useActions } from "./useActions";
 import { useAppSelector } from "./useAppSelector";
 
@@ -19,7 +20,7 @@ export const useBasket = ():IUseBasket => {
     const dispatch = useDispatch();
     const {setBasket} = useActions();
     const basketId = useAppSelector(state => state.basketReducer.currentBasket);
-    const {user} = useAppSelector(state => state.userReducer);
+    const {isAuth} = useAppSelector(state => state.userReducer);
 
     const add = async (quantity: number, productId: number) => {
         const prodObj:any = {
@@ -28,46 +29,49 @@ export const useBasket = ():IUseBasket => {
         };
 
         if(basketId) {
-            prodObj.id = basketId;
+            prodObj.hash = basketId;
         }
 
-        if(user.id) {
-            prodObj.userId = user.id;
+        let result:any  = {};
+        
+        if(isAuth) {
+            result = await dispatch(createBasketByUser(prodObj));
+            result = unwrapResult(result);
+        } else {
+            result = await createBaket(prodObj).unwrap();
         }
-
-        const result:any = await createBaket(prodObj).unwrap();
        
-        if(result.id && !basketId) {
-            setBasket(result.id);
+        if(result.hash && !basketId) {
+            setBasket(result.hash);
         }
 
         return result.id;
     }
 
     const update = async (productId: number, quantity: number) => {
-        updateProduct({id: basketId, productId, quantity});
+        updateProduct({hash: basketId, productId, quantity});
     }
 
     const remove = async (productId: number) => {
-        await removeProduct({id: basketId, productId});
+        await removeProduct({hash: basketId, productId});
     }
 
     const getBasket = async () => {
         const basketId = getBasketId();
         if(basketId) {
-            dispatch(getBasketById(basketId));
+            dispatch(getBasketById({hash: basketId}));
         }
     }
 
     const getBasketByUser = async () => {
         const basketId = getBasketId();
-        if(basketId) {
+        //if(basketId) {
             dispatch(getBasketByUserId(basketId));
-        }
+        //}
     }
 
     const getBasketId = () => {
-        return Number(localStorage.getItem("basketId"));
+        return localStorage.getItem("basketId");
     }
 
     return {add, getBasket, update, remove, getBasketByUser};
