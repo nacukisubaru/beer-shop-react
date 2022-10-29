@@ -4,6 +4,7 @@ import { thunkAxiosPost } from "../../../../helpers/queryHelper";
 const initialState = {
     awareChangesInBasket: false,
     modalNotInStock: false,
+    backRedirectToOrder: false,
     status: '',
     error: {}
 };
@@ -22,6 +23,9 @@ export const orderSlice = createSlice({
         setAwareChangesInBasket: (state, action: PayloadAction<{aware: boolean}>) => {
             state.awareChangesInBasket = action.payload.aware;
         },
+        setBackRedirectToOrder: (state, action: PayloadAction<{isRedirect: boolean}>) => {
+            state.backRedirectToOrder = action.payload.isRedirect;
+        },
         openModalProductNotInStock: (state) => {
             state.modalNotInStock = true;
         },
@@ -36,6 +40,7 @@ export const orderSlice = createSlice({
         },
         [createOrder.fulfilled]: (state) => {
             state.status = 'resolved';
+            state.backRedirectToOrder = false;
             localStorage.removeItem("basketId");
         },
         [createOrder.rejected]: (state,action) => {

@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useActions } from "../../hooks/useActions";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useAuthorizationUser } from "../../hooks/useAuthorizationUser";
@@ -15,12 +16,17 @@ const VerificationCodeFormContainer: FC = () => {
     );
     const {lastestForm} = useAppSelector((state) => state.accountFormsReducer);
     const {error} = useAppSelector((state) => state.userReducer);
+    const {backRedirectToOrder} = useAppSelector(state => state.orderReducer);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const {authByCodeStepLogin} = useAuthorizationUser();
 
     const handlerLoginByCode = async (code: string) => {
         const phoneNumber = lastestForm === "login" ? loginPhone : phone;
-        authByCodeStepLogin(phoneNumber, code);
+        await authByCodeStepLogin(phoneNumber, code);
+        if(backRedirectToOrder) {
+            navigate("/basket");
+        }
     };
 
     const handlerRequestCode = () => {

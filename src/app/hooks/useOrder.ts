@@ -12,7 +12,7 @@ export const useOrder = () => {
     const navigate = useNavigate();
     const {getBasketId} = useBasket();
     const dispatch = useDispatch();
-    const {setAwareChangesInBasket, openModalProductNotInStock} = useActions();
+    const {setAwareChangesInBasket, openModalProductNotInStock, setBackRedirectToOrder} = useActions();
     const {isAuth} = useAppSelector(state => state.userReducer);
     const {awareChangesInBasket} = useAppSelector(state => state.orderReducer);
 
@@ -36,8 +36,8 @@ export const useOrder = () => {
 
             await setAwareChangesInBasket({aware: false});
             dispatch(createOrder(basketHash));
-            
         } else {
+            setBackRedirectToOrder({isRedirect: true});
             navigate('/account');
         }
     }
