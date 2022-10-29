@@ -12,7 +12,6 @@ const BeerModal: FC = () => {
     const { openBeer, closeBeer } = useActions();
     const { title, description, image } = beer.product;
     const { compound, volume, fortress, ibu, product, forBottling, filtered } = beer;
-
     const createBeerProductForBuy:any = createProductForBuy(beer.product);
     const [buy] = useBuyProduct(createBeerProductForBuy);
     const arrayBeer: any = [
@@ -24,6 +23,7 @@ const BeerModal: FC = () => {
         { key: "Вид упаковки", value: product.typePackagingName },
         { key: "На разлив", value: forBottling ? "Да": "Нет" },
         { key: "Фильтрованное", value: filtered ? "Да": "Нет" },
+        { key: "В наличии", value: product.inStock ? "Да": "Нет" },
     ];
 
     return (
@@ -41,6 +41,7 @@ const BeerModal: FC = () => {
                             image={image}
                             description={description}
                             listInfo={arrayBeer}
+                            inStock={product.inStock}
                             buy={buy} />
                     </>
                 }

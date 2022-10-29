@@ -36,3 +36,7 @@
     justify-content: space-evenly;
     margin-bottom: 15px;
 }
+
+.disable-text {
+    color: #8d8d8d;;
+}

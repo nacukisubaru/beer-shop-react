@@ -33,14 +33,15 @@ export const createBasketByUser:any = createAsyncThunk(
 );
 
 export const createProductForBuy = (product: IProduct, quantity: number = 1): IProductBasket => {
-    const {id, price, title, description, image} = product;
+    const {id, price, title, description, image, inStock} = product;
     const prod: IProductBasket = {
         id,
         title,
         price,
         description,
         quantity,
-        image
+        image,
+        inStock
     };
 
     return prod;

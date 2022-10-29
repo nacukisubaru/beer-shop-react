@@ -72,6 +72,14 @@
     overflow: hidden;
 }
 
+.crossed-out-text {
+    text-decoration: line-through;
+}
+
+.disable-text {
+    color: #8d8d8d;;
+}
+
 /* Portrait */
 @media only screen 
   and (min-device-width: 375px) 

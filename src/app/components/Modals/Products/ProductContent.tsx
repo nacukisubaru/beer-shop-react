@@ -16,10 +16,11 @@ interface IProductContent {
     listInfo: IListInfoItem[],
     description: string,
     image: string,
+    inStock: boolean,
     buy: (quantity: number) => void
 }
 
-const ProductContent: FC<IProductContent> = ({id, listInfo, description, image, buy}) => {
+const ProductContent: FC<IProductContent> = ({id, listInfo, description, image, inStock, buy}) => {
     const {list} = useAppSelector(state => state.basketReducer);
 
     const findItemInBasket = (id:number) => {
@@ -42,13 +43,14 @@ const ProductContent: FC<IProductContent> = ({id, listInfo, description, image, 
     const [totalQuan, setTotalQuan] = useState(0);
 
     const handlerPlusQuan = async () => {
-        await setQuantity(quantity + 1);
-        setTotalQuan(quantity + totalQuan);
-        console.log(totalQuan);
+        if(inStock) {
+            await setQuantity(quantity + 1);
+            setTotalQuan(quantity + totalQuan);
+        }
     }
 
     const handlerMinusQuan = async () => {
-        if(quantity > 1) {
+        if(quantity > 1 && inStock) {
             await setQuantity(quantity - 1);
             setTotalQuan(quantity - totalQuan);
         }
@@ -71,12 +73,16 @@ const ProductContent: FC<IProductContent> = ({id, listInfo, description, image, 
                     ></Box>
         
                     <div className="quantity">
-                        <RemoveCircleOutlineIcon onClick={handlerMinusQuan}/>
-                            <div>{quantity}</div>
-                        <AddCircleOutlineIcon  onClick={handlerPlusQuan}/>
+                        <span className={!inStock ? "disable-text" : ""}>
+                            <RemoveCircleOutlineIcon style={{cursor: "pointer"}} onClick={handlerMinusQuan}/>
+                        </span>
+                            <div className={!inStock ? "disable-text" : ""}>{quantity}</div>
+                        <span  className={!inStock ? "disable-text" : ""}>
+                            <AddCircleOutlineIcon style={{cursor: "pointer"}} onClick={handlerPlusQuan}/>
+                        </span>
                     </div>
                     <div className="buy-btn">
-                        <Button variant="outlined" style={{width:'200px'}} onClick={handleBuy}>купить</Button>
+                        <Button variant="outlined" style={{width:'200px'}} disabled={inStock ? false : true} onClick={handleBuy}>купить</Button>
                     </div>
                 </div>
                

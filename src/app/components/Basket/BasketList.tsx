@@ -30,6 +30,7 @@ const BasketList: FC<BasketListProps> = ({basketList, count}) => {
                             title={item.title}
                             price={item.price}
                             quantity={item.quantity}
+                            inStock={item.inStock}
                             //characteristics={item.characteristics}
                             image={item.image} 
                             description={item.description} />

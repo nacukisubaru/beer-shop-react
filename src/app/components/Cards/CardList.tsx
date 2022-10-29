@@ -41,6 +41,7 @@ const CardList: FC<CardListProps> = ({ cardsList, fetch, page, scrollList = true
                                 description={item.description}
                                 price={item.price}
                                 image={item.image}
+                                inStock={item.inStock}
                                 buy={item.buy}
                                 show={show} />
                         ))}
