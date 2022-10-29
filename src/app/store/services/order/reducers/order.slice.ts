@@ -1,10 +1,22 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { thunkAxiosPost } from "../../../../helpers/queryHelper";
 
-const initialState = {
+interface IState {
+    orderId: number,
+    awareChangesInBasket: boolean,
+    modalNotInStock: boolean,
+    backRedirectToOrder: boolean,
+    modalSuccessOrder: boolean,
+    status: string,
+    error: any
+}
+
+const initialState: IState = {
+    orderId: 0,
     awareChangesInBasket: false,
     modalNotInStock: false,
     backRedirectToOrder: false,
+    modalSuccessOrder: false,
     status: '',
     error: {}
 };
@@ -31,16 +43,24 @@ export const orderSlice = createSlice({
         },
         closeModalProductNotInStock: (state) => {
             state.modalNotInStock = false;
-        }
+        },
+        openModalSuccessOrder: (state) => {
+            state.modalSuccessOrder = true;
+        },
+        closeModalSuccessOrder: (state) => {
+            state.modalSuccessOrder = false;
+        },
     },
     extraReducers: {
         [createOrder.pending]: (state) => {
             state.status = 'loading';
             state.error = '';
         },
-        [createOrder.fulfilled]: (state) => {
+        [createOrder.fulfilled]: (state, action) => {
             state.status = 'resolved';
             state.backRedirectToOrder = false;
+            state.orderId = action.payload.id;
+            state.modalSuccessOrder = true;
             localStorage.removeItem("basketId");
         },
         [createOrder.rejected]: (state,action) => {

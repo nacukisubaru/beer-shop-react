@@ -6,6 +6,7 @@ import TotalCard from "./TotalCard";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import ProductNotInStock from "../Modals/Messages/ProductNotInStock";
+import SuccessOrder from "../Modals/Messages/SuccessOrder";
 
 interface BasketListProps {
     basketList: IProductBasket[];
@@ -54,6 +55,7 @@ const BasketList: FC<BasketListProps> = ({basketList, order, count}) => {
                 )}
             </div>
             <ProductNotInStock />
+            <SuccessOrder />
         </>
     );
 };

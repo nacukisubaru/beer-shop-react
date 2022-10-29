@@ -18,7 +18,7 @@ const ProductNotInStock: FC = () => {
             <BasicModal
                 open={modalNotInStock}
                 setOpen={openModalProductNotInStock}
-                setClose={closeModalProductNotInStock}
+                setClose={closeHandler}
                 title={""}
                 showOkBtn={true}
                 body={
