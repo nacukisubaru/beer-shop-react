@@ -44,22 +44,24 @@ const BasketCard: FC<IBasketCard> = ({id, index, title, price, quantity, image, 
                                     height: "150px",
                                 }}
                                 sx={{
-                                    background: `url(${image}) center center no-repeat`,
+                                    background: `url(${image}) center center no-repeat `,
                                 }}
                             ></Box>
                         </div>
                         <div className="basket-element product-info-wrapper">
-                            <Typography
-                                variant="h4"
-                                style={{
-                                    fontSize: "17px",
-                                    marginBottom: "10px",
-                                    fontWeight: 'bold'
-                                }}
-                            >
-                                {title}
-                            </Typography>
-                            <div className="description">
+                            <span className={!inStock ? "crossed-out-text disable-text" : ""}>
+                                <Typography
+                                    variant="h4"
+                                    style={{
+                                        fontSize: "17px",
+                                        marginBottom: "10px",
+                                        fontWeight: 'bold'
+                                    }}
+                                >
+                                    {title}
+                                </Typography>
+                            </span>
+                            <div className={inStock ? "description": "description disable-text"}>
                                 <Typography
                                     variant="body2"
                                     style={{
@@ -67,7 +69,7 @@ const BasketCard: FC<IBasketCard> = ({id, index, title, price, quantity, image, 
                                         marginBottom: "10px",
                                     }}
                                 >
-                                    {description}
+                                    {inStock ? description : 'Нет в наличии'}
                                 </Typography>
                             </div>
                         </div>
@@ -75,13 +77,13 @@ const BasketCard: FC<IBasketCard> = ({id, index, title, price, quantity, image, 
                             style={{ paddingTop: "45px" }}
                             className="basket-element"
                         >
-                            <div className="basket-quantity">
-                                <RemoveCircleOutlineIcon onClick={handlerMinusQuan} />
+                            <div className={inStock ? "basket-quantity" : "basket-quantity disable-text"}>
+                                <RemoveCircleOutlineIcon style={{cursor: "pointer"}} onClick={handlerMinusQuan} />
                                     <div>{quantity}</div>
-                                <AddCircleOutlineIcon onClick={handlerPlusQuan} />
+                                <AddCircleOutlineIcon style={{cursor: "pointer"}} onClick={handlerPlusQuan} />
                             </div>
                         </div>
-                        <div className="basket-element basket-price">
+                        <div className={inStock ? "basket-element basket-price" : "basket-element basket-price disable-text"}>
                             {price * quantity} р
                             <div>
                                 <IconButton onClick={handleRemove}>

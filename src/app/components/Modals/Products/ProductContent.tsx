@@ -73,9 +73,13 @@ const ProductContent: FC<IProductContent> = ({id, listInfo, description, image, 
                     ></Box>
         
                     <div className="quantity">
-                        <RemoveCircleOutlineIcon onClick={handlerMinusQuan}/>
-                            <div>{quantity}</div>
-                        <AddCircleOutlineIcon  onClick={handlerPlusQuan}/>
+                        <span className={!inStock ? "disable-text" : ""}>
+                            <RemoveCircleOutlineIcon style={{cursor: "pointer"}} onClick={handlerMinusQuan}/>
+                        </span>
+                            <div className={!inStock ? "disable-text" : ""}>{quantity}</div>
+                        <span  className={!inStock ? "disable-text" : ""}>
+                            <AddCircleOutlineIcon style={{cursor: "pointer"}} onClick={handlerPlusQuan}/>
+                        </span>
                     </div>
                     <div className="buy-btn">
                         <Button variant="outlined" style={{width:'200px'}} disabled={inStock ? false : true} onClick={handleBuy}>купить</Button>
