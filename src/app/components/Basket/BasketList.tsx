@@ -5,13 +5,15 @@ import { IProductBasket } from "../../types/product.types";
 import TotalCard from "./TotalCard";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import ProductNotInStock from "../Modals/Messages/ProductNotInStock";
 
 interface BasketListProps {
     basketList: IProductBasket[];
-    count: number
+    count: number,
+    order:() => void 
 }
 
-const BasketList: FC<BasketListProps> = ({basketList, count}) => {
+const BasketList: FC<BasketListProps> = ({basketList, order, count}) => {
     
     const initialValue = 0;
     const total:any =  basketList.length > 0 ? basketList.reduce((accumulator, currentValue: any) => {
@@ -38,7 +40,7 @@ const BasketList: FC<BasketListProps> = ({basketList, count}) => {
                 </div>
                 {basketList.length > 0 ? (
                     <div className="basket-total-card">
-                        <TotalCard totalPrice={total}/>
+                        <TotalCard totalPrice={total} order={order}/>
                     </div>   
                 ): (
                     <div>
@@ -51,6 +53,7 @@ const BasketList: FC<BasketListProps> = ({basketList, count}) => {
                     </div>
                 )}
             </div>
+            <ProductNotInStock />
         </>
     );
 };

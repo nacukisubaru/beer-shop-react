@@ -11,6 +11,7 @@ interface IUseBasket {
     update: (productId: number, quantity: number) => Promise<void>,
     getBasket: () => Promise<void>,
     getBasketByUser: () => Promise<void>
+    getBasketId: () => void
 }
 
 export const useBasket = ():IUseBasket => {
@@ -59,7 +60,7 @@ export const useBasket = ():IUseBasket => {
     const getBasket = async () => {
         const basketId = getBasketId();
         if(basketId) {
-            dispatch(getBasketById({hash: basketId}));
+            dispatch(getBasketById(basketId));
         }
     }
 
@@ -74,5 +75,5 @@ export const useBasket = ():IUseBasket => {
         return localStorage.getItem("basketId");
     }
 
-    return {add, getBasket, update, remove, getBasketByUser};
+    return {add, getBasket, update, remove, getBasketId, getBasketByUser};
 }

@@ -14,6 +14,7 @@ import { typePackagingApi } from "./services/type-packaging/type-packaging.api";
 import { notFoundReducer } from "./reducers/notFound.slice";
 import { snackApi } from "./services/snacks/snack.api";
 import { verificationCodeReducer } from "./services/verification-code/reducers/verification-code.slice";
+import { orderReducer } from "./services/order/reducers/order.slice";
 
 export const store = configureStore({
     reducer: {
@@ -26,6 +27,7 @@ export const store = configureStore({
         snackReducer,
         notFoundReducer,
         verificationCodeReducer,
+        orderReducer,
         [userApi.reducerPath]: userApi.reducer,
         [gradeApi.reducerPath]: gradeApi.reducer,
         [brandApi.reducerPath]: brandApi.reducer,

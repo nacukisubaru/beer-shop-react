@@ -9,6 +9,7 @@ import { filterProductsActions } from "../store/reducers/filter.products";
 import { snackActions } from "../store/services/snacks/reducers/snack.slice";
 import { notFoundActions } from "../store/reducers/notFound.slice";
 import { verificationCodeActions } from "../store/services/verification-code/reducers/verification-code.slice";
+import { orderActions } from "../store/services/order/reducers/order.slice";
 
 const allActions = {
     ...userActions,
@@ -19,7 +20,8 @@ const allActions = {
     ...filterProductsActions,
     ...snackActions,
     ...notFoundActions,
-    ...verificationCodeActions
+    ...verificationCodeActions,
+    ...orderActions,
 }
 
 export const useActions = () => {

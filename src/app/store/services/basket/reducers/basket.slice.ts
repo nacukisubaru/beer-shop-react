@@ -13,8 +13,8 @@ const initialState = {
 
 export const getBasketById:any = createAsyncThunk(
     'basket/fetch',
-    async(body: getBasket, {rejectWithValue}) => {
-        return thunkAxiosPost('/basket/getBasket', body, false, rejectWithValue);
+    async(hash: string, {rejectWithValue}) => {
+        return thunkAxiosPost('/basket/getBasket', {hash}, false, rejectWithValue);
     }
 );
 
@@ -157,7 +157,6 @@ export const basketSlice = createSlice({
         [getBasketByUserId.fulfilled]: (state, action: PayloadAction<IBasket>) => {
             state.status = 'resolved';
             state.currentBasket = action.payload.hash;
-            console.log(action.payload.hash);
             localStorage.setItem("basketId", action.payload.hash);
             setStateProductList(state, action);
         },
