@@ -50,6 +50,10 @@
     margin-bottom: 16px;
 }
 
+.card-no-active {
+    color: #8d8d8d;
+}
+
 /* Portrait */
 @media only screen 
   and (min-device-width: 375px) 

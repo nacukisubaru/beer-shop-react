@@ -12,7 +12,7 @@ interface IBasketCard extends IProductBasket {
     index: number;
 }
 
-const BasketCard: FC<IBasketCard> = ({id, index, title, price, quantity, image, description}) => {
+const BasketCard: FC<IBasketCard> = ({id, index, title, price, quantity, image, description, inStock}) => {
     const {plusQuantity, minusQuantity, removeItem} = useActions();
     const {remove, update} = useBasket();
 

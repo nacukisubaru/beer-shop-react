@@ -4,5 +4,6 @@ export interface ICard {
     description: string,
     price: number,
     image: string,
+    inStock: boolean,
     buy: () => void
 }

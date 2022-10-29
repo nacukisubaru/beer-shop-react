@@ -12,7 +12,7 @@ import { createProductForBuy } from "../../../store/services/basket/reducers/bas
 const SnackModal: FC = () => {
     const { showSnack, snack } = useAppSelector((state) => state.snackReducer);
     const { openSnack, closeSnack } = useActions();
-    const { title, description, image, brandName, typePackagingName } = snack.product;
+    const { title, description, image, brandName, typePackagingName, inStock } = snack.product;
     const {weight} = snack;
 
     const createBeerProductForBuy:any = createProductForBuy(snack.product);
@@ -22,6 +22,7 @@ const SnackModal: FC = () => {
         { key: "Вес", value: weight },
         { key: "Бренд", value: brandName },
         { key: "Вид упаковки", value: typePackagingName },
+        { key: "В наличии", value: inStock ? "Да": "Нет" },
     ];
 
     return (
@@ -39,6 +40,7 @@ const SnackModal: FC = () => {
                             image={image}
                             description={description}
                             listInfo={arrayBeer}
+                            inStock={inStock}
                             buy={buy} />
                     </>
                 }

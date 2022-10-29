@@ -28,5 +28,6 @@ export interface IProductBasket {
     price: number,
     description:string,
     quantity: number,
-    image: string
+    image: string,
+    inStock: boolean,
 }
