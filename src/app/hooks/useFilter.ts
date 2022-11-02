@@ -6,7 +6,7 @@ import { useActions } from "./useActions";
 import { useAppSelector } from "./useAppSelector";
 
 interface IUseFilter {
-    fetchBeers: () => void;
+    fetchBeers: (page: number, sort: string[]) => void;
     fetchBeersByFilter: () => void;
     fetchSnacks: () => void;
     fetchSnacksByFilter: () => void;
