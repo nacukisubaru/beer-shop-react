@@ -25,7 +25,7 @@ const SortPanel: FC<ISortPanel> = ({ fetchData }) => {
                 </Typography>
                 <Sort
                     name="Названию"
-                    fieldOrder="name"
+                    fieldOrder="title"
                     action={fetchData}
                     orderValue=""
                 />

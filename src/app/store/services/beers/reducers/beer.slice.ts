@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IBeer } from "../types/beer.type";
 import { queryBuilder, thunkAxiosGet } from "../../../../helpers/queryHelper";
+import { arrayUniqueByKey } from "../../../../helpers/arrayHelper";
 //warning типы исправить
 const initialState = {
     beerList:<IBeer[]> [],
@@ -100,8 +101,8 @@ export const beerSlice = createSlice({
         },
         [getBeerList.fulfilled]: (state,action) => {
             state.status = 'resolved';
-            
-            state.beerList = state.beerList.concat(action.payload.rows);
+       
+            state.beerList = arrayUniqueByKey(state.beerList.concat(action.payload.rows));
             state.page = action.payload.nextPage;
             state.total = action.payload.count;
         },

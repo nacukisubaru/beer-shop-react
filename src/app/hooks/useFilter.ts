@@ -24,7 +24,7 @@ interface IUseFilter {
 
 export const useFilter = (): IUseFilter => {
     const dispath = useDispatch();
-    const { dropBeerList, openModalNotFoundByFilter, resetFilters, dropSnackList, resetBeerPage, resetSnackPage, setSearch} = useActions();
+    const { dropBeerList, openModalNotFoundByFilter, resetFilters, dropSnackList, resetBeerPage, resetSnackPage, setSearch } = useActions();
     const params: any = useAppSelector((state) => state.filterProductsReducer);
 
     const fetchBeersByFilter: any = async () => {
@@ -43,7 +43,7 @@ export const useFilter = (): IUseFilter => {
         if (sort.length > 0) {
             obj.sort = sort;
         }
-
+        
         dispath(getBeerList({ path: '/beers/getListByFilter/', params: obj }));
     };
 
