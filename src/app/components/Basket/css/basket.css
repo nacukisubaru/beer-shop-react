@@ -55,7 +55,16 @@
     display: flex;
     justify-content: space-around;
     padding-top: 30px;
-    height: 152px;
+    margin-bottom: 1px;
+    /* height: 152px; */
+}
+
+.total-card-details {
+    display: flex;
+    margin-left: 55px;
+    flex-direction: column;
+    margin-right: 37px;
+    margin-bottom: 51px;
 }
 
 .empty-basket {
