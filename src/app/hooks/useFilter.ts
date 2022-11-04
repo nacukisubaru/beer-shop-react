@@ -32,7 +32,7 @@ export const useFilter = (): IUseFilter => {
         const result = await dispath(getBeerList({ path: '/beers/getListByFilter/', params: { ...params, page: 0, limitPage } }));
         setSearch({q:''});
         if (result.error) {
-            dispath(getBeerList({ path: '/beers/', params: { page: 0, limitPage } }));
+            dispath(getBeerList({ path: '/beers/getListByFilter/', params: { page: 0, limitPage } }));
             openModalNotFoundByFilter();
             resetFilters();
         }
@@ -72,7 +72,7 @@ export const useFilter = (): IUseFilter => {
         resetFilters();
         const result = await dispath(getBeerList({path: '/beers/search/', params: { q, sort, page: 0, limitPage }}));
         if (result.error) {
-            dispath(getBeerList({ path: '/beers/', params: { page: 0, limitPage } }));
+            dispath(getBeerList({ path: '/beers/getListByFilter/', params: { page: 0, limitPage } }));
             openModalNotFoundByFilter();
             return false;
         }
@@ -83,7 +83,7 @@ export const useFilter = (): IUseFilter => {
         await dropSnackList();
         const result = await dispath(getSnackList({ path: '/snacks/getListByFilter/', params: { ...params, page: 0, limitPage } }));
         if (result.error) {
-            dispath(getSnackList({ path: '/snacks/', params: { page: 0, limitPage } }));
+            dispath(getSnackList({ path: '/snacks/getListByFilter/', params: { page: 0, limitPage } }));
             openModalNotFoundByFilter();
             resetFilters();
         }
@@ -117,7 +117,7 @@ export const useFilter = (): IUseFilter => {
         resetFilters();
         const result = await dispath(getSnackList({path: '/snacks/search/', params: { q, sort, page: 0, limitPage }}));
         if (result.error) {
-            dispath(getSnackList({ path: '/snacks/', params: { page: 0, limitPage } }));
+            dispath(getSnackList({ path: '/snacks/getListByFilter/', params: { page: 0, limitPage } }));
             openModalNotFoundByFilter();
             return false;
         }
