@@ -2,9 +2,10 @@ import React, { FC } from "react";
 import { Button, Card, Typography } from "@mui/material";
 interface ITotalCard {
     totalPrice: number;
+    order: () => void;
 }
 
-const TotalCard: FC<ITotalCard> = ({ totalPrice }) => {
+const TotalCard: FC<ITotalCard> = ({ totalPrice, order }) => {
     return (
         <>
             <Card
@@ -20,7 +21,7 @@ const TotalCard: FC<ITotalCard> = ({ totalPrice }) => {
                     <Typography variant="h5">Итого</Typography>
                     <Typography variant="h5">{totalPrice} р</Typography>
                 </div>
-                <Button sx={{ width: 250 }} variant="contained">
+                <Button sx={{ width: 250 }} onClick={order} variant="contained">
                     Заказать
                 </Button>
             </Card>

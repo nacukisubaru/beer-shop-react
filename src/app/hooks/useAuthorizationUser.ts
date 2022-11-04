@@ -1,17 +1,20 @@
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { removeMask } from "../helpers/stringHelper";
-import { basketApi } from "../store/services/basket/basket.api";
 import { checkUserNotExistByEmailAndPhone, checkUserExistByPhone, loginByCode, sendCodeByCall, registrate, login } from "../store/services/users/reducers/user.slice";
 import { ILogin, IRegistration, ISendCodeByCallResponse } from "../store/services/users/types/auth.types";
 import { useActions } from "./useActions";
+import { useAppSelector } from "./useAppSelector";
 import { useBasket } from "./useBasket";
 
 export const useAuthorizationUser = () => {
     const { setLoginPhone, setPhone, switchVerificationForm, setMinutesResend, setSecondsResend, switchLoginForm, setCanResendCode, resetRegFields } = useActions();
     const dispatch = useDispatch();
     const { getBasketByUser } = useBasket();
-
+    const navigate = useNavigate();
+    const {backRedirectToOrder} = useAppSelector(state => state.orderReducer);
+    
     const sendCode = async (phone: string): Promise<boolean> => {
         await setSecondsResend({ seconds: 59 });
         await setMinutesResend({ minutes: 1 });
@@ -70,7 +73,10 @@ export const useAuthorizationUser = () => {
     const loginUser = async (post: ILogin) => {
         const data = await dispatch(login(post));
         if (data.payload.user) {
-            getBasketByUser();
+            await getBasketByUser();
+            if(backRedirectToOrder) {
+                navigate('/basket');
+            }
         }
     }
 
