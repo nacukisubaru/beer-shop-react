@@ -15,7 +15,7 @@ interface CardListProps {
     cardsList: ICard[],
     page: number,
     scrollList: boolean,
-    fetch: (page: number) => void,
+    fetch: (page: number, sort: string[]) => void,
     show: (id: number) => void
 }
 

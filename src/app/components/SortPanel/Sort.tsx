@@ -18,9 +18,9 @@ const Sort: FC<ISort> = ({ name, fieldOrder, orderValue = '', action }) => {
     const [order, setOrder] = useState("ASC");
     const {setSort} = useActions();
 
-    const sort = (order: string) => {
-        setOrder(order);
-        setSort({field: fieldOrder, value: order});
+    const sort = async (order: string) => {
+        await setOrder(order);
+        await setSort({field: fieldOrder, value: order});
         action([fieldOrder, order]);
     }
 

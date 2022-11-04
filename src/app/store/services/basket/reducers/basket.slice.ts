@@ -133,6 +133,7 @@ export const basketSlice = createSlice({
         resetBasket: (state) => {
             state.list = [];
             state.currentBasket = '';
+            state.count = 0;
         }
     },
     extraReducers: {
