@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import Snacks from "./pages/products/snacks";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import MainAdmin from "./pages/admin/main";
+import BeerAdmin from "./pages/admin/content/products/beer";
 
 function App() {
     const {getBasket, getBasketByUser} = useBasket();  
@@ -64,6 +65,7 @@ function App() {
                         <Route path="/products/snacks" element={<Snacks />}></Route>
                         <Route path="/basket" element={<Basket />}></Route>
                         <Route path="/admin/main" element={<MainAdmin />}></Route>
+                        <Route path="/admin/beer" element={<BeerAdmin />}></Route>
                     </Routes>
                 </BrowserRouter>
             </ThemeProvider>
