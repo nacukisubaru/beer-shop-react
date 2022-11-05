@@ -65,7 +65,7 @@ function App() {
                         <Route path="/products/snacks" element={<Snacks />}></Route>
                         <Route path="/basket" element={<Basket />}></Route>
                         <Route path="/admin/main" element={<MainAdmin />}></Route>
-                        <Route path="/admin/beer" element={<BeerAdmin />}></Route>
+                        <Route path="/admin/beers" element={<BeerAdmin />}></Route>
                     </Routes>
                 </BrowserRouter>
             </ThemeProvider>

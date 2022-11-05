@@ -92,7 +92,7 @@ const WorkSpace: React.FC<IWorkSpaceProps> = ({tool, menuItems}) => {
     const handleDrawerClose = () => {
         setOpen(false);
     };
-
+    
     return (
         <Box sx={{ display: "flex" }}>
             <CssBaseline />
@@ -139,9 +139,13 @@ const WorkSpace: React.FC<IWorkSpaceProps> = ({tool, menuItems}) => {
                     {menuItems.map(
                         (item: IWorkSpaceMenu, index: number) => (
                             <ListItem key={item.name} disablePadding>
-                                <ListItemButton onClick={() => {
-                                    navigate(item.url);
-                                }}>
+                                <ListItemButton 
+                                    onClick={() => {
+                                        navigate(item.url);
+                                    }}
+                                    
+                                    style={ item.active ? {backgroundColor: '#f5f5f5'} : {}}
+                                >
                                     <ListItemIcon>
                                         {index % 2 === 0 ? (
                                             <InboxIcon />
