@@ -19,7 +19,7 @@ const TotalCard: FC<ITotalCard> = ({ totalPrice, order }) => {
             >
                 <div className="total-card">
                     <Typography variant="h6" style={{fontWeight: 'bold'}}>Итого</Typography>
-                    <Typography variant="h6" style={{fontWeight: 'bold'}}>{totalPrice} р</Typography>
+                    <Typography variant="h6" style={{fontWeight: 'bold'}}>{totalPrice} &#8381;</Typography>
                 </div>
                 <div className="total-card-details">
                     <Typography variant="body1" style={{display: "flex", fontWeight: 'bold', marginLeft: '3px'}}>Доставка:</Typography>
