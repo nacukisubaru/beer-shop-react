@@ -15,6 +15,7 @@ import { notFoundReducer } from "./reducers/notFound.slice";
 import { snackApi } from "./services/snacks/snack.api";
 import { verificationCodeReducer } from "./services/verification-code/reducers/verification-code.slice";
 import { orderReducer } from "./services/order/reducers/order.slice";
+import { productApi } from "./services/products/product.api";
 
 export const store = configureStore({
     reducer: {
@@ -34,6 +35,7 @@ export const store = configureStore({
         [typePackagingApi.reducerPath]: typePackagingApi.reducer,
         [beerApi.reducerPath]: beerApi.reducer,
         [snackApi.reducerPath]: snackApi.reducer,
+        [productApi.reducerPath]: productApi.reducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false})
 });

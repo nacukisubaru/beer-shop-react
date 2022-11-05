@@ -5,6 +5,7 @@ import { useFilter } from "../../../hooks/useFilter";
 import { useProductMap } from "../../../hooks/useProductMap";
 import { useBeerList } from "../../../hooks/useProducts";
 import { beerApi } from "../../../store/services/beers/beer.api";
+import { productApi } from "../../../store/services/products/product.api";
 import CardList from "../../Cards/CardList";
 import InputSearch from "../../Search/InputSearch";
 import SortPanel from "../../SortPanel/SortPanel";
@@ -17,7 +18,7 @@ const BeersList: FC<BeersListProps> = () => {
     const { beerList } = useAppSelector((state) => state.beerReducer);
     const {q} = useAppSelector((state) => state.filterProductsReducer);
     const beers = useProductMap(beerList, true);
-    const [addShowBeer] = beerApi.useAddShowBeerMutation();
+    const [addShow] = productApi.useAddShowMutation();
 
     const { fetchBeers, fetchBeersWithSort, fetchBeersBySearch, beersSearchByName, resetListAndFetchBeers, fetchBeersBySearchWithSort } = useFilter();
     useBeerList();
@@ -25,7 +26,7 @@ const BeersList: FC<BeersListProps> = () => {
     const showBeer = (id: number) => {
         getBeer({ id });
         openBeer();
-        addShowBeer(id);
+        addShow(id);
     };
 
     return (
