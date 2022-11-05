@@ -1,5 +1,3 @@
-import { IBeer, IBeerProduct } from "../store/services/beers/types/beer.type"
-
 export interface IProduct {
     id: number,
     title: string,

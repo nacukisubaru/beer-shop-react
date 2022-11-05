@@ -1,4 +1,8 @@
+import { useEffect, useState } from "react";
 import AdminPanel from "../../../../app/components/Admin/WorkSpace/AdminPanel";
+import { createBeersList } from "../../../../app/helpers/arrayHelper";
+import { beerApi } from "../../../../app/store/services/beers/beer.api";
+import { IBeerProduct } from "../../../../app/store/services/beers/types/beer.type";
 
 export default function BeerAdmin() {
     const columns = [
@@ -19,9 +23,19 @@ export default function BeerAdmin() {
         { field: "filtred", headerName: "Фильтрованное", width: 150 },
     ];
 
+    const {data} = beerApi.useGetBeersQuery(0);
+    const [rows, setRows] = useState<IBeerProduct[]>([]);
+
+    useEffect(() => {
+        if(data && data.rows) {
+            const rows = createBeersList(data.rows);
+            setRows(rows);
+        }
+    }, [data]);
+
     return (
         <>
-            <AdminPanel columnsTable={columns} rowsTable={[]} toolInWorkSpace={true}></AdminPanel>
+            <AdminPanel columnsTable={columns} rowsTable={rows} toolInWorkSpace={true}></AdminPanel>
         </>
     );
 }
