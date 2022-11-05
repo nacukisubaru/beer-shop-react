@@ -39,7 +39,7 @@ const AdminPanel: FC<IAdminPanelProps> = ({
             menuItems={menuState}
             tool={
                 toolInWorkSpace ? (
-                    <TableGrid columns={columnsTable} rows={rowsTable} />
+                    <TableGrid columns={columnsTable} rows={rowsTable} pageSize={20}/>
                 ) : (
                     <>Добро пожаловать</>
                 )

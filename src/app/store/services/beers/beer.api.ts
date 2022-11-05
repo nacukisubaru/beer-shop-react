@@ -9,7 +9,7 @@ export const beerApi = createApi({
         getBeers: build.query<IBeerListPaginate, number>({
             query:(page) => ({
                 url: '',
-                params: {page, limitPage}
+                params: {page, limitPage: 20}
             })
         }),
         addBeer: build.mutation({

@@ -4,15 +4,16 @@ import { FC } from "react";
 interface ITableGridProps {
     columns: any[],
     rows: any
+    pageSize: number
 }
 
-const TableGrid:FC<ITableGridProps> = ({columns, rows}) => {
+const TableGrid:FC<ITableGridProps> = ({columns, rows, pageSize}) => {
     return (
-        <div style={{ height: 647, width: "100%", marginBottom: "10px"}}>
+        <div style={{ height: 800, width: "100%", marginBottom: "10px"}}>
             <DataGrid
                 rows={rows}
                 columns={columns}
-                pageSize={10}
+                pageSize={pageSize}
                 rowsPerPageOptions={[]}
                 checkboxSelection
                 style={{ marginBottom: "40px" }}
