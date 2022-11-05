@@ -18,16 +18,16 @@ const TotalCard: FC<ITotalCard> = ({ totalPrice, order }) => {
                 }}
             >
                 <div className="total-card">
-                    <Typography variant="h5">Итого</Typography>
-                    <Typography variant="h5">{totalPrice} р</Typography>
+                    <Typography variant="h6" style={{fontWeight: 'bold'}}>Итого</Typography>
+                    <Typography variant="h6" style={{fontWeight: 'bold'}}>{totalPrice} р</Typography>
                 </div>
                 <div className="total-card-details">
-                    <Typography variant="h6" style={{display: "flex"}}>Доставка:</Typography>
-                    <Typography variant="body2" style={{display: "flex", marginLeft: '-14px'}}>Ежедневно с 12:00 до 22:00 г Калуга, Улица Братьев Луканиных 7</Typography>
+                    <Typography variant="body1" style={{display: "flex", fontWeight: 'bold', marginLeft: '3px'}}>Доставка:</Typography>
+                    <Typography variant="body2" style={{display: "flex", marginLeft: '-10px', marginBottom: '50px'}}>Ежедневно с 12:00 до 22:00 г Калуга, Улица Братьев Луканиных 7</Typography>
+                    <Button sx={{ width: 259 }} onClick={order} variant="contained">
+                        Заказать
+                    </Button>
                 </div>
-                <Button sx={{ width: 250 }} onClick={order} variant="contained">
-                    Заказать
-                </Button>
             </Card>
         </>
     );
