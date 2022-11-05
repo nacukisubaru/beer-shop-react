@@ -143,7 +143,6 @@ export const basketSlice = createSlice({
         },
         [getBasketById.fulfilled]: (state, action: PayloadAction<IBasket>) => {
             state.status = 'resolved';
-            console.log(action);
             state.currentBasket = action.payload.hash;
             setStateProductList(state, action);
         },

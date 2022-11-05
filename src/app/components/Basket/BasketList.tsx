@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import "./css/basket.css";
 import BasketCard from "./BaskerCard";
 import { IProductBasket } from "../../types/product.types";
@@ -7,6 +7,7 @@ import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import ProductNotInStock from "../Modals/Messages/ProductNotInStock";
 import SuccessOrder from "../Modals/Messages/SuccessOrder";
+import { useBasket } from "../../hooks/useBasket";
 
 interface BasketListProps {
     basketList: IProductBasket[];
@@ -20,6 +21,12 @@ const BasketList: FC<BasketListProps> = ({basketList, order, count}) => {
     const total:any =  basketList.length > 0 ? basketList.reduce((accumulator, currentValue: any) => {
         return accumulator + currentValue.price * currentValue.quantity;
     }, initialValue): 0;
+    
+    const {getBasket} = useBasket();
+
+    useEffect(() => {
+        getBasket();
+    }, []);
 
     return (
         <>

@@ -42,6 +42,7 @@
 .wrapper-basket-list {
     display: flex;
     justify-content: center;
+    margin-right: 212px;
     /* margin-right: 330px; */
     /* margin-right: 585px;
     margin-left: 250px; */
@@ -55,7 +56,16 @@
     display: flex;
     justify-content: space-around;
     padding-top: 30px;
-    height: 152px;
+    margin-bottom: 10px;
+    /* height: 152px; */
+}
+
+.total-card-details {
+    display: flex;
+    margin-left: 55px;
+    flex-direction: column;
+    margin-right: 37px;
+    /* margin-bottom: 43px; */
 }
 
 .empty-basket {
