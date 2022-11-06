@@ -17,19 +17,21 @@ const PaginationGrid: FC<PaginationGridProps> = ({}) => {
         setContentPage({ page });
     };
     
+    React.useEffect(()=>{
+        if(disableNextPage) {
+            setPage(page - 1);
+        }
+    }, [disableNextPage])
+
     const handleChangePage = (
         event: React.MouseEvent<HTMLButtonElement> | null,
         newPage: number
     ) => {
-            console.log({ newPage});
-            let pageCount = newPage;
-            if(disableNextPage) {
-                pageCount = newPage -1;
-                enableNextPage();
-            }
-            handleSetPage(pageCount);
-            setPage(pageCount);
-        
+        if(disableNextPage) {
+            enableNextPage();
+        }
+        handleSetPage(newPage);
+        setPage(newPage);
     };
 
     const handleChangeRowsPerPage = (
