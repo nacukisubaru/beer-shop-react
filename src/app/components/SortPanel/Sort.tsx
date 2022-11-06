@@ -9,19 +9,19 @@ import { useAppSelector } from "../../hooks/useAppSelector";
 interface ISort {
     name: string;
     fieldOrder: string;
-    action: (sort: string[]) => void;
+    action: (sortField: string, order: string) => void;
     orderValue: string
 }
 
 const Sort: FC<ISort> = ({ name, fieldOrder, orderValue = '', action }) => {
-    const sortArray = useAppSelector(state => state.filterProductsReducer.sort);
+    const {sortField} = useAppSelector(state => state.filterProductsReducer);
     const [order, setOrder] = useState("ASC");
     const {setSort} = useActions();
 
     const sort = async (order: string) => {
         await setOrder(order);
         await setSort({field: fieldOrder, value: order});
-        action([fieldOrder, order]);
+        action(fieldOrder, order);
     }
 
     const changeOrder = () => {
@@ -41,7 +41,7 @@ const Sort: FC<ISort> = ({ name, fieldOrder, orderValue = '', action }) => {
             variant="body1"
             style={{ marginRight: "18px" }}
             onClick={orderValue ? defaultOrder : changeOrder}
-            className={fieldOrder === sortArray[0] ? "sort-active" : "sort-deactive"}
+            className={fieldOrder === sortField ? "sort-active" : "sort-deactive"}
         >
             {name}
             {order === "ASC" && !orderValue && <NorthIcon style={{ fontSize: "13px" }} />}

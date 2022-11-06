@@ -5,12 +5,12 @@ interface ISortMobile {
     name: string,
     fieldOrder: string,
     orderBy: string,
-    sort: (sort: string[]) => void
+    sort: (sortField: string, order: string) => void
 }
 
 const SortMobile: FC<ISortMobile> = ({name, fieldOrder, orderBy, sort}) => {
     const handleSort = () => {
-        sort([fieldOrder, orderBy]);
+        sort(fieldOrder, orderBy);
     }
 
     return (

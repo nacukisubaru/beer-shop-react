@@ -16,7 +16,7 @@ import "../../index.css";
 
 export default function Beers() {
     const dispath = useDispatch();
-    const sort = useAppSelector(state => state.filterProductsReducer.sort);
+    const {sortField, order} = useAppSelector(state => state.filterProductsReducer);
     const { fetchBeersByFilter } = useFilter();
     const { resetFilters, dropBeerList, closeFilterMenu, setSearch} = useActions();
     const { beer, beerList, minPrice, maxPrice } = useAppSelector(
@@ -33,7 +33,7 @@ export default function Beers() {
         await setSearch({q:''});
         await resetFilters();
         await dropBeerList();
-        await dispath(getBeerList({path: '/beers/getListByFilter', params: { sort, page: 0, limitPage }}));
+        await dispath(getBeerList({path: '/beers/getListByFilter', params: { sortField, order, page: 0, limitPage }}));
     };
 
     return (

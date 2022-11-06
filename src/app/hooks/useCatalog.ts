@@ -5,8 +5,8 @@ import { useAppSelector } from "./useAppSelector";
 
 export const useCatalog = (api: any, list: 'beer') => {
     const { disableNextPage } = useActions();
-    const { page } = useAppSelector((state) => state.contentReducer);
-    const { data, error, refetch } = api.useGetListQuery(page);
+    const { page, sortField, order } = useAppSelector((state) => state.contentReducer);
+    const { data, error, refetch } = api.useGetListQuery({page, sortField, order, limitPage: 5});
     const [rows, setRows] = useState<any>([]);
         
     useEffect(() => {
@@ -17,7 +17,7 @@ export const useCatalog = (api: any, list: 'beer') => {
 
     useEffect(() => {
         refetch();
-    }, [page]);
+    }, [page, sortField, order]);
 
     useEffect(() => {
         if (error) {

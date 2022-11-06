@@ -42,7 +42,7 @@ const AdminPanel: FC<IAdminPanelProps> = ({
                     <TableGrid
                         columns={columnsTable}
                         rows={rowsTable}
-                        pageSize={20}
+                        pageSize={5}
                     />
                 ) : (
                     <>Добро пожаловать</>

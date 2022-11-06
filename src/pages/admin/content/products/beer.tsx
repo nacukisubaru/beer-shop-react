@@ -4,7 +4,7 @@ import { beerApi } from "../../../../app/store/services/beers/beer.api";
 
 export default function BeerAdmin() {
     const columns = [
-        { field: "productId", headerName: "ID", width: 70 },
+        { field: "id", headerName: "ID", width: 70 },
         { field: "title", headerName: "Название", width: 200 },
         { field: "description", headerName: "Описание", width: 150 },
         { field: "price", headerName: "Цена", width: 150 },

@@ -3,6 +3,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 const initialState = {
     page: 0,
     maxPage: 0,
+    sortField: '',
+    order: '',
     disableNextPage: false
 }
 
@@ -16,6 +18,14 @@ const contentSlice = createSlice({
             if(page >= state.maxPage) {
                 state.maxPage = page;
             }
+        },
+        setContentSort:(state, action: PayloadAction<{field: string, sort: string}>) => {
+            state.sortField = action.payload.field;
+            state.order = action.payload.sort;
+        },
+        setContentDefaultSort: (state) => {
+            state.sortField = '';
+            state.order = '';
         },
         disableNextPage: (state) => {
             state.disableNextPage = true;

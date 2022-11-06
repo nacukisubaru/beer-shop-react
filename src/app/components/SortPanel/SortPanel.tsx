@@ -9,7 +9,7 @@ import Sort from "./Sort";
 import "../SortPanel/style.css";
 import SortMobile from "./SortMobile";
 interface ISortPanel {
-    fetchData: (sort: string[]) => void;
+    fetchData: (sortField: string, order: string) => void;
 }
 
 const SortPanel: FC<ISortPanel> = ({ fetchData }) => {

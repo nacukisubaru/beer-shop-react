@@ -2,14 +2,20 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { host, limitPage } from "../../../http/http.request.config";
 import { IBeer, IBeerListPaginate } from "./types/beer.type";
 
+interface IGetListParams {
+    page: number,
+    sort: string,
+    order: string
+}
+
 export const beerApi = createApi({
     reducerPath: 'beers',
     baseQuery: fetchBaseQuery({baseUrl: host + '/beers'}),
     endpoints: (build) => ({
-        getList: build.query<IBeerListPaginate, number>({
-            query:(page) => ({
+        getList: build.query<IBeerListPaginate, IGetListParams>({
+            query:(params) => ({
                 url: '',
-                params: {page, limitPage: 20}
+                params
             })
         }),
         addBeer: build.mutation({

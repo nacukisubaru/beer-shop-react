@@ -10,7 +10,7 @@ export const useBeerList = () => {
     const {fetchBeers} = useFilter();
     
     useEffect(() => {
-        fetchBeers(0, ["price", "ASC"]);
+        fetchBeers(0, "price", "ASC");
         dispatch(getMinAndMaxPriceBeers());
         dispatch(getMinAndMaxVolumeBeers());
         dispatch(getMinAndMaxFortressBeers());
