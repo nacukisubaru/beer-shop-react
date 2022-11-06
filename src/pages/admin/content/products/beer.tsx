@@ -1,13 +1,6 @@
-import { useEffect, useState } from "react";
 import AdminPanel from "../../../../app/components/Admin/WorkSpace/AdminPanel";
-import { createBeersList } from "../../../../app/helpers/arrayHelper";
-import { useActions } from "../../../../app/hooks/useActions";
-import { useAppSelector } from "../../../../app/hooks/useAppSelector";
+import { useCatalog } from "../../../../app/hooks/useCatalog";
 import { beerApi } from "../../../../app/store/services/beers/beer.api";
-import {
-    IBeer,
-    IBeerProduct,
-} from "../../../../app/store/services/beers/types/beer.type";
 
 export default function BeerAdmin() {
     const columns = [
@@ -27,35 +20,7 @@ export default function BeerAdmin() {
         { field: "forBottling", headerName: "На розлив", width: 150 },
         { field: "filtred", headerName: "Фильтрованное", width: 150 },
     ];
-    const { disableNextPage } = useActions();
-    const { page, maxPage } = useAppSelector((state) => state.contentReducer);
-    const { data, error, refetch } = beerApi.useGetListQuery(page);
-    const [rows, setRows] = useState<IBeerProduct[]>([]);
-
-    useEffect(() => {
-        if (data && data.rows) {
-            const rowsList: IBeerProduct[] = [
-                ...createBeersList(data.rows),
-                ...rows,
-            ];
-            setRows(rowsList);
-        }
-    }, [data]);
-
-    useEffect(() => {
-        if (page > maxPage) {
-            refetch();
-        }
-    }, [page]);
-
-    useEffect(() => {
-        if (error) {
-            const errorRes: any = error;
-            if(errorRes.status === 404) {
-                disableNextPage();
-            }
-        }
-    }, [error]);
+    const {rows} = useCatalog(beerApi, 'beer');
 
     return (
         <>

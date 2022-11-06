@@ -6,3 +6,7 @@ export interface ISnack {
     weight: number,
     product: IProduct
 }
+
+export interface ISnackProduct extends IProduct {
+    weight: number,
+}

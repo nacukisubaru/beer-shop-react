@@ -1,4 +1,5 @@
 import { IBeer, IBeerProduct } from "../store/services/beers/types/beer.type";
+import { ISnack, ISnackProduct } from "../store/services/snacks/types/snacks.types";
 
 export const arrayUniqueByKey = (array:any, key = 'id') => {
     const map:any = Map;
@@ -12,40 +13,39 @@ export const arrayUniqueByKey = (array:any, key = 'id') => {
 export const createBeersList = (beersList: IBeer[]): IBeerProduct[] => {
     if(Array.isArray(beersList) && beersList.length) {
         return beersList.map((beer) => {
-        const {
-                product, 
-                compound, 
-                fortress, 
-                ibu, 
-                volume, 
-                forBottling, filtered, grades} = beer;
-            const {
-                id,
-                brandName, 
-                title, 
-                description, 
-                price, 
-                quantity, 
-                image,
-                brandId,
-                inStock, isActive, typePackagingName} = product;
+            const product =  beer.product;
             return {
-                id, 
-                title, 
-                description, 
-                price, 
-                quantity, 
-                inStock, 
-                isActive, 
-                typePackagingName, 
-                brandName, 
-                compound, 
-                fortress,
-                image,
-                brandId,
-                ibu, volume, forBottling, filtered, grades};
+                ...beer,
+                ...product
+            };
         });
     }
     
+    return [];
+}
+
+export const createSnacksList = (snacksList: ISnack[]): ISnackProduct[] => {
+    if(Array.isArray(snacksList) && snacksList.length) {
+        return snacksList.map((snack) => {
+            const product = snack.product;
+            return {
+                ...snack,
+                ...product
+            };
+        });
+    }
+    
+    return [];
+}
+
+export const createList = (array:any, list: string) => {
+    switch(list) {
+        case 'beer':
+           return createBeersList(array);
+        break;
+        case 'snack':
+           return createSnacksList(array);
+        break;
+    }
     return [];
 }
