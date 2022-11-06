@@ -1,10 +1,11 @@
 import { DataGrid } from "@mui/x-data-grid";
 import { FC } from "react";
+import PaginationGrid from "./PaginationGrid";
 
 interface ITableGridProps {
     columns: any[],
     rows: any
-    pageSize: number
+    pageSize: number,
 }
 
 const TableGrid:FC<ITableGridProps> = ({columns, rows, pageSize}) => {
@@ -18,6 +19,7 @@ const TableGrid:FC<ITableGridProps> = ({columns, rows, pageSize}) => {
                 checkboxSelection
                 style={{ marginBottom: "40px" }}
             />
+            <PaginationGrid/>
         </div>
     );
 };

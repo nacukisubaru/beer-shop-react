@@ -6,7 +6,7 @@ export const beerApi = createApi({
     reducerPath: 'beers',
     baseQuery: fetchBaseQuery({baseUrl: host + '/beers'}),
     endpoints: (build) => ({
-        getBeers: build.query<IBeerListPaginate, number>({
+        getList: build.query<IBeerListPaginate, number>({
             query:(page) => ({
                 url: '',
                 params: {page, limitPage: 20}

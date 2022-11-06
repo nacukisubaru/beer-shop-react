@@ -16,6 +16,7 @@ import { snackApi } from "./services/snacks/snack.api";
 import { verificationCodeReducer } from "./services/verification-code/reducers/verification-code.slice";
 import { orderReducer } from "./services/order/reducers/order.slice";
 import { productApi } from "./services/products/product.api";
+import { contentReducer } from "./reducers/content.slice";
 
 export const store = configureStore({
     reducer: {
@@ -29,6 +30,7 @@ export const store = configureStore({
         notFoundReducer,
         verificationCodeReducer,
         orderReducer,
+        contentReducer,
         [userApi.reducerPath]: userApi.reducer,
         [gradeApi.reducerPath]: gradeApi.reducer,
         [brandApi.reducerPath]: brandApi.reducer,
