@@ -5,24 +5,18 @@ import { useAppSelector } from "./useAppSelector";
 
 export const useCatalog = (api: any, list: 'beer') => {
     const { disableNextPage } = useActions();
-    const { page, maxPage } = useAppSelector((state) => state.contentReducer);
+    const { page } = useAppSelector((state) => state.contentReducer);
     const { data, error, refetch } = api.useGetListQuery(page);
-    const [rows, setRows] = useState([]);
+    const [rows, setRows] = useState<any>([]);
         
     useEffect(() => {
         if (data && data.rows) {
-            const rowsList:any = [
-                ...createList(data.rows, list),
-                ...rows,
-            ];
-            setRows(rowsList);
+            setRows(createList(data.rows, list));
         }
     }, [data]);
 
     useEffect(() => {
-        if (page > maxPage) {
-            refetch();
-        }
+        refetch();
     }, [page]);
 
     useEffect(() => {
