@@ -34,9 +34,8 @@ const TableGrid:FC<ITableGridProps> = ({columns, rows, pageSize}) => {
                 onSortModelChange={handleSortChange}
                 checkboxSelection
                 style={{ marginBottom: "40px" }}
-                
+                components={{Footer: PaginationGrid}}  
             />
-            <PaginationGrid/>
         </div>
     );
 };
