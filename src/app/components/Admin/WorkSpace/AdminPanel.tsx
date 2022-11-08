@@ -6,12 +6,14 @@ import WorkSpace from "./WorkSpace";
 interface IAdminPanelProps {
     columnsTable: any;
     rowsTable: any;
+    pageSizeTable: number,
     toolInWorkSpace: boolean;
 }
 
 const AdminPanel: FC<IAdminPanelProps> = ({
     columnsTable,
     rowsTable,
+    pageSizeTable,
     toolInWorkSpace,
 }) => {
     const location = useLocation();
@@ -42,7 +44,7 @@ const AdminPanel: FC<IAdminPanelProps> = ({
                     <TableGrid
                         columns={columnsTable}
                         rows={rowsTable}
-                        pageSize={5}
+                        pageSize={pageSizeTable}
                     />
                 ) : (
                     <>Добро пожаловать</>

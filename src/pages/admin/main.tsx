@@ -7,6 +7,7 @@ export default function MainAdmin() {
             <AdminPanel
                 columnsTable={[]}
                 rowsTable={[]}
+                pageSizeTable={0}
                 toolInWorkSpace={false}
             ></AdminPanel>
         </>

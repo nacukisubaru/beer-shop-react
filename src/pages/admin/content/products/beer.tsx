@@ -1,4 +1,5 @@
 import AdminPanel from "../../../../app/components/Admin/WorkSpace/AdminPanel";
+import { useAppSelector } from "../../../../app/hooks/useAppSelector";
 import { useCatalog } from "../../../../app/hooks/useCatalog";
 import { beerApi } from "../../../../app/store/services/beers/beer.api";
 
@@ -21,12 +22,14 @@ export default function BeerAdmin() {
         { field: "filtred", headerName: "Фильтрованное", width: 150 },
     ];
     const {rows} = useCatalog(beerApi, 'beer');
+    const {limitPage} = useAppSelector(state => state.contentReducer);
 
     return (
         <>
             <AdminPanel
                 columnsTable={columns}
                 rowsTable={rows}
+                pageSizeTable={limitPage}
                 toolInWorkSpace={true}
             ></AdminPanel>
         </>

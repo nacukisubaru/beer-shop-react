@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
-import { FC } from "react";
+import { DataGrid, GridSortItem } from "@mui/x-data-grid";
+import { FC, useState } from "react";
 import { useActions } from "../../hooks/useActions";
 import PaginationGrid from "./PaginationGrid";
 
@@ -11,18 +11,23 @@ interface ITableGridProps {
 }
 
 const TableGrid:FC<ITableGridProps> = ({columns, rows, pageSize}) => {
-    const {setContentSort, setContentDefaultSort} = useActions();
+    const { setContentSort, setContentDefaultSort } = useActions();
+    const [sortModel, setSortModel] = useState<GridSortItem[]>([{ field: 'id', sort: 'desc' }]);
+
     const handleSortChange = (sortArray: any) => {
-        console.log(sortArray);
         if(sortArray.length) {
-            setContentSort({field: sortArray[0].field, sort: sortArray[0].sort.toUpperCase() });
+            const field = sortArray[0].field;
+            const sort = sortArray[0].sort;
+            setSortModel([{field, sort}]);
+            setContentSort({field, sort: sort.toUpperCase() });
         } else {
             setContentDefaultSort();
+            setSortModel([]);
         }
     }
 
     return (
-        <div style={{ height: 800, width: "100%", marginBottom: "10px"}}>
+        <div style={{ height: 860, width: "100%", marginBottom: "10px"}}>
             {/* <Button sx={{ width: 259 }} onClick={order} variant="contained">
                 Добавить
             </Button> */}
@@ -34,8 +39,8 @@ const TableGrid:FC<ITableGridProps> = ({columns, rows, pageSize}) => {
                 onSortModelChange={handleSortChange}
                 checkboxSelection
                 style={{ marginBottom: "40px" }}
-                sortModel={[{field: 'id', sort: 'desc'}]}
-                components={{Footer: PaginationGrid}}  
+                sortModel={sortModel}
+                components={{Footer: PaginationGrid}}
             />
         </div>
     );
