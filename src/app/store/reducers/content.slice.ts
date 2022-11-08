@@ -3,8 +3,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 const initialState = {
     page: 0,
     maxPage: 0,
-    sortField: '',
-    order: '',
+    sortField: 'id',
+    order: 'DESC',
     disableNextPage: false
 }
 
