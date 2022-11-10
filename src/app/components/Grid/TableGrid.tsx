@@ -2,6 +2,7 @@ import { Button } from "@mui/material";
 import {
     DataGrid,
     getGridStringOperators,
+    GridFilterPanel,
     GridSortItem,
     GridToolbar,
 } from "@mui/x-data-grid";
@@ -14,9 +15,10 @@ interface ITableGridProps {
     columns: any[];
     rows: any;
     pageSize: number;
+    CustomFilterPanel?: any;
 }
 
-const TableGrid: FC<ITableGridProps> = ({ columns, rows, pageSize }) => {
+const TableGrid: FC<ITableGridProps> = ({ columns, rows, pageSize, CustomFilterPanel }) => {
     const { setContentSort, setContentDefaultSort } = useActions();
     const [sortModel, setSortModel] = useState<GridSortItem[]>([
         { field: "id", sort: "desc" },
@@ -55,7 +57,11 @@ const TableGrid: FC<ITableGridProps> = ({ columns, rows, pageSize }) => {
                 checkboxSelection
                 style={{ marginBottom: "40px" }}
                 sortModel={sortModel}
-                components={{ Footer: PaginationGrid, Toolbar: ToolBarGrid }}
+                components={{ 
+                    Footer: PaginationGrid, 
+                    Toolbar: ToolBarGrid,
+                    FilterPanel:  CustomFilterPanel ? CustomFilterPanel : GridFilterPanel ,
+                }}
                 onFilterModelChange={() => {
                     console.log("we cand send request here!");
                 }}
