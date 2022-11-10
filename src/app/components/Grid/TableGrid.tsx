@@ -41,11 +41,6 @@ const TableGrid: FC<ITableGridProps> = ({ columns, rows, pageSize, CustomFilterP
 
     return (
         <div style={{ height: 860, width: "100%", marginBottom: "10px" }}>
-            {/* <div>
-                <Button sx={{ width: 259 }}  variant="contained">
-                    Добавить
-                </Button>
-            </div> */}
             <DataGrid
                 rows={rows}
                 columns={columns.map((item) => {
