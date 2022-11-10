@@ -23,7 +23,7 @@ const ToolBarGrid: FC<IToolBarGridProps> = ({ selectionModel }) => {
             <Grid container item xs>
                 {/* default buttons */}
 
-                <GridToolbarColumnsButton name="Колонки" />
+                <GridToolbarColumnsButton  />
                 <GridToolbarFilterButton />
                 <GridToolbarDensitySelector />
             </Grid>
@@ -32,27 +32,12 @@ const ToolBarGrid: FC<IToolBarGridProps> = ({ selectionModel }) => {
                 <Button
                     variant="contained"
                     size="small"
-                   // disabled={selectionModel.length === 0}
-                    //startIcon={<MoreVertIcon />}
                     onClick={(event: any) => {
                         setAnchorElMenu(event.currentTarget);
                     }}
                 >
                     Добавить
                 </Button>
-
-                {/* <Menu
-                    id="menu-options"
-                    anchorEl={anchorElMenu}
-                    open={openMenu}
-                    onClose={() => {
-                        setAnchorElMenu(null);
-                    }}
-                >
-                    <MenuItem /> //Clipped
-                    <MenuItem /> //Clipped
-                    <MenuItem /> //Clipped
-                </Menu> */}
             </Grid>
         </GridToolbarContainer>
     );
