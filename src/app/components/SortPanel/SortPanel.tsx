@@ -11,7 +11,7 @@ import SortMobile from "./SortMobile";
 interface ISortPanel {
     fetchData: (sortField: string, order: string) => void;
 }
-
+//TODO рефакторинг нужно передавать массив объектов перебирать и генерировать компонент
 const SortPanel: FC<ISortPanel> = ({ fetchData }) => {
     return (
         <>

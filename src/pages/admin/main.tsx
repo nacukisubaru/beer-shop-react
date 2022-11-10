@@ -4,12 +4,7 @@ import WorkSpace from "../../app/components/Admin/WorkSpace/WorkSpace";
 export default function MainAdmin() {
     return (
         <>
-            <AdminPanel
-                columnsTable={[]}
-                rowsTable={[]}
-                pageSizeTable={0}
-                toolInWorkSpace={false}
-            ></AdminPanel>
+            <AdminPanel />
         </>
     );
 }

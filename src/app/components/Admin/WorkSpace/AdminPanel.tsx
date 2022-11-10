@@ -1,21 +1,11 @@
 import { FC, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import TableGrid from "../../Grid/TableGrid";
 import WorkSpace from "./WorkSpace";
-
 interface IAdminPanelProps {
-    columnsTable: any;
-    rowsTable: any;
-    pageSizeTable: number,
-    toolInWorkSpace: boolean;
+    workTool?: any;
 }
 
-const AdminPanel: FC<IAdminPanelProps> = ({
-    columnsTable,
-    rowsTable,
-    pageSizeTable,
-    toolInWorkSpace,
-}) => {
+const AdminPanel: FC<IAdminPanelProps> = ({ workTool }) => {
     const location = useLocation();
     const [menuState, setMenu] = useState([
         { name: "Заказы", url: "/admin/orders", active: false },
@@ -36,22 +26,7 @@ const AdminPanel: FC<IAdminPanelProps> = ({
         setMenu(menuItems);
     }, [location, setMenu]);
 
-    return (
-        <WorkSpace
-            menuItems={menuState}
-            tool={
-                toolInWorkSpace ? (
-                    <TableGrid
-                        columns={columnsTable}
-                        rows={rowsTable}
-                        pageSize={pageSizeTable}
-                    />
-                ) : (
-                    <>Добро пожаловать</>
-                )
-            }
-        />
-    );
+    return <WorkSpace menuItems={menuState} tool={workTool} />;
 };
 
 export default AdminPanel;

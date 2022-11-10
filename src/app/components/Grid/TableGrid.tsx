@@ -55,7 +55,7 @@ const TableGrid: FC<ITableGridProps> = ({ columns, rows, pageSize, CustomFilterP
                 components={{ 
                     Footer: PaginationGrid, 
                     Toolbar: ToolBarGrid,
-                    FilterPanel:  CustomFilterPanel ? CustomFilterPanel : GridFilterPanel ,
+                    FilterPanel: CustomFilterPanel ? CustomFilterPanel : GridFilterPanel,
                 }}
                 onFilterModelChange={() => {
                     console.log("we cand send request here!");
