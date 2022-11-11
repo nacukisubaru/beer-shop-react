@@ -77,7 +77,7 @@ interface IWorkSpaceMenu {
     active: boolean
 }
 interface IWorkSpaceProps {
-    tool: any,
+    tool?: any,
     menuItems: IWorkSpaceMenu[]
 }
 
@@ -162,7 +162,7 @@ const WorkSpace: React.FC<IWorkSpaceProps> = ({tool, menuItems}) => {
             </Drawer>
             <Main open={open}>
                 <DrawerHeader />
-                {tool}
+                {tool ? tool : (<>Добро пожаловать</>)}
             </Main>
         </Box>
     );
