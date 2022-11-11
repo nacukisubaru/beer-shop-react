@@ -1,7 +1,8 @@
-import { Box, Card, MenuItem, Select } from "@mui/material";
+import { Box, Button, Card, MenuItem, Select } from "@mui/material";
 import { FC, useState, useEffect } from "react";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
+import CustomSelect from "../CustomSelect/CustomSelect";
 
 interface Selector {
     id: number;
@@ -20,8 +21,8 @@ interface valueInputBoolean {
 }
 
 interface Field {
-    field: string;
-    fieldName: string;
+    value: string;
+    name: string;
 }
 
 interface FilterItem {
@@ -48,16 +49,25 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
     onFilter,
 }) => {
     const [fieldsList, setFieldsList] = useState<Field[]>([]);
-    const [selectedField, setSelectedField] = useState("");
+    const [selectedField, setSelectedField] = useState<string>("");
+    const [isVisibleAddBtn, setVisibleAddBtn] = useState<boolean>(false);
 
     useEffect(() => {
         const fields = itemFilterList.map((item) => {
             const { field, fieldName } = item;
-            return { field, fieldName };
+            return { value: field, name: fieldName };
         });
-        setSelectedField(fields[0].field);
+        setSelectedField(fields[0].value);
         setFieldsList(fields);
     }, []);
+
+    const handleSetFilter = () => {
+        setVisibleAddBtn(true);
+    }
+
+    const handleVisibleAddBtn = () => {
+        setVisibleAddBtn(false);
+    }
 
     return (
         <>
@@ -70,33 +80,19 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                     paddingTop: "36px",
                 }}
             >
-                <div>
-                    <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">
-                            Поля
-                        </InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="select-choice-field"
-                            value={selectedField}
-                            label="Поля"
-                            onChange={() => {}}
-                        >
-                            {fieldsList.map((item) => {
-                                return (
-                                    <MenuItem
-                                        onClick={() => {
-                                            setSelectedField(item.field);
-                                        }}
-                                        value={item.field}
-                                    >
-                                        {item.fieldName}
-                                    </MenuItem>
-                                );
-                            })}
-                        </Select>
-                    </FormControl>
-                </div>
+                {fieldsList && selectedField && (
+                    <div>
+                        {isVisibleAddBtn ? (
+                            <Button variant="text" onClick={handleVisibleAddBtn}>+ Добавить фильтр</Button>
+                        ) : (
+                            <CustomSelect
+                                list={fieldsList}
+                                defaultSelectedItem={selectedField}
+                                action={handleSetFilter}
+                            ></CustomSelect>
+                        )}
+                    </div>
+                )}
             </Box>
         </>
     );
