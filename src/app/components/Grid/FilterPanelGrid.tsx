@@ -84,12 +84,37 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
         );
         if (itemFilter) {
             setFilter([...filterList, itemFilter]);
-            setFieldsList(newFieldList);
+            setFieldsList(
+                newFieldList.sort((a, b) => {
+                    return a.name.charCodeAt(0) - b.name.charCodeAt(0);
+                })
+            );
         }
     };
 
     const handleVisibleAddBtn = () => {
         setVisibleAddBtn(false);
+    };
+
+    const removeFilter = (value: string) => {
+        const newFilterList: FilterItem[] = filterList.filter(
+            (field) => field.field !== value
+        );
+
+        const itemFilter: FilterItem | undefined = itemFilterList.find(
+            (field) => field.field === value
+        );
+        if (itemFilter) {
+            setFieldsList(
+                [
+                    { value: itemFilter.field, name: itemFilter.fieldName },
+                    ...fieldsList,
+                ].sort((a, b) => {
+                    return a.name.charCodeAt(0) - b.name.charCodeAt(0);
+                })
+            );
+        }
+        setFilter(newFilterList);
     };
 
     return (
@@ -114,6 +139,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                 <Button
                                     variant="text"
                                     onClick={handleVisibleAddBtn}
+                                    sx={{ marginBottom: "20px" }}
                                 >
                                     + Добавить фильтр
                                 </Button>
@@ -123,6 +149,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                     defaultSelectedItem={selectedField}
                                     action={handleSetFilter}
                                     name="Фильтры"
+                                    sx={{ marginBottom: "20px" }}
                                 />
                             )}
                         </div>
@@ -160,6 +187,9 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                                 width: "36px",
                                                 marginTop: "8px",
                                             }}
+                                            onClick={() => {
+                                                removeFilter(field);
+                                            }}
                                         >
                                             <DeleteIcon />
                                         </IconButton>
@@ -189,6 +219,9 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                                     height: "35px",
                                                     width: "36px",
                                                     marginTop: "40px",
+                                                }}
+                                                onClick={() => {
+                                                    removeFilter(field);
                                                 }}
                                             >
                                                 <DeleteIcon />
@@ -222,6 +255,9 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                                 width: "36px",
                                                 marginTop: "8px",
                                             }}
+                                            onClick={() => {
+                                                removeFilter(field);
+                                            }}
                                         >
                                             <DeleteIcon />
                                         </IconButton>
@@ -248,6 +284,9 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                                 width: "36px",
                                                 marginTop: "8px",
                                             }}
+                                            onClick={() => {
+                                                removeFilter(field);
+                                            }}
                                         >
                                             <DeleteIcon />
                                         </IconButton>
@@ -271,7 +310,11 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
-                                            sx={{ marginBottom: "20px", width: '80px', marginRight: '25px' }}
+                                            sx={{
+                                                marginBottom: "20px",
+                                                width: "80px",
+                                                marginRight: "25px",
+                                            }}
                                         />
 
                                         <TextField
@@ -286,7 +329,11 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                                     max: inputRange.max,
                                                 },
                                             }}
-                                            sx={{ marginBottom: "20px",  width: '80px', marginRight: '13px' }}
+                                            sx={{
+                                                marginBottom: "20px",
+                                                width: "80px",
+                                                marginRight: "13px",
+                                            }}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
@@ -297,6 +344,9 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                                 height: "35px",
                                                 width: "36px",
                                                 marginTop: "8px",
+                                            }}
+                                            onClick={() => {
+                                                removeFilter(field);
                                             }}
                                         >
                                             <DeleteIcon />
