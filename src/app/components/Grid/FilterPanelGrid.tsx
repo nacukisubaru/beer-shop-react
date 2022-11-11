@@ -2,6 +2,8 @@ import { Box, Button, TextField } from "@mui/material";
 import { Container } from "@mui/system";
 import { FC, useState, useEffect } from "react";
 import CustomSelect from "../CustomSelect/CustomSelect";
+import DeleteIcon from '@mui/icons-material/Delete';
+import { IconButton } from '@mui/material';
 
 interface InputSelect {
     valueInputSelect: ValueInputSelect[];
@@ -121,6 +123,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                     list={fieldsList}
                                     defaultSelectedItem={selectedField}
                                     action={handleSetFilter}
+                                    name="Фильтры"
                                 />
                             )}
                         </div>
@@ -138,32 +141,48 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                             } = filter;
                             if (inputText) {
                                 return (
-                                    <TextField
-                                        id="filled-basic"
-                                        label={fieldName}
-                                        variant="standard"
-                                        name={field}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        sx={{ marginBottom: "20px" }}
-                                        fullWidth
-                                    />
+                                    <div style={{display: 'flex'}}>
+                                        <TextField
+                                            id="filled-basic"
+                                            label={fieldName}
+                                            variant="standard"
+                                            name={field}
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                            sx={{
+                                                marginBottom: "20px",
+                                                width: "200px",
+                                            }}
+                                        />
+                                        <IconButton sx={{height: '35px', width: '36px', marginTop: '8px'}}>
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </div>
                                 );
                             } else if (inputSelect) {
                                 const { valueInputSelect, multiple } =
                                     inputSelect;
                                 if (valueInputSelect.length) {
                                     return (
-                                        <CustomSelect
-                                            multiple={multiple}
-                                            name={fieldName}
-                                            list={valueInputSelect}
-                                            defaultSelectedItem={
-                                                valueInputSelect[0].value
-                                            }
-                                            sx={{ minWidth: 120, maxWidth: 300,  marginBottom: "20px" }}
-                                        />
+                                        <div style={{display: 'flex'}}>
+                                            <CustomSelect
+                                                multiple={multiple}
+                                                name={fieldName}
+                                                list={valueInputSelect}
+                                                defaultSelectedItem={
+                                                    valueInputSelect[0].value
+                                                }
+                                                sx={{
+                                                    minWidth: 120,
+                                                    maxWidth: 300,
+                                                    marginBottom: "20px",
+                                                }}
+                                            />
+                                            <IconButton sx={{height: '35px', width: '36px', marginTop: '40px'}}>
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </div>
                                     );
                                 }
                             } else if (inputSelectBoolean) {
@@ -178,28 +197,38 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                     { value: falseValue, name: falseName },
                                 ];
                                 return (
-                                    <CustomSelect
-                                        multiple={false}
-                                        name={fieldName}
-                                        list={listSelectBoolean}
-                                        defaultSelectedItem={trueValue}
-                                        sx={{ marginBottom: "20px" }}
-                                    />
+                                    <div style={{display: 'flex'}}>
+                                        <CustomSelect
+                                            multiple={false}
+                                            name={fieldName}
+                                            list={listSelectBoolean}
+                                            defaultSelectedItem={trueValue}
+                                            sx={{ marginBottom: "20px" }}
+                                        />
+                                        <IconButton sx={{height: '35px', width: '36px', marginTop: '8px'}}>
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </div>
                                 );
                             } else if (inputNumber) {
                                 return (
-                                    <TextField
-                                        id="outlined-number"
-                                        label={fieldName}
-                                        name={field}
-                                        variant="standard"
-                                        type="number"
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        sx={{ marginBottom: "20px" }}
-                                        fullWidth
-                                    />
+                                    <div style={{display: 'flex'}}>
+                                        <TextField
+                                            id="outlined-number"
+                                            label={fieldName}
+                                            name={field}
+                                            variant="standard"
+                                            type="number"
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                            sx={{ marginBottom: "20px" }}
+                                            fullWidth
+                                        />
+                                        <IconButton sx={{height: '35px', width: '36px', marginTop: '8px'}}>
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </div>
                                 );
                             } else if (inputRange) {
                                 return (
