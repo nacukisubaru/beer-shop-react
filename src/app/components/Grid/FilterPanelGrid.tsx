@@ -2,8 +2,8 @@ import { Box, Button, TextField } from "@mui/material";
 import { Container } from "@mui/system";
 import { FC, useState, useEffect } from "react";
 import CustomSelect from "../CustomSelect/CustomSelect";
-import DeleteIcon from '@mui/icons-material/Delete';
-import { IconButton } from '@mui/material';
+import DeleteIcon from "@mui/icons-material/Delete";
+import { IconButton } from "@mui/material";
 
 interface InputSelect {
     valueInputSelect: ValueInputSelect[];
@@ -99,7 +99,6 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                     width,
                     margin: "10px",
                     borderRadius: "15px",
-                    paddingTop: "36px",
                     overflowY: "scroll",
                 }}
             >
@@ -141,7 +140,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                             } = filter;
                             if (inputText) {
                                 return (
-                                    <div style={{display: 'flex'}}>
+                                    <div style={{ display: "flex" }}>
                                         <TextField
                                             id="filled-basic"
                                             label={fieldName}
@@ -155,7 +154,13 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                                 width: "200px",
                                             }}
                                         />
-                                        <IconButton sx={{height: '35px', width: '36px', marginTop: '8px'}}>
+                                        <IconButton
+                                            sx={{
+                                                height: "35px",
+                                                width: "36px",
+                                                marginTop: "8px",
+                                            }}
+                                        >
                                             <DeleteIcon />
                                         </IconButton>
                                     </div>
@@ -165,7 +170,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                     inputSelect;
                                 if (valueInputSelect.length) {
                                     return (
-                                        <div style={{display: 'flex'}}>
+                                        <div style={{ display: "flex" }}>
                                             <CustomSelect
                                                 multiple={multiple}
                                                 name={fieldName}
@@ -179,7 +184,13 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                                     marginBottom: "20px",
                                                 }}
                                             />
-                                            <IconButton sx={{height: '35px', width: '36px', marginTop: '40px'}}>
+                                            <IconButton
+                                                sx={{
+                                                    height: "35px",
+                                                    width: "36px",
+                                                    marginTop: "40px",
+                                                }}
+                                            >
                                                 <DeleteIcon />
                                             </IconButton>
                                         </div>
@@ -197,7 +208,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                     { value: falseValue, name: falseName },
                                 ];
                                 return (
-                                    <div style={{display: 'flex'}}>
+                                    <div style={{ display: "flex" }}>
                                         <CustomSelect
                                             multiple={false}
                                             name={fieldName}
@@ -205,14 +216,20 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                             defaultSelectedItem={trueValue}
                                             sx={{ marginBottom: "20px" }}
                                         />
-                                        <IconButton sx={{height: '35px', width: '36px', marginTop: '8px'}}>
+                                        <IconButton
+                                            sx={{
+                                                height: "35px",
+                                                width: "36px",
+                                                marginTop: "8px",
+                                            }}
+                                        >
                                             <DeleteIcon />
                                         </IconButton>
                                     </div>
                                 );
                             } else if (inputNumber) {
                                 return (
-                                    <div style={{display: 'flex'}}>
+                                    <div style={{ display: "flex" }}>
                                         <TextField
                                             id="outlined-number"
                                             label={fieldName}
@@ -225,14 +242,20 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                             sx={{ marginBottom: "20px" }}
                                             fullWidth
                                         />
-                                        <IconButton sx={{height: '35px', width: '36px', marginTop: '8px'}}>
+                                        <IconButton
+                                            sx={{
+                                                height: "35px",
+                                                width: "36px",
+                                                marginTop: "8px",
+                                            }}
+                                        >
                                             <DeleteIcon />
                                         </IconButton>
                                     </div>
                                 );
                             } else if (inputRange) {
                                 return (
-                                    <>
+                                    <div style={{ display: "flex" }}>
                                         <TextField
                                             id="outlined-number"
                                             label={inputRange.nameMin}
@@ -248,8 +271,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
-                                            sx={{ marginBottom: "20px" }}
-                                            fullWidth
+                                            sx={{ marginBottom: "20px", width: '80px', marginRight: '25px' }}
                                         />
 
                                         <TextField
@@ -264,13 +286,22 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                                     max: inputRange.max,
                                                 },
                                             }}
-                                            sx={{ marginBottom: "20px" }}
+                                            sx={{ marginBottom: "20px",  width: '80px', marginRight: '13px' }}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
-                                            fullWidth
                                         />
-                                    </>
+
+                                        <IconButton
+                                            sx={{
+                                                height: "35px",
+                                                width: "36px",
+                                                marginTop: "8px",
+                                            }}
+                                        >
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </div>
                                 );
                             }
                         })}
