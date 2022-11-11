@@ -5,16 +5,17 @@ const BeerFilterTable: FC = () => {
     return (
         <FilterPanelGrid
             itemFilterList={[
-                { field: "title", fieldName: "Название", valueInput: true },
+                { field: "id", fieldName: "ID", inputNumber: true },
+                { field: "title", fieldName: "Название", inputText: true },
                 {
                     field: "description",
                     fieldName: "Описание",
-                    valueInput: true,
+                    inputText: true,
                 },
                 {
                     field: "price",
                     fieldName: "Цена",
-                    valueInputRange: { min: 1000, max: 2000 },
+                    inputRange: { min: 1000, max: 2000, fieldMin: "minPrice", fieldMax: "maxPrice" },
                 },
                 {
                     field: "brandIds",
@@ -25,6 +26,16 @@ const BeerFilterTable: FC = () => {
                             { id: 6, name: "Гусь", value: "Goose" },
                         ],
                         multiple: true,
+                    },
+                },
+                {
+                    field: "isActive",
+                    fieldName: "Активность",
+                    inputSelectBoolean: {
+                        trueName: "Активные",
+                        trueValue: "true",
+                        falseName: "Не активные",
+                        falseValue: "false",
                     },
                 },
             ]}

@@ -1,12 +1,10 @@
-import { Box, Button, Card, MenuItem, Select, TextField } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import { FC, useState, useEffect } from "react";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
 import CustomSelect from "../CustomSelect/CustomSelect";
 
 interface InputSelect {
     valueInputSelect: ValueInputSelect[];
-    multiple: boolean;
+    multiple?: boolean;
 }
 interface ValueInputSelect {
     id: number;
@@ -17,11 +15,15 @@ interface ValueInputSelect {
 interface ValueInputRange {
     min: number;
     max: number;
+    fieldMin: string;
+    fieldMax: string;
 }
 
 interface ValueInputBoolean {
     trueValue: string;
     falseValue: string;
+    trueName: string;
+    falseName: string;
 }
 
 interface Field {
@@ -33,10 +35,10 @@ interface FilterItem {
     field: string;
     fieldName: string;
     inputSelect?: InputSelect;
-    valueInputBoolean?: ValueInputBoolean;
-    valueInput?: boolean;
-    valueInputRange?: ValueInputRange;
-    valueInputNumber?: boolean;
+    inputSelectBoolean?: ValueInputBoolean;
+    inputText?: boolean;
+    inputRange?: ValueInputRange;
+    inputNumber?: boolean;
 }
 
 interface FilterPanelGridProps {
@@ -120,10 +122,13 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                             const {
                                 field,
                                 fieldName,
-                                valueInput,
+                                inputText,
                                 inputSelect,
+                                inputSelectBoolean,
+                                inputNumber,
+                                inputRange,
                             } = filter;
-                            if (valueInput) {
+                            if (inputText) {
                                 return (
                                     <TextField
                                         id="filled-basic"
@@ -136,15 +141,87 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                 const { valueInputSelect, multiple } =
                                     inputSelect;
                                 if (valueInputSelect.length) {
-                                    return <CustomSelect
-                                        multiple={multiple}
-                                        name={fieldName}
-                                        list={valueInputSelect}
-                                        defaultSelectedItem={
-                                            valueInputSelect[0].value
-                                        }
-                                    />;
+                                    return (
+                                        <CustomSelect
+                                            multiple={multiple}
+                                            name={fieldName}
+                                            list={valueInputSelect}
+                                            defaultSelectedItem={
+                                                valueInputSelect[0].value
+                                            }
+                                        />
+                                    );
                                 }
+                            } else if (inputSelectBoolean) {
+                                const {
+                                    trueValue,
+                                    falseValue,
+                                    trueName,
+                                    falseName,
+                                } = inputSelectBoolean;
+                                const listSelectBoolean = [
+                                    { value: trueValue, name: trueName },
+                                    { value: falseValue, name: falseName },
+                                ];
+                                return (
+                                    <CustomSelect
+                                        multiple={false}
+                                        name={fieldName}
+                                        list={listSelectBoolean}
+                                        defaultSelectedItem={trueValue}
+                                    />
+                                );
+                            } else if (inputNumber) {
+                                return (
+                                    <TextField
+                                        id="outlined-number"
+                                        label={fieldName}
+                                        name={field}
+                                        variant="standard"
+                                        type="number"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                    />
+                                );
+                            } else if (inputRange) {
+                                return (
+                                    <>
+                                        <TextField
+                                            id="outlined-number"
+                                            label={fieldName}
+                                            name={inputRange.fieldMin}
+                                            type="number"
+                                            variant="standard"
+                                            InputProps={{
+                                                inputProps: {
+                                                    min: inputRange.min,
+                                                    max: inputRange.max,
+                                                },
+                                            }}
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                        />
+
+                                        <TextField
+                                            id="outlined-number"
+                                            label={fieldName}
+                                            name={inputRange.fieldMax}
+                                            type="number"
+                                            variant="standard"
+                                            InputProps={{
+                                                inputProps: {
+                                                    min: inputRange.min,
+                                                    max: inputRange.max,
+                                                },
+                                            }}
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                        />
+                                    </>
+                                );
                             }
                         })}
                 </div>
