@@ -15,7 +15,14 @@ const BeerFilterTable: FC = () => {
                 {
                     field: "price",
                     fieldName: "Цена",
-                    inputRange: { min: 1000, max: 2000, fieldMin: "minPrice", fieldMax: "maxPrice" },
+                    inputRange: {
+                        min: 1000,
+                        max: 2000,
+                        fieldMin: "minPrice",
+                        fieldMax: "maxPrice",
+                        nameMin: "Мин цена",
+                        nameMax: "Макс цена",
+                    },
                 },
                 {
                     field: "brandIds",

@@ -1,4 +1,5 @@
 import { Box, Button, TextField } from "@mui/material";
+import { Container } from "@mui/system";
 import { FC, useState, useEffect } from "react";
 import CustomSelect from "../CustomSelect/CustomSelect";
 
@@ -17,6 +18,8 @@ interface ValueInputRange {
     max: number;
     fieldMin: string;
     fieldMax: string;
+    nameMin: string;
+    nameMax: string;
 }
 
 interface ValueInputBoolean {
@@ -57,7 +60,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
     const [fieldsList, setFieldsList] = useState<Field[]>([]);
     const [filterList, setFilter] = useState<FilterItem[]>([]);
     const [selectedField, setSelectedField] = useState<string>("");
-    const [isVisibleAddBtn, setVisibleAddBtn] = useState<boolean>(false);
+    const [isVisibleAddBtn, setVisibleAddBtn] = useState<boolean>(true);
 
     useEffect(() => {
         const fields = itemFilterList.map((item) => {
@@ -92,15 +95,20 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
             <Box
                 sx={{
                     width,
-                    height,
                     margin: "10px",
                     borderRadius: "15px",
                     paddingTop: "36px",
+                    overflowY: "scroll",
                 }}
             >
-                <div>
-                    {fieldsList.length && selectedField && (
-                        <div>
+                <Container maxWidth="sm">
+                    {fieldsList.length > 0 && selectedField && (
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                            }}
+                        >
                             {isVisibleAddBtn ? (
                                 <Button
                                     variant="text"
@@ -117,7 +125,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                             )}
                         </div>
                     )}
-                    {filterList.length &&
+                    {filterList.length > 0 &&
                         filterList.map((filter) => {
                             const {
                                 field,
@@ -135,6 +143,11 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                         label={fieldName}
                                         variant="standard"
                                         name={field}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        sx={{ marginBottom: "20px" }}
+                                        fullWidth
                                     />
                                 );
                             } else if (inputSelect) {
@@ -149,6 +162,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                             defaultSelectedItem={
                                                 valueInputSelect[0].value
                                             }
+                                            sx={{ minWidth: 120, maxWidth: 300,  marginBottom: "20px" }}
                                         />
                                     );
                                 }
@@ -169,6 +183,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                         name={fieldName}
                                         list={listSelectBoolean}
                                         defaultSelectedItem={trueValue}
+                                        sx={{ marginBottom: "20px" }}
                                     />
                                 );
                             } else if (inputNumber) {
@@ -182,6 +197,8 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
+                                        sx={{ marginBottom: "20px" }}
+                                        fullWidth
                                     />
                                 );
                             } else if (inputRange) {
@@ -189,7 +206,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                     <>
                                         <TextField
                                             id="outlined-number"
-                                            label={fieldName}
+                                            label={inputRange.nameMin}
                                             name={inputRange.fieldMin}
                                             type="number"
                                             variant="standard"
@@ -202,11 +219,13 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
+                                            sx={{ marginBottom: "20px" }}
+                                            fullWidth
                                         />
 
                                         <TextField
                                             id="outlined-number"
-                                            label={fieldName}
+                                            label={inputRange.nameMax}
                                             name={inputRange.fieldMax}
                                             type="number"
                                             variant="standard"
@@ -216,15 +235,33 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                                     max: inputRange.max,
                                                 },
                                             }}
+                                            sx={{ marginBottom: "20px" }}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
+                                            fullWidth
                                         />
                                     </>
                                 );
                             }
                         })}
-                </div>
+
+                    {filterList.length > 0 && (
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "space-around",
+                            }}
+                        >
+                            <Button variant="outlined" size="small">
+                                Сбросить
+                            </Button>
+                            <Button variant="contained" size="small">
+                                Фильтровать
+                            </Button>
+                        </div>
+                    )}
+                </Container>
             </Box>
         </>
     );

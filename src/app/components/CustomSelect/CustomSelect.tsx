@@ -1,5 +1,5 @@
-import { Box, Button, Card, MenuItem, Select, SelectChangeEvent } from "@mui/material";
-import { FC, useState, useEffect } from "react";
+import { MenuItem, Select } from "@mui/material";
+import { FC, useState } from "react";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 
@@ -13,6 +13,7 @@ interface CustomSelectProps {
     name?: string;
     appearance?: "standard" | "outlined" | "filled";
     multiple?: boolean;
+    sx?: any,
     action?: (value: string) => void;
 }
 
@@ -22,6 +23,7 @@ const CustomSelect: FC<CustomSelectProps> = ({
     name,
     appearance,
     multiple,
+    sx,
     action,
 }) => {
     const [currentSelectedItem, setSelectedItem] = useState<string>(
@@ -30,7 +32,7 @@ const CustomSelect: FC<CustomSelectProps> = ({
     const [currentSelectedItemsMult, setSelectedItemsMult] = useState<string[]>(
         []
     );
-    
+
     const handleChangeMultiple = (
         event: any
     ) => {
@@ -49,7 +51,7 @@ const CustomSelect: FC<CustomSelectProps> = ({
     return (
         <FormControl
             variant={appearance ? appearance : "standard"}
-            sx={multiple ? { m: 1, minWidth: 120, maxWidth: 300 } : {}}
+            sx={sx ? sx : {}}
             fullWidth
         >
             <InputLabel shrink id="demo-simple-select-label">
