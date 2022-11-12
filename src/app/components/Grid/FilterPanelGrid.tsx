@@ -53,12 +53,13 @@ interface FilterItem {
 
 interface FilterPanelGridProps {
     itemFilterList: FilterItem[];
-    filters?: Filter[];
+    filters: Filter[];
     width: number;
-    setFilterForRequest?: (
+    setCustomFilter?: (
         name: string,
         value: number | string | number[] | string[]
     ) => void;
+    removeCustomFilter?: (name: string) => void;
     onFilter?: () => void;
 }
 
@@ -66,9 +67,11 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
     itemFilterList,
     filters,
     width,
-    setFilterForRequest,
+    setCustomFilter,
+    removeCustomFilter,
     onFilter,
 }) => {
+    const filterValues = filters.map((filter) => filter.name);
     const [fieldsList, setFieldsList] = useState<Field[]>(
         itemFilterList
             .map((item) => {
@@ -77,9 +80,11 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
             })
             .sort((a, b) => {
                 return a.name.charCodeAt(0) - b.name.charCodeAt(0);
-            })
+            }).filter((item) => !filterValues.includes(item.value))
     );
-    const [filterList, setFilter] = useState<FilterItem[]>([]);
+    const [filterList, setFilter] = useState<FilterItem[]>(
+        itemFilterList.filter((item) => filterValues.includes(item.field))
+    );
     const [selectedField, setSelectedField] = useState<string>(
         itemFilterList[0].field
     );
@@ -103,16 +108,12 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
             );
             setSelectedField(newFieldList[0].value);
         }
-        setFilterForRequest && setFilterForRequest(value, '');
+        setCustomFilter && setCustomFilter(value, '');
     };
 
     const handleVisibleAddBtn = () => {
         setVisibleAddBtn(false);
     };
-
-    useEffect(() => {
-        console.log({ fieldsList });
-    }, [fieldsList]);
 
     const removeFilter = (value: string) => {
         const newFilterList: FilterItem[] = filterList.filter(
@@ -132,6 +133,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                 })
             );
             setSelectedField(itemFilter.field);
+            removeCustomFilter && removeCustomFilter(itemFilter.field);
         }
 
         setFilter(newFilterList);

@@ -11,6 +11,10 @@ const BeerFilterTable: FC = () => {
         setFilter({name, value});
     }
 
+    const handleRemoveFilter = (name: string) => {
+        removeFilter({name});
+    }
+
     return (
         <FilterPanelGrid
             itemFilterList={[
@@ -56,7 +60,8 @@ const BeerFilterTable: FC = () => {
                 },
             ]}
             filters={filters}
-            setFilterForRequest={handleSetFilter}
+            setCustomFilter={handleSetFilter}
+            removeCustomFilter={handleRemoveFilter}
             width={300}
             onFilter={() => {}}
         />
