@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { createList } from "../helpers/arrayHelper";
+import { paramsBuilder } from "../helpers/stringHelper";
 import { limitPageAdmin } from "../http/http.request.config";
 import { useActions } from "./useActions";
 import { useAppSelector } from "./useAppSelector";
 
 export const useCatalog = (api: any, list: 'beer') => {
     const { disableNextPage, setCountRows, setLastPage } = useActions();
-    const { page, sortField, order, limitPage } = useAppSelector((state) => state.contentReducer);
-    const { data, error, refetch } = api.useGetListQuery({page, sortField, order, limitPage});
+    const { page, sortField, order, limitPage, filters } = useAppSelector((state) => state.contentReducer);
+    const { data, error, refetch } = api.useGetListQuery({page, sortField, order, limitPage, filter: paramsBuilder(filters)});
     const [rows, setRows] = useState<any>([]);
     
     useEffect(() => {
@@ -20,7 +21,7 @@ export const useCatalog = (api: any, list: 'beer') => {
 
     useEffect(() => {
         refetch();
-    }, [page, sortField, order]);
+    }, [page, sortField, order, filters]);
 
     useEffect(() => {
         if (error) {

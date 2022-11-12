@@ -1,7 +1,12 @@
 import { FC } from "react";
+import { useActions } from "../../../../../hooks/useActions";
+import { useAppSelector } from "../../../../../hooks/useAppSelector";
 import FilterPanelGrid from "../../../../Grid/FilterPanelGrid";
 
 const BeerFilterTable: FC = () => {
+    const {setFilter, removeFilter} = useActions();
+    const {filters} = useAppSelector(state => state.contentReducer);
+
     return (
         <FilterPanelGrid
             itemFilterList={[
@@ -46,7 +51,6 @@ const BeerFilterTable: FC = () => {
                     },
                 },
             ]}
-            height={390}
             width={300}
             onFilter={() => {}}
         />

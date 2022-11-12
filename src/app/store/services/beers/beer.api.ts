@@ -5,7 +5,8 @@ import { IBeer, IBeerListPaginate } from "./types/beer.type";
 interface IGetListParams {
     page: number,
     sort: string,
-    order: string
+    order: string,
+    filter: string
 }
 
 export const beerApi = createApi({
@@ -14,7 +15,7 @@ export const beerApi = createApi({
     endpoints: (build) => ({
         getList: build.query<IBeerListPaginate, IGetListParams>({
             query:(params) => ({
-                url: '',
+                url:'/getListByFilter/'+params.filter,
                 params
             })
         }),

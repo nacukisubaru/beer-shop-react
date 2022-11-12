@@ -48,14 +48,12 @@ interface FilterItem {
 
 interface FilterPanelGridProps {
     itemFilterList: FilterItem[];
-    height: number;
     width: number;
     onFilter?: () => void;
 }
 
 const FilterPanelGrid: FC<FilterPanelGridProps> = ({
     itemFilterList,
-    height,
     width,
     onFilter,
 }) => {
@@ -73,7 +71,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
         setFieldsList(fields.sort((a, b) => {
             return a.name.charCodeAt(0) - b.name.charCodeAt(0);
         }));
-    }, []);
+    }, [itemFilterList]);
 
     const handleSetFilter = (value: string) => {
         setVisibleAddBtn(true);
