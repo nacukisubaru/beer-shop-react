@@ -1,6 +1,6 @@
 interface IParam {
     name: string,
-    value: string | number[] | string[]
+    value: number | string | number[] | string[]
 }
 
 export const removeMask = (phone: string) => {

@@ -36,6 +36,11 @@ interface Field {
     name: string;
 }
 
+interface Filter {
+    name: string;
+    value: number | string | number[] | string[];
+}
+
 interface FilterItem {
     field: string;
     fieldName: string;
@@ -48,12 +53,14 @@ interface FilterItem {
 
 interface FilterPanelGridProps {
     itemFilterList: FilterItem[];
+    filters?: Filter[];
     width: number;
     onFilter?: () => void;
 }
 
 const FilterPanelGrid: FC<FilterPanelGridProps> = ({
     itemFilterList,
+    filters,
     width,
     onFilter,
 }) => {

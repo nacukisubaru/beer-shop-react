@@ -51,6 +51,7 @@ const BeerFilterTable: FC = () => {
                     },
                 },
             ]}
+            filters={filters}
             width={300}
             onFilter={() => {}}
         />

@@ -3,7 +3,7 @@ import { limitPageAdmin } from "../../http/http.request.config";
 
 interface IFilter {
     name: string,
-    value: string | number[] | string[]
+    value: number | string | number[] | string[]
 }
 interface IinitialState {
     page: number,
