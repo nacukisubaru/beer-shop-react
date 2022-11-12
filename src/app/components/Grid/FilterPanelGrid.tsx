@@ -1,6 +1,6 @@
 import { Box, Button, TextField } from "@mui/material";
 import { Container } from "@mui/system";
-import { FC, useState, useEffect } from "react";
+import { FC, useState, useEffect, useCallback, useMemo } from "react";
 import CustomSelect from "../CustomSelect/CustomSelect";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { IconButton } from "@mui/material";
@@ -55,6 +55,10 @@ interface FilterPanelGridProps {
     itemFilterList: FilterItem[];
     filters?: Filter[];
     width: number;
+    setFilterForRequest?: (
+        name: string,
+        value: number | string | number[] | string[]
+    ) => void;
     onFilter?: () => void;
 }
 
@@ -62,23 +66,24 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
     itemFilterList,
     filters,
     width,
+    setFilterForRequest,
     onFilter,
 }) => {
-    const [fieldsList, setFieldsList] = useState<Field[]>([]);
+    const [fieldsList, setFieldsList] = useState<Field[]>(
+        itemFilterList
+            .map((item) => {
+                const { field, fieldName } = item;
+                return { value: field, name: fieldName };
+            })
+            .sort((a, b) => {
+                return a.name.charCodeAt(0) - b.name.charCodeAt(0);
+            })
+    );
     const [filterList, setFilter] = useState<FilterItem[]>([]);
-    const [selectedField, setSelectedField] = useState<string>("");
+    const [selectedField, setSelectedField] = useState<string>(
+        itemFilterList[0].field
+    );
     const [isVisibleAddBtn, setVisibleAddBtn] = useState<boolean>(true);
-
-    useEffect(() => {
-        const fields = itemFilterList.map((item) => {
-            const { field, fieldName } = item;
-            return { value: field, name: fieldName };
-        });
-        setSelectedField(fields[0].value);
-        setFieldsList(fields.sort((a, b) => {
-            return a.name.charCodeAt(0) - b.name.charCodeAt(0);
-        }));
-    }, [itemFilterList]);
 
     const handleSetFilter = (value: string) => {
         setVisibleAddBtn(true);
@@ -96,12 +101,18 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                     return a.name.charCodeAt(0) - b.name.charCodeAt(0);
                 })
             );
+            setSelectedField(newFieldList[0].value);
         }
+        setFilterForRequest && setFilterForRequest(value, '');
     };
 
     const handleVisibleAddBtn = () => {
         setVisibleAddBtn(false);
     };
+
+    useEffect(() => {
+        console.log({ fieldsList });
+    }, [fieldsList]);
 
     const removeFilter = (value: string) => {
         const newFilterList: FilterItem[] = filterList.filter(
@@ -120,7 +131,9 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                     return a.name.charCodeAt(0) - b.name.charCodeAt(0);
                 })
             );
+            setSelectedField(itemFilter.field);
         }
+
         setFilter(newFilterList);
     };
 
@@ -135,7 +148,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                 }}
             >
                 <Container maxWidth="sm">
-                    {fieldsList.length > 0 && selectedField && (
+                    {fieldsList.length > 0 && (
                         <div
                             style={{
                                 display: "flex",

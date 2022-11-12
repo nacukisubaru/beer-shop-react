@@ -7,6 +7,10 @@ const BeerFilterTable: FC = () => {
     const {setFilter, removeFilter} = useActions();
     const {filters} = useAppSelector(state => state.contentReducer);
 
+    const handleSetFilter = (name: string, value: number | string | number[] | string[]) => {
+        setFilter({name, value});
+    }
+
     return (
         <FilterPanelGrid
             itemFilterList={[
@@ -52,6 +56,7 @@ const BeerFilterTable: FC = () => {
                 },
             ]}
             filters={filters}
+            setFilterForRequest={handleSetFilter}
             width={300}
             onFilter={() => {}}
         />

@@ -8,9 +8,12 @@ import { useAppSelector } from "./useAppSelector";
 export const useCatalog = (api: any, list: 'beer') => {
     const { disableNextPage, setCountRows, setLastPage } = useActions();
     const { page, sortField, order, limitPage, filters } = useAppSelector((state) => state.contentReducer);
-    const { data, error, refetch } = api.useGetListQuery({page, sortField, order, limitPage, filter: paramsBuilder(filters)});
+    const valuesInFiltersIsFilled = filters.some((filter) => filter.value);
+    const { data, error } = api.useGetListQuery({page, sortField, order, limitPage, filter: paramsBuilder(filters)}, 
+        {skip: !valuesInFiltersIsFilled && filters.length ? true : false}
+    );
     const [rows, setRows] = useState<any>([]);
-    
+   
     useEffect(() => {
         if (data && data.rows) {
             setCountRows({count: data.countRows});
@@ -19,9 +22,6 @@ export const useCatalog = (api: any, list: 'beer') => {
         }
     }, [data]);
 
-    useEffect(() => {
-        refetch();
-    }, [page, sortField, order, filters]);
 
     useEffect(() => {
         if (error) {

@@ -34,7 +34,7 @@ const contentSlice = createSlice({
     name: 'content',
     initialState,
     reducers: {
-        setFilter:(state, action: PayloadAction<{name: string, value: string | number[] | string[]}>) => {
+        setFilter:(state, action: PayloadAction<{name: string, value: number | string | number[] | string[]}>) => {
             state.filters = state.filters.concat({name: action.payload.name, value: action.payload.value});
         },
         removeFilter: (state, action: PayloadAction<{name:string}>) => {
