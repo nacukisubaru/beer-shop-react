@@ -70,7 +70,9 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
             return { value: field, name: fieldName };
         });
         setSelectedField(fields[0].value);
-        setFieldsList(fields);
+        setFieldsList(fields.sort((a, b) => {
+            return a.name.charCodeAt(0) - b.name.charCodeAt(0);
+        }));
     }, []);
 
     const handleSetFilter = (value: string) => {
