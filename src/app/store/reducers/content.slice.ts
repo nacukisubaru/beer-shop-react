@@ -38,24 +38,16 @@ const contentSlice = createSlice({
         setFilters: (state, action) => {
             state.filters = action.payload;
         },
-        setFilter:(state, action: PayloadAction<{name: string, value: number | string | number[] | string[]}>) => {
-            const findFilter = state.filters.findIndex((filter) => filter.name === action.payload.name);
-            if(findFilter > -1) {
-                state.filters[findFilter] = {name: action.payload.name, value: action.payload.value};
-            } else {
-                state.filters = state.filters.concat({name: action.payload.name, value: action.payload.value});
-            }
-        },
-        removeFilter: (state, action: PayloadAction<{name:string}>) => {
-           state.filters = state.filters.filter((filter) => filter.name !== action.payload.name);
+        removeFilters: (state) => {
+           state.filters = [];
+           state.tmpfilters = []
         },
         setTmpFilter:(state, action: PayloadAction<{name: string, value: number | string | number[] | string[]}>) => {
             const findFilter = state.tmpfilters.findIndex((filter) => filter.name === action.payload.name);
-            console.log(findFilter);
             if(findFilter > -1) {
                 state.tmpfilters[findFilter] = {name: action.payload.name, value: action.payload.value};
             } else {
-                state.tmpfilters = state.filters.concat({name: action.payload.name, value: action.payload.value});
+                state.tmpfilters = state.tmpfilters.concat({name: action.payload.name, value: action.payload.value});
             }
         },
         removeTmpFilter: (state, action: PayloadAction<{name:string}>) => {
