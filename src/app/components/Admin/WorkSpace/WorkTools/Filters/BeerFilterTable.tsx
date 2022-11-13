@@ -4,7 +4,7 @@ import { useAppSelector } from "../../../../../hooks/useAppSelector";
 import FilterPanelGrid from "../../../../Grid/FilterPanelGrid";
 
 const BeerFilterTable: FC = () => {
-    const { setTmpFilter, removeTmpFilter, setRequestFilterDisabled, setFilters, setClickFilter, resetFilters } = useActions();
+    const { setTmpFilter, removeTmpFilter, setRequestFilterDisabled, setFilters, setClickFilter, removeFilters } = useActions();
     const { filters, tmpfilters } = useAppSelector(state => state.contentReducer);
 
     const handleSetFilter = (name: string, value: number | string | number[] | string[]) => {
@@ -22,7 +22,7 @@ const BeerFilterTable: FC = () => {
     }
 
     const handleReset = async() => {
-        await resetFilters();
+        await removeFilters();
         await setRequestFilterDisabled({disable: false});
         setClickFilter({isClick: true});
     }

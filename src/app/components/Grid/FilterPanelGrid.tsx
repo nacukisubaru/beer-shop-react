@@ -1,6 +1,6 @@
 import { Box, Button, TextField } from "@mui/material";
 import { Container } from "@mui/system";
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import CustomSelect from "../CustomSelect/CustomSelect";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { IconButton } from "@mui/material";
@@ -72,6 +72,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
     onFilter,
     onReset
 }) => {
+    console.log({filters});
     const [fieldsList, setFieldsList] = useState<Field[]>(
         itemFilterList
             .map((item) => {
@@ -89,6 +90,12 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
         itemFilterList[0].field
     );
     const [isVisibleAddBtn, setVisibleAddBtn] = useState<boolean>(true);
+
+    useEffect(() => {
+        if (!filters.length) {
+            setFilter([]);
+        }
+    },[filters]);
 
     const handleSetFilter = (value: string) => {
         setVisibleAddBtn(true);
