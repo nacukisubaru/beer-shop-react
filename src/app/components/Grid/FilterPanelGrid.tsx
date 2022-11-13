@@ -430,7 +430,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                             <Button variant="outlined" size="small">
                                 Сбросить
                             </Button>
-                            <Button variant="contained" size="small">
+                            <Button variant="contained" size="small" onClick={onFilter} >
                                 Фильтровать
                             </Button>
                         </div>

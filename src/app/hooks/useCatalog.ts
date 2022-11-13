@@ -6,11 +6,10 @@ import { useActions } from "./useActions";
 import { useAppSelector } from "./useAppSelector";
 
 export const useCatalog = (api: any, list: 'beer') => {
-    const { disableNextPage, setCountRows, setLastPage } = useActions();
-    const { page, sortField, order, limitPage, filters } = useAppSelector((state) => state.contentReducer);
-    const valuesInFiltersIsFilled = filters.some((filter) => filter.value);
-    const { data, error } = api.useGetListQuery({page, sortField, order, limitPage, filter: paramsBuilder(filters)}, 
-        {skip: !valuesInFiltersIsFilled && filters.length ? true : false}
+    const { disableNextPage, setCountRows, setLastPage, setClickFilter } = useActions();
+    const { page, sortField, order, limitPage, filters, reqFilterDisabled, clickFilter } = useAppSelector((state) => state.contentReducer);
+    const { data, error, refetch } = api.useGetListQuery({page, sortField, order, limitPage, filter: paramsBuilder(filters)}, 
+        {skip: reqFilterDisabled}
     );
     const [rows, setRows] = useState<any>([]);
    
@@ -31,6 +30,12 @@ export const useCatalog = (api: any, list: 'beer') => {
             }
         }
     }, [error]);
+
+    useEffect(() => {
+        console.log({clickFilter});
+        refetch();
+        setClickFilter({isClick: false})
+    }, [clickFilter])
 
     return {rows, limitPage: limitPageAdmin}
 }

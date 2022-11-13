@@ -15,7 +15,9 @@ interface IinitialState {
     tmpfilters: IFilter[],
     sortField: string,
     order: string,
-    disableNextPage: boolean
+    disableNextPage: boolean,
+    reqFilterDisabled: boolean,
+    clickFilter: boolean
 }
 
 const initialState: IinitialState = {
@@ -28,7 +30,9 @@ const initialState: IinitialState = {
     tmpfilters:[],
     sortField: 'id',
     order: 'DESC',
-    disableNextPage: false
+    disableNextPage: false,
+    reqFilterDisabled: false,
+    clickFilter: false
 }
 
 const contentSlice = createSlice({
@@ -52,6 +56,12 @@ const contentSlice = createSlice({
         },
         removeTmpFilter: (state, action: PayloadAction<{name:string}>) => {
            state.tmpfilters = state.tmpfilters.filter((filter) => filter.name !== action.payload.name);
+        },
+        setRequestFilterDisabled: (state, action: PayloadAction<{disable: boolean}>) => {
+            state.reqFilterDisabled = action.payload.disable;
+        },
+        setClickFilter: (state, action: PayloadAction<{isClick: boolean}>) => {
+            state.clickFilter = action.payload.isClick;
         },
         setContentPage:(state, action: PayloadAction<{page:number}>) => {
             const page = action.payload.page;

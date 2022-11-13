@@ -25,11 +25,16 @@ export default function BeerTableAdmin() {
     ];
     const {rows} = useCatalog(beerApi, 'beer');
     const {limitPage} = useAppSelector(state => state.contentReducer);
-    const {setFilters} = useActions();
+    const {setFilters, setRequestFilterDisabled} = useActions();
     const {tmpfilters} = useAppSelector(state => state.contentReducer);
 
-    const handlerPanelOpen = () => {
+    const handlerPanelOpen = async () => {
+        await setRequestFilterDisabled({disable: true});
         setFilters(tmpfilters);
+    }
+
+    const handlerPanelClose = () => {
+        setRequestFilterDisabled({disable: false});
     }
 
     return (
@@ -40,6 +45,7 @@ export default function BeerTableAdmin() {
                 pageSize={limitPage}
                 CustomFilterPanel={BeerFilterTable}
                 onFilterPanelOpen={handlerPanelOpen}
+                onFilterPanelClose={handlerPanelClose}
             />
         </>
     );

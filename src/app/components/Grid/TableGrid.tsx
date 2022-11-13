@@ -17,9 +17,10 @@ interface ITableGridProps {
     pageSize: number;
     CustomFilterPanel?: any;
     onFilterPanelOpen?: () => void;
+    onFilterPanelClose?: () => void;
 }
 
-const TableGrid: FC<ITableGridProps> = ({ columns, rows, pageSize, CustomFilterPanel, onFilterPanelOpen }) => {
+const TableGrid: FC<ITableGridProps> = ({ columns, rows, pageSize, CustomFilterPanel, onFilterPanelOpen, onFilterPanelClose }) => {
     const { setContentSort, setContentDefaultSort } = useActions();
     const [sortModel, setSortModel] = useState<GridSortItem[]>([
         { field: "id", sort: "desc" },
@@ -59,6 +60,7 @@ const TableGrid: FC<ITableGridProps> = ({ columns, rows, pageSize, CustomFilterP
                     FilterPanel: CustomFilterPanel ? CustomFilterPanel : GridFilterPanel,
                 }}
                 onPreferencePanelOpen={onFilterPanelOpen}
+                onPreferencePanelClose={onFilterPanelClose}
                 onFilterModelChange={() => {
                     console.log("we cand send request here!");
                 }}
