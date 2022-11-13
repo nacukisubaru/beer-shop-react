@@ -1,6 +1,6 @@
 import { Box, Button, TextField } from "@mui/material";
 import { Container } from "@mui/system";
-import { FC, useState, useEffect, useCallback, useMemo } from "react";
+import { FC, useState } from "react";
 import CustomSelect from "../CustomSelect/CustomSelect";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { IconButton } from "@mui/material";
@@ -145,6 +145,13 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
         }
     }
 
+    const setFilterValueText = (e: any) => {
+        const {name, value} = e.target;
+        if (setCustomFilter) {
+            setCustomFilter(name, value);
+        }
+    }
+
     return (
         <>
             <Box
@@ -207,9 +214,11 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                             label={fieldName}
                                             variant="standard"
                                             name={field}
+                                            onBlur={setFilterValueText}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
+                                            defaultValue={findFilter && findFilter.value ? findFilter.value : ""}
                                             sx={{
                                                 marginBottom: "20px",
                                                 width: "200px",
@@ -315,6 +324,8 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                             name={field}
                                             variant="standard"
                                             type="number"
+                                            onBlur={setFilterValueText}
+                                            defaultValue={findFilter && findFilter.value ? findFilter.value : ""}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
@@ -336,6 +347,12 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                     </div>
                                 );
                             } else if (inputRange) {
+                                let findFilterMin: any;
+                                let findFilterMax: any;
+                                if (filters.length) {
+                                    findFilterMin = filters.find((filter) => filter.name === inputRange.fieldMin);
+                                    findFilterMax = filters.find((filter) => filter.name === inputRange.fieldMax);
+                                }
                                 return (
                                     <div style={{ display: "flex" }}>
                                         <TextField
@@ -344,6 +361,8 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                             name={inputRange.fieldMin}
                                             type="number"
                                             variant="standard"
+                                            onBlur={setFilterValueText}
+                                            defaultValue={findFilterMin && findFilterMin.value ? findFilterMin.value : ""}
                                             InputProps={{
                                                 inputProps: {
                                                     min: inputRange.min,
@@ -366,6 +385,8 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                             name={inputRange.fieldMax}
                                             type="number"
                                             variant="standard"
+                                            onBlur={setFilterValueText}
+                                            defaultValue={findFilterMax && findFilterMax.value ? findFilterMax.value : ""}
                                             InputProps={{
                                                 inputProps: {
                                                     min: inputRange.min,
