@@ -1,6 +1,6 @@
 interface IParam {
     name: string,
-    value: number | string | number[] | string[]
+    value: any
 }
 
 export const removeMask = (phone: string) => {
@@ -17,7 +17,7 @@ export const paramsBuilder = (params: IParam[]): string => {
                 var lastParamArray = param.value.at(-1);
                 param.value.map((item: string | number) => {
                     paramsStr += param.name + '[]=' + item;
-                    if(item !== lastParamArray) {
+                    if(item !== lastParamArray || (param.value.length === 1 && params.length > 1)) {
                         paramsStr += '&';
                     }
                     return paramsStr;

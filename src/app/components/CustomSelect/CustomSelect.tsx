@@ -4,7 +4,7 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 
 interface SelectList {
-    value: string;
+    value: any;
     name: string;
 }
 interface CustomSelectProps {

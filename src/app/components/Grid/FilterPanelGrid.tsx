@@ -10,9 +10,8 @@ interface InputSelect {
     multiple?: boolean;
 }
 interface ValueInputSelect {
-    id: number;
     name: string;
-    value: string;
+    value: number | string | number[] | string[];
 }
 
 interface ValueInputRange {
@@ -61,6 +60,7 @@ interface FilterPanelGridProps {
     ) => void;
     removeCustomFilter?: (name: string) => void;
     onFilter?: () => void;
+    onReset?: () => void;
 }
 
 const FilterPanelGrid: FC<FilterPanelGridProps> = ({
@@ -70,6 +70,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
     setCustomFilter,
     removeCustomFilter,
     onFilter,
+    onReset
 }) => {
     const [fieldsList, setFieldsList] = useState<Field[]>(
         itemFilterList
@@ -205,7 +206,6 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                             if (filters.length) {
                                findFilter = filters.find((filter) => filter.name === field);
                             }
-                            console.log(findFilter);
                             if (inputText) {
                                 return (
                                     <div style={{ display: "flex" }}>
@@ -427,7 +427,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                 justifyContent: "space-around",
                             }}
                         >
-                            <Button variant="outlined" size="small">
+                            <Button variant="outlined" size="small" onClick={onReset}>
                                 Сбросить
                             </Button>
                             <Button variant="contained" size="small" onClick={onFilter} >

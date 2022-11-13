@@ -6,7 +6,7 @@ import { useActions } from "./useActions";
 import { useAppSelector } from "./useAppSelector";
 
 export const useCatalog = (api: any, list: 'beer') => {
-    const { disableNextPage, setCountRows, setLastPage, setClickFilter } = useActions();
+    const { disableNextPage, setCountRows, setLastPage, setClickFilter, setRequestFilterDisabled } = useActions();
     const { page, sortField, order, limitPage, filters, reqFilterDisabled, clickFilter } = useAppSelector((state) => state.contentReducer);
     const { data, error, refetch } = api.useGetListQuery({page, sortField, order, limitPage, filter: paramsBuilder(filters)}, 
         {skip: reqFilterDisabled}
@@ -32,9 +32,8 @@ export const useCatalog = (api: any, list: 'beer') => {
     }, [error]);
 
     useEffect(() => {
-        console.log({clickFilter});
         refetch();
-        setClickFilter({isClick: false})
+        setClickFilter({isClick: false});
     }, [clickFilter])
 
     return {rows, limitPage: limitPageAdmin}
