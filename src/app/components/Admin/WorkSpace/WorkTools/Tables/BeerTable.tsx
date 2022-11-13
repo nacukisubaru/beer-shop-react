@@ -1,3 +1,4 @@
+import { useActions } from "../../../../../hooks/useActions";
 import { useAppSelector } from "../../../../../hooks/useAppSelector";
 import { useCatalog } from "../../../../../hooks/useCatalog";
 import { beerApi } from "../../../../../store/services/beers/beer.api";
@@ -24,6 +25,12 @@ export default function BeerTableAdmin() {
     ];
     const {rows} = useCatalog(beerApi, 'beer');
     const {limitPage} = useAppSelector(state => state.contentReducer);
+    const {setFilters} = useActions();
+    const {tmpfilters} = useAppSelector(state => state.contentReducer);
+
+    const handlerPanelOpen = () => {
+        setFilters(tmpfilters);
+    }
 
     return (
         <>
@@ -32,6 +39,7 @@ export default function BeerTableAdmin() {
                 rows={rows}
                 pageSize={limitPage}
                 CustomFilterPanel={BeerFilterTable}
+                onFilterPanelOpen={handlerPanelOpen}
             />
         </>
     );

@@ -12,6 +12,7 @@ interface IinitialState {
     countRows: number,
     limitPage: number,
     filters: IFilter[],
+    tmpfilters: IFilter[],
     sortField: string,
     order: string,
     disableNextPage: boolean
@@ -23,8 +24,8 @@ const initialState: IinitialState = {
     lastPage: 10,
     countRows: 100,
     limitPage: limitPageAdmin,
-    //filters: [{name: 'grades', value: [6]}],
     filters: [],
+    tmpfilters:[],
     sortField: 'id',
     order: 'DESC',
     disableNextPage: false
@@ -34,11 +35,31 @@ const contentSlice = createSlice({
     name: 'content',
     initialState,
     reducers: {
+        setFilters: (state, action) => {
+            state.filters = action.payload;
+        },
         setFilter:(state, action: PayloadAction<{name: string, value: number | string | number[] | string[]}>) => {
-            state.filters = state.filters.concat({name: action.payload.name, value: action.payload.value});
+            const findFilter = state.filters.findIndex((filter) => filter.name === action.payload.name);
+            if(findFilter > -1) {
+                state.filters[findFilter] = {name: action.payload.name, value: action.payload.value};
+            } else {
+                state.filters = state.filters.concat({name: action.payload.name, value: action.payload.value});
+            }
         },
         removeFilter: (state, action: PayloadAction<{name:string}>) => {
            state.filters = state.filters.filter((filter) => filter.name !== action.payload.name);
+        },
+        setTmpFilter:(state, action: PayloadAction<{name: string, value: number | string | number[] | string[]}>) => {
+            const findFilter = state.tmpfilters.findIndex((filter) => filter.name === action.payload.name);
+            console.log(findFilter);
+            if(findFilter > -1) {
+                state.tmpfilters[findFilter] = {name: action.payload.name, value: action.payload.value};
+            } else {
+                state.tmpfilters = state.filters.concat({name: action.payload.name, value: action.payload.value});
+            }
+        },
+        removeTmpFilter: (state, action: PayloadAction<{name:string}>) => {
+           state.tmpfilters = state.tmpfilters.filter((filter) => filter.name !== action.payload.name);
         },
         setContentPage:(state, action: PayloadAction<{page:number}>) => {
             const page = action.payload.page;

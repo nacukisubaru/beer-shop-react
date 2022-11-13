@@ -4,15 +4,16 @@ import { useAppSelector } from "../../../../../hooks/useAppSelector";
 import FilterPanelGrid from "../../../../Grid/FilterPanelGrid";
 
 const BeerFilterTable: FC = () => {
-    const {setFilter, removeFilter} = useActions();
-    const {filters} = useAppSelector(state => state.contentReducer);
+    const { setTmpFilter, removeTmpFilter } = useActions();
+    const { filters } = useAppSelector(state => state.contentReducer);
 
     const handleSetFilter = (name: string, value: number | string | number[] | string[]) => {
-        setFilter({name, value});
+        setTmpFilter({name, value});
     }
 
+ 
     const handleRemoveFilter = (name: string) => {
-        removeFilter({name});
+        removeTmpFilter({name});
     }
 
     return (

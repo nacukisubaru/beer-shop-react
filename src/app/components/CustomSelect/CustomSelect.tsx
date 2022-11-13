@@ -10,28 +10,28 @@ interface SelectList {
 interface CustomSelectProps {
     list: SelectList[];
     defaultSelectedItem?: string;
+    defaultSelectedItemsMult?: string[];
     name?: string;
+    id?: string;
     appearance?: "standard" | "outlined" | "filled";
     multiple?: boolean;
     sx?: any,
-    action?: (value: string) => void;
+    action?: (value: any, name: any) => void;
 }
 
 const CustomSelect: FC<CustomSelectProps> = ({
     list,
-    defaultSelectedItem,
+    defaultSelectedItem = "",
+    defaultSelectedItemsMult = [],
     name,
+    id,
     appearance,
     multiple,
     sx,
     action,
 }) => {
-    const [currentSelectedItem, setSelectedItem] = useState<string>(
-        defaultSelectedItem ? defaultSelectedItem : ""
-    );
-    const [currentSelectedItemsMult, setSelectedItemsMult] = useState<string[]>(
-        []
-    );
+    const [currentSelectedItem, setSelectedItem] = useState<string>(defaultSelectedItem);
+    const [currentSelectedItemsMult, setSelectedItemsMult] = useState<string[]>(defaultSelectedItemsMult);
 
     const handleChangeMultiple = (
         event: any
@@ -42,7 +42,11 @@ const CustomSelect: FC<CustomSelectProps> = ({
             for (let i = 0, l = options.length; i < l; i += 1) {
                 if (options[i].selected) {
                     value.push(options[i].value);
+                    console.log( options[i])
                 }
+            }
+            if(id) {
+                action && action(value, id);
             }
             setSelectedItemsMult(value);
         }
@@ -80,7 +84,7 @@ const CustomSelect: FC<CustomSelectProps> = ({
                             <MenuItem
                                 onClick={() => {
                                     setSelectedItem(item.value);
-                                    action && action(item.value);
+                                    action && action(item.value, id);
                                 }}
                                 value={item.value}
                             >
