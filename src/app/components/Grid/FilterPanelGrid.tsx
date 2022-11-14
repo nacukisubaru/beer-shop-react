@@ -72,7 +72,6 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
     onFilter,
     onReset
 }) => {
-    console.log({filters});
     const [fieldsList, setFieldsList] = useState<Field[]>(
         itemFilterList
             .map((item) => {
@@ -106,7 +105,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
         const newFieldList: Field[] = fieldsList.filter(
             (field) => field.value !== value
         );
-        if (itemFilter) {
+        if (itemFilter && newFieldList.length) {
             setFilter([...filterList, itemFilter]);
             setFieldsList(
                 newFieldList.sort((a, b) => {
@@ -215,7 +214,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                             }
                             if (inputText) {
                                 return (
-                                    <div style={{ display: "flex" }}>
+                                    <div style={{ display: "flex" }} key={field}>
                                         <TextField
                                             id="filled-basic"
                                             label={fieldName}
@@ -249,7 +248,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                 const { valueInputSelect, multiple } = inputSelect;
                                 if (valueInputSelect.length) {
                                     return (
-                                        <div style={{ display: "flex" }}>
+                                        <div style={{ display: "flex" }} key={field}>
                                             <CustomSelect
                                                 multiple={multiple}
                                                 name={fieldName}
@@ -296,7 +295,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                 ];
                                 
                                 return (
-                                    <div style={{ display: "flex" }}>
+                                    <div style={{ display: "flex" }} key={field}>
                                         <CustomSelect
                                             multiple={false}
                                             name={fieldName}
@@ -324,7 +323,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                 );
                             } else if (inputNumber) {
                                 return (
-                                    <div style={{ display: "flex" }}>
+                                    <div style={{ display: "flex" }} key={field}>
                                         <TextField
                                             id="outlined-number"
                                             label={fieldName}
@@ -361,7 +360,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                     findFilterMax = filters.find((filter) => filter.name === inputRange.fieldMax);
                                 }
                                 return (
-                                    <div style={{ display: "flex" }}>
+                                    <div style={{ display: "flex" }} key={field}>
                                         <TextField
                                             id="outlined-number"
                                             label={inputRange.nameMin}

@@ -46,7 +46,7 @@ const contentSlice = createSlice({
            state.filters = [];
            state.tmpfilters = []
         },
-        setTmpFilter:(state, action: PayloadAction<{name: string, value: number | string | number[] | string[]}>) => {
+        setFilter:(state, action: PayloadAction<{name: string, value: number | string | number[] | string[]}>) => {
             const findFilter = state.tmpfilters.findIndex((filter) => filter.name === action.payload.name);
             if(findFilter > -1) {
                 state.tmpfilters[findFilter] = {name: action.payload.name, value: action.payload.value};
@@ -54,11 +54,20 @@ const contentSlice = createSlice({
                 state.tmpfilters = state.tmpfilters.concat({name: action.payload.name, value: action.payload.value});
             }
         },
-        removeTmpFilter: (state, action: PayloadAction<{name:string}>) => {
+        removeFilter: (state, action: PayloadAction<{name:string}>) => {
            state.tmpfilters = state.tmpfilters.filter((filter) => filter.name !== action.payload.name);
+           state.filters = state.filters.filter((filter) => filter.name !== action.payload.name);
+           state.reqFilterDisabled = false;
+           state.clickFilter = true;
         },
         setRequestFilterDisabled: (state, action: PayloadAction<{disable: boolean}>) => {
             state.reqFilterDisabled = action.payload.disable;
+        },
+        resetFilters: (state) => {
+            state.filters = [];
+            state.tmpfilters = [];
+            state.reqFilterDisabled = false;
+            state.clickFilter = true;
         },
         setClickFilter: (state, action: PayloadAction<{isClick: boolean}>) => {
             state.clickFilter = action.payload.isClick;

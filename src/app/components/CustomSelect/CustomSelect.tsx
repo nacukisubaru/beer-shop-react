@@ -86,6 +86,7 @@ const CustomSelect: FC<CustomSelectProps> = ({
                                     setSelectedItem(item.value);
                                     action && action(item.value, id);
                                 }}
+                                key={item.value}
                                 value={item.value}
                             >
                                 {item.name}
