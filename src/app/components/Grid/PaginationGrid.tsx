@@ -9,13 +9,15 @@ interface IRowsRange {
 interface PaginationGridProps {
     defaultLimitPage: number,
     disableNextPage: boolean,
-    defaultPage?: number,
+    defaultPage: number,
+    countRows: number,
+    lastPage: number,
+    isFilterTableUsed: boolean, 
     customSetLimitPage: (limit: number) => void,
     customSetPage: (page: number) => void
 }
 
-const PaginationGrid: FC<PaginationGridProps> = ({defaultLimitPage, disableNextPage, defaultPage = 0, customSetLimitPage, customSetPage}) => {
-    const { countRows, lastPage } = useAppSelector((state) => state.contentReducer);
+const PaginationGrid: FC<PaginationGridProps> = ({defaultLimitPage, disableNextPage, defaultPage, countRows, lastPage, isFilterTableUsed, customSetLimitPage, customSetPage}) => {
     const [page, setPage] = React.useState<number>(defaultPage);
     const [rowsPerPage, setRowsPerPage] = React.useState<number>(10);
     const [limitPage, setLimitPage] = React.useState<number>(defaultLimitPage);
@@ -33,6 +35,13 @@ const PaginationGrid: FC<PaginationGridProps> = ({defaultLimitPage, disableNextP
     React.useEffect(() => {
         setPage(defaultPage);
     }, [defaultPage])
+
+    React.useEffect(() => {
+        if(isFilterTableUsed) {
+            setRowsRange({from: 1, to: defaultLimitPage});
+            setNextBtnDisable(false);
+        }
+    }, [isFilterTableUsed])
     
     const handleChangePage = (
         event: React.MouseEvent<HTMLButtonElement> | null,

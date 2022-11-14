@@ -17,6 +17,7 @@ interface IinitialState {
     order: string,
     disableNextPage: boolean,
     reqFilterDisabled: boolean,
+    clickFilter: boolean
 }
 
 const initialState: IinitialState = {
@@ -31,6 +32,7 @@ const initialState: IinitialState = {
     order: 'DESC',
     disableNextPage: false,
     reqFilterDisabled: false,
+    clickFilter: false
 }
 
 const contentSlice = createSlice({
@@ -57,6 +59,7 @@ const contentSlice = createSlice({
            state.filters = state.filters.filter((filter) => filter.name !== action.payload.name);
            state.reqFilterDisabled = false;
            state.disableNextPage = false;
+           state.clickFilter = true;
         },
         setRequestFilterDisabled: (state, action: PayloadAction<{disable: boolean}>) => {
             state.reqFilterDisabled = action.payload.disable;
@@ -65,12 +68,17 @@ const contentSlice = createSlice({
             state.page = 0;
             state.reqFilterDisabled = false;
             state.filters = state.tmpfilters;
+            state.clickFilter = true;
         },
         resetFilters: (state) => {
             state.filters = [];
             state.tmpfilters = [];
             state.reqFilterDisabled = false;
             state.disableNextPage = false;
+            state.clickFilter = true;
+        },
+        setClickFilter: (state, action: PayloadAction<{isClick: boolean}>) => {
+            state.clickFilter = action.payload.isClick;
         },
         setContentPage:(state, action: PayloadAction<{page:number}>) => {
             const page = action.payload.page;
