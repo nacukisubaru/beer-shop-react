@@ -4,7 +4,7 @@ import { useAppSelector } from "../../../../../hooks/useAppSelector";
 import PaginationGrid from "../../../../Grid/PaginationGrid";
 
 const PaginationTable: FC = ({}) => {
-    const { limitPage, disableNextPage, countRows, lastPage } = useAppSelector(
+    const { limitPage, disableNextPage, countRows, page } = useAppSelector(
         (state) => state.contentReducer
     );
     const {setContentPage, setLimitPage} = useActions();
@@ -17,11 +17,11 @@ const PaginationTable: FC = ({}) => {
         setLimitPage({limit});
     }
 
-    //  console.log({from: 1, to: countRows < limitPage ? countRows : limitPage})
     return (
         <PaginationGrid
             defaultLimitPage={countRows < limitPage ? countRows : limitPage}
             disableNextPage={disableNextPage}
+            defaultPage={page}
             customSetPage={handleSetPage}
             customSetLimitPage={handleSetLimitPage}
         ></PaginationGrid>

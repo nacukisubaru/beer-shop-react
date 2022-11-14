@@ -62,6 +62,7 @@ const contentSlice = createSlice({
             state.reqFilterDisabled = action.payload.disable;
         },
         filter: (state) => {
+            state.page = 0;
             state.reqFilterDisabled = false;
             state.filters = state.tmpfilters;
         },

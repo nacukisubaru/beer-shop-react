@@ -9,24 +9,30 @@ interface IRowsRange {
 interface PaginationGridProps {
     defaultLimitPage: number,
     disableNextPage: boolean,
+    defaultPage?: number,
     customSetLimitPage: (limit: number) => void,
     customSetPage: (page: number) => void
 }
 
-const PaginationGrid: FC<PaginationGridProps> = ({defaultLimitPage, disableNextPage, customSetLimitPage, customSetPage}) => {
+const PaginationGrid: FC<PaginationGridProps> = ({defaultLimitPage, disableNextPage, defaultPage = 0, customSetLimitPage, customSetPage}) => {
     const { countRows, lastPage } = useAppSelector((state) => state.contentReducer);
-    const [page, setPage] = React.useState<number>(0);
+    const [page, setPage] = React.useState<number>(defaultPage);
     const [rowsPerPage, setRowsPerPage] = React.useState<number>(10);
     const [limitPage, setLimitPage] = React.useState<number>(defaultLimitPage);
     const [rowsRange, setRowsRange] = React.useState<IRowsRange>({from: 1, to:  limitPage });
     const [lastNum, setLastNum] = React.useState<number>(0);
     const [firstNum, setFirstNum] = React.useState<number>(0);
     const [nextBtnDisabled, setNextBtnDisable] = React.useState<boolean>(disableNextPage);
+    const [prevBtnDisabled, setPrevBtnDisable] = React.useState(false);
 
     React.useEffect(() => {
         setLimitPage(defaultLimitPage);
         setRowsRange({from: 1, to: defaultLimitPage});
     }, [defaultLimitPage])
+
+    React.useEffect(() => {
+        setPage(defaultPage);
+    }, [defaultPage])
     
     const handleChangePage = (
         event: React.MouseEvent<HTMLButtonElement> | null,
@@ -34,7 +40,7 @@ const PaginationGrid: FC<PaginationGridProps> = ({defaultLimitPage, disableNextP
     ) => {
         let from = rowsRange.from;
         let to = rowsRange.to;
-
+        
         if(newPage < page) {
             from = from - limitPage;
             to = to - limitPage;
@@ -60,10 +66,15 @@ const PaginationGrid: FC<PaginationGridProps> = ({defaultLimitPage, disableNextP
         if(newPage === 0 && firstNum) {
             to = firstNum;
         }
-
-        customSetPage(newPage);
-        setPage(newPage);
-        setRowsRange({from, to});
+        console.log({page, newPage})
+        if(newPage < page && page === 0) {
+            setPrevBtnDisable(true);
+        } else {
+            setPrevBtnDisable(false);
+            customSetPage(newPage);
+            setPage(newPage);
+            setRowsRange({from, to});
+        }
     };
 
     const handleChangeRowsPerPage = (
@@ -96,6 +107,7 @@ const PaginationGrid: FC<PaginationGridProps> = ({defaultLimitPage, disableNextP
             rowsPerPage={rowsPerPage}
             onRowsPerPageChange={handleChangeRowsPerPage}
             nextIconButtonProps={{disabled: rowsRange.to === countRows || nextBtnDisabled ? true : false}}
+            backIconButtonProps={{disabled: prevBtnDisabled}}
             labelDisplayedRows={defaultLabelDisplayedRows}
         />
     );
