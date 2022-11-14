@@ -70,7 +70,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
     setCustomFilter,
     removeCustomFilter,
     onFilter,
-    onReset
+    onReset,
 }) => {
     const [fieldsList, setFieldsList] = useState<Field[]>(
         itemFilterList
@@ -80,10 +80,17 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
             })
             .sort((a, b) => {
                 return a.name.charCodeAt(0) - b.name.charCodeAt(0);
-            }).filter((item) => !filters.map((filter) => filter.name).includes(item.value))
+            })
+            .filter(
+                (item) =>
+                    !filters.map((filter) => filter.name).includes(item.value)
+            )
     );
+    const [oldFieldsList] = useState<Field[]>(fieldsList);
     const [filterList, setFilter] = useState<FilterItem[]>(
-        itemFilterList.filter((item) => filters.map((filter) => filter.name).includes(item.field))
+        itemFilterList.filter((item) =>
+            filters.map((filter) => filter.name).includes(item.field)
+        )
     );
     const [selectedField, setSelectedField] = useState<string>(
         itemFilterList[0].field
@@ -94,7 +101,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
         if (!filters.length) {
             setFilter([]);
         }
-    },[filters]);
+    }, [filters]);
 
     const handleSetFilter = (value: string) => {
         setVisibleAddBtn(true);
@@ -146,18 +153,27 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
     };
 
     const setFilterValueSelect = (value: string, name: string) => {
-        console.log({value, name})
+        console.log({ value, name });
         if (setCustomFilter) {
             setCustomFilter(name, value);
         }
-    }
+    };
 
     const setFilterValueText = (e: any) => {
-        const {name, value} = e.target;
+        const { name, value } = e.target;
         if (setCustomFilter) {
             setCustomFilter(name, value);
         }
-    }
+    };
+
+    const reset = () => {
+        onReset && onReset();
+        setFieldsList(
+            oldFieldsList.sort((a, b) => {
+                return a.name.charCodeAt(0) - b.name.charCodeAt(0);
+            })
+        );
+    };
 
     return (
         <>
@@ -208,13 +224,18 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                 inputRange,
                             } = filter;
 
-                            let findFilter:any;
+                            let findFilter: any;
                             if (filters.length) {
-                               findFilter = filters.find((filter) => filter.name === field);
+                                findFilter = filters.find(
+                                    (filter) => filter.name === field
+                                );
                             }
                             if (inputText) {
                                 return (
-                                    <div style={{ display: "flex" }} key={field}>
+                                    <div
+                                        style={{ display: "flex" }}
+                                        key={field}
+                                    >
                                         <TextField
                                             id="filled-basic"
                                             label={fieldName}
@@ -224,7 +245,11 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
-                                            defaultValue={findFilter && findFilter.value ? findFilter.value : ""}
+                                            defaultValue={
+                                                findFilter && findFilter.value
+                                                    ? findFilter.value
+                                                    : ""
+                                            }
                                             sx={{
                                                 marginBottom: "20px",
                                                 width: "200px",
@@ -245,19 +270,30 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                     </div>
                                 );
                             } else if (inputSelect) {
-                                const { valueInputSelect, multiple } = inputSelect;
+                                const { valueInputSelect, multiple } =
+                                    inputSelect;
                                 if (valueInputSelect.length) {
                                     return (
-                                        <div style={{ display: "flex" }} key={field}>
+                                        <div
+                                            style={{ display: "flex" }}
+                                            key={field}
+                                        >
                                             <CustomSelect
                                                 multiple={multiple}
                                                 name={fieldName}
                                                 list={valueInputSelect}
                                                 defaultSelectedItem={
-                                                    findFilter && findFilter.value ? findFilter.value : valueInputSelect[0].value
+                                                    findFilter &&
+                                                    findFilter.value
+                                                        ? findFilter.value
+                                                        : valueInputSelect[0]
+                                                              .value
                                                 }
                                                 defaultSelectedItemsMult={
-                                                    findFilter && findFilter.value ? findFilter.value : []
+                                                    findFilter &&
+                                                    findFilter.value
+                                                        ? findFilter.value
+                                                        : []
                                                 }
                                                 id={field}
                                                 action={setFilterValueSelect}
@@ -293,15 +329,20 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                     { value: trueValue, name: trueName },
                                     { value: falseValue, name: falseName },
                                 ];
-                                
+
                                 return (
-                                    <div style={{ display: "flex" }} key={field}>
+                                    <div
+                                        style={{ display: "flex" }}
+                                        key={field}
+                                    >
                                         <CustomSelect
                                             multiple={false}
                                             name={fieldName}
                                             list={listSelectBoolean}
                                             defaultSelectedItem={
-                                                findFilter && findFilter.value ? findFilter.value : trueValue
+                                                findFilter && findFilter.value
+                                                    ? findFilter.value
+                                                    : trueValue
                                             }
                                             id={field}
                                             sx={{ marginBottom: "20px" }}
@@ -323,7 +364,10 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                 );
                             } else if (inputNumber) {
                                 return (
-                                    <div style={{ display: "flex" }} key={field}>
+                                    <div
+                                        style={{ display: "flex" }}
+                                        key={field}
+                                    >
                                         <TextField
                                             id="outlined-number"
                                             label={fieldName}
@@ -331,7 +375,11 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                             variant="standard"
                                             type="number"
                                             onBlur={setFilterValueText}
-                                            defaultValue={findFilter && findFilter.value ? findFilter.value : ""}
+                                            defaultValue={
+                                                findFilter && findFilter.value
+                                                    ? findFilter.value
+                                                    : ""
+                                            }
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
@@ -356,11 +404,20 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                 let findFilterMin: any;
                                 let findFilterMax: any;
                                 if (filters.length) {
-                                    findFilterMin = filters.find((filter) => filter.name === inputRange.fieldMin);
-                                    findFilterMax = filters.find((filter) => filter.name === inputRange.fieldMax);
+                                    findFilterMin = filters.find(
+                                        (filter) =>
+                                            filter.name === inputRange.fieldMin
+                                    );
+                                    findFilterMax = filters.find(
+                                        (filter) =>
+                                            filter.name === inputRange.fieldMax
+                                    );
                                 }
                                 return (
-                                    <div style={{ display: "flex" }} key={field}>
+                                    <div
+                                        style={{ display: "flex" }}
+                                        key={field}
+                                    >
                                         <TextField
                                             id="outlined-number"
                                             label={inputRange.nameMin}
@@ -368,7 +425,12 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                             type="number"
                                             variant="standard"
                                             onBlur={setFilterValueText}
-                                            defaultValue={findFilterMin && findFilterMin.value ? findFilterMin.value : ""}
+                                            defaultValue={
+                                                findFilterMin &&
+                                                findFilterMin.value
+                                                    ? findFilterMin.value
+                                                    : ""
+                                            }
                                             InputProps={{
                                                 inputProps: {
                                                     min: inputRange.min,
@@ -392,7 +454,12 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                             type="number"
                                             variant="standard"
                                             onBlur={setFilterValueText}
-                                            defaultValue={findFilterMax && findFilterMax.value ? findFilterMax.value : ""}
+                                            defaultValue={
+                                                findFilterMax &&
+                                                findFilterMax.value
+                                                    ? findFilterMax.value
+                                                    : ""
+                                            }
                                             InputProps={{
                                                 inputProps: {
                                                     min: inputRange.min,
@@ -433,10 +500,20 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                 justifyContent: "space-around",
                             }}
                         >
-                            <Button variant="outlined" size="small" onClick={()=>{onReset && onReset()}}>
+                            <Button
+                                variant="outlined"
+                                size="small"
+                                onClick={reset}
+                            >
                                 Сбросить
                             </Button>
-                            <Button variant="contained" size="small" onClick={()=>{onFilter && onFilter()}} >
+                            <Button
+                                variant="contained"
+                                size="small"
+                                onClick={() => {
+                                    onFilter && onFilter();
+                                }}
+                            >
                                 Фильтровать
                             </Button>
                         </div>

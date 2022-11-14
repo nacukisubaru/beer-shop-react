@@ -55,11 +55,12 @@ const contentSlice = createSlice({
             }
         },
         removeFilter: (state, action: PayloadAction<{name:string}>) => {
-           state.tmpfilters = state.tmpfilters.filter((filter) => filter.name !== action.payload.name);
-           state.filters = state.filters.filter((filter) => filter.name !== action.payload.name);
-           state.reqFilterDisabled = false;
-           state.disableNextPage = false;
-           state.clickFilter = true;
+            state.page = 0;
+            state.tmpfilters = state.tmpfilters.filter((filter) => filter.name !== action.payload.name);
+            state.filters = state.filters.filter((filter) => filter.name !== action.payload.name);
+            state.reqFilterDisabled = false;
+            state.disableNextPage = false;
+            state.clickFilter = true;
         },
         setRequestFilterDisabled: (state, action: PayloadAction<{disable: boolean}>) => {
             state.reqFilterDisabled = action.payload.disable;
