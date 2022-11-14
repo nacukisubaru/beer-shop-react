@@ -4,6 +4,7 @@ import { useCatalog } from "../../../../../hooks/useCatalog";
 import { beerApi } from "../../../../../store/services/beers/beer.api";
 import TableGrid from "../../../../Grid/TableGrid";
 import BeerFilterTable from "../Filters/BeerFilterTable";
+import PaginationTable from "../Pagination/PaginationTable";
 
 export default function BeerTableAdmin() {
     const columns = [
@@ -44,6 +45,7 @@ export default function BeerTableAdmin() {
                 rows={rows}
                 pageSize={limitPage}
                 CustomFilterPanel={BeerFilterTable}
+                Pagination={PaginationTable}
                 onFilterPanelOpen={handlerPanelOpen}
                 onFilterPanelClose={handlerPanelClose}
             />

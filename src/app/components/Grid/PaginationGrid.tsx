@@ -1,26 +1,32 @@
 import * as React from "react";
 import TablePagination from "@mui/material/TablePagination";
 import { FC } from "react";
-import { useActions } from "../../hooks/useActions";
 import { useAppSelector } from "../../hooks/useAppSelector";
-
+interface IRowsRange {
+    from: number,
+    to: number
+}
 interface PaginationGridProps {
+    defaultLimitPage: number,
+    disableNextPage: boolean,
+    customSetLimitPage: (limit: number) => void,
+    customSetPage: (page: number) => void
 }
 
-const PaginationGrid: FC<PaginationGridProps> = ({}) => {
-    const { limitPage } = useAppSelector(state => state.contentReducer);
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const [rowsRange, setRowsRange] = React.useState({from: 1, to: limitPage});
-    const [lastNum, setLastNum] = React.useState(0);
-    const [firstNum, setFirstNum] = React.useState(0);
-    const [nextBtnDisabled, setNextBtnDisable] = React.useState(false);
-    const { setContentPage, setLimitPage } = useActions();
+const PaginationGrid: FC<PaginationGridProps> = ({defaultLimitPage, disableNextPage, customSetLimitPage, customSetPage}) => {
     const { countRows, lastPage } = useAppSelector((state) => state.contentReducer);
-    
-    const handleSetPage = (page: number) => {
-        setContentPage({ page });
-    };
+    const [page, setPage] = React.useState<number>(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState<number>(10);
+    const [limitPage, setLimitPage] = React.useState<number>(defaultLimitPage);
+    const [rowsRange, setRowsRange] = React.useState<IRowsRange>({from: 1, to:  limitPage });
+    const [lastNum, setLastNum] = React.useState<number>(0);
+    const [firstNum, setFirstNum] = React.useState<number>(0);
+    const [nextBtnDisabled, setNextBtnDisable] = React.useState<boolean>(disableNextPage);
+
+    React.useEffect(() => {
+        setLimitPage(defaultLimitPage);
+        setRowsRange({from: 1, to: defaultLimitPage});
+    }, [defaultLimitPage])
     
     const handleChangePage = (
         event: React.MouseEvent<HTMLButtonElement> | null,
@@ -55,7 +61,7 @@ const PaginationGrid: FC<PaginationGridProps> = ({}) => {
             to = firstNum;
         }
 
-        handleSetPage(newPage);
+        customSetPage(newPage);
         setPage(newPage);
         setRowsRange({from, to});
     };
@@ -70,9 +76,9 @@ const PaginationGrid: FC<PaginationGridProps> = ({}) => {
             setNextBtnDisable(false);
         }
         setFirstNum(perPageVal);
-        handleSetPage(0);
+        customSetPage(0);
         setRowsRange({from: 1, to: perPageVal});
-        setLimitPage({limit: perPageVal});
+        customSetLimitPage(perPageVal);
         setRowsPerPage(perPageVal);
         setPage(0);
     };

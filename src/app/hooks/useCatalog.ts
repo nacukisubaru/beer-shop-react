@@ -6,16 +6,16 @@ import { useActions } from "./useActions";
 import { useAppSelector } from "./useAppSelector";
 
 export const useCatalog = (api: any, list: 'beer') => {
-    const { disableNextPage, setCountRows, setLastPage, setClickFilter, setRequestFilterDisabled } = useActions();
-    const { page, sortField, order, limitPage, filters, reqFilterDisabled, clickFilter } = useAppSelector((state) => state.contentReducer);
-    const { data, error, refetch } = api.useGetListQuery({page, sortField, order, limitPage, filter: paramsBuilder(filters)}, 
+    const { disableNextPage, setCountRows, setLastPage } = useActions();
+    const { page, sortField, order, limitPage, filters, reqFilterDisabled } = useAppSelector((state) => state.contentReducer);
+    const { data, error } = api.useGetListQuery({page, sortField, order, limitPage, filter: paramsBuilder(filters)}, 
         {skip: reqFilterDisabled}
     );
     const [rows, setRows] = useState<any>([]);
-   
+    
     useEffect(() => {
         if (data && data.rows) {
-            setCountRows({count: data.countRows});
+            setCountRows({count: data.count});
             setLastPage({page: data.lastPage});
             setRows(createList(data.rows, list));
         }
@@ -30,11 +30,6 @@ export const useCatalog = (api: any, list: 'beer') => {
             }
         }
     }, [error]);
-
-    useEffect(() => {
-        refetch();
-        setClickFilter({isClick: false});
-    }, [clickFilter])
 
     return {rows, limitPage: limitPageAdmin}
 }

@@ -15,12 +15,13 @@ interface ITableGridProps {
     columns: any[];
     rows: any;
     pageSize: number;
+    Pagination: any,
     CustomFilterPanel?: any;
     onFilterPanelOpen?: () => void;
     onFilterPanelClose?: () => void;
 }
 
-const TableGrid: FC<ITableGridProps> = ({ columns, rows, pageSize, CustomFilterPanel, onFilterPanelOpen, onFilterPanelClose }) => {
+const TableGrid: FC<ITableGridProps> = ({ columns, rows, pageSize, CustomFilterPanel, Pagination, onFilterPanelOpen, onFilterPanelClose }) => {
     const { setContentSort, setContentDefaultSort } = useActions();
     const [sortModel, setSortModel] = useState<GridSortItem[]>([
         { field: "id", sort: "desc" },
@@ -55,7 +56,7 @@ const TableGrid: FC<ITableGridProps> = ({ columns, rows, pageSize, CustomFilterP
                 style={{ marginBottom: "40px" }}
                 sortModel={sortModel}
                 components={{ 
-                    Footer: PaginationGrid, 
+                    Footer: Pagination, 
                     Toolbar: ToolBarGrid,
                     FilterPanel: CustomFilterPanel ? CustomFilterPanel : GridFilterPanel,
                 }}

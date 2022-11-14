@@ -433,10 +433,10 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                 justifyContent: "space-around",
                             }}
                         >
-                            <Button variant="outlined" size="small" onClick={onReset}>
+                            <Button variant="outlined" size="small" onClick={()=>{onReset && onReset()}}>
                                 Сбросить
                             </Button>
-                            <Button variant="contained" size="small" onClick={onFilter} >
+                            <Button variant="contained" size="small" onClick={()=>{onFilter && onFilter()}} >
                                 Фильтровать
                             </Button>
                         </div>
