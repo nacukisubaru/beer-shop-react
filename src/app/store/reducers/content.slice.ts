@@ -63,6 +63,11 @@ const contentSlice = createSlice({
         setRequestFilterDisabled: (state, action: PayloadAction<{disable: boolean}>) => {
             state.reqFilterDisabled = action.payload.disable;
         },
+        filter: (state) => {
+            state.reqFilterDisabled = false;
+            state.filters = state.tmpfilters;
+            state.clickFilter = true;
+        },
         resetFilters: (state) => {
             state.filters = [];
             state.tmpfilters = [];
