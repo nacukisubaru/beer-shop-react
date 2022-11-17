@@ -2,6 +2,8 @@ import * as React from "react";
 import TablePagination from "@mui/material/TablePagination";
 import { FC } from "react";
 import { useAppSelector } from "../../hooks/useAppSelector";
+import { MenuItem, Pagination, Select } from "@mui/material";
+
 interface IRowsRange {
     from: number,
     to: number
@@ -58,6 +60,10 @@ const PaginationGrid: FC<PaginationGridProps> = ({defaultLimitPage, disableNextP
             to = to + limitPage;
         }
         
+        if(newPage === 0) {
+            to = limitPage;
+        }
+
         if(newPage > page && newPage === lastPage - 1) {
             setLastNum(to);
         }
@@ -118,6 +124,27 @@ const PaginationGrid: FC<PaginationGridProps> = ({defaultLimitPage, disableNextP
             nextIconButtonProps={{disabled: rowsRange.to === countRows || nextBtnDisabled ? true : false}}
             backIconButtonProps={{disabled: prevBtnDisabled}}
             labelDisplayedRows={defaultLabelDisplayedRows}
+            //возможность добавить кастомную переключалку
+            // ActionsComponent={(subProps: any) => {
+            //     const {
+            //       page,
+            //       count,
+            //       rowsPerPage,
+            //       backIconButtonProps,
+            //       nextIconButtonProps,
+            //       showLastButton,
+            //       getItemAriaLabel,
+            //       showFirstButton,
+            //       onPageChange,
+            //       ...restSubProps
+            //     } = subProps;
+            //     return (
+            //       <>
+
+            //           <Pagination count={10} onChange={handleChangePage} color="primary" />
+            //       </>
+            //     );
+            //   }}
         />
     );
 }
