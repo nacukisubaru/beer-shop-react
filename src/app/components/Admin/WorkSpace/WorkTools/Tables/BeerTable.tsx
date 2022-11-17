@@ -6,6 +6,7 @@ import TableGrid from "../../../../Grid/TableGrid";
 import AddContentModal from "../../../../Modals/Admin/AddContent";
 import ResultNotFoundByFilter from "../../../../Modals/Messages/ResultNotFoundByFilter";
 import BeerFilterTable from "../Filters/BeerFilterTable";
+import AddBeerForm from "../Forms/Products/AddBeerForm";
 import PaginationTable from "../Pagination/PaginationTable";
 
 export default function BeerTableAdmin() {
@@ -55,7 +56,7 @@ export default function BeerTableAdmin() {
                 onFilterPanelClose={handlerPanelClose}
             />
             <AddContentModal 
-                form={<></>}
+                form={<AddBeerForm />}
                 title="Добавить пиво"
             />            
             <ResultNotFoundByFilter 
