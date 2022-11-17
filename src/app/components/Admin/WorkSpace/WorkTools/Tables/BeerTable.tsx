@@ -3,6 +3,7 @@ import { useAppSelector } from "../../../../../hooks/useAppSelector";
 import { useCatalog } from "../../../../../hooks/useCatalog";
 import { beerApi } from "../../../../../store/services/beers/beer.api";
 import TableGrid from "../../../../Grid/TableGrid";
+import AddContentModal from "../../../../Modals/Admin/AddContent";
 import ResultNotFoundByFilter from "../../../../Modals/Messages/ResultNotFoundByFilter";
 import BeerFilterTable from "../Filters/BeerFilterTable";
 import PaginationTable from "../Pagination/PaginationTable";
@@ -53,6 +54,10 @@ export default function BeerTableAdmin() {
                 onFilterPanelOpen={handlerPanelOpen}
                 onFilterPanelClose={handlerPanelClose}
             />
+            <AddContentModal 
+                form={<></>}
+                title="Добавить пиво"
+            />            
             <ResultNotFoundByFilter 
                 openModalNotFoundByFilter={openAdminModalNotFoundByFilter} 
                 closeModalNotFoundByFilter={closeAdminModalNotFoundByFilter} 

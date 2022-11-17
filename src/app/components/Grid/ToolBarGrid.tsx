@@ -7,16 +7,10 @@ import {
     GridToolbarFilterButton,
 } from "@mui/x-data-grid";
 import { FC, useState } from "react";
+import { useActions } from "../../hooks/useActions";
 
-interface IToolBarGridProps {
-    selectionModel: GridSelectionModel;
-};
-
-const ToolBarGrid: FC<IToolBarGridProps> = ({ selectionModel }) => {
-    const [anchorElMenu, setAnchorElMenu] = useState<null | HTMLButtonElement>(
-        null
-    );
-    const openMenu = Boolean(anchorElMenu);
+const ToolBarGrid: FC= () => {
+    const {openModalAddContent} = useActions();
 
     return (
         <GridToolbarContainer>
@@ -32,9 +26,7 @@ const ToolBarGrid: FC<IToolBarGridProps> = ({ selectionModel }) => {
                 <Button
                     variant="contained"
                     size="small"
-                    onClick={(event: any) => {
-                        setAnchorElMenu(event.currentTarget);
-                    }}
+                    onClick={openModalAddContent}
                 >
                     Добавить
                 </Button>

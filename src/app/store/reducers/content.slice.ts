@@ -17,7 +17,8 @@ interface IinitialState {
     order: string,
     disableNextPage: boolean,
     reqFilterDisabled: boolean,
-    clickFilter: boolean
+    clickFilter: boolean,
+    modalAddContent: boolean
 }
 
 const initialState: IinitialState = {
@@ -32,7 +33,8 @@ const initialState: IinitialState = {
     order: 'DESC',
     disableNextPage: false,
     reqFilterDisabled: false,
-    clickFilter: false
+    clickFilter: false,
+    modalAddContent: false
 }
 
 const contentSlice = createSlice({
@@ -110,6 +112,12 @@ const contentSlice = createSlice({
         },
         enableNextPage: (state) => {
             state.disableNextPage = false;
+        },
+        openModalAddContent: (state) => {
+            state.modalAddContent = true;
+        },
+        closeModalAddContent: (state) => {
+            state.modalAddContent = false;
         }
     }
 });
