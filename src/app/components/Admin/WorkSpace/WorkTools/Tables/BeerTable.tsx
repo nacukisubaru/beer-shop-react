@@ -3,6 +3,7 @@ import { useAppSelector } from "../../../../../hooks/useAppSelector";
 import { useCatalog } from "../../../../../hooks/useCatalog";
 import { beerApi } from "../../../../../store/services/beers/beer.api";
 import TableGrid from "../../../../Grid/TableGrid";
+import ResultNotFoundByFilter from "../../../../Modals/Messages/ResultNotFoundByFilter";
 import BeerFilterTable from "../Filters/BeerFilterTable";
 import PaginationTable from "../Pagination/PaginationTable";
 
@@ -24,10 +25,13 @@ export default function BeerTableAdmin() {
         { field: "forBottling", headerName: "На розлив", width: 150 },
         { field: "filtred", headerName: "Фильтрованное", width: 150 },
     ];
-    const {rows} = useCatalog(beerApi, 'beer');
-    const {limitPage} = useAppSelector(state => state.contentReducer);
-    const {setFilters, setRequestFilterDisabled} = useActions();
-    const {tmpfilters} = useAppSelector(state => state.contentReducer);
+    const { rows } = useCatalog(beerApi, 'beer');
+    const { limitPage } = useAppSelector(state => state.contentReducer);
+    const { setFilters, setRequestFilterDisabled, openAdminModalNotFoundByFilter, closeAdminModalNotFoundByFilter } = useActions();
+    const { tmpfilters } = useAppSelector(state => state.contentReducer);
+    const isOpen = useAppSelector(
+        (state) => state.notFoundReducer.adminModalNotFoundByFilter
+    );
 
     const handlerPanelOpen = async () => {
         await setRequestFilterDisabled({disable: true});
@@ -48,6 +52,11 @@ export default function BeerTableAdmin() {
                 Pagination={PaginationTable}
                 onFilterPanelOpen={handlerPanelOpen}
                 onFilterPanelClose={handlerPanelClose}
+            />
+            <ResultNotFoundByFilter 
+                openModalNotFoundByFilter={openAdminModalNotFoundByFilter} 
+                closeModalNotFoundByFilter={closeAdminModalNotFoundByFilter} 
+                isOpen={isOpen} 
             />
         </>
     );

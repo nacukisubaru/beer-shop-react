@@ -12,6 +12,7 @@ export const initialState = {
     maxFortress:<number> 0,
     forBottling:<any> undefined,
     filtered:<any> undefined,
+    isActive: 'true',
     sortField: 'price',
     order: 'ASC',
     q: ''
@@ -78,7 +79,7 @@ export const filterProductsSlice = createSlice({
         setSearch: (state, action: PayloadAction<{q: string}>) => {
            state.q = action.payload.q;
         },
-        resetFilters: (state) => {
+        resetProductFilters: (state) => {
             state.grades = [];
             state.brandIds = [];
             state.typesPackagingIds = [];

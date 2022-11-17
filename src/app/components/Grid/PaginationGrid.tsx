@@ -2,7 +2,7 @@ import * as React from "react";
 import TablePagination from "@mui/material/TablePagination";
 import { FC } from "react";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { MenuItem, Pagination, Select } from "@mui/material";
+import { MenuItem, Pagination, PaginationItem, Select } from "@mui/material";
 
 interface IRowsRange {
     from: number,
@@ -140,8 +140,18 @@ const PaginationGrid: FC<PaginationGridProps> = ({defaultLimitPage, disableNextP
             //     } = subProps;
             //     return (
             //       <>
-
-            //           <Pagination count={10} onChange={handleChangePage} color="primary" />
+            //           <Pagination count={10} onChange={handleChangePage} page={page} color="primary" 
+            //           renderItem={(item) => (
+            //             //есть проблема если подключать этот компонент то так как на бэкенде пагинация от 0 начинается здесь будет работать не правильно
+            //             //возможно подключение PaginationItem могло бы помочь если на рендере изменять число, но число компонент изменять не дает ругается ts
+            //             <PaginationItem
+            //                 // components={{ 
+            //                 //     previous: ArrowBackIcon, 
+            //                 //     next: ArrowForwardIcon 
+            //                 // }}
+            //                 {...item}
+            //             />
+            //         )}/>
             //       </>
             //     );
             //   }}

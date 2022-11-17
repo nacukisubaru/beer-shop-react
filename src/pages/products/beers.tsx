@@ -18,9 +18,13 @@ export default function Beers() {
     const dispath = useDispatch();
     const {sortField, order} = useAppSelector(state => state.filterProductsReducer);
     const { fetchBeersByFilter } = useFilter();
-    const { resetFilters, dropBeerList, closeFilterMenu, setSearch} = useActions();
+    const { resetProductFilters, dropBeerList, closeFilterMenu, setSearch, openModalNotFoundByFilter, closeModalNotFoundByFilter} = useActions();
     const { beer, beerList, minPrice, maxPrice } = useAppSelector(
         (state) => state.beerReducer
+    );
+
+    const isOpen = useAppSelector(
+        (state) => state.notFoundReducer.modalNotFoundByFilter
     );
 
     const handleApplyFilter = () => {
@@ -31,7 +35,7 @@ export default function Beers() {
     const handleResetFilter = async () => {
         closeFilterMenu();
         await setSearch({q:''});
-        await resetFilters();
+        await resetProductFilters();
         await dropBeerList();
         await dispath(getBeerList({path: '/beers/getListByFilter', params: { sortField, order, page: 0, limitPage }}));
     };
@@ -48,7 +52,11 @@ export default function Beers() {
                 ]}
             />
             <BeersList />
-            <ResultNotFoundByFilter />
+            <ResultNotFoundByFilter 
+                openModalNotFoundByFilter={openModalNotFoundByFilter} 
+                closeModalNotFoundByFilter={closeModalNotFoundByFilter} 
+                isOpen={isOpen} 
+            />
             {beerList.length > 0 && !isEmptyObject(beer) && (
                 <BeerModal />
             )}

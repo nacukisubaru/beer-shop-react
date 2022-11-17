@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const initialState = {
-    modalNotFoundByFilter: false
+    modalNotFoundByFilter: false,
+    adminModalNotFoundByFilter: false
 }
 
 export const notFoundSlice = createSlice({
@@ -13,6 +14,12 @@ export const notFoundSlice = createSlice({
         },
         closeModalNotFoundByFilter: (state) => {
             state.modalNotFoundByFilter = false;
+        },
+        openAdminModalNotFoundByFilter: (state) => {
+            state.adminModalNotFoundByFilter = true;
+        },
+        closeAdminModalNotFoundByFilter: (state) => {
+            state.adminModalNotFoundByFilter = false;
         }
     }
 });

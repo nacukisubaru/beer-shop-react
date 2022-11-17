@@ -25,7 +25,7 @@ interface IUseFilter {
 //TO DO отрефакторить весь этот колхоз не должно быть разделения на beers и snacks пораждает еще больше функций, компоненты и слайсы тоже не делить сделать через один
 export const useFilter = (): IUseFilter => {
     const dispath = useDispatch();
-    const { dropBeerList, openModalNotFoundByFilter, resetFilters, dropSnackList, resetBeerPage, resetSnackPage, setSearch } = useActions();
+    const { dropBeerList, openModalNotFoundByFilter, resetProductFilters, dropSnackList, resetBeerPage, resetSnackPage, setSearch } = useActions();
     const params: any = useAppSelector((state) => state.filterProductsReducer);
 
     const fetchBeersByFilter: any = async () => {
@@ -35,7 +35,7 @@ export const useFilter = (): IUseFilter => {
         if (result.error) {
             dispath(getBeerList({ path: '/beers/getListByFilter/', params: { page: 0, limitPage } }));
             openModalNotFoundByFilter();
-            resetFilters();
+            resetProductFilters();
         }
     };
 
@@ -71,7 +71,7 @@ export const useFilter = (): IUseFilter => {
 
     const beersSearchByName: any = async (q: string, sortField: string, order: string) => {
         await dropBeerList();
-        resetFilters();
+        resetProductFilters();
         const result = await dispath(getBeerList({path: '/beers/search/', params: { q, sortField, order, page: 0, limitPage }}));
         if (result.error) {
             dispath(getBeerList({ path: '/beers/getListByFilter/', params: { page: 0, limitPage } }));
@@ -87,7 +87,7 @@ export const useFilter = (): IUseFilter => {
         if (result.error) {
             dispath(getSnackList({ path: '/snacks/getListByFilter/', params: { page: 0, limitPage } }));
             openModalNotFoundByFilter();
-            resetFilters();
+            resetProductFilters();
         }
     };
 
@@ -118,7 +118,7 @@ export const useFilter = (): IUseFilter => {
 
     const snacksSearchByName: any = async (q: string, sortField: string, order: string) => {
         await dropSnackList();
-        resetFilters();
+        resetProductFilters();
         const result = await dispath(getSnackList({path: '/snacks/search/', params: { q, sortField, order, page: 0, limitPage }}));
         if (result.error) {
             dispath(getSnackList({ path: '/snacks/getListByFilter/', params: { page: 0, limitPage } }));
