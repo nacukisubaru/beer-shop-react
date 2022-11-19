@@ -1,4 +1,4 @@
-import { Button, TextField } from "@mui/material";
+import { Autocomplete, Button, TextField } from "@mui/material";
 import { FC } from "react";
 import { useForm } from "react-hook-form";
 import CustomSelect from "../../../../CustomUI/CustomSelect/CustomSelect";
@@ -18,7 +18,7 @@ interface IValidation {
 }
 
 interface IField {
-    type: "text" | "number" | "select";
+    type: "text" | "number" | "select" | "selectAuto";
     name: string;
     label: string;
     validationProps: IValidation;
@@ -36,7 +36,7 @@ const Form: FC<IForm> = ({ fields, submit }) => {
         handleSubmit,
         getFieldState,
         formState: { errors },
-        setValue
+        setValue,
     } = useForm();
 
     const styleError = {
@@ -51,10 +51,13 @@ const Form: FC<IForm> = ({ fields, submit }) => {
         <>
             <form
                 onSubmit={handleSubmit((data) => {
-                    fields.map((item: IField)=>{
-                        if(item.type === "number") {
-                            const fieldKey = Object.keys(data).find(key => key === item.name && item.type === "number");
-                            if(fieldKey) {
+                    fields.map((item: IField) => {
+                        if (item.type === "number") {
+                            const fieldKey = Object.keys(data).find(
+                                (key) =>
+                                    key === item.name && item.type === "number"
+                            );
+                            if (fieldKey) {
                                 data[fieldKey] = Number(data[fieldKey]);
                             }
                         }
@@ -66,9 +69,10 @@ const Form: FC<IForm> = ({ fields, submit }) => {
                     const { name, label, type, selectProps, validationProps } =
                         field;
                     const fieldState = getFieldState(name);
+                    let component: any;
                     switch (type) {
                         case "text":
-                            return (
+                            component = (
                                 <>
                                     <div
                                         style={{
@@ -89,8 +93,9 @@ const Form: FC<IForm> = ({ fields, submit }) => {
                                     </div>
                                 </>
                             );
+                            break;
                         case "number":
-                            return (
+                            component = (
                                 <>
                                     <div
                                         style={{
@@ -112,9 +117,10 @@ const Form: FC<IForm> = ({ fields, submit }) => {
                                     </div>
                                 </>
                             );
+                            break;
                         case "select":
                             if (selectProps) {
-                                return (
+                                component = (
                                     <>
                                         <div
                                             style={{
@@ -136,8 +142,42 @@ const Form: FC<IForm> = ({ fields, submit }) => {
                                     </>
                                 );
                             }
+                            break;
+                        case "selectAuto":
+                            if (selectProps) {
+                                component = <Autocomplete
+                                    multiple={selectProps.multiple}
+                                    id="tags-outlined"
+                                    options={selectProps.items}
+                                    getOptionLabel={(option) => option.name}
+                                    filterSelectedOptions
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            label={label}
+                                            placeholder={label}
+                                        />
+                                    )}
+                                    onChange={(e, value: any) => {
+                                        let newValue = value;
+                                        if(selectProps.multiple) {
+                                            newValue = value.map((item:any) => item.value);
+                                        } else {
+                                            newValue = value.value;
+                                        }
+                                        setValue(name, newValue);
+                                    }}
+                                    style={{
+                                        marginBottom: "20px",
+                                    }}
+                                />;
+                            }
+                        break;
+                        default:
+                            component = <></>;
+                        break;
                     }
-                    return <></>;
+                    return component;
                 })}
 
                 <Button type="submit">Добавить</Button>

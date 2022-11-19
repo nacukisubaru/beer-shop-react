@@ -46,7 +46,7 @@ const CustomSnackBar: React.FC<CustomSnackBar> = ({severity, message, isOpen = t
                 <Alert
                     onClose={handleClose}
                     severity={severity}
-                    sx={{ width: "30%" }}
+                    sx={{ width: "100%" }}
                 >
                     {message}
                 </Alert>
