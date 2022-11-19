@@ -1,7 +1,7 @@
 import { Box, Button, TextField } from "@mui/material";
 import { Container } from "@mui/system";
 import { FC, useState, useEffect } from "react";
-import CustomSelect from "../CustomSelect/CustomSelect";
+import CustomSelect from "../CustomUI/CustomSelect/CustomSelect";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { IconButton } from "@mui/material";
 

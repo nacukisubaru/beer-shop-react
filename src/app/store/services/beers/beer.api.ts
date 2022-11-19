@@ -19,10 +19,10 @@ export const beerApi = createApi({
                 params
             })
         }),
-        addBeer: build.mutation({
+        add: build.mutation({
             query: (body) => ({
                 url: '/create/',
-                method: 'GET',
+                method: 'POST',
                 body
             })
         }),

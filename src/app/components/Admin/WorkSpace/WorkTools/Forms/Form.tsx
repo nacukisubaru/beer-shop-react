@@ -26,9 +26,10 @@ interface IField {
 
 interface IForm {
     fields: IField[];
+    submit: (data:any) => void;
 }
 
-const Form: FC<IForm> = ({ fields }) => {
+const Form: FC<IForm> = ({ fields, submit }) => {
     const {
         register,
         handleSubmit,
@@ -46,7 +47,7 @@ const Form: FC<IForm> = ({ fields }) => {
 
     return (
         <>
-            <form onSubmit={handleSubmit((data) => console.log(data))}>
+            <form onSubmit={handleSubmit((data) => submit(data))}>
                 {fields.map((field) => {
                     const { name, label, type, selectProps, validationProps } =
                         field;
