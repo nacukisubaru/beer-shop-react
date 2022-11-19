@@ -46,7 +46,7 @@ const CustomSelect: FC<CustomSelectProps> = ({
                 }
             }
             if(id) {
-                action && action(value, id);
+                action && action(id, value);
             }
             setSelectedItemsMult(value);
         }
@@ -84,7 +84,7 @@ const CustomSelect: FC<CustomSelectProps> = ({
                             <MenuItem
                                 onClick={() => {
                                     setSelectedItem(item.value);
-                                    action && action(item.value, id);
+                                    action && action(id, item.value);
                                 }}
                                 key={item.value}
                                 value={item.value}

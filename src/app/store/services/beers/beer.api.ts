@@ -24,7 +24,7 @@ export const beerApi = createApi({
                 url: '/create/',
                 method: 'POST',
                 body
-            })
+            }) 
         }),
     })
 });

@@ -103,7 +103,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
         }
     }, [filters]);
 
-    const handleSetFilter = (value: string) => {
+    const handleSetFilter = (name: string, value: string) => {
         setVisibleAddBtn(true);
         const itemFilter: FilterItem | undefined = itemFilterList.find(
             (field) => field.field === value
@@ -152,7 +152,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
         setFilter(newFilterList);
     };
 
-    const setFilterValueSelect = (value: string, name: string) => {
+    const setFilterValueSelect = (name: string, value: string) => {
         console.log({ value, name });
         if (setCustomFilter) {
             setCustomFilter(name, value);
