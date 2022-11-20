@@ -277,11 +277,13 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
                                                         )
                                                     )
                                                 );
-                                                
-                                                if(newValue) {
-                                                    setValue(name, newValue);
+                                               
+                                                setValue(name, newValue);
+                                                if((Array.isArray(newValue) && !newValue.length) || (!newValue)) {
+                                                    setError(name, {message: 'Поле обязательно к заполнению'})
+                                                } else {
+                                                    clearErrors(name);
                                                 }
-                                                clearErrors(name);
                                             }}
                                             style={{
                                                 marginBottom: "20px",
