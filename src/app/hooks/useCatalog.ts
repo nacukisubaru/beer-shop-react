@@ -11,7 +11,7 @@ interface IResponse {
     status: number
 }
 
-interface IStateResponse {
+export interface IStateResponse {
     status: string,
     response: IResponse
 }
@@ -25,7 +25,7 @@ export const useCatalog = (api: any, list: 'beer') => {
     const [add] = api.useAddMutation({});
     const [rows, setRows] = useState<any>([]);
     const [isFilterWorking, setFilterWork] = useState(false);
-    const [stateResponse, setStateResponse] = useState<IStateResponse>({status:'noRequest', response: {status: 0, data: ''}});
+    const [stateResponse, setStateResponse] = useState<IStateResponse>({ status: 'noRequest', response: { status: 0, data: '' } });
 
     useEffect(() => {
         if (data && data.rows) {
@@ -57,24 +57,25 @@ export const useCatalog = (api: any, list: 'beer') => {
         setFilterWork(true);
     }, [clickFilter]);
 
-    useEffect(() => {
-        console.log({stateResponse});
-    }, [stateResponse]);
 
-    const addRow = (body:any, isObject = false) => {
+    const addRow = async (body: any, isObject = false): Promise<IStateResponse> => {
+        let response: any = { status: 'noRequest', response: { status: 0, data: '' } };
         let bodyData = body;
-        if(isObject) {
-            bodyData = {...body};
+        if (isObject) {
+            bodyData = { ...body };
         }
 
-        add(bodyData)
-        .unwrap()
-            .then((payload: any) => console.log({status: 'fulfilled', response: payload}))
-            .catch((error: any) => setStateResponse({status: 'rejected', response: error}));
+        await add(bodyData)
+            .unwrap()
+            .then((payload: any) => { response = { status: 'fulfilled', response: payload } })
+            .catch((error: any) => { response = { status: 'rejected', response: error } });
+
+        setStateResponse(response);
+        return response;
     }
 
     const clearStateResponse = () => {
-        setStateResponse({status:'noRequest', response: {status: 0, data: ''}});
+        setStateResponse({ status: 'noRequest', response: { status: 0, data: '' } });
     }
 
     return { rows, addRow, stateResponse, clearStateResponse, limitPage: limitPageAdmin }

@@ -1,8 +1,9 @@
 import { FC } from "react";
+import { IStateResponse } from "../../../../../../hooks/useCatalog";
 import Form from "../Form";
 
 interface AddBeerFormProps {
-    submit: (body:any, isObject?: boolean) => void;
+    submit: (body:any, isObject?: boolean) => Promise<IStateResponse>;
 }
 
 const AddBeerForm: FC<AddBeerFormProps> = ({ submit }) => {

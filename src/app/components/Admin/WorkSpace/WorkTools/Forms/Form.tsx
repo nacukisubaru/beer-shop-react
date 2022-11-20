@@ -1,6 +1,7 @@
 import { Autocomplete, Button, TextField } from "@mui/material";
 import { FC, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { IStateResponse } from "../../../../../hooks/useCatalog";
 import CustomSelect from "../../../../CustomUI/CustomSelect/CustomSelect";
 
 interface ISelectItem {
@@ -28,7 +29,7 @@ interface IField {
 interface IForm {
     fields: IField[];
     hasUploadImage?: boolean;
-    submit: (data: any, isObject?: boolean) => void;
+    submit: (data: any, isObject?: boolean) => Promise<IStateResponse>;
 }
 
 const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
@@ -43,6 +44,7 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
 
     const [selectedFile, setSelectedFile] = useState<any>(null);
     const [selectorArray, setSelectorArray] = useState(new Map());
+    const [noFileError, setNoFileError] = useState(false);
 
     const styleError = {
         display: "flex",
@@ -52,56 +54,68 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
         color: "red",
     };
 
+    const uploadImage = (e: any) => {
+        setSelectedFile(e.target.files[0]);
+    };
 
-    const uploadImage = (e:any) => {
-        const formData = new FormData();
-        formData.append('image',  e.target.files[0]);
-        setSelectedFile(formData);
-    }
+    const resetFields = (data: any) => {
+        Object.keys(data).map((key) => {
+            resetField(key);
+        });
+        setSelectorArray(new Map());
+    };
 
-    const handleSetSelectValue = (name:string, value:any) => {
+    const handleSetSelectValue = (name: string, value: any) => {
         setSelectorArray(new Map(selectorArray.set(name, value)));
         setValue(name, value);
-    }
+    };
 
     return (
         <>
             <form
-                onSubmit={handleSubmit((data) => {
-                    if(hasUploadImage) {
-                        if(selectedFile) {
+                onSubmit={handleSubmit(async (data) => {
+                    if (hasUploadImage) {
+                        if (selectedFile) {
+                            const formData = new FormData();
+                            formData.append("image", selectedFile);
                             Object.entries(data).map((value) => {
-                                const [key, val] = value; 
-                                if(Array.isArray(val)) {
+                                const [key, val] = value;
+                                if (Array.isArray(val)) {
                                     val.map((value) => {
-                                        selectedFile.append(key+'[]', value);
-                                    })
+                                        formData.append(key + "[]", value);
+                                    });
                                 } else {
-                                    selectedFile.append(key, val);
+                                    formData.append(key, val);
                                 }
                             });
-                            submit(selectedFile);
-                            setSelectedFile(null);
+                            const result = await submit(formData);
+                            if (result.status !== "rejected") {
+                                setSelectedFile(null);
+                                resetFields(data);
+                            }
+                            setNoFileError(false);
+                        } else {
+                            setNoFileError(true);
                         }
                     } else {
                         fields.map((item: IField) => {
                             if (item.type === "number") {
                                 const fieldKey = Object.keys(data).find(
                                     (key) =>
-                                        key === item.name && item.type === "number"
+                                        key === item.name &&
+                                        item.type === "number"
                                 );
                                 if (fieldKey) {
                                     data[fieldKey] = Number(data[fieldKey]);
                                 }
                             }
                         });
-                        submit(data, true);
-                    }
 
-                    Object.keys(data).map((key) => {
-                        resetField(key);
-                    });
-                    setSelectorArray(new Map());
+                        const result = await submit(data, true);
+                        if (result.status !== "rejected") {
+                            resetFields(data);
+                        }
+                    }
                 })}
             >
                 {fields.map((field) => {
@@ -159,6 +173,7 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
                             break;
                         case "select":
                             const selectValues = selectorArray.get(name);
+                            console.log({ selectValues });
                             if (selectProps) {
                                 component = (
                                     <>
@@ -171,7 +186,11 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
                                                 multiple={selectProps?.multiple}
                                                 name={label}
                                                 id={name}
-                                                defaultSelectedItem={selectValues ? selectValues : ''}
+                                                defaultSelectedItem={
+                                                    selectValues
+                                                        ? selectValues
+                                                        : ""
+                                                }
                                                 list={selectProps?.items}
                                                 appearance="outlined"
                                                 action={handleSetSelectValue}
@@ -187,49 +206,75 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
                         case "selectAuto":
                             if (selectProps) {
                                 const selectValues = selectorArray.get(name);
-                                component = <Autocomplete
-                                    multiple={selectProps.multiple}
-                                    value={selectValues ? selectValues : selectProps.multiple ? [] : {} }
-                                    id="tags-outlined"
-                                    options={selectProps.items}
-                                    getOptionLabel={(option) => option.name ? option.name : ''}
-                                    filterSelectedOptions
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            label={label}
-                                            placeholder={label}
-                                        />
-                                    )}
-                                    onChange={(e, value: any) => {
-                                        let newValue = value;
-                                        if(selectProps.multiple) {
-                                            newValue = value.map((item:any) => item.value);
-                                        } else {
-                                            newValue = value.value;
+                                component = (
+                                    <Autocomplete
+                                        multiple={selectProps.multiple}
+                                        value={
+                                            selectValues
+                                                ? selectValues
+                                                : selectProps.multiple
+                                                ? []
+                                                : {}
                                         }
+                                        id="tags-outlined"
+                                        options={selectProps.items}
+                                        getOptionLabel={(option) =>
+                                            option.name ? option.name : ""
+                                        }
+                                        filterSelectedOptions
+                                        renderInput={(params) => (
+                                            <TextField
+                                                {...params}
+                                                label={label}
+                                                placeholder={label}
+                                            />
+                                        )}
+                                        onChange={(e, value: any) => {
+                                            let newValue = value;
+                                            if (selectProps.multiple) {
+                                                newValue = value.map(
+                                                    (item: any) => item.value
+                                                );
+                                            } else {
+                                                newValue = value.value;
+                                            }
 
-                                        setSelectorArray(new Map(selectorArray.set(name, value)));
-                                        setValue(name, newValue);
-                                    }}
-                                    style={{
-                                        marginBottom: "20px",
-                                    }}
-                                />;
+                                            setSelectorArray(
+                                                new Map(
+                                                    selectorArray.set(
+                                                        name,
+                                                        value
+                                                    )
+                                                )
+                                            );
+                                            setValue(name, newValue);
+                                        }}
+                                        style={{
+                                            marginBottom: "20px",
+                                        }}
+                                    />
+                                );
                             }
-                        break;
+                            break;
                         default:
                             component = <></>;
-                        break;
+                            break;
                     }
                     return component;
                 })}
 
                 {hasUploadImage && (
-                     <TextField onChange={uploadImage} type="file" />
+                    <>
+                        <TextField onChange={uploadImage} type="file" />
+                        {noFileError && (
+                            <p style={styleError}>
+                                Фото для товара не загружено
+                            </p>
+                        )}
+                    </>
                 )}
                 <div>
-                <Button type="submit">Добавить</Button>
+                    <Button type="submit">Добавить</Button>
                 </div>
             </form>
         </>

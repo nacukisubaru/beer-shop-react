@@ -62,7 +62,7 @@ export default function BeerTableAdmin() {
             />
             <CustomSnackBar
                 severity="error"
-                message={stateResponse.response.data.message}
+                message={stateResponse.response.data?.message}
                 isOpen={stateResponse.status === "rejected" ? true : false}
                 onClose={clearStateResponse}
             />        

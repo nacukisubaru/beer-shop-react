@@ -1,5 +1,5 @@
 import { MenuItem, Select } from "@mui/material";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 
@@ -51,6 +51,10 @@ const CustomSelect: FC<CustomSelectProps> = ({
             setSelectedItemsMult(value);
         }
     };
+
+    useEffect(() => {
+        setSelectedItem(defaultSelectedItem);
+    }, [defaultSelectedItem]);
 
     return (
         <FormControl
