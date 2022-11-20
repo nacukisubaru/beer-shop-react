@@ -1,5 +1,5 @@
 import { Autocomplete, Button, TextField } from "@mui/material";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import CustomSelect from "../../../../CustomUI/CustomSelect/CustomSelect";
 
@@ -37,16 +37,12 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
         handleSubmit,
         getFieldState,
         resetField,
-        getValues,
         formState: { errors },
         setValue,
     } = useForm();
 
     const [selectedFile, setSelectedFile] = useState<any>(null);
-    //мысль записывать в состояние для селектов массив ключ имя слекта = значение массив объектов значений селекта
-    //по имени селекта брать из состояния и устанавливать в value autocomplete
-    //если форма отправилась и нужен сборс то сбрасывать все эти селекты по ключу имени селекта
-    const [selectFields] = useState([]);
+    const [selectorArray, setSelectorArray] = useState(new Map());
 
     const styleError = {
         display: "flex",
@@ -63,7 +59,10 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
         setSelectedFile(formData);
     }
 
-    console.log({values: getValues()})
+    const handleSetSelectValue = (name:string, value:any) => {
+        setSelectorArray(new Map(selectorArray.set(name, value)));
+        setValue(name, value);
+    }
 
     return (
         <>
@@ -74,7 +73,9 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
                             Object.entries(data).map((value) => {
                                 const [key, val] = value; 
                                 if(Array.isArray(val)) {
-                                    selectedFile.append(key+'[]', val);
+                                    val.map((value) => {
+                                        selectedFile.append(key+'[]', value);
+                                    })
                                 } else {
                                     selectedFile.append(key, val);
                                 }
@@ -100,6 +101,7 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
                     Object.keys(data).map((key) => {
                         resetField(key);
                     });
+                    setSelectorArray(new Map());
                 })}
             >
                 {fields.map((field) => {
@@ -156,6 +158,7 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
                             );
                             break;
                         case "select":
+                            const selectValues = selectorArray.get(name);
                             if (selectProps) {
                                 component = (
                                     <>
@@ -168,9 +171,10 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
                                                 multiple={selectProps?.multiple}
                                                 name={label}
                                                 id={name}
+                                                defaultSelectedItem={selectValues ? selectValues : ''}
                                                 list={selectProps?.items}
                                                 appearance="outlined"
-                                                action={setValue}
+                                                action={handleSetSelectValue}
                                             />
                                             <p style={styleError}>
                                                 {fieldState.error?.message}
@@ -182,12 +186,13 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
                             break;
                         case "selectAuto":
                             if (selectProps) {
+                                const selectValues = selectorArray.get(name);
                                 component = <Autocomplete
                                     multiple={selectProps.multiple}
-                                    //value={[{name:'Эльфийский эль', value: 10}]}
+                                    value={selectValues ? selectValues : selectProps.multiple ? [] : {} }
                                     id="tags-outlined"
                                     options={selectProps.items}
-                                    getOptionLabel={(option) => option.name}
+                                    getOptionLabel={(option) => option.name ? option.name : ''}
                                     filterSelectedOptions
                                     renderInput={(params) => (
                                         <TextField
@@ -203,6 +208,8 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
                                         } else {
                                             newValue = value.value;
                                         }
+
+                                        setSelectorArray(new Map(selectorArray.set(name, value)));
                                         setValue(name, newValue);
                                     }}
                                     style={{

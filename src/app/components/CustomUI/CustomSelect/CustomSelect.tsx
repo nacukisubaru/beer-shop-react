@@ -16,7 +16,7 @@ interface CustomSelectProps {
     appearance?: "standard" | "outlined" | "filled";
     multiple?: boolean;
     sx?: any,
-    action?: (value: any, name: any) => void;
+    action?: (name: any, value: any) => void;
 }
 
 const CustomSelect: FC<CustomSelectProps> = ({
