@@ -2,7 +2,7 @@ import { FC } from "react";
 import Form from "../Form";
 
 interface AddBeerFormProps {
-    submit: (body:any) => void;
+    submit: (body:any, isObject?: boolean) => void;
 }
 
 const AddBeerForm: FC<AddBeerFormProps> = ({ submit }) => {
@@ -79,7 +79,7 @@ const AddBeerForm: FC<AddBeerFormProps> = ({ submit }) => {
                     label: "Сорта",
                     selectProps: {
                         multiple: true,
-                        items: [{name: "Эльфийский эль", value: 10}, {name: "Нордский эль", value: 6}, {name: "Краснолюдский эль", value: 6}],
+                        items: [{name: "Эльфийский эль", value: 10}, {name: "Нордский эль", value: 6}, {name: "Краснолюдский эль", value: 7}],
                     },
                     validationProps: {
                         required: "Поле обязательно для заполнения",
@@ -158,6 +158,7 @@ const AddBeerForm: FC<AddBeerFormProps> = ({ submit }) => {
                 },
             ]}
             submit={submit}
+            hasUploadImage={true}
         />
     );
 };

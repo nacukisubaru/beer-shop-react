@@ -61,9 +61,14 @@ export const useCatalog = (api: any, list: 'beer') => {
         console.log({stateResponse});
     }, [stateResponse]);
 
-    const addRow = (body:any) => {
-        add({...body})
-            .unwrap()
+    const addRow = (body:any, isObject = false) => {
+        let bodyData = body;
+        if(isObject) {
+            bodyData = {...body};
+        }
+
+        add(bodyData)
+        .unwrap()
             .then((payload: any) => console.log({status: 'fulfilled', response: payload}))
             .catch((error: any) => setStateResponse({status: 'rejected', response: error}));
     }

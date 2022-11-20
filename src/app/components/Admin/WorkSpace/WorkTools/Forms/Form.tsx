@@ -1,5 +1,5 @@
 import { Autocomplete, Button, TextField } from "@mui/material";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import CustomSelect from "../../../../CustomUI/CustomSelect/CustomSelect";
 
@@ -27,17 +27,26 @@ interface IField {
 
 interface IForm {
     fields: IField[];
-    submit: (data: any) => void;
+    hasUploadImage?: boolean;
+    submit: (data: any, isObject?: boolean) => void;
 }
 
-const Form: FC<IForm> = ({ fields, submit }) => {
+const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
     const {
         register,
         handleSubmit,
         getFieldState,
+        resetField,
+        getValues,
         formState: { errors },
         setValue,
     } = useForm();
+
+    const [selectedFile, setSelectedFile] = useState<any>(null);
+    //мысль записывать в состояние для селектов массив ключ имя слекта = значение массив объектов значений селекта
+    //по имени селекта брать из состояния и устанавливать в value autocomplete
+    //если форма отправилась и нужен сборс то сбрасывать все эти селекты по ключу имени селекта
+    const [selectFields] = useState([]);
 
     const styleError = {
         display: "flex",
@@ -47,22 +56,50 @@ const Form: FC<IForm> = ({ fields, submit }) => {
         color: "red",
     };
 
+
+    const uploadImage = (e:any) => {
+        const formData = new FormData();
+        formData.append('image',  e.target.files[0]);
+        setSelectedFile(formData);
+    }
+
+    console.log({values: getValues()})
+
     return (
         <>
             <form
                 onSubmit={handleSubmit((data) => {
-                    fields.map((item: IField) => {
-                        if (item.type === "number") {
-                            const fieldKey = Object.keys(data).find(
-                                (key) =>
-                                    key === item.name && item.type === "number"
-                            );
-                            if (fieldKey) {
-                                data[fieldKey] = Number(data[fieldKey]);
-                            }
+                    if(hasUploadImage) {
+                        if(selectedFile) {
+                            Object.entries(data).map((value) => {
+                                const [key, val] = value; 
+                                if(Array.isArray(val)) {
+                                    selectedFile.append(key+'[]', val);
+                                } else {
+                                    selectedFile.append(key, val);
+                                }
+                            });
+                            submit(selectedFile);
+                            setSelectedFile(null);
                         }
+                    } else {
+                        fields.map((item: IField) => {
+                            if (item.type === "number") {
+                                const fieldKey = Object.keys(data).find(
+                                    (key) =>
+                                        key === item.name && item.type === "number"
+                                );
+                                if (fieldKey) {
+                                    data[fieldKey] = Number(data[fieldKey]);
+                                }
+                            }
+                        });
+                        submit(data, true);
+                    }
+
+                    Object.keys(data).map((key) => {
+                        resetField(key);
                     });
-                    submit(data);
                 })}
             >
                 {fields.map((field) => {
@@ -147,6 +184,7 @@ const Form: FC<IForm> = ({ fields, submit }) => {
                             if (selectProps) {
                                 component = <Autocomplete
                                     multiple={selectProps.multiple}
+                                    //value={[{name:'Эльфийский эль', value: 10}]}
                                     id="tags-outlined"
                                     options={selectProps.items}
                                     getOptionLabel={(option) => option.name}
@@ -180,7 +218,12 @@ const Form: FC<IForm> = ({ fields, submit }) => {
                     return component;
                 })}
 
+                {hasUploadImage && (
+                     <TextField onChange={uploadImage} type="file" />
+                )}
+                <div>
                 <Button type="submit">Добавить</Button>
+                </div>
             </form>
         </>
     );
