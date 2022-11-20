@@ -38,6 +38,9 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
         handleSubmit,
         getFieldState,
         resetField,
+        setError,
+        clearErrors,
+        getValues,
         formState: { errors },
         setValue,
     } = useForm();
@@ -65,55 +68,80 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
         setSelectorArray(new Map());
     };
 
+    const checkFieldsExist = (data:any) => {
+        let allFieldsExist = true;
+        fields.map((field)=>{
+            if(!data.includes(field.name)) {
+                setError(field.name, {message: 'Поле обязательно к заполнению'} );
+                allFieldsExist = false;
+            } else {
+                clearErrors(field.name)
+            }
+        });
+        return allFieldsExist;
+    }
+
     const handleSetSelectValue = (name: string, value: any) => {
         setSelectorArray(new Map(selectorArray.set(name, value)));
         setValue(name, value);
+        clearErrors(name);
     };
+
+    const handleCheckFieldsExist = () => {
+        const values = getValues();
+        console.log({values})
+        checkFieldsExist(Object.keys(values));
+    }
 
     return (
         <>
             <form
                 onSubmit={handleSubmit(async (data) => {
-                    if (hasUploadImage) {
-                        if (selectedFile) {
-                            const formData = new FormData();
-                            formData.append("image", selectedFile);
-                            Object.entries(data).map((value) => {
-                                const [key, val] = value;
-                                if (Array.isArray(val)) {
-                                    val.map((value) => {
-                                        formData.append(key + "[]", value);
-                                    });
-                                } else {
-                                    formData.append(key, val);
+                    const fieldsKeys = Object.keys(data);
+                    const allFieldsExist = checkFieldsExist(fieldsKeys);
+                    if(allFieldsExist) {
+                        if (hasUploadImage) {
+                            if (selectedFile) {
+                                setNoFileError(false);
+                                const formData = new FormData();
+                                formData.append("image", selectedFile);
+                                Object.entries(data).map((value) => {
+                                    const [key, val] = value;
+                                    if (Array.isArray(val)) {
+                                        val.map((value) => {
+                                            formData.append(key + "[]", value);
+                                        });
+                                    } else {
+                                        formData.append(key, val);
+                                    }
+                                });
+                                
+                                const result = await submit(formData);
+                                if (result.status !== "rejected") {
+                                    setSelectedFile(null);
+                                    resetFields(data);
+                                }
+                            } else {
+                                setNoFileError(true);
+                            }
+                        } else {
+                            fields.map((item: IField) => {
+                                if (item.type === "number") {
+                                    const fieldKey = Object.keys(data).find(
+                                        (key) =>
+                                            key === item.name &&
+                                            item.type === "number"
+                                    );
+                                    if (fieldKey) {
+                                        data[fieldKey] = Number(data[fieldKey]);
+                                    }
                                 }
                             });
-                            const result = await submit(formData);
+
+                            const result = await submit(data, true);
                             if (result.status !== "rejected") {
-                                setSelectedFile(null);
                                 resetFields(data);
                             }
-                            setNoFileError(false);
-                        } else {
-                            setNoFileError(true);
-                        }
-                    } else {
-                        fields.map((item: IField) => {
-                            if (item.type === "number") {
-                                const fieldKey = Object.keys(data).find(
-                                    (key) =>
-                                        key === item.name &&
-                                        item.type === "number"
-                                );
-                                if (fieldKey) {
-                                    data[fieldKey] = Number(data[fieldKey]);
-                                }
-                            }
-                        });
-
-                        const result = await submit(data, true);
-                        if (result.status !== "rejected") {
-                            resetFields(data);
                         }
                     }
                 })}
@@ -173,8 +201,8 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
                             break;
                         case "select":
                             const selectValues = selectorArray.get(name);
-                            console.log({ selectValues });
                             if (selectProps) {
+                  
                                 component = (
                                     <>
                                         <div
@@ -206,53 +234,64 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
                         case "selectAuto":
                             if (selectProps) {
                                 const selectValues = selectorArray.get(name);
+                      
                                 component = (
-                                    <Autocomplete
-                                        multiple={selectProps.multiple}
-                                        value={
-                                            selectValues
-                                                ? selectValues
-                                                : selectProps.multiple
-                                                ? []
-                                                : {}
-                                        }
-                                        id="tags-outlined"
-                                        options={selectProps.items}
-                                        getOptionLabel={(option) =>
-                                            option.name ? option.name : ""
-                                        }
-                                        filterSelectedOptions
-                                        renderInput={(params) => (
-                                            <TextField
-                                                {...params}
-                                                label={label}
-                                                placeholder={label}
-                                            />
-                                        )}
-                                        onChange={(e, value: any) => {
-                                            let newValue = value;
-                                            if (selectProps.multiple) {
-                                                newValue = value.map(
-                                                    (item: any) => item.value
-                                                );
-                                            } else {
-                                                newValue = value.value;
+                                    <>
+                                        <Autocomplete
+                                            multiple={selectProps.multiple}
+                                            value={
+                                                selectValues
+                                                    ? selectValues
+                                                    : selectProps.multiple
+                                                    ? []
+                                                    : {}
                                             }
+                                            id="tags-outlined"
+                                            options={selectProps.items}
+                                            getOptionLabel={(option) =>
+                                                option.name ? option.name : ""
+                                            }
+                                            filterSelectedOptions
+                                            renderInput={(params) => (
+                                                <TextField
+                                                    {...params}
+                                                    label={label}
+                                                    placeholder={label}
+                                                />
+                                            )}
+                                            onChange={(e, value: any) => {
+                                                let newValue: any;
+                                                if (selectProps.multiple) {
+                                                    newValue = value.map(
+                                                        (item: any) => item.value
+                                                    );
+                                                } else {
+                                                    newValue = value?.value;
+                                                }
 
-                                            setSelectorArray(
-                                                new Map(
-                                                    selectorArray.set(
-                                                        name,
-                                                        value
+                                                setSelectorArray(
+                                                    new Map(
+                                                        selectorArray.set(
+                                                            name,
+                                                            value
+                                                        )
                                                     )
-                                                )
-                                            );
-                                            setValue(name, newValue);
-                                        }}
-                                        style={{
-                                            marginBottom: "20px",
-                                        }}
-                                    />
+                                                );
+                                                
+                                                if(newValue) {
+                                                    setValue(name, newValue);
+                                                }
+                                                clearErrors(name);
+                                            }}
+                                            style={{
+                                                marginBottom: "20px",
+                                            }}
+                                        />
+
+                                        <p style={styleError}>
+                                            {fieldState.error?.message}
+                                        </p>
+                                    </>
                                 );
                             }
                             break;
@@ -274,7 +313,7 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
                     </>
                 )}
                 <div>
-                    <Button type="submit">Добавить</Button>
+                    <Button type="submit" onClick={handleCheckFieldsExist} >Добавить</Button>
                 </div>
             </form>
         </>
