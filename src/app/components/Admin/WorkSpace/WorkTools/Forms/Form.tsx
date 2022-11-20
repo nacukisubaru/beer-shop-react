@@ -63,7 +63,8 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
 
     const resetFields = (data: any) => {
         Object.keys(data).map((key) => {
-            resetField(key);
+          setValue(key, undefined);
+            //  resetField(key);
         });
         setSelectorArray(new Map());
     };
@@ -72,6 +73,7 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
         let allFieldsExist = true;
         const fieldsKeys = Object.keys(data);
         fields.map((field)=>{
+            console.log({keys: fieldsKeys, field: field.name})
             if(!fieldsKeys.includes(field.name)) {
                 setError(field.name, {message: 'Поле обязательно к заполнению'});
                 allFieldsExist = false;
@@ -83,8 +85,10 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
 
         Object.entries(data).map((value) => {
             const [key, val] = value;
-            if(!val) {
+            if(val === '' || val === undefined || (Array.isArray(val) && !val.length)) {
                 setError(key, {message: 'Поле обязательно к заполнению'});
+            } else {
+                clearErrors(key);
             }
         });
 
@@ -111,8 +115,7 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
         <>
             <form
                 onSubmit={handleSubmit(async (data) => {
-                    const fieldsKeys = Object.keys(data);
-                    const allFieldsExist = checkFieldsExist(fieldsKeys);
+                    const allFieldsExist = checkFieldsExist(data);
                     if(allFieldsExist) {
                         if (hasUploadImage) {
                             if (selectedFile) {

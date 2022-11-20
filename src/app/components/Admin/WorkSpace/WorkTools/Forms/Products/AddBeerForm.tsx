@@ -109,6 +109,7 @@ const AddBeerForm: FC<AddBeerFormProps> = ({ submit }) => {
                         multiple: false,
                         items: [
                             {name: "Пластиковая бутылка", value: 1},
+                            {name: "Пластиковая бутылка2", value: 2},
                         ]
                     }
                 },
@@ -122,8 +123,8 @@ const AddBeerForm: FC<AddBeerFormProps> = ({ submit }) => {
                     selectProps: {
                         multiple: false,
                         items: [
-                            {name: "Активен", value: true},
-                            {name: "Не активен", value: false},
+                            {name: "Активен", value: 'true'},
+                            {name: "Не активен", value: 'false'},
                         ]
                     }
                 },
@@ -137,8 +138,8 @@ const AddBeerForm: FC<AddBeerFormProps> = ({ submit }) => {
                     selectProps: {
                         multiple: false,
                         items: [
-                            {name: "Фильтрованное", value: true},
-                            {name: "Не фильтрованное", value: false},
+                            {name: "Фильтрованное", value: 'true'},
+                            {name: "Не фильтрованное", value: 'false'},
                         ]
                     }
                 },
@@ -152,8 +153,8 @@ const AddBeerForm: FC<AddBeerFormProps> = ({ submit }) => {
                     selectProps: {
                         multiple: false,
                         items: [
-                            {name: "Розливное", value: true},
-                            {name: "Не розливное", value: false},
+                            {name: "Розливное", value: 'true'},
+                            {name: "Не розливное", value: 'false'},
                         ]
                     }
                 },
