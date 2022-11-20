@@ -70,14 +70,24 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
 
     const checkFieldsExist = (data:any) => {
         let allFieldsExist = true;
+        const fieldsKeys = Object.keys(data);
         fields.map((field)=>{
-            if(!data.includes(field.name)) {
-                setError(field.name, {message: 'Поле обязательно к заполнению'} );
+            if(!fieldsKeys.includes(field.name)) {
+                setError(field.name, {message: 'Поле обязательно к заполнению'});
                 allFieldsExist = false;
-            } else {
-                clearErrors(field.name)
+            }
+            //  else {
+            //     clearErrors(field.name)
+            // }
+        });
+
+        Object.entries(data).map((value) => {
+            const [key, val] = value;
+            if(!val) {
+                setError(key, {message: 'Поле обязательно к заполнению'});
             }
         });
+
         return allFieldsExist;
     }
 
@@ -89,8 +99,12 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
 
     const handleCheckFieldsExist = () => {
         const values = getValues();
-        console.log({values})
-        checkFieldsExist(Object.keys(values));
+        checkFieldsExist(values);
+        if (hasUploadImage && !selectedFile) {
+            setNoFileError(true);
+        } else {
+            setNoFileError(false);
+        }
     }
 
     return (
@@ -237,62 +251,65 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
                       
                                 component = (
                                     <>
-                                        <Autocomplete
-                                            multiple={selectProps.multiple}
-                                            value={
-                                                selectValues
-                                                    ? selectValues
-                                                    : selectProps.multiple
-                                                    ? []
-                                                    : {}
-                                            }
-                                            id="tags-outlined"
-                                            options={selectProps.items}
-                                            getOptionLabel={(option) =>
-                                                option.name ? option.name : ""
-                                            }
-                                            filterSelectedOptions
-                                            renderInput={(params) => (
-                                                <TextField
-                                                    {...params}
-                                                    label={label}
-                                                    placeholder={label}
-                                                />
-                                            )}
-                                            onChange={(e, value: any) => {
-                                                let newValue: any;
-                                                if (selectProps.multiple) {
-                                                    newValue = value.map(
-                                                        (item: any) => item.value
-                                                    );
-                                                } else {
-                                                    newValue = value?.value;
-                                                }
-
-                                                setSelectorArray(
-                                                    new Map(
-                                                        selectorArray.set(
-                                                            name,
-                                                            value
-                                                        )
-                                                    )
-                                                );
-                                               
-                                                setValue(name, newValue);
-                                                if((Array.isArray(newValue) && !newValue.length) || (!newValue)) {
-                                                    setError(name, {message: 'Поле обязательно к заполнению'})
-                                                } else {
-                                                    clearErrors(name);
-                                                }
-                                            }}
+                                        <div
                                             style={{
                                                 marginBottom: "20px",
                                             }}
-                                        />
+                                        >
+                                            <Autocomplete
+                                                multiple={selectProps.multiple}
+                                                value={
+                                                    selectValues
+                                                        ? selectValues
+                                                        : selectProps.multiple
+                                                        ? []
+                                                        : {}
+                                                }
+                                                id="tags-outlined"
+                                                options={selectProps.items}
+                                                getOptionLabel={(option) =>
+                                                    option.name ? option.name : ""
+                                                }
+                                                filterSelectedOptions
+                                                renderInput={(params) => (
+                                                    <TextField
+                                                        {...params}
+                                                        label={label}
+                                                        placeholder={label}
+                                                    />
+                                                )}
+                                                onChange={(e, value: any) => {
+                                                    let newValue: any;
+                                                    if (selectProps.multiple) {
+                                                        newValue = value.map(
+                                                            (item: any) => item.value
+                                                        );
+                                                    } else {
+                                                        newValue = value?.value;
+                                                    }
 
-                                        <p style={styleError}>
-                                            {fieldState.error?.message}
-                                        </p>
+                                                    setSelectorArray(
+                                                        new Map(
+                                                            selectorArray.set(
+                                                                name,
+                                                                value
+                                                            )
+                                                        )
+                                                    );
+                                                
+                                                    setValue(name, newValue);
+                                                    if((Array.isArray(newValue) && !newValue.length) || (!newValue)) {
+                                                        setError(name, {message: 'Поле обязательно к заполнению'});
+                                                    } else {
+                                                        clearErrors(name);
+                                                    }
+                                                }}
+                                            />
+
+                                            <p style={styleError}>
+                                                {fieldState.error?.message}
+                                            </p>
+                                        </div>
                                     </>
                                 );
                             }
