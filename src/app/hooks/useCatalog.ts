@@ -65,7 +65,6 @@ export const useCatalog = (api: any, list: 'beer') => {
             bodyData = { ...body };
         }
         
-        await resetFilters();
         await add(bodyData)
             .unwrap()
             .then((payload: any) => { response = { status: 'fulfilled', response: payload } })
