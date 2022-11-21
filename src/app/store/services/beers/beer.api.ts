@@ -10,21 +10,30 @@ interface IGetListParams {
 }
 
 export const beerApi = createApi({
-    reducerPath: 'beers',
-    baseQuery: fetchBaseQuery({baseUrl: host + '/beers'}),
+    reducerPath: 'beerApi',
+    tagTypes: ['Beers'],
+    baseQuery: fetchBaseQuery({ baseUrl: host + '/beers' }),
     endpoints: (build) => ({
-        getList: build.query<IBeerListPaginate, IGetListParams>({
-            query:(params) => ({
-                url:'/getListByFilter/'+params.filter,
+        getList: build.query<IBeerListPaginate[], IGetListParams>({
+            query: (params) => ({
+                url: '/getListByFilter/' + params.filter,
                 params
-            })
+            }),
+            providesTags: (result: any) =>
+                result
+                    ? [
+                        ...result.rows.map((value: any) => ({ type: 'Beers', id: value.id })),
+                        { type: 'Beers', id: 'LIST' },
+                    ]
+                    : [{ type: 'Beers', id: 'LIST' }],
         }),
         add: build.mutation({
             query: (body) => ({
                 url: '/create/',
                 method: 'POST',
                 body
-            })
+            }),
+            invalidatesTags: [{type: 'Beers', id: 'LIST'}]
         }),
     })
 });

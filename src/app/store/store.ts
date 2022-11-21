@@ -39,7 +39,15 @@ export const store = configureStore({
         [snackApi.reducerPath]: snackApi.reducer,
         [productApi.reducerPath]: productApi.reducer
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false})
+    
+    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(
+        beerApi.middleware, 
+        userApi.middleware, 
+        gradeApi.middleware, 
+        brandApi.middleware, 
+        typePackagingApi.middleware,
+        snackApi.middleware, productApi.middleware),
+    //middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false})
 });
 
 export type RootState = ReturnType<typeof store.getState>
