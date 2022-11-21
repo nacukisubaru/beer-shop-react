@@ -47,6 +47,7 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
     const [selectedFile, setSelectedFile] = useState<any>(null);
     const [selectorArray, setSelectorArray] = useState(new Map());
     const [noFileError, setNoFileError] = useState(false);
+    const [selectedImage, setSelectedImage] = useState<string>("");
 
     const styleError = {
         display: "flex",
@@ -57,7 +58,13 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
     };
 
     const uploadImage = (e: any) => {
-        setSelectedFile(e.target.files[0]);
+        const file = e.target.files[0];
+        setSelectedFile(file);
+        const reader = new FileReader();
+        reader.onloadend = (e:any) => {
+            setSelectedImage(e.target.result);
+        }
+        reader.readAsDataURL(file);
         setNoFileError(false);
     };
 
@@ -67,6 +74,7 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
             return key;
         });
         setSelectorArray(new Map());
+        setSelectedImage("");
     };
 
     const checkFieldsExist = (data:any) => {
@@ -327,7 +335,12 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
 
                 {hasUploadImage && (
                     <>
-                        <TextField onChange={uploadImage} type="file" />
+                        <TextField onChange={uploadImage} type="file" fullWidth/>
+                        {selectedImage && (
+                             <div style={{display: 'flex', justifyContent: 'center', marginTop: '9px'}}>
+                                  <img src={selectedImage} style={{width: 177, height: 208}} />
+                             </div>
+                        )}
                         {noFileError && (
                             <p style={styleError}>
                                 Фото для товара не загружено
