@@ -1,5 +1,5 @@
 import { Autocomplete, Button, TextField } from "@mui/material";
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IStateResponse } from "../../../../../hooks/useCatalog";
 import CustomSelect from "../../../../CustomUI/CustomSelect/CustomSelect";
@@ -37,7 +37,6 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
         register,
         handleSubmit,
         getFieldState,
-        resetField,
         setError,
         clearErrors,
         getValues,
@@ -59,12 +58,13 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
 
     const uploadImage = (e: any) => {
         setSelectedFile(e.target.files[0]);
+        setNoFileError(false);
     };
 
     const resetFields = (data: any) => {
         Object.keys(data).map((key) => {
-          setValue(key, undefined);
-            //  resetField(key);
+            setValue(key, undefined);
+            return key;
         });
         setSelectorArray(new Map());
     };
@@ -73,23 +73,21 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
         let allFieldsExist = true;
         const fieldsKeys = Object.keys(data);
         fields.map((field)=>{
-            console.log({keys: fieldsKeys, field: field.name})
             if(!fieldsKeys.includes(field.name)) {
-                setError(field.name, {message: 'Поле обязательно к заполнению'});
+                setError(field.name, {message: 'Поле обязательно для заполнения'});
                 allFieldsExist = false;
             }
-            //  else {
-            //     clearErrors(field.name)
-            // }
+            return field;
         });
 
         Object.entries(data).map((value) => {
             const [key, val] = value;
             if(val === '' || val === undefined || (Array.isArray(val) && !val.length)) {
-                setError(key, {message: 'Поле обязательно к заполнению'});
+                setError(key, {message: 'Поле обязательно для заполнения'});
             } else {
                 clearErrors(key);
             }
+            return value;
         });
 
         return allFieldsExist;
@@ -127,10 +125,12 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
                                     if (Array.isArray(val)) {
                                         val.map((value) => {
                                             formData.append(key + "[]", value);
+                                            return value;
                                         });
                                     } else {
                                         formData.append(key, val);
                                     }
+                                    return value;
                                 });
                                 
                                 const result = await submit(formData);
@@ -153,6 +153,7 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
                                         data[fieldKey] = Number(data[fieldKey]);
                                     }
                                 }
+                                return item;
                             });
 
                             const result = await submit(data, true);
@@ -302,7 +303,7 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
                                                 
                                                     setValue(name, newValue);
                                                     if((Array.isArray(newValue) && !newValue.length) || (!newValue)) {
-                                                        setError(name, {message: 'Поле обязательно к заполнению'});
+                                                        setError(name, {message: 'Поле обязательно для заполнения'});
                                                     } else {
                                                         clearErrors(name);
                                                     }
