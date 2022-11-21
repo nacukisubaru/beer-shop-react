@@ -65,7 +65,13 @@ export default function BeerTableAdmin() {
                 message={stateResponse.response.data?.message}
                 isOpen={stateResponse.status === "rejected" ? true : false}
                 onClose={clearStateResponse}
-            />        
+            />
+            <CustomSnackBar
+                severity="success"
+                message="Товар успешно добавлен"
+                isOpen={stateResponse.status === "fulfilled" ? true : false}
+                onClose={clearStateResponse}
+            />
             <ResultNotFoundByFilter 
                 openModalNotFoundByFilter={openAdminModalNotFoundByFilter} 
                 closeModalNotFoundByFilter={closeAdminModalNotFoundByFilter} 
