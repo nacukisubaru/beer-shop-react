@@ -80,7 +80,7 @@ const AddBeerForm: FC<AddBeerFormProps> = ({ submit }) => {
                     label: "Сорта",
                     selectProps: {
                         multiple: true,
-                        items: [{name: "Эльфийский эль", value: 10}, {name: "Нордский эль", value: 6}, {name: "Краснолюдский эль", value: 7}],
+                        items: [{name: "Эльфийский эль", value: 10}, {name: "Нордский эль", value: 6}, { name: "Краснолюдский эль", value: 2 },],
                     },
                     validationProps: {
                         required: "Поле обязательно для заполнения",

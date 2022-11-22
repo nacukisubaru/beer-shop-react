@@ -9,7 +9,8 @@ export interface IProduct {
     isActive: boolean,
     image: string,
     brandName: string,
-    typePackagingName: string
+    typePackagingName: string,
+    typePackagingId: number,
 }
 
 export interface IProductItem {

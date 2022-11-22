@@ -27,9 +27,22 @@ export const beerApi = createApi({
                     ]
                     : [{ type: 'Beers', id: 'LIST' }],
         }),
+        getOne: build.query<IBeer, number>({
+            query: (id: number) => ({
+                url: '/getById/'+id
+            })
+        }),
         add: build.mutation({
             query: (body) => ({
                 url: '/create/',
+                method: 'POST',
+                body
+            }),
+            invalidatesTags: [{type: 'Beers', id: 'LIST'}]
+        }),
+        update: build.mutation({
+            query: (body) => ({
+                url: '/update/',
                 method: 'POST',
                 body
             }),

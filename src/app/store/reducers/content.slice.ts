@@ -6,6 +6,7 @@ interface IFilter {
     value: number | string | number[] | string[]
 }
 interface IinitialState {
+    detailId: number,
     page: number,
     maxPage: number,
     lastPage: number,
@@ -22,6 +23,7 @@ interface IinitialState {
 }
 
 const initialState: IinitialState = {
+    detailId: 0,
     page: 0,
     maxPage: 0,
     lastPage: 10,
@@ -41,6 +43,9 @@ const contentSlice = createSlice({
     name: 'content',
     initialState,
     reducers: {
+        setDetailId: (state, action: PayloadAction<{id: number}>) => {
+            state.detailId = action.payload.id;
+        },
         setFilters: (state, action) => {
             state.filters = action.payload;
         },

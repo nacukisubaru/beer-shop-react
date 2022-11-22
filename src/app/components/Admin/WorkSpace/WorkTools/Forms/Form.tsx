@@ -27,7 +27,7 @@ interface IField {
     label: string;
     validationProps: IValidation;
     selectProps?: ISelect;
-    defaultValue?: string
+    defaultValue?: string | number
 }
 
 interface IForm {

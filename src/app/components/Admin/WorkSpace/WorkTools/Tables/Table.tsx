@@ -60,6 +60,7 @@ const TableAdmin: FC<TableAdminProps> = ({
         childrenModalForAdd,
         childrenModalForUpd
     } = modalProps;
+
     const { limitPage } = useAppSelector((state) => state.contentReducer);
     const {
         setFilters,
@@ -67,7 +68,9 @@ const TableAdmin: FC<TableAdminProps> = ({
         openAdminModalNotFoundByFilter,
         closeAdminModalNotFoundByFilter,
         openModalAddContent,
+        setDetailId
     } = useActions();
+
     const { tmpfilters } = useAppSelector((state) => state.contentReducer);
     const isOpen = useAppSelector(
         (state) => state.notFoundReducer.adminModalNotFoundByFilter
@@ -103,7 +106,9 @@ const TableAdmin: FC<TableAdminProps> = ({
                                                   size="small"
                                                   component="span"
                                                   onClick={async () => {
+                                                        const id = params.row.id;
                                                         await setUpdAction(true);
+                                                        await setDetailId({id});
                                                         openModalAddContent();
                                                   }}
                                               >
