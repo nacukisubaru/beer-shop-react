@@ -16,7 +16,7 @@ export interface IStateResponse {
     response: IResponse
 }
 
-export const useCatalog = (api: any, list: 'beer') => {
+export const useCatalog = (api: any, list?: string) => {
     const { disableNextPage, setCountRows, setLastPage, setClickFilter, openAdminModalNotFoundByFilter, resetFilters } = useActions();
     const { page, sortField, order, limitPage, filters, reqFilterDisabled, clickFilter } = useAppSelector((state) => state.contentReducer);
     const { data, error, refetch } = api.useGetListQuery({ page, sortField, order, limitPage, filter: paramsBuilder(filters) },
@@ -31,7 +31,11 @@ export const useCatalog = (api: any, list: 'beer') => {
         if (data && data.rows) {
             setCountRows({ count: data.count });
             setLastPage({ page: data.lastPage });
-            setRows(createList(data.rows, list));
+            if(list) {
+                setRows(createList(data.rows, list));     
+            } else {
+                setRows(data.rows);
+            }
             setFilterWork(false);
         }
     }, [data]);
