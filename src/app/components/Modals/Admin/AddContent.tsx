@@ -4,17 +4,23 @@ import { useAppSelector } from "../../../hooks/useAppSelector";
 import BasicModal from "../BasicModal";
 interface AddContentProps {
     form: any,
-    title: string
+    title: string,
+    onClose?: () => void
 }
 
-const AddContentModal: FC<AddContentProps> = ({form, title}) => {
+const AddContentModal: FC<AddContentProps> = ({form, title, onClose}) => {
     const {openModalAddContent, closeModalAddContent} = useActions();
     const {modalAddContent} = useAppSelector(state => state.contentReducer);
     
+    const handleClose = () => {
+        onClose && onClose();
+        closeModalAddContent();
+    }
+
     return (
         <BasicModal
             setOpen={openModalAddContent}
-            setClose={closeModalAddContent}
+            setClose={handleClose}
             open={modalAddContent}
             body={form}
             showOkBtn={false}

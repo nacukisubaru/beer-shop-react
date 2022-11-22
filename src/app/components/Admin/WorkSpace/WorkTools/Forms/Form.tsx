@@ -12,6 +12,9 @@ interface ISelectItem {
 interface ISelect {
     multiple: boolean;
     items: ISelectItem[];
+    defaultItems?: ISelectItem[];
+    defaultValue?: any,
+    defaultItem?: ISelectItem
 }
 
 interface IValidation {
@@ -24,6 +27,7 @@ interface IField {
     label: string;
     validationProps: IValidation;
     selectProps?: ISelect;
+    defaultValue?: string
 }
 
 interface IForm {
@@ -173,8 +177,7 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
                 })}
             >
                 {fields.map((field) => {
-                    const { name, label, type, selectProps, validationProps } =
-                        field;
+                    const { name, label, type, selectProps, validationProps, defaultValue } = field;
                     const fieldState = getFieldState(name);
                     let component: any;
                     switch (type) {
@@ -190,6 +193,7 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
                                             id="text-field"
                                             variant="outlined"
                                             label={label}
+                                            defaultValue={defaultValue ? defaultValue : ''}
                                             error={fieldState.invalid}
                                             {...register(name, validationProps)}
                                             fullWidth
@@ -213,6 +217,7 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
                                             id="text-field"
                                             variant="outlined"
                                             label={label}
+                                            defaultValue={defaultValue ? defaultValue : ''}
                                             error={fieldState.invalid}
                                             {...register(name, validationProps)}
                                             type="number"
@@ -241,6 +246,7 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
                                                 name={label}
                                                 id={name}
                                                 defaultSelectedItem={
+                                                    selectProps.defaultValue ? selectProps.defaultValue :
                                                     selectValues
                                                         ? selectValues
                                                         : ""
@@ -260,7 +266,7 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
                         case "selectAuto":
                             if (selectProps) {
                                 const selectValues = selectorArray.get(name);
-                      
+                                
                                 component = (
                                     <>
                                         <div
@@ -271,6 +277,8 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
                                             <Autocomplete
                                                 multiple={selectProps.multiple}
                                                 value={
+                                                    selectProps.defaultItem ? selectProps.defaultItem :
+                                                    selectProps.defaultItems ? selectProps.defaultItems :
                                                     selectValues
                                                         ? selectValues
                                                         : selectProps.multiple

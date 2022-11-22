@@ -23,8 +23,8 @@ export const useCatalog = (api: any, list?: string) => {
         { skip: reqFilterDisabled }
     );
     const [add] = api.useAddMutation({});
-    const [rows, setRows] = useState<any>([]);
-    const [isFilterWorking, setFilterWork] = useState(false);
+    const [rows, setRows] = useState<any[]>([]);
+    const [isFilterWorking, setFilterWork] = useState<boolean>(false);
     const [stateResponse, setStateResponse] = useState<IStateResponse>({ status: 'noRequest', response: { status: 0, data: '' } });
 
     useEffect(() => {
