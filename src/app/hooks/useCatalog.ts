@@ -22,7 +22,8 @@ export const useCatalog = (api: any, list?: string) => {
     const { data, error, refetch } = api.useGetListQuery({ page, sortField, order, limitPage, filter: paramsBuilder(filters) },
         { skip: reqFilterDisabled }
     );
-    const [add] = api.useAddMutation({});
+    const [add] = api.useAddMutation();
+    const [upd] = api.useUpdateMutation();
     const [rows, setRows] = useState<any[]>([]);
     const [isFilterWorking, setFilterWork] = useState<boolean>(false);
     const [stateResponse, setStateResponse] = useState<IStateResponse>({ status: 'noRequest', response: { status: 0, data: '' } });
@@ -78,9 +79,25 @@ export const useCatalog = (api: any, list?: string) => {
         return response;
     }
 
+    const updRow = async (body: any, isObject = false): Promise<IStateResponse> => {
+        let response: any = { status: 'noRequest', response: { status: 0, data: '' } };
+        let bodyData = body;
+        if (isObject) {
+            bodyData = { ...body };
+        }
+        
+        await upd(bodyData)
+            .unwrap()
+            .then((payload: any) => { response = { status: 'fulfilled', response: payload } })
+            .catch((error: any) => { response = { status: 'rejected', response: error } });
+
+        setStateResponse(response);
+        return response;
+    }
+
     const clearStateResponse = () => {
         setStateResponse({ status: 'noRequest', response: { status: 0, data: '' } });
     }
 
-    return { rows, addRow, stateResponse, clearStateResponse, limitPage: limitPageAdmin }
+    return { rows, addRow, updRow, stateResponse, clearStateResponse, limitPage: limitPageAdmin }
 }

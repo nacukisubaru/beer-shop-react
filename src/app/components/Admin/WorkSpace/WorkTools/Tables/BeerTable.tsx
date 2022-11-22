@@ -5,7 +5,7 @@ import UpdBeerForm from "../Forms/Products/UpdBeerForm";
 import TableAdmin from "./Table";
 
 export default function BeerTableAdmin() {
-    const { rows, addRow, clearStateResponse, stateResponse } = useCatalog(
+    const { rows, addRow, updRow, clearStateResponse, stateResponse } = useCatalog(
         beerApi,
         "beer"
     );
@@ -64,7 +64,7 @@ export default function BeerTableAdmin() {
             tableProps={{ rows, clearStateResponse, stateResponse }}
             modalProps={{
                 childrenModalForAdd: <AddBeerForm submit={addRow} />,
-                childrenModalForUpd: <UpdBeerForm submit={addRow} />,
+                childrenModalForUpd: <UpdBeerForm submit={updRow} />,
                 titleModalForAdd: "Добавить пиво",
                 titleModalForUpd: "Обновить пиво",
                 successMessage: "Товар успешно добавлен",

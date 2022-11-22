@@ -13,8 +13,7 @@ interface UpdBeerFormProps {
 const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
     const { detailId } = useAppSelector((state) => state.contentReducer);
     const { data } = beerApi.useGetOneQuery(detailId);
-    
-    
+
     return (
         <>
             {data ? (
@@ -155,7 +154,7 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
                                     { name: "Активен", value: "true" },
                                     { name: "Не активен", value: "false" },
                                 ],
-                                defaultValue: data?.product?.isActive,
+                                defaultValue: new Boolean(data?.product?.isActive).toString(),
                             },
                         },
                         {
@@ -174,7 +173,7 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
                                         value: "false",
                                     },
                                 ],
-                                defaultValue: data?.filtered
+                                defaultValue: new Boolean(data?.filtered).toString()
                             },
                         },
                         {
@@ -190,12 +189,13 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
                                     { name: "Розливное", value: "true" },
                                     { name: "Не розливное", value: "false" },
                                 ],
-                                defaultValue: data?.forBottling
+                                defaultValue: new Boolean(data?.forBottling).toString()
                             },
                         },
                     ]}
                     submit={submit}
                     hasUploadImage={true}
+                    updateId={detailId}
                 />
             ) : (
                 <></>

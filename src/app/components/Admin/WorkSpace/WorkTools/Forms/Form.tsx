@@ -1,5 +1,5 @@
 import { Autocomplete, Button, TextField } from "@mui/material";
-import { FC, useState } from "react";
+import { FC, useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IStateResponse } from "../../../../../hooks/useCatalog";
 import CustomSelect from "../../../../CustomUI/CustomSelect/CustomSelect";
@@ -33,10 +33,11 @@ interface IField {
 interface IForm {
     fields: IField[];
     hasUploadImage?: boolean;
+    updateId?: number;
     submit: (data: any, isObject?: boolean) => Promise<IStateResponse>;
 }
 
-const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
+const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, submit }) => {
     const {
         register,
         handleSubmit,
@@ -121,6 +122,21 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
         }
     }
 
+    const setAutoSelectValues = (selectProps:ISelect, name: string) => {
+        if(selectProps.defaultItem) {
+            setValue(name, selectProps.defaultItem.value);
+        }
+
+        if(selectProps.defaultItems) {
+            setValue(name, selectProps.defaultItems.map((item) => item.value)); 
+        }
+    };
+
+    //TODO 
+    //попытался обновить поле состав не обновилось
+    //подставляя selectProps.defaultItem в selectAuto нельзя изменять состояние селекта, так как всегда ставится только default
+    //На бэкенде и фронте нужно сделать загрузку фото при обновлении
+    
     return (
         <>
             <form
@@ -144,6 +160,10 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
                                     }
                                     return value;
                                 });
+
+                                if(updateId) {
+                                    formData.append('id', String(updateId));
+                                }
                                 
                                 const result = await submit(formData);
                                 if (result.status !== "rejected") {
@@ -167,6 +187,10 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
                                 }
                                 return item;
                             });
+
+                            if(updateId) {
+                                data.id = updateId;
+                            }
 
                             const result = await submit(data, true);
                             if (result.status !== "rejected") {
@@ -233,7 +257,7 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
                         case "select":
                             const selectValues = selectorArray.get(name);
                             if (selectProps) {
-                  
+                                selectProps.defaultValue && setValue(name, selectProps.defaultValue);
                                 component = (
                                     <>
                                         <div
@@ -266,7 +290,8 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, submit }) => {
                         case "selectAuto":
                             if (selectProps) {
                                 const selectValues = selectorArray.get(name);
-                                
+                                setAutoSelectValues(selectProps, name);
+
                                 component = (
                                     <>
                                         <div
