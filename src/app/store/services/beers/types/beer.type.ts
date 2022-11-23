@@ -14,15 +14,6 @@ export interface IBeer {
     product: IProduct
 }
 
-export interface IBeerProduct extends IProduct {
-    compound: string,
-    fortress: number,
-    ibu: number,
-    volume: number,
-    forBottling: boolean,
-    filtered: boolean,
-    grades: IGrade[],
-}
 
 export interface IBeerListPaginate {
     count: number,

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { createList } from "../helpers/arrayHelper";
 import { paramsBuilder } from "../helpers/stringHelper";
 import { limitPageAdmin } from "../http/http.request.config";
-import { beerApi } from "../store/services/beers/beer.api";
 import { useActions } from "./useActions";
 import { useAppSelector } from "./useAppSelector";
 

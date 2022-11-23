@@ -1,5 +1,31 @@
-import { IBeer, IBeerProduct } from "../store/services/beers/types/beer.type";
+import { IBeer } from "../store/services/beers/types/beer.type";
+import { IGrade } from "../store/services/grades/types/grade.type";
 import { ISnack, ISnackProduct } from "../store/services/snacks/types/snacks.types";
+
+interface IProduct {
+    id: number,
+    title: string,
+    description: string,
+    price: number,
+    quantity: number,
+    brandId: number,
+    inStock: string,
+    isActive: string,
+    image: string,
+    brandName: string,
+    typePackagingName: string,
+    typePackagingId: number,
+}
+
+interface IBeerProduct extends IProduct {
+    compound: string,
+    fortress: number,
+    ibu: number,
+    volume: number,
+    forBottling: string,
+    filtered: string,
+    grades: IGrade[],
+}
 
 export const arrayUniqueByKey = (array:any, key = 'id') => {
     const map:any = Map;
@@ -16,7 +42,11 @@ export const createBeersList = (beersList: IBeer[]): IBeerProduct[] => {
             const product =  beer.product;
             return {
                 ...beer,
-                ...product
+                ...product,
+                filtered: beer.filtered ? 'Да' : 'Нет',
+                forBottling: beer.forBottling ? 'Да' : 'Нет',
+                isActive: product.isActive ? 'Да' : 'Нет',
+                inStock: product.inStock ? 'Да' : 'Нет'
             };
         });
     }

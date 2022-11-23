@@ -59,7 +59,7 @@ export default function BeerTableAdmin() {
                     filterable: false,
                 },
                 { field: "forBottling", headerName: "На розлив", width: 150 },
-                { field: "filtred", headerName: "Фильтрованное", width: 150 },
+                { field: "filtered", headerName: "Фильтрованное", width: 150 },
             ]}
             tableProps={{ rows, clearStateResponse, stateResponse }}
             modalProps={{
