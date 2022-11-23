@@ -7,8 +7,8 @@ export const gradeApi = createApi({
     reducerPath: 'gradeApi',
     baseQuery: fetchBaseQuery({baseUrl: host + '/grades'}),
     endpoints: (build) => ({
-        gradesList: build.query<IGrade[], number>({
-            query: (limit) => ({
+        getList: build.query<IGrade[], any>({
+            query: ({}) => ({
                 url: ''
             })
         })

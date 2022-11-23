@@ -17,8 +17,8 @@ interface IMenu {
 }
 
 const Menu: FC<IMenu> = ({callbackApplyFilter, callbackResetFilter, filter, filterList = []}) => {
-    const brands: any = brandApi.useBrandsListQuery(filter.productType);
-    const typesPackaging: any = typePackagingApi.useTypesPackagingListQuery(filter.productType);
+    const brands: any = brandApi.useGetListQuery(filter.productType);
+    const typesPackaging: any = typePackagingApi.useGetListQuery(filter.productType);
 
     const { closeAllMenues, addBrand, addTypePackaging, setMinPrice, setMaxPrice } = useActions();
     const {isFilterMenu, isMainMenu} = useAppSelector(

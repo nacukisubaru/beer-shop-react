@@ -7,7 +7,7 @@ export const brandApi = createApi({
     reducerPath: 'brandApi',
     baseQuery: fetchBaseQuery({baseUrl: host + '/brands'}),
     endpoints: (build) => ({
-        brandsList: build.query<IBrand, string>({
+        getList: build.query<IBrand[], string>({
             query: (type) => ({
                 url: 'getByProductType/' + type
             })

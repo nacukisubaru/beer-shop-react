@@ -1,9 +1,10 @@
 import { FC, useEffect } from "react";
-import { useActions } from "../../../../../../hooks/useActions";
 import { useAppSelector } from "../../../../../../hooks/useAppSelector";
 import { IStateResponse } from "../../../../../../hooks/useCatalog";
 import { beerApi } from "../../../../../../store/services/beers/beer.api";
-import { productApi } from "../../../../../../store/services/products/product.api";
+import { brandApi } from "../../../../../../store/services/brands/brand.api";
+import { gradeApi } from "../../../../../../store/services/grades/grade.api";
+import { typePackagingApi } from "../../../../../../store/services/type-packaging/type-packaging.api";
 import Form from "../Form";
 
 interface UpdBeerFormProps {
@@ -13,10 +14,13 @@ interface UpdBeerFormProps {
 const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
     const { detailId } = useAppSelector((state) => state.contentReducer);
     const { data, isLoading, refetch } = beerApi.useGetOneQuery(detailId);
+    const gradesList = gradeApi.useGetListQuery({});
+    const brandsList = brandApi.useGetListQuery("beers");
+    const packagingList = typePackagingApi.useGetListQuery("beers");
 
     const onSubmit = () => {
         refetch();
-    }
+    };
 
     return (
         <>
@@ -103,11 +107,14 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
                             label: "Сорта",
                             selectProps: {
                                 multiple: true,
-                                items: [
-                                    { name: "Эльфийский эль", value: 10 },
-                                    { name: "Нордский эль", value: 6 },
-                                    { name: "Краснолюдский эль", value: 2 },
-                                ],
+                                items: gradesList.data
+                                    ? gradesList.data.map((grade) => {
+                                          return {
+                                              name: grade.name,
+                                              value: grade.id,
+                                          };
+                                      })
+                                    : [],
                                 defaultItems: data?.grades?.map((grade) => {
                                     return {
                                         value: grade.id,
@@ -125,11 +132,14 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
                             label: "Бренд",
                             selectProps: {
                                 multiple: false,
-                                items: [
-                                    { name: "Морские", value: 8 },
-                                    { name: "ЛЯ Паулина", value: 7 },
-                                    { name: "Гусь", value: 6 },
-                                ],
+                                items: brandsList.data
+                                    ? brandsList.data.map((brand) => {
+                                          return {
+                                              name: brand.name,
+                                              value: brand,
+                                          };
+                                      })
+                                    : [],
                                 defaultItem: {
                                     name: data?.product?.brandName,
                                     value: data?.product?.brandId,
@@ -148,10 +158,7 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
                             },
                             selectProps: {
                                 multiple: false,
-                                items: [
-                                    { name: "Пластиковая бутылка", value: 1 },
-                                    { name: "Пластиковая бутылка2", value: 2 },
-                                ],
+                                items: packagingList.data ? packagingList.data.map((item) => {return {name: item.name, value: item.id}}) : [],
                                 defaultValue: data?.product?.typePackagingId,
                             },
                         },

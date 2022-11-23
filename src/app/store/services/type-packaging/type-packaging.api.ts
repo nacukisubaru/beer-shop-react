@@ -6,7 +6,7 @@ export const typePackagingApi = createApi({
     reducerPath: 'typePackagingApi',
     baseQuery: fetchBaseQuery({baseUrl: host + '/type-packaging'}),
     endpoints: (build) => ({
-        typesPackagingList: build.query<ITypePackaging, string>({
+        getList: build.query<ITypePackaging[], string>({
             query: (type) => ({
                 url: '/getListByProductType/' + type
             })
