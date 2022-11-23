@@ -136,7 +136,7 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
                                     ? brandsList.data.map((brand) => {
                                           return {
                                               name: brand.name,
-                                              value: brand,
+                                              value: brand.id,
                                           };
                                       })
                                     : [],

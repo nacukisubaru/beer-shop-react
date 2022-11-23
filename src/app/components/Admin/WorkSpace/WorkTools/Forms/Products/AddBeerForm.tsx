@@ -110,7 +110,7 @@ const AddBeerForm: FC<AddBeerFormProps> = ({ submit }) => {
                             ? brandsList.data.map((brand) => {
                                   return {
                                       name: brand.name,
-                                      value: brand,
+                                      value: brand.id,
                                   };
                               })
                             : [],
