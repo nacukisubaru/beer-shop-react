@@ -1,12 +1,19 @@
 import { FC } from "react";
 import { IStateResponse } from "../../../../../../hooks/useCatalog";
+import { brandApi } from "../../../../../../store/services/brands/brand.api";
+import { gradeApi } from "../../../../../../store/services/grades/grade.api";
+import { typePackagingApi } from "../../../../../../store/services/type-packaging/type-packaging.api";
 import Form from "../Form";
 
 interface AddBeerFormProps {
-    submit: (body:any, isObject?: boolean) => Promise<IStateResponse>;
+    submit: (body: any, isObject?: boolean) => Promise<IStateResponse>;
 }
 
 const AddBeerForm: FC<AddBeerFormProps> = ({ submit }) => {
+    const gradesList = gradeApi.useGetListQuery({});
+    const brandsList = brandApi.useGetListQuery("beers");
+    const packagingList = typePackagingApi.useGetListQuery("beers");
+
     return (
         <Form
             fields={[
@@ -80,7 +87,14 @@ const AddBeerForm: FC<AddBeerFormProps> = ({ submit }) => {
                     label: "Сорта",
                     selectProps: {
                         multiple: true,
-                        items: [{name: "Эльфийский эль", value: 10}, {name: "Нордский эль", value: 6}, { name: "Краснолюдский эль", value: 2 },],
+                        items: gradesList.data
+                            ? gradesList.data.map((grade) => {
+                                  return {
+                                      name: grade.name,
+                                      value: grade.id,
+                                  };
+                              })
+                            : [],
                     },
                     validationProps: {
                         required: "Поле обязательно для заполнения",
@@ -92,7 +106,14 @@ const AddBeerForm: FC<AddBeerFormProps> = ({ submit }) => {
                     label: "Бренд",
                     selectProps: {
                         multiple: false,
-                        items: [{name: "Морские", value: 8}, {name: "ЛЯ Паулина", value: 7}, {name: "Гусь", value: 6}],
+                        items: brandsList.data
+                            ? brandsList.data.map((brand) => {
+                                  return {
+                                      name: brand.name,
+                                      value: brand,
+                                  };
+                              })
+                            : [],
                     },
                     validationProps: {
                         required: "Поле обязательно для заполнения",
@@ -107,11 +128,12 @@ const AddBeerForm: FC<AddBeerFormProps> = ({ submit }) => {
                     },
                     selectProps: {
                         multiple: false,
-                        items: [
-                            {name: "Пластиковая бутылка", value: 1},
-                            {name: "Пластиковая бутылка2", value: 2},
-                        ]
-                    }
+                        items: packagingList.data
+                            ? packagingList.data.map((item) => {
+                                  return { name: item.name, value: item.id };
+                              })
+                            : [],
+                    },
                 },
                 {
                     name: "isActive",
@@ -123,10 +145,10 @@ const AddBeerForm: FC<AddBeerFormProps> = ({ submit }) => {
                     selectProps: {
                         multiple: false,
                         items: [
-                            {name: "Активен", value: 'true'},
-                            {name: "Не активен", value: 'false'},
-                        ]
-                    }
+                            { name: "Активен", value: "true" },
+                            { name: "Не активен", value: "false" },
+                        ],
+                    },
                 },
                 {
                     name: "filtered",
@@ -138,10 +160,10 @@ const AddBeerForm: FC<AddBeerFormProps> = ({ submit }) => {
                     selectProps: {
                         multiple: false,
                         items: [
-                            {name: "Фильтрованное", value: 'true'},
-                            {name: "Не фильтрованное", value: 'false'},
-                        ]
-                    }
+                            { name: "Фильтрованное", value: "true" },
+                            { name: "Не фильтрованное", value: "false" },
+                        ],
+                    },
                 },
                 {
                     name: "forBottling",
@@ -153,10 +175,10 @@ const AddBeerForm: FC<AddBeerFormProps> = ({ submit }) => {
                     selectProps: {
                         multiple: false,
                         items: [
-                            {name: "Розливное", value: 'true'},
-                            {name: "Не розливное", value: 'false'},
-                        ]
-                    }
+                            { name: "Розливное", value: "true" },
+                            { name: "Не розливное", value: "false" },
+                        ],
+                    },
                 },
             ]}
             submit={submit}

@@ -158,7 +158,14 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
                             },
                             selectProps: {
                                 multiple: false,
-                                items: packagingList.data ? packagingList.data.map((item) => {return {name: item.name, value: item.id}}) : [],
+                                items: packagingList.data
+                                    ? packagingList.data.map((item) => {
+                                          return {
+                                              name: item.name,
+                                              value: item.id,
+                                          };
+                                      })
+                                    : [],
                                 defaultValue: data?.product?.typePackagingId,
                             },
                         },
