@@ -53,6 +53,8 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, submit }) =
     const [selectorArray, setSelectorArray] = useState(new Map());
     const [noFileError, setNoFileError] = useState(false);
     const [selectedImage, setSelectedImage] = useState<string>("");
+    const [isChangingAutocomplete, setAutocompleteChange] = useState(false);
+    const [isChangingAutocompleteMult, setAutocompleteChangeMult] = useState(false);
 
     const styleError = {
         display: "flex",
@@ -74,12 +76,14 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, submit }) =
     };
 
     const resetFields = (data: any) => {
-        Object.keys(data).map((key) => {
-            setValue(key, undefined);
-            return key;
-        });
-        setSelectorArray(new Map());
-        setSelectedImage("");
+        if(!updateId) {
+            Object.keys(data).map((key) => {
+                setValue(key, undefined);
+                return key;
+            });
+            setSelectorArray(new Map());
+            setSelectedImage("");
+        }
     };
 
     const checkFieldsExist = (data:any) => {
@@ -123,11 +127,11 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, submit }) =
     }
 
     const setAutoSelectValues = (selectProps:ISelect, name: string) => {
-        if(selectProps.defaultItem) {
+        if(selectProps.defaultItem && !isChangingAutocomplete) {
             setValue(name, selectProps.defaultItem.value);
         }
 
-        if(selectProps.defaultItems) {
+        if(selectProps.defaultItems && !isChangingAutocompleteMult) {
             setValue(name, selectProps.defaultItems.map((item) => item.value)); 
         }
     };
@@ -302,8 +306,9 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, submit }) =
                                             <Autocomplete
                                                 multiple={selectProps.multiple}
                                                 value={
-                                                    selectProps.defaultItem ? selectProps.defaultItem :
-                                                    selectProps.defaultItems ? selectProps.defaultItems :
+
+                                                    !isChangingAutocomplete && selectProps.defaultItem ?  selectProps.defaultItem :
+                                                    !isChangingAutocompleteMult && selectProps.defaultItems ? selectProps.defaultItems :
                                                     selectValues
                                                         ? selectValues
                                                         : selectProps.multiple
@@ -333,6 +338,12 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, submit }) =
                                                         newValue = value?.value;
                                                     }
 
+                                                    if(selectProps.multiple) {
+                                                        setAutocompleteChangeMult(true);
+                                                    } else {
+                                                        setAutocompleteChange(true);
+                                                    }
+
                                                     setSelectorArray(
                                                         new Map(
                                                             selectorArray.set(
@@ -341,7 +352,7 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, submit }) =
                                                             )
                                                         )
                                                     );
-                                                
+                                                    
                                                     setValue(name, newValue);
                                                     if((Array.isArray(newValue) && !newValue.length) || (!newValue)) {
                                                         setError(name, {message: 'Поле обязательно для заполнения'});
