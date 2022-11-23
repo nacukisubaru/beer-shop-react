@@ -210,6 +210,7 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
                     ]}
                     submit={submit}
                     hasUploadImage={true}
+                    defaultFile={data?.product.image}
                     updateId={detailId}
                     onSubmit={onSubmit}
                 />

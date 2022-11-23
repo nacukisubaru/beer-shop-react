@@ -1,5 +1,5 @@
 import { Autocomplete, Button, TextField } from "@mui/material";
-import { FC, useCallback, useState } from "react";
+import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IStateResponse } from "../../../../../hooks/useCatalog";
 import CustomSelect from "../../../../CustomUI/CustomSelect/CustomSelect";
@@ -33,12 +33,13 @@ interface IField {
 interface IForm {
     fields: IField[];
     hasUploadImage?: boolean;
+    defaultFile?: string;
     updateId?: number;
     submit: (data: any, isObject?: boolean) => Promise<IStateResponse>;
     onSubmit?: () => void;
 }
 
-const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, submit,  onSubmit }) => {
+const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, defaultFile = "", submit, onSubmit }) => {
     const {
         register,
         handleSubmit,
@@ -53,7 +54,7 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, submit,  on
     const [selectedFile, setSelectedFile] = useState<any>(null);
     const [selectorArray, setSelectorArray] = useState(new Map());
     const [noFileError, setNoFileError] = useState(false);
-    const [selectedImage, setSelectedImage] = useState<string>("");
+    const [selectedImage, setSelectedImage] = useState<string>(defaultFile);
     const [isChangingAutocomplete, setAutocompleteChange] = useState(false);
     const [isChangingAutocompleteMult, setAutocompleteChangeMult] = useState(false);
     const [isChangingSelect, setSelectChange] = useState(false);
@@ -68,13 +69,16 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, submit,  on
 
     const uploadImage = (e: any) => {
         const file = e.target.files[0];
-        setSelectedFile(file);
-        const reader = new FileReader();
-        reader.onloadend = (e:any) => {
-            setSelectedImage(e.target.result);
+        if(file) {
+            setSelectedFile(file);
+            const reader = new FileReader();
+            reader.onloadend = (e:any) => {
+                setSelectedImage(e.target.result);
+            }
+            reader.readAsDataURL(file);
+            setNoFileError(false);
+            e.target.value = null;
         }
-        reader.readAsDataURL(file);
-        setNoFileError(false);
     };
 
     const resetFields = (data: any) => {
