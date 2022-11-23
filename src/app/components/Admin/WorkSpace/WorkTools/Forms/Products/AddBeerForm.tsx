@@ -151,6 +151,21 @@ const AddBeerForm: FC<AddBeerFormProps> = ({ submit }) => {
                     },
                 },
                 {
+                    name: "inStock",
+                    type: "select",
+                    label: "В наличии",
+                    validationProps: {
+                        required: "Поле обязательно для заполнения",
+                    },
+                    selectProps: {
+                        multiple: false,
+                        items: [
+                            { name: "Да", value: "true" },
+                            { name: "Нет", value: "false" },
+                        ],
+                    },
+                },
+                {
                     name: "filtered",
                     type: "select",
                     label: "Фильтрация",
