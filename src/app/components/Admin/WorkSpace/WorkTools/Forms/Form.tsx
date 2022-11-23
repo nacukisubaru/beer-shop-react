@@ -126,7 +126,7 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, defaultFile
     const handleCheckFieldsExist = () => {
         const values = getValues();
         checkFieldsExist(values);
-        if (hasUploadImage && !selectedFile) {
+        if (hasUploadImage && !selectedFile && !defaultFile) {
             setNoFileError(true);
         } else {
             setNoFileError(false);
@@ -143,10 +143,6 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, defaultFile
         }
     };
 
-    //TODO 
-    //попытался обновить поле состав не обновилось
-    //подставляя selectProps.defaultItem в selectAuto нельзя изменять состояние селекта, так как всегда ставится только default
-    //На бэкенде и фронте нужно сделать загрузку фото при обновлении
     
     return (
         <>
@@ -155,7 +151,7 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, defaultFile
                     const allFieldsExist = checkFieldsExist(data);
                     if(allFieldsExist) {
                         if (hasUploadImage) {
-                            if (selectedFile) {
+                            if (selectedFile || defaultFile) {
                                 setNoFileError(false);
                                 const formData = new FormData();
                                 formData.append("image", selectedFile);
@@ -182,7 +178,9 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, defaultFile
                                     resetFields(data);
                                 }
                             } else {
-                                setNoFileError(true);
+                                if(!defaultFile) {
+                                    setNoFileError(true);
+                                }
                             }
                         } else {
                             fields.map((item: IField) => {
@@ -360,7 +358,7 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, defaultFile
                                                             )
                                                         )
                                                     );
-                                                    
+
                                                     setValue(name, newValue);
                                                     if((Array.isArray(newValue) && !newValue.length) || (!newValue)) {
                                                         setError(name, {message: 'Поле обязательно для заполнения'});
