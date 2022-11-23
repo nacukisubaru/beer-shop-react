@@ -5,7 +5,7 @@ import { IStateResponse } from "../../../../../hooks/useCatalog";
 import CustomSelect from "../../../../CustomUI/CustomSelect/CustomSelect";
 
 interface ISelectItem {
-    name: string;
+    name: any;
     value: any;
 }
 
@@ -35,9 +35,10 @@ interface IForm {
     hasUploadImage?: boolean;
     updateId?: number;
     submit: (data: any, isObject?: boolean) => Promise<IStateResponse>;
+    onSubmit?: () => void;
 }
 
-const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, submit }) => {
+const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, submit,  onSubmit }) => {
     const {
         register,
         handleSubmit,
@@ -55,6 +56,7 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, submit }) =
     const [selectedImage, setSelectedImage] = useState<string>("");
     const [isChangingAutocomplete, setAutocompleteChange] = useState(false);
     const [isChangingAutocompleteMult, setAutocompleteChangeMult] = useState(false);
+    const [isChangingSelect, setSelectChange] = useState(false);
 
     const styleError = {
         display: "flex",
@@ -111,6 +113,7 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, submit }) =
     }
 
     const handleSetSelectValue = (name: string, value: any) => {
+        setSelectChange(true);
         setSelectorArray(new Map(selectorArray.set(name, value)));
         setValue(name, value);
         clearErrors(name);
@@ -202,6 +205,7 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, submit }) =
                             }
                         }
                     }
+                    onSubmit && onSubmit();
                 })}
             >
                 {fields.map((field) => {
@@ -261,7 +265,7 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, submit }) =
                         case "select":
                             const selectValues = selectorArray.get(name);
                             if (selectProps) {
-                                selectProps.defaultValue && setValue(name, selectProps.defaultValue);
+                                !isChangingSelect && selectProps.defaultValue && setValue(name, selectProps.defaultValue);
                                 component = (
                                     <>
                                         <div

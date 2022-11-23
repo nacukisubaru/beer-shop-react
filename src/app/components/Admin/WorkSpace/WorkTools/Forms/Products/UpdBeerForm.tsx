@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { useActions } from "../../../../../../hooks/useActions";
 import { useAppSelector } from "../../../../../../hooks/useAppSelector";
 import { IStateResponse } from "../../../../../../hooks/useCatalog";
@@ -12,11 +12,17 @@ interface UpdBeerFormProps {
 
 const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
     const { detailId } = useAppSelector((state) => state.contentReducer);
-    const { data } = beerApi.useGetOneQuery(detailId);
+    const { data, isLoading, refetch } = beerApi.useGetOneQuery(detailId);
+
+    const onSubmit = () => {
+        refetch();
+    }
 
     return (
         <>
-            {data ? (
+            {isLoading ? (
+                <></>
+            ) : (
                 <Form
                     fields={[
                         {
@@ -26,7 +32,7 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
                             validationProps: {
                                 required: "Поле обязательно для заполнения",
                             },
-                            defaultValue: data?.product?.title
+                            defaultValue: data?.product?.title,
                         },
                         {
                             name: "description",
@@ -35,7 +41,7 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
                             validationProps: {
                                 required: "Поле обязательно для заполнения",
                             },
-                            defaultValue: data?.product?.description
+                            defaultValue: data?.product?.description,
                         },
                         {
                             name: "compound",
@@ -44,7 +50,7 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
                             validationProps: {
                                 required: "Поле обязательно для заполнения",
                             },
-                            defaultValue: data?.compound
+                            defaultValue: data?.compound,
                         },
                         {
                             name: "quantity",
@@ -53,7 +59,7 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
                             validationProps: {
                                 required: "Поле обязательно для заполнения",
                             },
-                            defaultValue: data?.product?.quantity
+                            defaultValue: data?.product?.quantity,
                         },
                         {
                             name: "price",
@@ -62,7 +68,7 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
                             validationProps: {
                                 required: "Поле обязательно для заполнения",
                             },
-                            defaultValue: data?.product?.price
+                            defaultValue: data?.product?.price,
                         },
                         {
                             name: "volume",
@@ -71,7 +77,7 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
                             validationProps: {
                                 required: "Поле обязательно для заполнения",
                             },
-                            defaultValue: data?.volume
+                            defaultValue: data?.volume,
                         },
                         {
                             name: "fortress",
@@ -80,7 +86,7 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
                             validationProps: {
                                 required: "Поле обязательно для заполнения",
                             },
-                            defaultValue: data?.fortress
+                            defaultValue: data?.fortress,
                         },
                         {
                             name: "ibu",
@@ -89,7 +95,7 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
                             validationProps: {
                                 required: "Поле обязательно для заполнения",
                             },
-                            defaultValue: data?.ibu
+                            defaultValue: data?.ibu,
                         },
                         {
                             name: "gradeIds",
@@ -102,7 +108,12 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
                                     { name: "Нордский эль", value: 6 },
                                     { name: "Краснолюдский эль", value: 2 },
                                 ],
-                                defaultItems: data?.grades?.map((grade) => {return {value: grade.id, name: grade.name}}),
+                                defaultItems: data?.grades?.map((grade) => {
+                                    return {
+                                        value: grade.id,
+                                        name: grade.name,
+                                    };
+                                }),
                             },
                             validationProps: {
                                 required: "Поле обязательно для заполнения",
@@ -119,7 +130,10 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
                                     { name: "ЛЯ Паулина", value: 7 },
                                     { name: "Гусь", value: 6 },
                                 ],
-                                defaultItem: { name: data?.product?.brandName, value: data?.product?.brandId },
+                                defaultItem: {
+                                    name: data?.product?.brandName,
+                                    value: data?.product?.brandId,
+                                },
                             },
                             validationProps: {
                                 required: "Поле обязательно для заполнения",
@@ -138,7 +152,7 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
                                     { name: "Пластиковая бутылка", value: 1 },
                                     { name: "Пластиковая бутылка2", value: 2 },
                                 ],
-                                defaultValue: data?.product?.typePackagingId
+                                defaultValue: data?.product?.typePackagingId,
                             },
                         },
                         {
@@ -154,7 +168,8 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
                                     { name: "Активен", value: "true" },
                                     { name: "Не активен", value: "false" },
                                 ],
-                                defaultValue: new Boolean(data?.product?.isActive).toString(),
+                                defaultValue:
+                                    data?.product?.isActive.toString(),
                             },
                         },
                         {
@@ -173,7 +188,7 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
                                         value: "false",
                                     },
                                 ],
-                                defaultValue: new Boolean(data?.filtered).toString()
+                                defaultValue: data?.filtered.toString(),
                             },
                         },
                         {
@@ -189,16 +204,15 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
                                     { name: "Розливное", value: "true" },
                                     { name: "Не розливное", value: "false" },
                                 ],
-                                defaultValue: new Boolean(data?.forBottling).toString()
+                                defaultValue: data?.forBottling.toString(),
                             },
                         },
                     ]}
                     submit={submit}
                     hasUploadImage={true}
                     updateId={detailId}
+                    onSubmit={onSubmit}
                 />
-            ) : (
-                <></>
             )}
         </>
     );
