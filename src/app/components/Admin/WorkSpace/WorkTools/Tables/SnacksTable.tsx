@@ -43,8 +43,8 @@ export default function SnacksTableAdmin() {
             modalProps={{
                 childrenModalForAdd: <AddSnackForm submit={addRow} />,
                 childrenModalForUpd: <UpdSnackForm submit={updRow} />,
-                titleModalForAdd: "Добавить пиво",
-                titleModalForUpd: "Обновить пиво",
+                titleModalForAdd: "Добавить закуску",
+                titleModalForUpd: "Обновить закуску",
                 successMessage: "Товар успешно добавлен",
             }}
             actions={{hasEdit: true}}
