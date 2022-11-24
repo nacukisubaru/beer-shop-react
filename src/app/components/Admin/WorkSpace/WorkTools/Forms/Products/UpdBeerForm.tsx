@@ -245,6 +245,7 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
                     hasUploadImage={true}
                     defaultFile={data?.product.image}
                     updateId={detailId}
+                    nameSubmitBtn="Обновить"
                     onSubmit={onSubmit}
                     onCancel={closeModalAddContent}
                 />

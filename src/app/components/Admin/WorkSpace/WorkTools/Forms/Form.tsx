@@ -35,6 +35,7 @@ interface IForm {
     hasUploadImage?: boolean;
     defaultFile?: string;
     updateId?: number;
+    nameSubmitBtn?: string,
     submit: (data: any, isObject?: boolean) => Promise<IStateResponse>;
     onSubmit?: () => void;
     onCancel: () => void;
@@ -45,6 +46,7 @@ const Form: FC<IForm> = ({
     hasUploadImage = false,
     updateId,
     defaultFile = "",
+    nameSubmitBtn,
     submit,
     onSubmit,
     onCancel
@@ -480,7 +482,7 @@ const Form: FC<IForm> = ({
                         Отменить
                     </Button>
                     <Button variant="contained" type="submit" onClick={handleCheckFieldsExist}>
-                        Добавить
+                        {nameSubmitBtn ? nameSubmitBtn : "Добавить"}
                     </Button>
                 </div>
             </form>
