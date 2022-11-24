@@ -26,17 +26,23 @@ const BeerFilterTable: FC = () => {
                     inputText: true,
                 },
                 {
-                    field: "price",
-                    fieldName: "Цена",
-                    inputRange: {
-                        min: 1000,
-                        max: 2000,
-                        fieldMin: "minPrice",
-                        fieldMax: "maxPrice",
-                        nameMin: "Мин цена",
-                        nameMax: "Макс цена",
-                    },
+                    field: "compound",
+                    fieldName: "Состав",
+                    inputText: true,
                 },
+                //TO DO доработать фильтрацию по range
+                // {
+                //     field: "price",
+                //     fieldName: "Цена",
+                //     inputRange: {
+                //         min: 1000,
+                //         max: 2000,
+                //         fieldMin: "minPrice",
+                //         fieldMax: "maxPrice",
+                //         nameMin: "Мин цена",
+                //         nameMax: "Макс цена",
+                //     },
+                // },
                 {
                     field: "brandIds",
                     fieldName: "Бренды",
@@ -55,6 +61,36 @@ const BeerFilterTable: FC = () => {
                         trueName: "Активные",
                         trueValue: "true",
                         falseName: "Не активные",
+                        falseValue: "false",
+                    },
+                },
+                {
+                    field: "inStock",
+                    fieldName: "В наличии",
+                    inputSelectBoolean: {
+                        trueName: "Да",
+                        trueValue: "true",
+                        falseName: "Нет",
+                        falseValue: "false",
+                    },
+                },
+                {
+                    field: "filtered",
+                    fieldName: "Фильтрованное",
+                    inputSelectBoolean: {
+                        trueName: "Да",
+                        trueValue: "true",
+                        falseName: "Нет",
+                        falseValue: "false",
+                    },
+                },
+                {
+                    field: "forBottling",
+                    fieldName: "На розлив",
+                    inputSelectBoolean: {
+                        trueName: "Да",
+                        trueValue: "true",
+                        falseName: "Нет",
                         falseValue: "false",
                     },
                 },
