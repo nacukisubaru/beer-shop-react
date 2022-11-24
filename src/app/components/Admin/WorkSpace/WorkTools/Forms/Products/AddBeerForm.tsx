@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { useActions } from "../../../../../../hooks/useActions";
 import { IStateResponse } from "../../../../../../hooks/useCatalog";
 import { brandApi } from "../../../../../../store/services/brands/brand.api";
 import { gradeApi } from "../../../../../../store/services/grades/grade.api";
@@ -13,6 +14,7 @@ const AddBeerForm: FC<AddBeerFormProps> = ({ submit }) => {
     const gradesList = gradeApi.useGetListQuery({});
     const brandsList = brandApi.useGetListQuery("beers");
     const packagingList = typePackagingApi.useGetListQuery("beers");
+    const { closeModalAddContent } = useActions();
 
     return (
         <Form
@@ -198,6 +200,7 @@ const AddBeerForm: FC<AddBeerFormProps> = ({ submit }) => {
             ]}
             submit={submit}
             hasUploadImage={true}
+            onCancel={closeModalAddContent}
         />
     );
 };

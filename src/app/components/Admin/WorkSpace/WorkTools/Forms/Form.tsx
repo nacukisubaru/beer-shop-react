@@ -1,4 +1,4 @@
-import { Autocomplete, Button, TextField } from "@mui/material";
+import { Autocomplete, Box, Button, Card, TextField } from "@mui/material";
 import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IStateResponse } from "../../../../../hooks/useCatalog";
@@ -13,8 +13,8 @@ interface ISelect {
     multiple: boolean;
     items: ISelectItem[];
     defaultItems?: ISelectItem[];
-    defaultValue?: any,
-    defaultItem?: ISelectItem
+    defaultValue?: any;
+    defaultItem?: ISelectItem;
 }
 
 interface IValidation {
@@ -27,7 +27,7 @@ interface IField {
     label: string;
     validationProps: IValidation;
     selectProps?: ISelect;
-    defaultValue?: string | number
+    defaultValue?: string | number;
 }
 
 interface IForm {
@@ -37,9 +37,18 @@ interface IForm {
     updateId?: number;
     submit: (data: any, isObject?: boolean) => Promise<IStateResponse>;
     onSubmit?: () => void;
+    onCancel: () => void;
 }
 
-const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, defaultFile = "", submit, onSubmit }) => {
+const Form: FC<IForm> = ({
+    fields,
+    hasUploadImage = false,
+    updateId,
+    defaultFile = "",
+    submit,
+    onSubmit,
+    onCancel
+}) => {
     const {
         register,
         handleSubmit,
@@ -56,7 +65,8 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, defaultFile
     const [noFileError, setNoFileError] = useState(false);
     const [selectedImage, setSelectedImage] = useState<string>(defaultFile);
     const [isChangingAutocomplete, setAutocompleteChange] = useState(false);
-    const [isChangingAutocompleteMult, setAutocompleteChangeMult] = useState(false);
+    const [isChangingAutocompleteMult, setAutocompleteChangeMult] =
+        useState(false);
     const [isChangingSelect, setSelectChange] = useState(false);
 
     const styleError = {
@@ -69,12 +79,12 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, defaultFile
 
     const uploadImage = (e: any) => {
         const file = e.target.files[0];
-        if(file) {
+        if (file) {
             setSelectedFile(file);
             const reader = new FileReader();
-            reader.onloadend = (e:any) => {
+            reader.onloadend = (e: any) => {
                 setSelectedImage(e.target.result);
-            }
+            };
             reader.readAsDataURL(file);
             setNoFileError(false);
             e.target.value = null;
@@ -82,7 +92,7 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, defaultFile
     };
 
     const resetFields = (data: any) => {
-        if(!updateId) {
+        if (!updateId) {
             Object.keys(data).map((key) => {
                 setValue(key, undefined);
                 return key;
@@ -92,12 +102,14 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, defaultFile
         }
     };
 
-    const checkFieldsExist = (data:any) => {
+    const checkFieldsExist = (data: any) => {
         let allFieldsExist = true;
         const fieldsKeys = Object.keys(data);
-        fields.map((field)=>{
-            if(!fieldsKeys.includes(field.name)) {
-                setError(field.name, {message: 'Поле обязательно для заполнения'});
+        fields.map((field) => {
+            if (!fieldsKeys.includes(field.name)) {
+                setError(field.name, {
+                    message: "Поле обязательно для заполнения",
+                });
                 allFieldsExist = false;
             }
             return field;
@@ -105,8 +117,12 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, defaultFile
 
         Object.entries(data).map((value) => {
             const [key, val] = value;
-            if(val === '' || val === undefined || (Array.isArray(val) && !val.length)) {
-                setError(key, {message: 'Поле обязательно для заполнения'});
+            if (
+                val === "" ||
+                val === undefined ||
+                (Array.isArray(val) && !val.length)
+            ) {
+                setError(key, { message: "Поле обязательно для заполнения" });
             } else {
                 clearErrors(key);
             }
@@ -114,7 +130,7 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, defaultFile
         });
 
         return allFieldsExist;
-    }
+    };
 
     const handleSetSelectValue = (name: string, value: any) => {
         setSelectChange(true);
@@ -131,25 +147,27 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, defaultFile
         } else {
             setNoFileError(false);
         }
-    }
+    };
 
-    const setAutoSelectValues = (selectProps:ISelect, name: string) => {
-        if(selectProps.defaultItem && !isChangingAutocomplete) {
+    const setAutoSelectValues = (selectProps: ISelect, name: string) => {
+        if (selectProps.defaultItem && !isChangingAutocomplete) {
             setValue(name, selectProps.defaultItem.value);
         }
 
-        if(selectProps.defaultItems && !isChangingAutocompleteMult) {
-            setValue(name, selectProps.defaultItems.map((item) => item.value)); 
+        if (selectProps.defaultItems && !isChangingAutocompleteMult) {
+            setValue(
+                name,
+                selectProps.defaultItems.map((item) => item.value)
+            );
         }
     };
 
-    
     return (
         <>
             <form
                 onSubmit={handleSubmit(async (data) => {
                     const allFieldsExist = checkFieldsExist(data);
-                    if(allFieldsExist) {
+                    if (allFieldsExist) {
                         if (hasUploadImage) {
                             if (selectedFile || defaultFile) {
                                 setNoFileError(false);
@@ -168,17 +186,17 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, defaultFile
                                     return value;
                                 });
 
-                                if(updateId) {
-                                    formData.append('id', String(updateId));
+                                if (updateId) {
+                                    formData.append("id", String(updateId));
                                 }
-                                
+
                                 const result = await submit(formData);
                                 if (result.status !== "rejected") {
                                     setSelectedFile(null);
                                     resetFields(data);
                                 }
                             } else {
-                                if(!defaultFile) {
+                                if (!defaultFile) {
                                     setNoFileError(true);
                                 }
                             }
@@ -197,7 +215,7 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, defaultFile
                                 return item;
                             });
 
-                            if(updateId) {
+                            if (updateId) {
                                 data.id = updateId;
                             }
 
@@ -211,7 +229,14 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, defaultFile
                 })}
             >
                 {fields.map((field) => {
-                    const { name, label, type, selectProps, validationProps, defaultValue } = field;
+                    const {
+                        name,
+                        label,
+                        type,
+                        selectProps,
+                        validationProps,
+                        defaultValue,
+                    } = field;
                     const fieldState = getFieldState(name);
                     let component: any;
                     switch (type) {
@@ -227,7 +252,9 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, defaultFile
                                             id="text-field"
                                             variant="outlined"
                                             label={label}
-                                            defaultValue={defaultValue ? defaultValue : ''}
+                                            defaultValue={
+                                                defaultValue ? defaultValue : ""
+                                            }
                                             error={fieldState.invalid}
                                             {...register(name, validationProps)}
                                             fullWidth
@@ -251,7 +278,9 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, defaultFile
                                             id="text-field"
                                             variant="outlined"
                                             label={label}
-                                            defaultValue={defaultValue ? defaultValue : ''}
+                                            defaultValue={
+                                                defaultValue ? defaultValue : ""
+                                            }
                                             error={fieldState.invalid}
                                             {...register(name, validationProps)}
                                             type="number"
@@ -267,7 +296,9 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, defaultFile
                         case "select":
                             const selectValues = selectorArray.get(name);
                             if (selectProps) {
-                                !isChangingSelect && selectProps.defaultValue && setValue(name, selectProps.defaultValue);
+                                !isChangingSelect &&
+                                    selectProps.defaultValue &&
+                                    setValue(name, selectProps.defaultValue);
                                 component = (
                                     <>
                                         <div
@@ -280,8 +311,9 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, defaultFile
                                                 name={label}
                                                 id={name}
                                                 defaultSelectedItem={
-                                                    selectProps.defaultValue ? selectProps.defaultValue :
-                                                    selectValues
+                                                    selectProps.defaultValue
+                                                        ? selectProps.defaultValue
+                                                        : selectValues
                                                         ? selectValues
                                                         : ""
                                                 }
@@ -312,10 +344,13 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, defaultFile
                                             <Autocomplete
                                                 multiple={selectProps.multiple}
                                                 value={
-
-                                                    !isChangingAutocomplete && selectProps.defaultItem ?  selectProps.defaultItem :
-                                                    !isChangingAutocompleteMult && selectProps.defaultItems ? selectProps.defaultItems :
-                                                    selectValues
+                                                    !isChangingAutocomplete &&
+                                                    selectProps.defaultItem
+                                                        ? selectProps.defaultItem
+                                                        : !isChangingAutocompleteMult &&
+                                                          selectProps.defaultItems
+                                                        ? selectProps.defaultItems
+                                                        : selectValues
                                                         ? selectValues
                                                         : selectProps.multiple
                                                         ? []
@@ -324,7 +359,9 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, defaultFile
                                                 id="tags-outlined"
                                                 options={selectProps.items}
                                                 getOptionLabel={(option) =>
-                                                    option.name ? option.name : ""
+                                                    option.name
+                                                        ? option.name
+                                                        : ""
                                                 }
                                                 filterSelectedOptions
                                                 renderInput={(params) => (
@@ -338,16 +375,21 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, defaultFile
                                                     let newValue: any;
                                                     if (selectProps.multiple) {
                                                         newValue = value.map(
-                                                            (item: any) => item.value
+                                                            (item: any) =>
+                                                                item.value
                                                         );
                                                     } else {
                                                         newValue = value?.value;
                                                     }
 
-                                                    if(selectProps.multiple) {
-                                                        setAutocompleteChangeMult(true);
+                                                    if (selectProps.multiple) {
+                                                        setAutocompleteChangeMult(
+                                                            true
+                                                        );
                                                     } else {
-                                                        setAutocompleteChange(true);
+                                                        setAutocompleteChange(
+                                                            true
+                                                        );
                                                     }
 
                                                     setSelectorArray(
@@ -360,8 +402,17 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, defaultFile
                                                     );
 
                                                     setValue(name, newValue);
-                                                    if((Array.isArray(newValue) && !newValue.length) || (!newValue)) {
-                                                        setError(name, {message: 'Поле обязательно для заполнения'});
+                                                    if (
+                                                        (Array.isArray(
+                                                            newValue
+                                                        ) &&
+                                                            !newValue.length) ||
+                                                        !newValue
+                                                    ) {
+                                                        setError(name, {
+                                                            message:
+                                                                "Поле обязательно для заполнения",
+                                                        });
                                                     } else {
                                                         clearErrors(name);
                                                     }
@@ -385,11 +436,37 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, defaultFile
 
                 {hasUploadImage && (
                     <>
-                        <TextField onChange={uploadImage} type="file" fullWidth/>
+                        <TextField
+                            onChange={uploadImage}
+                            type="file"
+                            sx={{marginBottom: '10px'}}
+                            fullWidth
+                        />
                         {selectedImage && (
-                             <div style={{display: 'flex', justifyContent: 'center', marginTop: '9px'}}>
-                                  <img src={selectedImage} style={{width: 177, height: 208}} />
-                             </div>
+                            <div
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    marginTop: "9px",
+                                }}
+                            >
+                                <Card
+                                    sx={{
+                                        width: 300,
+                                        height: "auto",
+                                        boxShadow: "none"
+                                    }}
+                                    
+                                >
+                                    <Box
+                                        className="card-img"
+                                        style={{ backgroundSize: "contain" }}
+                                        sx={{
+                                            background: `url(${selectedImage}) center center no-repeat`,
+                                        }}
+                                    ></Box>
+                                </Card>
+                            </div>
                         )}
                         {noFileError && (
                             <p style={styleError}>
@@ -398,8 +475,13 @@ const Form: FC<IForm> = ({ fields, hasUploadImage = false, updateId, defaultFile
                         )}
                     </>
                 )}
-                <div>
-                    <Button type="submit" onClick={handleCheckFieldsExist} >Добавить</Button>
+                <div style={{display: "flex", justifyContent: "space-between"}}>
+                    <Button variant="outlined" onClick={onCancel}>
+                        Отменить
+                    </Button>
+                    <Button variant="contained" type="submit" onClick={handleCheckFieldsExist}>
+                        Добавить
+                    </Button>
                 </div>
             </form>
         </>

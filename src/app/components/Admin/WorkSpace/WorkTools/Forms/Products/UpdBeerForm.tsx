@@ -1,4 +1,5 @@
 import { FC, useEffect } from "react";
+import { useActions } from "../../../../../../hooks/useActions";
 import { useAppSelector } from "../../../../../../hooks/useAppSelector";
 import { IStateResponse } from "../../../../../../hooks/useCatalog";
 import { beerApi } from "../../../../../../store/services/beers/beer.api";
@@ -17,6 +18,7 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
     const gradesList = gradeApi.useGetListQuery({});
     const brandsList = brandApi.useGetListQuery("beers");
     const packagingList = typePackagingApi.useGetListQuery("beers");
+    const { closeModalAddContent } = useActions();
 
     const onSubmit = () => {
         refetch();
@@ -244,6 +246,7 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
                     defaultFile={data?.product.image}
                     updateId={detailId}
                     onSubmit={onSubmit}
+                    onCancel={closeModalAddContent}
                 />
             )}
         </>
