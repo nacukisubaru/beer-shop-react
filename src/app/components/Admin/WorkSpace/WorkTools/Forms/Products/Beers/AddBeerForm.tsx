@@ -1,10 +1,10 @@
 import { FC } from "react";
-import { useActions } from "../../../../../../hooks/useActions";
-import { IStateResponse } from "../../../../../../hooks/useCatalog";
-import { brandApi } from "../../../../../../store/services/brands/brand.api";
-import { gradeApi } from "../../../../../../store/services/grades/grade.api";
-import { typePackagingApi } from "../../../../../../store/services/type-packaging/type-packaging.api";
-import Form from "../Form";
+import { useActions } from "../../../../../../../hooks/useActions";
+import { IStateResponse } from "../../../../../../../hooks/useCatalog";
+import { brandApi } from "../../../../../../../store/services/brands/brand.api";
+import { gradeApi } from "../../../../../../../store/services/grades/grade.api";
+import { typePackagingApi } from "../../../../../../../store/services/type-packaging/type-packaging.api";
+import Form from "../../Form";
 
 interface AddBeerFormProps {
     submit: (body: any, isObject?: boolean) => Promise<IStateResponse>;

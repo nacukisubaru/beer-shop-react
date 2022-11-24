@@ -11,6 +11,7 @@ import Snacks from "./pages/products/snacks";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import MainAdmin from "./pages/admin/main";
 import BeerAdmin from "./pages/admin/content/products/beer";
+import SnacksAdmin from "./pages/admin/content/products/snack";
 
 function App() {
     const {getBasket, getBasketByUser} = useBasket();  
@@ -64,8 +65,9 @@ function App() {
                         <Route path="/products/beers" element={<Beers />}></Route>
                         <Route path="/products/snacks" element={<Snacks />}></Route>
                         <Route path="/basket" element={<Basket />}></Route>
-                        <Route path="/admin/main" element={<MainAdmin />}></Route>
+                        <Route path="/admin" element={<MainAdmin />}></Route>
                         <Route path="/admin/beers" element={<BeerAdmin />}></Route>
+                        <Route path="/admin/snacks" element={<SnacksAdmin />}></Route>
                     </Routes>
                 </BrowserRouter>
             </ThemeProvider>

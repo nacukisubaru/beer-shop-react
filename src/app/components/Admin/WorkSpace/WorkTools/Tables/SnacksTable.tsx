@@ -1,14 +1,16 @@
 import { useCatalog } from "../../../../../hooks/useCatalog";
-import { beerApi } from "../../../../../store/services/beers/beer.api";
-import BeerFilterTable from "../Filters/BeerFilterTable";
+import { snackApi } from "../../../../../store/services/snacks/snack.api";
+import SnackFilterTable from "../Filters/SnackFilterTable";
 import AddBeerForm from "../Forms/Products/Beers/AddBeerForm";
 import UpdBeerForm from "../Forms/Products/Beers/UpdBeerForm";
+import AddSnackForm from "../Forms/Products/Snacks/AddSnackForm";
+import UpdSnackForm from "../Forms/Products/Snacks/UpdSnackForm";
 
 import TableAdmin from "./Table";
 
-export default function BeerTableAdmin() {
+export default function SnacksTableAdmin() {
     const { rows, addRow, updRow, clearStateResponse, stateResponse } = useCatalog(
-        beerApi,
+        snackApi,
         "beer"
     );
     return (
@@ -35,44 +37,18 @@ export default function BeerTableAdmin() {
                     field: "typePackagingName",
                     headerName: "Тип упаковки",
                     width: 150,
-                },
-                {
-                    field: "compound",
-                    headerName: "Состав",
-                    width: 150,
-                    filterable: false,
-                },
-                {
-                    field: "volume",
-                    headerName: "Объем",
-                    width: 150,
-                    filterable: false,
-                },
-                {
-                    field: "fortress",
-                    headerName: "Крепкость",
-                    width: 150,
-                    filterable: false,
-                },
-                {
-                    field: "ibu",
-                    headerName: "ibu",
-                    width: 150,
-                    filterable: false,
-                },
-                { field: "forBottling", headerName: "На розлив", width: 150 },
-                { field: "filtered", headerName: "Фильтрованное", width: 150 },
+                }
             ]}
             tableProps={{ rows, clearStateResponse, stateResponse }}
             modalProps={{
-                childrenModalForAdd: <AddBeerForm submit={addRow} />,
-                childrenModalForUpd: <UpdBeerForm submit={updRow} />,
+                childrenModalForAdd: <AddSnackForm submit={addRow} />,
+                childrenModalForUpd: <UpdSnackForm submit={updRow} />,
                 titleModalForAdd: "Добавить пиво",
                 titleModalForUpd: "Обновить пиво",
                 successMessage: "Товар успешно добавлен",
             }}
             actions={{hasEdit: true}}
-            filterPanel={BeerFilterTable}
+            filterPanel={SnackFilterTable}
         />
     );
 }

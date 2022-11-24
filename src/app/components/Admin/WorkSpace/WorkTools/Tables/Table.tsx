@@ -8,7 +8,7 @@ import TableGrid from "../../../../Grid/TableGrid";
 import AddContentModal from "../../../../Modals/Admin/AddContent";
 import ResultNotFoundByFilter from "../../../../Modals/Messages/ResultNotFoundByFilter";
 import BeerFilterTable from "../Filters/BeerFilterTable";
-import AddBeerForm from "../Forms/Products/AddBeerForm";
+import AddBeerForm from "../Forms/Products/Beers/AddBeerForm";
 import PaginationTable from "../Pagination/PaginationTable";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -44,6 +44,7 @@ interface TableAdminProps {
     tableProps: ITableProps;
     modalProps: IModalProps;
     actions?: IAction;
+    filterPanel: any;
 }
 
 const TableAdmin: FC<TableAdminProps> = ({
@@ -51,6 +52,7 @@ const TableAdmin: FC<TableAdminProps> = ({
     tableProps,
     modalProps,
     actions,
+    filterPanel
 }) => {
     const { rows, stateResponse, clearStateResponse } = tableProps;
     const {
@@ -133,7 +135,7 @@ const TableAdmin: FC<TableAdminProps> = ({
                 }
                 rows={rows}
                 pageSize={limitPage}
-                CustomFilterPanel={BeerFilterTable}
+                CustomFilterPanel={filterPanel}
                 Pagination={PaginationTable}
                 onFilterPanelOpen={handlerPanelOpen}
                 onFilterPanelClose={handlerPanelClose}

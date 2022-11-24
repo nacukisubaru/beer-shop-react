@@ -10,3 +10,9 @@ export interface ISnack {
 export interface ISnackProduct extends IProduct {
     weight: number,
 }
+
+export interface ISnackListPaginate {
+    count: number,
+    nextPage: number,
+    rows: ISnack[]
+}
