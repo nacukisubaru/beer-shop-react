@@ -16,7 +16,7 @@ export interface IStateResponse {
 }
 
 export const useCatalog = (api: any, list?: string) => {
-    const { disableNextPage, setCountRows, setLastPage, setClickFilter, openAdminModalNotFoundByFilter, resetFilters } = useActions();
+    const { disableNextPage, setCountRows, setLastPage, setClickFilter, openAdminModalNotFoundByFilter, resetFilters, setContentSort } = useActions();
     const { page, sortField, order, limitPage, filters, reqFilterDisabled, clickFilter } = useAppSelector((state) => state.contentReducer);
     const { data, error, refetch } = api.useGetListQuery({ page, sortField, order, limitPage, filter: paramsBuilder(filters) },
         { skip: reqFilterDisabled }
@@ -28,6 +28,20 @@ export const useCatalog = (api: any, list?: string) => {
     const [rows, setRows] = useState<any[]>([]);
     const [isFilterWorking, setFilterWork] = useState<boolean>(false);
     const [stateResponse, setStateResponse] = useState<IStateResponse>({ status: 'noRequest', response: { status: 0, data: '' } });
+    
+    //так можно избегать варнинга missing dependencies и при это не попапдать в
+    //постоянный re-render
+    const [mount, setMount] = useState(false);
+    useEffect(() => {
+        const reset = () => {
+            resetFilters();
+            setContentSort({field: 'id', sort: 'DESC'});
+        }
+        if(!mount) {
+            reset();
+            setMount(true);
+        }
+    }, [resetFilters, setContentSort, mount]);
 
     useEffect(() => {
         if (data && data.rows) {
