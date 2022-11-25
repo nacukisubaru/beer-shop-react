@@ -13,6 +13,7 @@ import MainAdmin from "./pages/admin/main";
 import BeerAdmin from "./pages/admin/content/products/beer";
 import SnacksAdmin from "./pages/admin/content/products/snack";
 import GradeAdmin from "./pages/admin/content/additional/grade";
+import BrandAdmin from "./pages/admin/content/additional/brand";
 
 function App() {
     const {getBasket, getBasketByUser} = useBasket();  
@@ -70,6 +71,7 @@ function App() {
                         <Route path="/admin/beers" element={<BeerAdmin />}></Route>
                         <Route path="/admin/snacks" element={<SnacksAdmin />}></Route>
                         <Route path="/admin/grades" element={<GradeAdmin />}></Route>
+                        <Route path="/admin/brands" element={<BrandAdmin />}></Route>
                     </Routes>
                 </BrowserRouter>
             </ThemeProvider>

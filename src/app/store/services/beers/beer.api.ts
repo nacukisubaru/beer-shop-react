@@ -1,13 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { host, limitPage } from "../../../http/http.request.config";
+import { IGetListParams } from "../../types/api.types";
 import { IBeer, IBeerListPaginate } from "./types/beer.type";
-
-interface IGetListParams {
-    page: number,
-    sort: string,
-    order: string,
-    filter: string
-}
 
 export const beerApi = createApi({
     reducerPath: 'beerApi',

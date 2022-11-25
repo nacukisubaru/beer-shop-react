@@ -7,6 +7,11 @@ export const gradeApi = createApi({
     tagTypes: ['Grades'],
     baseQuery: fetchBaseQuery({baseUrl: host + '/grades'}),
     endpoints: (build) => ({
+        gradesList: build.query<IGrade[], any>({
+            query: (params) => ({
+                url: ''
+            })
+        }),
         getList: build.query<IGrade[], any>({
             query: (params) => ({
                 url: '/getListPagination' + params.filter,

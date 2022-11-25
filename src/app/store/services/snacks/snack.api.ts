@@ -1,13 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { host } from "../../../http/http.request.config";
+import { IGetListParams } from "../../types/api.types";
 import { ISnack, ISnackListPaginate } from "./types/snacks.types";
-
-interface IGetListParams {
-    page: number,
-    sort: string,
-    order: string,
-    filter: string
-}
 
 export const snackApi = createApi({
     reducerPath: 'snacks',

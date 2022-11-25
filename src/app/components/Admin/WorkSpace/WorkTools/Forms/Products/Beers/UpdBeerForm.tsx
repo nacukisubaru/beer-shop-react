@@ -15,8 +15,8 @@ interface UpdBeerFormProps {
 const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
     const { detailId } = useAppSelector((state) => state.contentReducer);
     const { data, isLoading, refetch } = beerApi.useGetOneQuery(detailId);
-    const gradesList = gradeApi.useGetListQuery({});
-    const brandsList = brandApi.useGetListQuery("beers");
+    const gradesList = gradeApi.useGradesListQuery({});
+    const brandsList = brandApi.useGetListByProductTypeQuery("beers");
     const packagingList = typePackagingApi.useGetListQuery("beers");
     const { closeModalAddContent } = useActions();
 

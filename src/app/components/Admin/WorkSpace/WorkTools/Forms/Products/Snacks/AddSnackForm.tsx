@@ -10,7 +10,7 @@ interface AddSnackFormProps {
 }
 
 const AddSnackForm: FC<AddSnackFormProps> = ({ submit }) => {
-    const brandsList = brandApi.useGetListQuery("snacks");
+    const brandsList = brandApi.useGetListByProductTypeQuery("snacks");
     const packagingList = typePackagingApi.useGetListQuery("snacks");
     const { closeModalAddContent } = useActions();
 

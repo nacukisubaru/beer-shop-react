@@ -62,7 +62,7 @@ const Form: FC<IForm> = ({
         setValue,
     } = useForm();
 
-    const [selectedFile, setSelectedFile] = useState<any>(null);
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [selectorArray, setSelectorArray] = useState(new Map());
     const [noFileError, setNoFileError] = useState(false);
     const [selectedImage, setSelectedImage] = useState<string>(defaultFile);
@@ -164,71 +164,89 @@ const Form: FC<IForm> = ({
         }
     };
 
+    const createForm = (fieldsForm: any, selectedFile: File | null) => {
+        const formData = new FormData();
+        if(selectedFile) {
+            formData.append("image", selectedFile);
+        }
+        Object.entries(fieldsForm).map((value: any) => {
+            const [key, val] = value;
+            if (Array.isArray(val)) {
+                val.map((value) => {
+                    formData.append(key + "[]", value);
+                    return value;
+                });
+            } else {
+                formData.append(key, val);
+            }
+            return value;
+        });
+
+        if (updateId) {
+            formData.append("id", String(updateId));
+        }
+
+        return formData;
+    }
+    
+    const submitWithFile = async (fieldsForm: any) => {
+        if (selectedFile || defaultFile) {
+            setNoFileError(false);
+            
+            const formData = createForm(fieldsForm, selectedFile);
+            const result = await submit(formData);
+            if (result.status !== "rejected") {
+                setSelectedFile(null);
+                resetFields(fieldsForm);
+            }
+        } else {
+            if (!defaultFile) {
+                setNoFileError(true);
+            }
+        }
+    }
+
+    const submitWithoutFile = async (fieldsForm: any) => {
+        fields.map((item: IField) => {
+            if (item.type === "number") {
+                const fieldKey = Object.keys(fieldsForm).find(
+                    (key) =>
+                        key === item.name &&
+                        item.type === "number"
+                );
+                if (fieldKey) {
+                    fieldsForm[fieldKey] = Number(fieldsForm[fieldKey]);
+                }
+            }
+            return item;
+        });
+
+        if (updateId) {
+            fieldsForm.id = updateId;
+        }
+
+        const result = await submit(fieldsForm, true);
+        if (result.status !== "rejected") {
+            resetFields(fieldsForm);
+        }
+    }
+
+    const submitForm = async (data: any) => {
+        const allFieldsExist = checkFieldsExist(data);
+        if (allFieldsExist) {
+            if (hasUploadImage) {
+               await submitWithFile(data);
+            } else {
+               await submitWithoutFile(data)
+            }
+        }
+        onSubmit && onSubmit();
+    }
+
     return (
         <>
             <form
-                onSubmit={handleSubmit(async (data) => {
-                    const allFieldsExist = checkFieldsExist(data);
-                    if (allFieldsExist) {
-                        if (hasUploadImage) {
-                            if (selectedFile || defaultFile) {
-                                setNoFileError(false);
-                                const formData = new FormData();
-                                formData.append("image", selectedFile);
-                                Object.entries(data).map((value) => {
-                                    const [key, val] = value;
-                                    if (Array.isArray(val)) {
-                                        val.map((value) => {
-                                            formData.append(key + "[]", value);
-                                            return value;
-                                        });
-                                    } else {
-                                        formData.append(key, val);
-                                    }
-                                    return value;
-                                });
-
-                                if (updateId) {
-                                    formData.append("id", String('dsfsdfsd'));
-                                }
-
-                                const result = await submit(formData);
-                                if (result.status !== "rejected") {
-                                    setSelectedFile(null);
-                                    resetFields(data);
-                                }
-                            } else {
-                                if (!defaultFile) {
-                                    setNoFileError(true);
-                                }
-                            }
-                        } else {
-                            fields.map((item: IField) => {
-                                if (item.type === "number") {
-                                    const fieldKey = Object.keys(data).find(
-                                        (key) =>
-                                            key === item.name &&
-                                            item.type === "number"
-                                    );
-                                    if (fieldKey) {
-                                        data[fieldKey] = Number(data[fieldKey]);
-                                    }
-                                }
-                                return item;
-                            });
-
-                            if (updateId) {
-                                data.id = updateId;
-                            }
-
-                            const result = await submit(data, true);
-                            if (result.status !== "rejected") {
-                                resetFields(data);
-                            }
-                        }
-                    }
-                    onSubmit && onSubmit();
-                })}
+                onSubmit={handleSubmit(submitForm)}
             >
                 {fields.map((field) => {
                     const {

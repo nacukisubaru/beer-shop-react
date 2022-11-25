@@ -8,7 +8,7 @@ import CheckboxFilterList from "../../Filters/Checkbox/CheckboxFilterList";
 import RangeSliderFilter from "../../Filters/RangeSlider/RangeSliderFilter";
 
 const Filters: FC = () => {
-    const grades: any = gradeApi.useGetListQuery({});
+    const grades: any = gradeApi.useGradesListQuery(0);
     const {
         setMinVolume,
         setMaxVolume,
