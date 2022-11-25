@@ -23,6 +23,8 @@ export const useCatalog = (api: any, list?: string) => {
     );
     const [add] = api.useAddMutation();
     const [upd] = api.useUpdateMutation();
+    const [remove] = api.useRemoveMutation();
+    
     const [rows, setRows] = useState<any[]>([]);
     const [isFilterWorking, setFilterWork] = useState<boolean>(false);
     const [stateResponse, setStateResponse] = useState<IStateResponse>({ status: 'noRequest', response: { status: 0, data: '' } });
@@ -94,9 +96,22 @@ export const useCatalog = (api: any, list?: string) => {
         return response;
     }
 
+    const removeRow = async (id: number): Promise<IStateResponse> => {
+        let response: any = { status: 'noRequest', response: { status: 0, data: '' } };
+        
+        await remove({id})
+            .unwrap()
+            .then((payload: any) => { response = { status: 'fulfilled', response: payload } })
+            .catch((error: any) => { response = { status: 'rejected', response: error } });
+
+        setStateResponse(response);
+        return response;
+    }
+
+
     const clearStateResponse = () => {
         setStateResponse({ status: 'noRequest', response: { status: 0, data: '' } });
     }
 
-    return { rows, addRow, updRow, stateResponse, clearStateResponse, limitPage: limitPageAdmin }
+    return { rows, addRow, updRow, removeRow, stateResponse, clearStateResponse, limitPage: limitPageAdmin }
 }

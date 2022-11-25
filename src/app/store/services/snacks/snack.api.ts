@@ -54,5 +54,12 @@ export const snackApi = createApi({
                 method: 'GET'
             })
         }),
+        remove: build.mutation({
+            query:(body) => ({
+                url: '/remove/' + body.id,
+                method: 'DELETE'
+            }),
+            invalidatesTags: [{type: 'Snacks', id: 'LIST'}]
+        })
     })
 });

@@ -1,3 +1,4 @@
+import { useAppSelector } from "../../../../../hooks/useAppSelector";
 import { useCatalog } from "../../../../../hooks/useCatalog";
 import { gradeApi } from "../../../../../store/services/grades/grade.api";
 import GradeFilterTable from "../Filters/GradeFilterTable";
@@ -6,15 +7,13 @@ import UpdGradeForm from "../Forms/Additional/Grades/UpdGradeForm";
 import TableAdmin from "./Table";
 
 export default function GradeTableAdmin() {
-    const { rows, addRow, updRow, clearStateResponse, stateResponse } = useCatalog(gradeApi);
-    console.log({rows})
+    const { rows, addRow, updRow, removeRow, clearStateResponse, stateResponse } = useCatalog(gradeApi);
 
     return (
         <TableAdmin
             columns={[
                 { field: "id", headerName: "ID", width: 70 },
                 { field: "name", headerName: "Название", width: 200 },
-                { field: "code", headerName: "Символьный код", width: 150 }
             ]}
             tableProps={{ rows, clearStateResponse, stateResponse }}
             modalProps={{
@@ -24,7 +23,7 @@ export default function GradeTableAdmin() {
                 titleModalForUpd: "Обновить сорт",
                 successMessage: "Сорт успешно добавлен",
             }}
-            actions={{hasEdit: true, hasRemove: true}}
+            actions={{hasEdit: true, hasRemove: true, remove: removeRow}}
             filterPanel={GradeFilterTable}
         />
     );

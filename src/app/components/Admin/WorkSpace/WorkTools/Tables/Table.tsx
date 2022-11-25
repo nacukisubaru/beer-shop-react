@@ -37,6 +37,7 @@ interface IModalProps {
 interface IAction {
     hasEdit?: boolean;
     hasRemove?: boolean;
+    remove?: (id: number) => void;
 }
 
 interface TableAdminProps {
@@ -123,7 +124,10 @@ const TableAdmin: FC<TableAdminProps> = ({
                                                   color="primary"
                                                   size="small"
                                                   component="span"
-                                                  onClick={() => {}}
+                                                  onClick={() => {
+                                                    const id = params.row.id;
+                                                    actions.remove && actions.remove(id);
+                                                  }}
                                               >
                                                   <DeleteIcon />
                                               </IconButton>

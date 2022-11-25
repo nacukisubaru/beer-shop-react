@@ -11,7 +11,14 @@ export const gradeApi = createApi({
             query: (params) => ({
                 url: '/getListPagination' + params.filter,
                 params
-            })
+            }),
+            providesTags: (result: any) =>
+                result
+                    ? [
+                        ...result.rows.map((value: any) => ({ type: 'Grades', id: value.id })),
+                        { type: 'Grades', id: 'LIST' },
+                    ]
+                    : [{ type: 'Grades', id: 'LIST' }],
         }),
         getOne: build.query<IGrade, number>({
             query: (id: number) => ({
@@ -34,5 +41,12 @@ export const gradeApi = createApi({
             }),
             invalidatesTags: [{type: 'Grades', id: 'LIST'}]
         }),
+        remove: build.mutation({
+            query:(body) => ({
+                url: '/remove/' + body.id,
+                method: 'DELETE'
+            }),
+            invalidatesTags: [{type: 'Grades', id: 'LIST'}]
+        })
     })
 });

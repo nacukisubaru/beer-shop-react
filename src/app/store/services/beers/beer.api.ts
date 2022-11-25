@@ -48,5 +48,12 @@ export const beerApi = createApi({
             }),
             invalidatesTags: [{type: 'Beers', id: 'LIST'}]
         }),
+        remove: build.mutation({
+            query:(body) => ({
+                url: '/remove/' + body.id,
+                method: 'DELETE'
+            }),
+            invalidatesTags: [{type: 'Beers', id: 'LIST'}]
+        })
     })
 });
