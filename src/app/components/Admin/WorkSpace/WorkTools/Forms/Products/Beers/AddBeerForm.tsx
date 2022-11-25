@@ -13,7 +13,7 @@ interface AddBeerFormProps {
 const AddBeerForm: FC<AddBeerFormProps> = ({ submit }) => {
     const gradesList = gradeApi.useGradesListQuery({});
     const brandsList = brandApi.useGetListByProductTypeQuery("beers");
-    const packagingList = typePackagingApi.useGetListQuery("beers");
+    const packagingList = typePackagingApi.useGetListByProductTypeQuery("beers");
     const { closeModalAddContent } = useActions();
 
     return (

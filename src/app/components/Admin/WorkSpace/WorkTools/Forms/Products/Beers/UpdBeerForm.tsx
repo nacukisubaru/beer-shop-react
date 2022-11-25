@@ -17,7 +17,7 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
     const { data, isLoading, refetch } = beerApi.useGetOneQuery(detailId);
     const gradesList = gradeApi.useGradesListQuery({});
     const brandsList = brandApi.useGetListByProductTypeQuery("beers");
-    const packagingList = typePackagingApi.useGetListQuery("beers");
+    const packagingList = typePackagingApi.useGetListByProductTypeQuery("beers");
     const { closeModalAddContent } = useActions();
 
     const onSubmit = () => {

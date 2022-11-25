@@ -15,7 +15,7 @@ const UpdSnackForm: FC<UpdSnackFormProps> = ({ submit }) => {
     const { detailId } = useAppSelector((state) => state.contentReducer);
     const { data, isLoading, refetch } = snackApi.useGetOneQuery(detailId);
     const brandsList = brandApi.useGetListByProductTypeQuery("snacks");
-    const packagingList = typePackagingApi.useGetListQuery("snacks");
+    const packagingList = typePackagingApi.useGetListByProductTypeQuery("snacks");
     const { closeModalAddContent } = useActions();
 
     const onSubmit = () => {
