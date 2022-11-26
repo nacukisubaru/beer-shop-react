@@ -1,19 +1,23 @@
 import { FC } from "react";
 import { useActions } from "../../../../../hooks/useActions";
 import { useAppSelector } from "../../../../../hooks/useAppSelector";
+import { useGetProductTypesQuery } from "../../../../../store/services/product-types/product-types.api";
 import FilterPanelGrid from "../../../../Grid/FilterPanelGrid";
 
 const BrandFilterTable: FC = () => {
     const { setFilter, removeFilter, resetFilters, filter } = useActions();
-    const { tmpfilters } = useAppSelector(state => state.contentReducer);
-
-    const handleSetFilter = (name: string, value: number | string | number[] | string[]) => {
-        setFilter({name, value});
-    }
+    const { tmpfilters } = useAppSelector((state) => state.contentReducer);
+    const { data } = useGetProductTypesQuery({});
+    const handleSetFilter = (
+        name: string,
+        value: number | string | number[] | string[]
+    ) => {
+        setFilter({ name, value });
+    };
 
     const handleRemoveFilter = (name: string) => {
-        removeFilter({name});
-    }
+        removeFilter({ name });
+    };
 
     return (
         <FilterPanelGrid
@@ -24,10 +28,11 @@ const BrandFilterTable: FC = () => {
                     field: "productTypeId",
                     fieldName: "Тип товара",
                     inputSelect: {
-                        valueInputSelect: [
-                            { name: "Пиво", value: 1 },
-                            { name: "Закуски", value: 2 },
-                        ],
+                        valueInputSelect: data
+                            ? data.map((item) => {
+                                  return { name: item.name, value: item.id };
+                              })
+                            : [],
                     },
                 },
             ]}

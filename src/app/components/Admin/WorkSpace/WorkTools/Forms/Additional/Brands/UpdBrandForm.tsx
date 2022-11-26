@@ -3,6 +3,7 @@ import { useActions } from "../../../../../../../hooks/useActions";
 import { useAppSelector } from "../../../../../../../hooks/useAppSelector";
 import { IStateResponse } from "../../../../../../../hooks/useCatalog";
 import { brandApi } from "../../../../../../../store/services/brands/brand.api";
+import { useGetProductTypesQuery } from "../../../../../../../store/services/product-types/product-types.api";
 import Form from "../../Form";
 
 interface UpdBrandFormProps {
@@ -13,7 +14,7 @@ const UpdBrandForm: FC<UpdBrandFormProps> = ({ submit }) => {
     const { detailId } = useAppSelector((state) => state.contentReducer);
     const { data, isLoading, refetch } = brandApi.useGetOneQuery(detailId);
     const { closeModalAddContent } = useActions();
-
+    const productTypes = useGetProductTypesQuery({});
     const onSubmit = () => {
         refetch();
     };
@@ -40,10 +41,11 @@ const UpdBrandForm: FC<UpdBrandFormProps> = ({ submit }) => {
                             label: "Тип товара",
                             selectProps: {
                                 multiple: false,
-                                items:  [
-                                    { name: "Пиво", value: 1 },
-                                    { name: "Закуски", value: 2 },
-                                ],
+                                items: productTypes.data
+                                ? productTypes.data.map((item: any) => {
+                                      return { name: item.name, value: item.id };
+                                  })
+                                : [],
                                 defaultItem: {
                                     name: data?.productType.name,
                                     value: data?.productType.id,
