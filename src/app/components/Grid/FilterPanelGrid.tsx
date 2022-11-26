@@ -264,9 +264,10 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                         />
                                         <IconButton
                                             sx={{
-                                                height: "35px",
-                                                width: "36px",
-                                                marginTop: "8px",
+                                                ml: 1,
+                                                "&.MuiButtonBase-root:hover": {
+                                                    bgcolor: "transparent"
+                                                }
                                             }}
                                             onClick={() => {
                                                 removeFilter(field);
@@ -312,9 +313,10 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                             />
                                             <IconButton
                                                 sx={{
-                                                    height: "35px",
-                                                    width: "36px",
-                                                    marginTop: "40px",
+                                                    ml: 1,
+                                                    "&.MuiButtonBase-root:hover": {
+                                                        bgcolor: "transparent"
+                                                    }
                                                 }}
                                                 onClick={() => {
                                                     removeFilter(field);
@@ -357,9 +359,10 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                         />
                                         <IconButton
                                             sx={{
-                                                height: "35px",
-                                                width: "36px",
-                                                marginTop: "8px",
+                                                ml: 1,
+                                                "&.MuiButtonBase-root:hover": {
+                                                    bgcolor: "transparent"
+                                                }
                                             }}
                                             onClick={() => {
                                                 removeFilter(field);
@@ -395,9 +398,10 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                         />
                                         <IconButton
                                             sx={{
-                                                height: "35px",
-                                                width: "36px",
-                                                marginTop: "8px",
+                                                ml: 1,
+                                                "&.MuiButtonBase-root:hover": {
+                                                    bgcolor: "transparent"
+                                                }
                                             }}
                                             onClick={() => {
                                                 removeFilter(field);
@@ -485,9 +489,10 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
 
                                         <IconButton
                                             sx={{
-                                                height: "35px",
-                                                width: "36px",
-                                                marginTop: "8px",
+                                                ml: 1,
+                                                "&.MuiButtonBase-root:hover": {
+                                                    bgcolor: "transparent"
+                                                }
                                             }}
                                             onClick={() => {
                                                 removeFilter(field);
