@@ -4,8 +4,8 @@ import { useAppSelector } from "../../../../../hooks/useAppSelector";
 import FilterPanelGrid from "../../../../Grid/FilterPanelGrid";
 
 const BrandFilterTable: FC = () => {
-    const { setFilter, removeFilter, resetFilters, filter} = useActions();
-    const { filters } = useAppSelector(state => state.contentReducer);
+    const { setFilter, removeFilter, resetFilters, filter } = useActions();
+    const { tmpfilters } = useAppSelector(state => state.contentReducer);
 
     const handleSetFilter = (name: string, value: number | string | number[] | string[]) => {
         setFilter({name, value});
@@ -31,7 +31,7 @@ const BrandFilterTable: FC = () => {
                     },
                 },
             ]}
-            filters={filters}
+            filters={tmpfilters}
             setCustomFilter={handleSetFilter}
             removeCustomFilter={handleRemoveFilter}
             width={300}

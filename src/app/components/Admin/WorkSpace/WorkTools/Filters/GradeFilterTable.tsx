@@ -5,7 +5,7 @@ import FilterPanelGrid from "../../../../Grid/FilterPanelGrid";
 
 const GradeFilterTable: FC = () => {
     const { setFilter, removeFilter, resetFilters, filter} = useActions();
-    const { filters } = useAppSelector(state => state.contentReducer);
+    const { tmpfilters  } = useAppSelector(state => state.contentReducer);
 
     const handleSetFilter = (name: string, value: number | string | number[] | string[]) => {
         setFilter({name, value});
@@ -21,7 +21,7 @@ const GradeFilterTable: FC = () => {
                 { field: "id", fieldName: "ID", inputNumber: true },
                 { field: "name", fieldName: "Название", inputText: true },
             ]}
-            filters={filters}
+            filters={tmpfilters}
             setCustomFilter={handleSetFilter}
             removeCustomFilter={handleRemoveFilter}
             width={300}

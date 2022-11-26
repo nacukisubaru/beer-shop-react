@@ -148,7 +148,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
             setSelectedField(itemFilter.field);
             removeCustomFilter && removeCustomFilter(itemFilter.field);
         }
-
+        
         setFilter(newFilterList);
     };
 

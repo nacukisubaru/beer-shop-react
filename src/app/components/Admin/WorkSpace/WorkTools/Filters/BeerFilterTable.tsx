@@ -5,7 +5,7 @@ import FilterPanelGrid from "../../../../Grid/FilterPanelGrid";
 
 const BeerFilterTable: FC = () => {
     const { setFilter, removeFilter, resetFilters, filter} = useActions();
-    const { filters } = useAppSelector(state => state.contentReducer);
+    const { tmpfilters } = useAppSelector(state => state.contentReducer);
 
     const handleSetFilter = (name: string, value: number | string | number[] | string[]) => {
         setFilter({name, value});
@@ -95,7 +95,7 @@ const BeerFilterTable: FC = () => {
                     },
                 },
             ]}
-            filters={filters}
+            filters={tmpfilters}
             setCustomFilter={handleSetFilter}
             removeCustomFilter={handleRemoveFilter}
             width={300}

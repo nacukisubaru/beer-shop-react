@@ -15,7 +15,7 @@ export const brandApi = createApi({
         }),
         getList: build.query<IBrand[], IGetListParams>({
             query: (params) => ({
-                url: '/getListPagination' + params.filter,
+                url: '/getListPagination/' + params.filter,
                 params
             }),
             providesTags: (result: any) =>
