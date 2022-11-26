@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { useActions } from "../../../../../../../hooks/useActions";
 import { IStateResponse } from "../../../../../../../hooks/useCatalog";
+import { useGetProductTypesQuery } from "../../../../../../../store/services/product-types/product-types.api";
 import Form from "../../Form";
 
 interface AddTypePackagingFormProps {
@@ -9,6 +10,7 @@ interface AddTypePackagingFormProps {
 
 const AddTypePackagingForm: FC<AddTypePackagingFormProps> = ({ submit }) => {
     const { closeModalAddContent } = useActions();
+    const { data } = useGetProductTypesQuery({});
 
     return (
         <Form
@@ -27,10 +29,11 @@ const AddTypePackagingForm: FC<AddTypePackagingFormProps> = ({ submit }) => {
                     label: "Тип товара",
                     selectProps: {
                         multiple: false,
-                        items:  [
-                            { name: "Пиво", value: 1 },
-                            { name: "Закуски", value: 2 },
-                        ],
+                        items: data
+                            ? data.map((item) => {
+                                  return { name: item.name, value: item.id };
+                              })
+                            : [],
                     },
                     validationProps: {
                         required: "Поле обязательно для заполнения",

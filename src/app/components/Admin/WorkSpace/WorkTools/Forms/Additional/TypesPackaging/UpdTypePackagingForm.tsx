@@ -2,6 +2,7 @@ import { FC } from "react";
 import { useActions } from "../../../../../../../hooks/useActions";
 import { useAppSelector } from "../../../../../../../hooks/useAppSelector";
 import { IStateResponse } from "../../../../../../../hooks/useCatalog";
+import { useGetProductTypesQuery } from "../../../../../../../store/services/product-types/product-types.api";
 import { typePackagingApi } from "../../../../../../../store/services/type-packaging/type-packaging.api";
 import Form from "../../Form";
 
@@ -12,6 +13,7 @@ interface UpdTypePackagingFormProps {
 const UpdTypePackagingForm: FC<UpdTypePackagingFormProps> = ({ submit }) => {
     const { detailId } = useAppSelector((state) => state.contentReducer);
     const { data, isLoading, refetch } = typePackagingApi.useGetOneQuery(detailId);
+    const productTypes = useGetProductTypesQuery({});
     const { closeModalAddContent } = useActions();
 
     const onSubmit = () => {
@@ -40,19 +42,23 @@ const UpdTypePackagingForm: FC<UpdTypePackagingFormProps> = ({ submit }) => {
                             label: "Тип товара",
                             selectProps: {
                                 multiple: false,
-                                items:  [
-                                    { name: "Пиво", value: 1 },
-                                    { name: "Закуски", value: 2 },
-                                ],
+                                items: productTypes.data
+                                    ? productTypes.data.map((item: any) => {
+                                          return {
+                                              name: item.name,
+                                              value: item.id,
+                                          };
+                                      })
+                                    : [],
                                 defaultItem: {
-                                    name: "Пиво",
-                                    value: 1,
-                                }
+                                    name: data?.productType.name,
+                                    value: data?.productType.id,
+                                },
                             },
                             validationProps: {
                                 required: "Поле обязательно для заполнения",
-                            },             
-                        }
+                            },
+                        },
                     ]}
                     submit={submit}
                     updateId={detailId}

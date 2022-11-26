@@ -7,14 +7,14 @@ import UpdTypePackagingForm from "../Forms/Additional/TypesPackaging/UpdTypePack
 import TableAdmin from "./Table";
 
 export default function TypePackagingTableAdmin() {
-    const { rows, addRow, updRow, removeRow, clearStateResponse, stateResponse } = useCatalog(typePackagingApi);
+    const { rows, addRow, updRow, removeRow, clearStateResponse, stateResponse } = useCatalog(typePackagingApi, 'brand');
 
     return (
         <TableAdmin
             columns={[
                 { field: "id", headerName: "ID", width: 70 },
                 { field: "name", headerName: "Название", width: 200 },
-                { field: "productType", headerName: "Тип товара", width: 200 },
+                { field: "productTypeName", headerName: "Тип товара", width: 200 },
             ]}
             tableProps={{ rows, clearStateResponse, stateResponse }}
             modalProps={{
