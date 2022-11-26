@@ -22,6 +22,8 @@ export default function GradeTableAdmin() {
                 titleModalForAdd: "Добавить сорт",
                 titleModalForUpd: "Обновить сорт",
                 successMessage: "Сорт успешно добавлен",
+                successMessageUpd: "Сорт успешно обновлен",
+                successMessageRemove: "Сорт успешно удален"
             }}
             actions={{hasEdit: true, hasRemove: true, remove: removeRow}}
             filterPanel={GradeFilterTable}

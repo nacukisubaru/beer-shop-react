@@ -22,7 +22,9 @@ export default function TypePackagingTableAdmin() {
                 childrenModalForUpd: <UpdTypePackagingForm submit={updRow} />,
                 titleModalForAdd: "Добавить тип товара",
                 titleModalForUpd: "Обновить тип товара",
-                successMessage: "Тип товара успешно добавлен",
+                successMessage: "Тип упаковки успешно добавлен",
+                successMessageUpd: "Тип упаковки успешно обновлен",
+                successMessageRemove: "Тип упаковки успешно удален"
             }}
             actions={{hasEdit: true, hasRemove: true, remove: removeRow}}
             filterPanel={TypePackagingFilterTable}

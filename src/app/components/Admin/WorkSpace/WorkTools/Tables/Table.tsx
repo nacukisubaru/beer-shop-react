@@ -2,13 +2,11 @@ import { IconButton } from "@mui/material";
 import { FC, useState } from "react";
 import { useActions } from "../../../../../hooks/useActions";
 import { useAppSelector } from "../../../../../hooks/useAppSelector";
-import { IStateResponse, useCatalog } from "../../../../../hooks/useCatalog";
+import { IStateResponse } from "../../../../../hooks/useCatalog";
 import CustomSnackBar from "../../../../CustomUI/CustomSnackBar/CustomSnackBar";
 import TableGrid from "../../../../Grid/TableGrid";
 import AddContentModal from "../../../../Modals/Admin/AddContent";
 import ResultNotFoundByFilter from "../../../../Modals/Messages/ResultNotFoundByFilter";
-import BeerFilterTable from "../Filters/BeerFilterTable";
-import AddBeerForm from "../Forms/Products/Beers/AddBeerForm";
 import PaginationTable from "../Pagination/PaginationTable";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -30,6 +28,8 @@ interface IModalProps {
     titleModalForAdd: string;
     titleModalForUpd: string;
     successMessage: string;
+    successMessageUpd: string;
+    successMessageRemove: string;
     childrenModalForAdd: any;
     childrenModalForUpd: any;
 }
@@ -79,7 +79,8 @@ const TableAdmin: FC<TableAdminProps> = ({
         (state) => state.notFoundReducer.adminModalNotFoundByFilter
     );
     const [isUpdAction, setUpdAction] = useState(false);
-
+    const [message, setMessage]  = useState<string>(successMessage);   
+    
     const handlerPanelOpen = async () => {
         await setRequestFilterDisabled({ disable: true });
         setFilters(tmpfilters);
@@ -112,6 +113,7 @@ const TableAdmin: FC<TableAdminProps> = ({
                                                         const id = params.row.id;
                                                         await setUpdAction(true);
                                                         await setDetailId({id});
+                                                        setMessage(modalProps.successMessageUpd);
                                                         openModalAddContent();
                                                   }}
                                               >
@@ -126,6 +128,7 @@ const TableAdmin: FC<TableAdminProps> = ({
                                                   component="span"
                                                   onClick={() => {
                                                     const id = params.row.id;
+                                                    setMessage(modalProps.successMessageRemove);
                                                     actions.remove && actions.remove(id);
                                                   }}
                                               >
@@ -147,7 +150,10 @@ const TableAdmin: FC<TableAdminProps> = ({
             <AddContentModal
                 form={ isUpdAction ? childrenModalForUpd : childrenModalForAdd }
                 title={ isUpdAction ? titleModalForUpd : titleModalForAdd }
-                onClose={()=>{setUpdAction(false)}}
+                onClose={()=>{
+                    setUpdAction(false); 
+                    setMessage(modalProps.successMessage);
+                }}
             />
             <CustomSnackBar
                 severity="error"
@@ -157,7 +163,7 @@ const TableAdmin: FC<TableAdminProps> = ({
             />
             <CustomSnackBar
                 severity="success"
-                message={successMessage}
+                message={message}
                 isOpen={stateResponse.status === "fulfilled" ? true : false}
                 onClose={clearStateResponse}
             />

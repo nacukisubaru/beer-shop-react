@@ -46,6 +46,8 @@ export default function SnacksTableAdmin() {
                 titleModalForAdd: "Добавить закуску",
                 titleModalForUpd: "Обновить закуску",
                 successMessage: "Товар успешно добавлен",
+                successMessageUpd: "Товар успешно обновлен",
+                successMessageRemove: "Товар успешно удален"
             }}
             actions={{hasEdit: true}}
             filterPanel={SnackFilterTable}

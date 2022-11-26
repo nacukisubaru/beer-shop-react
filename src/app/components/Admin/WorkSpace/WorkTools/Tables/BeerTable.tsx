@@ -70,6 +70,8 @@ export default function BeerTableAdmin() {
                 titleModalForAdd: "Добавить пиво",
                 titleModalForUpd: "Обновить пиво",
                 successMessage: "Товар успешно добавлен",
+                successMessageUpd: "Товар успешно обновлен",
+                successMessageRemove: "Товар успешно удален"
             }}
             actions={{hasEdit: true}}
             filterPanel={BeerFilterTable}

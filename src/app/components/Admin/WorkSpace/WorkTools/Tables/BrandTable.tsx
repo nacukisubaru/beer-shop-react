@@ -22,6 +22,8 @@ export default function BrandTableAdmin() {
                 titleModalForAdd: "Добавить бренд",
                 titleModalForUpd: "Обновить бренд",
                 successMessage: "Бренд успешно добавлен",
+                successMessageUpd: "Бренд успешно обновлен",
+                successMessageRemove: "Бренд успешно удален"
             }}
             actions={{hasEdit: true, hasRemove: true, remove: removeRow}}
             filterPanel={BrandFilterTable}
