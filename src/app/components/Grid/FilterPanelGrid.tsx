@@ -112,15 +112,22 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
         const newFieldList: Field[] = fieldsList.filter(
             (field) => field.value !== value
         );
-        if (itemFilter && newFieldList.length) {
+    
+        if (itemFilter) {
             setFilter([...filterList, itemFilter]);
+        }
+
+        if(newFieldList.length) {
             setFieldsList(
                 newFieldList.sort((a, b) => {
                     return a.name.charCodeAt(0) - b.name.charCodeAt(0);
                 })
             );
             setSelectedField(newFieldList[0].value);
+        } else {
+            setFieldsList([]);
         }
+
         setCustomFilter && setCustomFilter(value, "");
     };
 
@@ -148,7 +155,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
             setSelectedField(itemFilter.field);
             removeCustomFilter && removeCustomFilter(itemFilter.field);
         }
-        
+
         setFilter(newFilterList);
     };
 

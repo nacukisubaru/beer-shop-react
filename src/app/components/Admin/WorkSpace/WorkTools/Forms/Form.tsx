@@ -67,8 +67,7 @@ const Form: FC<IForm> = ({
     const [noFileError, setNoFileError] = useState(false);
     const [selectedImage, setSelectedImage] = useState<string>(defaultFile);
     const [isChangingAutocomplete, setAutocompleteChange] = useState(false);
-    const [isChangingAutocompleteMult, setAutocompleteChangeMult] =
-        useState(false);
+    const [isChangingAutocompleteMult, setAutocompleteChangeMult] = useState(false);
     const [isChangingSelect, setSelectChange] = useState(false);
 
     const styleError = {
