@@ -1,8 +1,8 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { useActions } from "../../../../../../../hooks/useActions";
 import { useAppSelector } from "../../../../../../../hooks/useAppSelector";
 import { IStateResponse } from "../../../../../../../hooks/useCatalog";
-import { gradeApi } from "../../../../../../../store/services/grades/grade.api";
+import { brandApi } from "../../../../../../../store/services/brands/brand.api";
 import Form from "../../Form";
 
 interface UpdBrandFormProps {
@@ -11,7 +11,7 @@ interface UpdBrandFormProps {
 
 const UpdBrandForm: FC<UpdBrandFormProps> = ({ submit }) => {
     const { detailId } = useAppSelector((state) => state.contentReducer);
-    const { data, isLoading, refetch } = gradeApi.useGetOneQuery(detailId);
+    const { data, isLoading, refetch } = brandApi.useGetOneQuery(detailId);
     const { closeModalAddContent } = useActions();
 
     const onSubmit = () => {
@@ -45,8 +45,8 @@ const UpdBrandForm: FC<UpdBrandFormProps> = ({ submit }) => {
                                     { name: "Закуски", value: 2 },
                                 ],
                                 defaultItem: {
-                                    name: "Пиво",
-                                    value: 1,
+                                    name: data?.productType.name,
+                                    value: data?.productType.id,
                                 }
                             },
                             validationProps: {

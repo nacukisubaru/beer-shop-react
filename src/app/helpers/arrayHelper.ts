@@ -1,4 +1,5 @@
 import { IBeer } from "../store/services/beers/types/beer.type";
+import { IBrand, IBrandWithProductType } from "../store/services/brands/types/brand.types";
 import { IGrade } from "../store/services/grades/types/grade.type";
 import { ISnack, ISnackProduct } from "../store/services/snacks/types/snacks.types";
 
@@ -68,14 +69,28 @@ export const createSnacksList = (snacksList: ISnack[]): ISnackProduct[] => {
     return [];
 }
 
+export const createBrandsList = (brandList: IBrand[]): IBrandWithProductType[] => {
+    if(Array.isArray(brandList) && brandList.length) {
+        return brandList.map((brand) => {
+            const productType = brand.productType;
+            return {
+                ...brand,
+                productTypeName: productType.name
+            };
+        });
+    }
+    
+    return [];
+}
+
 export const createList = (array:any, list: string) => {
     switch(list) {
         case 'beer':
            return createBeersList(array);
-        break;
         case 'snack':
            return createSnacksList(array);
-        break;
+        case 'brand':
+            return createBrandsList(array);
     }
     return [];
 }

@@ -6,14 +6,14 @@ import UpdBrandForm from "../Forms/Additional/Brands/UpdBrandForm";
 import TableAdmin from "./Table";
 
 export default function BrandTableAdmin() {
-    const { rows, addRow, updRow, removeRow, clearStateResponse, stateResponse } = useCatalog(brandApi);
-
+    const { rows, addRow, updRow, removeRow, clearStateResponse, stateResponse } = useCatalog(brandApi, 'brand');
+    
     return (
         <TableAdmin
             columns={[
                 { field: "id", headerName: "ID", width: 70 },
                 { field: "name", headerName: "Название", width: 200 },
-                { field: "productType", headerName: "Название", width: 200 },
+                { field: "productTypeName", headerName: "Тип продукта", width: 200 },
             ]}
             tableProps={{ rows, clearStateResponse, stateResponse }}
             modalProps={{
