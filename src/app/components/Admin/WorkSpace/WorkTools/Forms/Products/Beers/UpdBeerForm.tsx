@@ -24,6 +24,12 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
         refetch();
     };
 
+    useEffect(() => {
+        gradesList.refetch();
+        brandsList.refetch();
+        packagingList.refetch();
+    }, []);
+
     return (
         <>
             {isLoading ? (

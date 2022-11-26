@@ -22,6 +22,11 @@ const UpdSnackForm: FC<UpdSnackFormProps> = ({ submit }) => {
         refetch();
     };
 
+    useEffect(() => {
+        brandsList.refetch();
+        packagingList.refetch();
+    }, []);
+
     return (
         <>
             {isLoading ? (

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { useActions } from "../../../../../../../hooks/useActions";
 import { IStateResponse } from "../../../../../../../hooks/useCatalog";
 import { brandApi } from "../../../../../../../store/services/brands/brand.api";
@@ -13,6 +13,11 @@ const AddSnackForm: FC<AddSnackFormProps> = ({ submit }) => {
     const brandsList = brandApi.useGetListByProductTypeQuery("snacks");
     const packagingList = typePackagingApi.useGetListByProductTypeQuery("snacks");
     const { closeModalAddContent } = useActions();
+
+    useEffect(() => {
+        brandsList.refetch();
+        packagingList.refetch();
+    }, []);
 
     return (
         <Form

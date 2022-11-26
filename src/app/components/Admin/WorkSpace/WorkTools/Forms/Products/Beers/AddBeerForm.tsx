@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { useActions } from "../../../../../../../hooks/useActions";
 import { IStateResponse } from "../../../../../../../hooks/useCatalog";
 import { brandApi } from "../../../../../../../store/services/brands/brand.api";
@@ -15,6 +15,12 @@ const AddBeerForm: FC<AddBeerFormProps> = ({ submit }) => {
     const brandsList = brandApi.useGetListByProductTypeQuery("beers");
     const packagingList = typePackagingApi.useGetListByProductTypeQuery("beers");
     const { closeModalAddContent } = useActions();
+
+    useEffect(() => {
+        gradesList.refetch();
+        brandsList.refetch();
+        packagingList.refetch();
+    }, []);
 
     return (
         <Form
