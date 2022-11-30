@@ -19,6 +19,7 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
 
 const drawerWidth = 240;
 
@@ -96,8 +97,8 @@ const WorkSpace: React.FC<IWorkSpaceProps> = ({tool, menuItems}) => {
     return (
         <Box sx={{ display: "flex" }}>
             <CssBaseline />
-            <AppBar position="fixed" open={open}>
-                <Toolbar>
+            <AppBar position="fixed" open={open} >
+                <Toolbar style={{display: "flex", justifyContent:"space-between"}}>
                     <IconButton
                         color="inherit"
                         aria-label="open drawer"
@@ -110,6 +111,7 @@ const WorkSpace: React.FC<IWorkSpaceProps> = ({tool, menuItems}) => {
                     <Typography variant="h6" noWrap component="div">
                         Админ панель
                     </Typography>
+                    <Button color="inherit" onClick={()=>{navigate('/products/beers')}}>Сайт</Button>
                 </Toolbar>
             </AppBar>
             <Drawer

@@ -1,3 +1,5 @@
+import { IRole } from "../../roles/types/role.types";
+
 export interface IUser {
     id: number,
     name: string,
@@ -5,6 +7,7 @@ export interface IUser {
     email: string,
     phone: string,
     isActivated: boolean,
+    roles: IRole[],
     updatedAt: string,
     createdAt: string
 }

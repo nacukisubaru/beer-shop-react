@@ -14,6 +14,7 @@ export const useAuthorizationUser = () => {
     const { getBasketByUser } = useBasket();
     const navigate = useNavigate();
     const {backRedirectToOrder} = useAppSelector(state => state.orderReducer);
+    const {user} = useAppSelector((state) => state.userReducer);
     
     const sendCode = async (phone: string): Promise<boolean> => {
         await setSecondsResend({ seconds: 59 });
@@ -80,5 +81,9 @@ export const useAuthorizationUser = () => {
         }
     }
 
-    return { sendCode, registrateUser, authByCodeStepSendCode, authByCodeStepLogin, loginUser };
+    const checkRoleUser = (roleValue: string) => {
+       return user.roles.some((role) => role.value === roleValue);
+    }
+
+    return { sendCode, registrateUser, authByCodeStepSendCode, authByCodeStepLogin, loginUser, checkRoleUser };
 }
