@@ -1,16 +1,16 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { host } from "../../../http/http.request.config";
+import { createApi } from "@reduxjs/toolkit/query/react";
 import { IGetListParams } from "../../types/api.types";
+import reauthBaseQuery from "../api/reauthBaseQuery";
 import { ISnack, ISnackListPaginate } from "./types/snacks.types";
 
 export const snackApi = createApi({
     reducerPath: 'snacks',
     tagTypes: ['Snacks'],
-    baseQuery: fetchBaseQuery({baseUrl: host + '/snacks'}),
+    baseQuery: reauthBaseQuery,
     endpoints: (build) => ({
         getList: build.query<ISnackListPaginate[], IGetListParams>({
             query: (params) => ({
-                url: '/getListByFilter/' + params.filter,
+                url: '/snacks/getListByFilter/' + params.filter,
                 params
             }),
             providesTags: (result: any) =>
@@ -23,12 +23,12 @@ export const snackApi = createApi({
         }),
         getOne: build.query<ISnack, number>({
             query: (id: number) => ({
-                url: '/getById/'+id
+                url: '/snacks/getById/'+id
             })
         }),
         add: build.mutation({
             query: (body) => ({
-                url: '/create/',
+                url: '/snacks/create/',
                 method: 'POST',
                 body
             }),
@@ -36,7 +36,7 @@ export const snackApi = createApi({
         }),
         update: build.mutation({
             query: (body) => ({
-                url: '/update/',
+                url: '/snacks/update/',
                 method: 'POST',
                 body
             }),
@@ -50,7 +50,7 @@ export const snackApi = createApi({
         }),
         remove: build.mutation({
             query:(body) => ({
-                url: '/remove/' + body.id,
+                url: '/snacks/remove/' + body.id,
                 method: 'DELETE'
             }),
             invalidatesTags: [{type: 'Snacks', id: 'LIST'}]

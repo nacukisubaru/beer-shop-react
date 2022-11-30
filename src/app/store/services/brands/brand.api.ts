@@ -1,21 +1,21 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { host } from '../../../http/http.request.config';
+import { createApi } from '@reduxjs/toolkit/query/react';
 import { IGetListParams } from '../../types/api.types';
+import reauthBaseQuery from '../api/reauthBaseQuery';
 import { IBrand } from './types/brand.types';
 
 export const brandApi = createApi({
     reducerPath: 'brandApi',
     tagTypes: ['Brands'],
-    baseQuery: fetchBaseQuery({baseUrl: host + '/brands'}),
+    baseQuery: reauthBaseQuery,
     endpoints: (build) => ({
         getListByProductType: build.query<IBrand[], string>({
             query: (type) => ({
-                url: 'getByProductType/' + type
+                url: '/brands/getByProductType/' + type
             })
         }),
         getList: build.query<IBrand[], IGetListParams>({
             query: (params) => ({
-                url: '/getListPagination/' + params.filter,
+                url: '/brands/getListPagination/' + params.filter,
                 params
             }),
             providesTags: (result: any) =>
@@ -28,12 +28,12 @@ export const brandApi = createApi({
         }),
         getOne: build.query<IBrand, number>({
             query: (id: number) => ({
-                url: '/getById/'+id
+                url: '/brands/getById/'+id
             })
         }),
         add: build.mutation({
             query: (body) => ({
-                url: '/create/',
+                url: '/brands/create/',
                 method: 'POST',
                 body
             }),
@@ -41,7 +41,7 @@ export const brandApi = createApi({
         }),
         update: build.mutation({
             query: (body) => ({
-                url: '/update/',
+                url: '/brands/update/',
                 method: 'POST',
                 body
             }),
@@ -49,7 +49,7 @@ export const brandApi = createApi({
         }),
         remove: build.mutation({
             query:(body) => ({
-                url: '/remove/' + body.id,
+                url: '/brands/remove/' + body.id,
                 method: 'DELETE'
             }),
             invalidatesTags: [{type: 'Brands', id: 'LIST'}]

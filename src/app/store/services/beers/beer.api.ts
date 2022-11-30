@@ -1,16 +1,16 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { host, limitPage } from "../../../http/http.request.config";
+import { createApi } from "@reduxjs/toolkit/query/react";
 import { IGetListParams } from "../../types/api.types";
+import reauthBaseQuery from "../api/reauthBaseQuery";
 import { IBeer, IBeerListPaginate } from "./types/beer.type";
 
 export const beerApi = createApi({
     reducerPath: 'beerApi',
     tagTypes: ['Beers'],
-    baseQuery: fetchBaseQuery({ baseUrl: host + '/beers' }),
+    baseQuery: reauthBaseQuery,
     endpoints: (build) => ({
         getList: build.query<IBeerListPaginate[], IGetListParams>({
             query: (params) => ({
-                url: '/getListByFilter/' + params.filter,
+                url: '/beers/getListByFilter/' + params.filter,
                 params
             }),
             providesTags: (result: any) =>
@@ -23,12 +23,12 @@ export const beerApi = createApi({
         }),
         getOne: build.query<IBeer, number>({
             query: (id: number) => ({
-                url: '/getById/'+id
+                url: '/beers/getById/'+id
             })
         }),
         add: build.mutation({
             query: (body) => ({
-                url: '/create/',
+                url: '/beers/create/',
                 method: 'POST',
                 body
             }),
@@ -36,7 +36,7 @@ export const beerApi = createApi({
         }),
         update: build.mutation({
             query: (body) => ({
-                url: '/update/',
+                url: '/beers/update/',
                 method: 'POST',
                 body
             }),
@@ -44,7 +44,7 @@ export const beerApi = createApi({
         }),
         remove: build.mutation({
             query:(body) => ({
-                url: '/remove/' + body.id,
+                url: '/beers/remove/' + body.id,
                 method: 'DELETE'
             }),
             invalidatesTags: [{type: 'Beers', id: 'LIST'}]

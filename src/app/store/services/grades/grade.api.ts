@@ -1,11 +1,11 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { host } from '../../../http/http.request.config';
+import { createApi } from '@reduxjs/toolkit/query/react';
+import reauthBaseQuery from '../api/reauthBaseQuery';
 import { IGrade } from './types/grade.type';
 
 export const gradeApi = createApi({
     reducerPath: 'gradeApi',
     tagTypes: ['Grades'],
-    baseQuery: fetchBaseQuery({baseUrl: host + '/grades'}),
+    baseQuery: reauthBaseQuery,
     endpoints: (build) => ({
         gradesList: build.query<IGrade[], any>({
             query: (params) => ({
@@ -14,7 +14,7 @@ export const gradeApi = createApi({
         }),
         getList: build.query<IGrade[], any>({
             query: (params) => ({
-                url: '/getListPagination' + params.filter,
+                url: '/grades/getListPagination' + params.filter,
                 params
             }),
             providesTags: (result: any) =>
@@ -27,12 +27,12 @@ export const gradeApi = createApi({
         }),
         getOne: build.query<IGrade, number>({
             query: (id: number) => ({
-                url: '/getById/'+id
+                url: '/grades/getById/'+id
             })
         }),
         add: build.mutation({
             query: (body) => ({
-                url: '/create/',
+                url: '/grades/create/',
                 method: 'POST',
                 body
             }),
@@ -40,7 +40,7 @@ export const gradeApi = createApi({
         }),
         update: build.mutation({
             query: (body) => ({
-                url: '/update/',
+                url: '/grades/update/',
                 method: 'POST',
                 body
             }),
@@ -48,7 +48,7 @@ export const gradeApi = createApi({
         }),
         remove: build.mutation({
             query:(body) => ({
-                url: '/remove/' + body.id,
+                url: '/grades/remove/' + body.id,
                 method: 'DELETE'
             }),
             invalidatesTags: [{type: 'Grades', id: 'LIST'}]
