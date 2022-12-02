@@ -5,9 +5,21 @@ import TypePackagingFilterTable from "../Filters/TypePackagingFilterTable";
 import AddTypePackagingForm from "../Forms/Additional/TypesPackaging/AddTypePackagingForm";
 import UpdTypePackagingForm from "../Forms/Additional/TypesPackaging/UpdTypePackagingForm";
 import TableAdmin from "./Table";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { useTableAction } from "../../../../../hooks/useTableAction";
 
 export default function TypePackagingTableAdmin() {
     const { rows, addRow, updRow, removeRow, clearStateResponse, stateResponse } = useCatalog(typePackagingApi, 'brand');
+    const { rowEdit, closeTableModal, rowDelete, isUpdAction, message } = useTableAction({
+        successMessage: "Тип упаковки успешно добавлен",
+        successMessageUpd: "Тип упаковки успешно обновлен",
+        successMessageRemove: "Тип упаковки успешно удален"
+    });    
+
+    const handleDelete = (params:any) => {
+        rowDelete(params, removeRow);
+    }
 
     return (
         <TableAdmin
@@ -18,15 +30,15 @@ export default function TypePackagingTableAdmin() {
             ]}
             tableProps={{ rows, clearStateResponse, stateResponse }}
             modalProps={{
-                childrenModalForAdd: <AddTypePackagingForm submit={addRow} />,
-                childrenModalForUpd: <UpdTypePackagingForm submit={updRow} />,
-                titleModalForAdd: "Добавить тип товара",
-                titleModalForUpd: "Обновить тип товара",
-                successMessage: "Тип упаковки успешно добавлен",
-                successMessageUpd: "Тип упаковки успешно обновлен",
-                successMessageRemove: "Тип упаковки успешно удален"
+                childrenModal: isUpdAction ? <UpdTypePackagingForm submit={updRow} /> : <AddTypePackagingForm submit={addRow} />,
+                titleModal: isUpdAction ? "Добавить тип товара" : "Обновить тип товара",
+                successMessage: message,
+                closeModal: closeTableModal
             }}
-            actions={{hasEdit: true, hasRemove: true, remove: removeRow}}
+            actionButtons={[
+                {color: "primary", size: "small", onClick: rowEdit, icon: <EditIcon />},
+                {color: "primary", size: "small", onClick: handleDelete, icon: <DeleteIcon />}
+            ]}
             filterPanel={TypePackagingFilterTable}
         />
     );

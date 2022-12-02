@@ -1,16 +1,14 @@
-import { IconButton } from "@mui/material";
-import { FC, useState } from "react";
+import { FC, useEffect } from "react";
 import { useActions } from "../../../../../hooks/useActions";
 import { useAppSelector } from "../../../../../hooks/useAppSelector";
 import { IStateResponse } from "../../../../../hooks/useCatalog";
+import { IButtonOption } from "../../../../../types/ui.types";
 import CustomSnackBar from "../../../../CustomUI/CustomSnackBar/CustomSnackBar";
 import TableGrid from "../../../../Grid/TableGrid";
 import AddContentModal from "../../../../Modals/Admin/AddContent";
 import ResultNotFoundByFilter from "../../../../Modals/Messages/ResultNotFoundByFilter";
 import PaginationTable from "../Pagination/PaginationTable";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-
+import Action from "../Actions/Action";
 interface IColumn {
     field: string;
     headerName: string;
@@ -25,26 +23,17 @@ interface ITableProps {
 }
 
 interface IModalProps {
-    titleModalForAdd: string;
-    titleModalForUpd: string;
+    titleModal: string;
     successMessage: string;
-    successMessageUpd: string;
-    successMessageRemove: string;
-    childrenModalForAdd: any;
-    childrenModalForUpd: any;
-}
-
-interface IAction {
-    hasEdit?: boolean;
-    hasRemove?: boolean;
-    remove?: (id: number) => void;
+    childrenModal: any;
+    closeModal: () => void;
 }
 
 interface TableAdminProps {
     columns: IColumn[];
     tableProps: ITableProps;
     modalProps: IModalProps;
-    actions?: IAction;
+    actionButtons?: IButtonOption[];
     filterPanel: any;
 }
 
@@ -52,34 +41,22 @@ const TableAdmin: FC<TableAdminProps> = ({
     columns,
     tableProps,
     modalProps,
-    actions,
+    actionButtons,
     filterPanel
 }) => {
     const { rows, stateResponse, clearStateResponse } = tableProps;
-    const {
-        titleModalForAdd,
-        titleModalForUpd,
-        successMessage,
-        childrenModalForAdd,
-        childrenModalForUpd
-    } = modalProps;
-
     const { limitPage } = useAppSelector((state) => state.contentReducer);
     const {
         setFilters,
         setRequestFilterDisabled,
         openAdminModalNotFoundByFilter,
         closeAdminModalNotFoundByFilter,
-        openModalAddContent,
-        setDetailId
     } = useActions();
 
     const { tmpfilters } = useAppSelector((state) => state.contentReducer);
     const isOpen = useAppSelector(
         (state) => state.notFoundReducer.adminModalNotFoundByFilter
     );
-    const [isUpdAction, setUpdAction] = useState(false);
-    const [message, setMessage]  = useState<string>(successMessage);   
     
     const handlerPanelOpen = async () => {
         await setRequestFilterDisabled({ disable: true });
@@ -90,11 +67,15 @@ const TableAdmin: FC<TableAdminProps> = ({
         setRequestFilterDisabled({ disable: false });
     };
 
+    useEffect(() => {
+        console.log(modalProps.successMessage)
+    }, [modalProps])
+
     return (
         <>
             <TableGrid
                 columns={
-                    !actions
+                    !actionButtons
                         ? columns
                         : [
                               ...columns,
@@ -103,39 +84,7 @@ const TableAdmin: FC<TableAdminProps> = ({
                                   headerName: "Действия",
                                   width: 150,
                                   renderCell: (params: any) => (
-                                      <strong>
-                                          {actions.hasEdit && (
-                                              <IconButton
-                                                  color="primary"
-                                                  size="small"
-                                                  component="span"
-                                                  onClick={async () => {
-                                                        const id = params.row.id;
-                                                        await setUpdAction(true);
-                                                        await setDetailId({id});
-                                                        setMessage(modalProps.successMessageUpd);
-                                                        openModalAddContent();
-                                                  }}
-                                              >
-                                                  <EditIcon />
-                                              </IconButton>
-                                          )}
-
-                                          {actions.hasRemove && (
-                                              <IconButton
-                                                  color="primary"
-                                                  size="small"
-                                                  component="span"
-                                                  onClick={() => {
-                                                    const id = params.row.id;
-                                                    setMessage(modalProps.successMessageRemove);
-                                                    actions.remove && actions.remove(id);
-                                                  }}
-                                              >
-                                                  <DeleteIcon />
-                                              </IconButton>
-                                          )}
-                                      </strong>
+                                    <Action buttons={actionButtons} paramsAction={params}/>
                                   ),
                               },
                           ]
@@ -148,12 +97,9 @@ const TableAdmin: FC<TableAdminProps> = ({
                 onFilterPanelClose={handlerPanelClose}
             />
             <AddContentModal
-                form={ isUpdAction ? childrenModalForUpd : childrenModalForAdd }
-                title={ isUpdAction ? titleModalForUpd : titleModalForAdd }
-                onClose={()=>{
-                    setUpdAction(false); 
-                    setMessage(modalProps.successMessage);
-                }}
+                form={ modalProps.childrenModal }
+                title={ modalProps.titleModal }
+                onClose={modalProps.closeModal}
             />
             <CustomSnackBar
                 severity="error"
@@ -163,7 +109,7 @@ const TableAdmin: FC<TableAdminProps> = ({
             />
             <CustomSnackBar
                 severity="success"
-                message={message}
+                message={modalProps.successMessage}
                 isOpen={stateResponse.status === "fulfilled" ? true : false}
                 onClose={clearStateResponse}
             />

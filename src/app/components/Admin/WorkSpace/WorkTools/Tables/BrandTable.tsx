@@ -4,10 +4,22 @@ import BrandFilterTable from "../Filters/BrandFilterTable";
 import AddBrandForm from "../Forms/Additional/Brands/AddBrandForm";
 import UpdBrandForm from "../Forms/Additional/Brands/UpdBrandForm";
 import TableAdmin from "./Table";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { useTableAction } from "../../../../../hooks/useTableAction";
 
 export default function BrandTableAdmin() {
     const { rows, addRow, updRow, removeRow, clearStateResponse, stateResponse } = useCatalog(brandApi, 'brand');
-    
+    const { rowEdit, closeTableModal, rowDelete, isUpdAction, message } = useTableAction({
+        successMessage: "Бренд успешно добавлен",
+        successMessageUpd: "Бренд успешно обновлен",
+        successMessageRemove: "Бренд успешно удален"
+    });
+
+    const handleDelete = (params:any) => {
+        rowDelete(params, removeRow);
+    }
+
     return (
         <TableAdmin
             columns={[
@@ -17,15 +29,15 @@ export default function BrandTableAdmin() {
             ]}
             tableProps={{ rows, clearStateResponse, stateResponse }}
             modalProps={{
-                childrenModalForAdd: <AddBrandForm submit={addRow} />,
-                childrenModalForUpd: <UpdBrandForm submit={updRow} />,
-                titleModalForAdd: "Добавить бренд",
-                titleModalForUpd: "Обновить бренд",
-                successMessage: "Бренд успешно добавлен",
-                successMessageUpd: "Бренд успешно обновлен",
-                successMessageRemove: "Бренд успешно удален"
+                childrenModal: isUpdAction ? <UpdBrandForm submit={updRow} /> : <AddBrandForm submit={addRow} />,
+                titleModal: isUpdAction ? "Обновить бренд" : "Добавить бренд",
+                successMessage: message,
+                closeModal: closeTableModal
             }}
-            actions={{hasEdit: true, hasRemove: true, remove: removeRow}}
+            actionButtons={[
+                {color: "primary", size: "small", onClick: rowEdit, icon: <EditIcon />},
+                {color: "primary", size: "small", onClick: handleDelete, icon: <DeleteIcon />}
+            ]}
             filterPanel={BrandFilterTable}
         />
     );

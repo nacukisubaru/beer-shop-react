@@ -1,18 +1,24 @@
 import { useCatalog } from "../../../../../hooks/useCatalog";
 import { snackApi } from "../../../../../store/services/snacks/snack.api";
 import SnackFilterTable from "../Filters/SnackFilterTable";
-import AddBeerForm from "../Forms/Products/Beers/AddBeerForm";
-import UpdBeerForm from "../Forms/Products/Beers/UpdBeerForm";
 import AddSnackForm from "../Forms/Products/Snacks/AddSnackForm";
 import UpdSnackForm from "../Forms/Products/Snacks/UpdSnackForm";
+import EditIcon from "@mui/icons-material/Edit";
 
 import TableAdmin from "./Table";
+import { useTableAction } from "../../../../../hooks/useTableAction";
 
 export default function SnacksTableAdmin() {
     const { rows, addRow, updRow, clearStateResponse, stateResponse } = useCatalog(
         snackApi,
         "beer"
     );
+    const { rowEdit, closeTableModal, isUpdAction, message } = useTableAction({
+        successMessage: "Товар успешно добавлен",
+        successMessageUpd: "Товар успешно обновлен",
+        successMessageRemove: "Товар успешно удален"
+    });
+
     return (
         <TableAdmin
             columns={[
@@ -41,15 +47,12 @@ export default function SnacksTableAdmin() {
             ]}
             tableProps={{ rows, clearStateResponse, stateResponse }}
             modalProps={{
-                childrenModalForAdd: <AddSnackForm submit={addRow} />,
-                childrenModalForUpd: <UpdSnackForm submit={updRow} />,
-                titleModalForAdd: "Добавить закуску",
-                titleModalForUpd: "Обновить закуску",
-                successMessage: "Товар успешно добавлен",
-                successMessageUpd: "Товар успешно обновлен",
-                successMessageRemove: "Товар успешно удален"
+                childrenModal: isUpdAction ? <UpdSnackForm submit={updRow} /> : <AddSnackForm submit={addRow} />,
+                titleModal: isUpdAction ? "Обновить закуску" : "Добавить закуску",
+                successMessage: message,
+                closeModal: closeTableModal
             }}
-            actions={{hasEdit: true}}
+            actionButtons={[{color: "primary", size: "small", onClick: rowEdit, icon: <EditIcon/>}]}
             filterPanel={SnackFilterTable}
         />
     );
