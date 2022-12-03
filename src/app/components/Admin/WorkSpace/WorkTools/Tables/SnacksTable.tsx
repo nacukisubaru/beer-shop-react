@@ -50,6 +50,7 @@ export default function SnacksTableAdmin() {
                 childrenModal: isUpdAction ? <UpdSnackForm submit={updRow} /> : <AddSnackForm submit={addRow} />,
                 titleModal: isUpdAction ? "Обновить закуску" : "Добавить закуску",
                 successMessage: message,
+                width: "sm",
                 closeModal: closeTableModal
             }}
             actionButtons={[{color: "primary", size: "small", onClick: rowEdit, icon: <EditIcon/>}]}

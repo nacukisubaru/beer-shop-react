@@ -20,6 +20,7 @@ const ProductNotInStock: FC = () => {
                 setOpen={openModalProductNotInStock}
                 setClose={closeHandler}
                 title={""}
+                width="sm"
                 showOkBtn={true}
                 body={
                     <>

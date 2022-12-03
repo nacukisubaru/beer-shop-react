@@ -1,27 +1,37 @@
-import { Button } from "@mui/material";
 import {
     DataGrid,
     getGridStringOperators,
     GridFilterPanel,
     GridSortItem,
-    GridToolbar,
 } from "@mui/x-data-grid";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useActions } from "../../hooks/useActions";
-import PaginationGrid from "./PaginationGrid";
 import ToolBarGrid from "./ToolBarGrid";
-
 interface ITableGridProps {
     columns: any[];
     rows: any;
     pageSize: number;
-    Pagination: any,
+    Pagination?: any;
     CustomFilterPanel?: any;
+    toolBarOn?: boolean;
+    sortingOnChange?: boolean;
+    tableHeight?: number;
     onFilterPanelOpen?: () => void;
     onFilterPanelClose?: () => void;
 }
 
-const TableGrid: FC<ITableGridProps> = ({ columns, rows, pageSize, CustomFilterPanel, Pagination, onFilterPanelOpen, onFilterPanelClose }) => {
+const TableGrid: FC<ITableGridProps> = ({
+    columns,
+    rows,
+    pageSize,
+    CustomFilterPanel,
+    Pagination,
+    toolBarOn,
+    sortingOnChange,
+    tableHeight = 790,
+    onFilterPanelOpen,
+    onFilterPanelClose,
+}) => {
     const { setContentSort, setContentDefaultSort } = useActions();
     const [sortModel, setSortModel] = useState<GridSortItem[]>([
         { field: "id", sort: "desc" },
@@ -35,15 +45,35 @@ const TableGrid: FC<ITableGridProps> = ({ columns, rows, pageSize, CustomFilterP
             const field = sortArray[0].field;
             const sort = sortArray[0].sort;
             setSortModel([{ field, sort }]);
-            setContentSort({ field, sort: sort.toUpperCase() });
+            if(sortingOnChange) {
+                setContentSort({ field, sort: sort.toUpperCase() });
+            }
         } else {
-            setContentDefaultSort();
+            if(sortingOnChange) {
+                setContentDefaultSort();
+            }
             setSortModel([]);
         }
     };
+    const [componentSettings, setComponentSettings] = useState({});
+
+    useEffect(() => {
+        const settings: any = {
+            FilterPanel: CustomFilterPanel
+                ? CustomFilterPanel
+                : GridFilterPanel,
+        };
+        if(toolBarOn) {
+            settings.Toolbar = ToolBarGrid;
+        }
+        if (Pagination) {
+            settings.Footer = Pagination;
+        }
+        setComponentSettings(settings);
+    }, []);
 
     return (
-        <div style={{ height: 860, width: "100%", marginBottom: "10px" }}>
+        <div style={{ height: tableHeight, width: "100%", marginBottom: "10px" }}>
             <DataGrid
                 rows={rows}
                 columns={columns.map((item) => {
@@ -55,11 +85,7 @@ const TableGrid: FC<ITableGridProps> = ({ columns, rows, pageSize, CustomFilterP
                 checkboxSelection
                 style={{ marginBottom: "40px" }}
                 sortModel={sortModel}
-                components={{ 
-                    Footer: Pagination, 
-                    Toolbar: ToolBarGrid,
-                    FilterPanel: CustomFilterPanel ? CustomFilterPanel : GridFilterPanel,
-                }}
+                components={componentSettings}
                 onPreferencePanelOpen={onFilterPanelOpen}
                 onPreferencePanelClose={onFilterPanelClose}
                 onFilterModelChange={() => {

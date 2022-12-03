@@ -32,6 +32,7 @@ export default function BrandTableAdmin() {
                 childrenModal: isUpdAction ? <UpdBrandForm submit={updRow} /> : <AddBrandForm submit={addRow} />,
                 titleModal: isUpdAction ? "Обновить бренд" : "Добавить бренд",
                 successMessage: message,
+                width: "sm",
                 closeModal: closeTableModal
             }}
             actionButtons={[

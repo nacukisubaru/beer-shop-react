@@ -19,6 +19,7 @@ import { productApi } from "./services/products/product.api";
 import { contentReducer } from "./reducers/content.slice";
 import { productTypeApi } from "./services/product-types/product-types.api";
 import { roleApi } from "./services/roles/role.api";
+import { orderApi } from "./services/order/order.api";
 
 export const store = configureStore({
     reducer: {
@@ -41,7 +42,8 @@ export const store = configureStore({
         [snackApi.reducerPath]: snackApi.reducer,
         [productApi.reducerPath]: productApi.reducer,
         [productTypeApi.reducerPath]: productTypeApi.reducer,
-        [roleApi.reducerPath]: roleApi.reducer
+        [roleApi.reducerPath]: roleApi.reducer,
+        [orderApi.reducerPath]: orderApi.reducer,
     },
     
     middleware: getDefaultMiddleware => getDefaultMiddleware().concat(

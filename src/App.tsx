@@ -1,20 +1,21 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Account from "./pages/account/account";
-import Beers from "./pages/products/beers";
-import Basket from "./pages/basket/basket";
 import { useEffect } from "react";
 import { useBasket } from "./app/hooks/useBasket";
 import { getUser } from "./app/store/services/users/reducers/user.slice";
 import { useDispatch } from "react-redux";
-import Snacks from "./pages/products/snacks";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Account from "./pages/account/account";
+import Beers from "./pages/products/beers";
+import Basket from "./pages/basket/basket";
+import Snacks from "./pages/products/snacks";
 import MainAdmin from "./pages/admin/main";
 import BeerAdmin from "./pages/admin/content/products/beer";
 import SnacksAdmin from "./pages/admin/content/products/snack";
 import GradeAdmin from "./pages/admin/content/additional/grade";
 import BrandAdmin from "./pages/admin/content/additional/brand";
 import TypePackagingAdmin from "./pages/admin/content/additional/typePackaging";
+import OrdersAdmin from "./pages/admin/orders/orders";
 
 function App() {
     const {getBasket, getBasketByUser} = useBasket();  
@@ -74,6 +75,7 @@ function App() {
                         <Route path="/admin/grades" element={<GradeAdmin />}></Route>
                         <Route path="/admin/brands" element={<BrandAdmin />}></Route>
                         <Route path="/admin/type-packaging" element={<TypePackagingAdmin />}></Route>
+                        <Route path="/admin/orders" element={<OrdersAdmin />}></Route>
                     </Routes>
                 </BrowserRouter>
             </ThemeProvider>

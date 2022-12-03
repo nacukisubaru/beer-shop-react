@@ -31,6 +31,7 @@ export default function GradeTableAdmin() {
                 childrenModal: isUpdAction ? <UpdGradeForm submit={updRow} /> : <AddGradeForm submit={addRow} />,
                 titleModal: isUpdAction ? "Обновить сорт" : "Добавить сорт",
                 successMessage: message,
+                width: "sm",
                 closeModal: closeTableModal
             }}
             actionButtons={[

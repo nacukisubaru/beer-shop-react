@@ -1,14 +1,11 @@
 import { useCatalog } from "../../../../../hooks/useCatalog";
 import { beerApi } from "../../../../../store/services/beers/beer.api";
+import { useTableAction } from "../../../../../hooks/useTableAction";
 import BeerFilterTable from "../Filters/BeerFilterTable";
 import AddBeerForm from "../Forms/Products/Beers/AddBeerForm";
 import UpdBeerForm from "../Forms/Products/Beers/UpdBeerForm";
 import EditIcon from "@mui/icons-material/Edit";
-
 import TableAdmin from "./Table";
-import { useActions } from "../../../../../hooks/useActions";
-import { useState } from "react";
-import { useTableAction } from "../../../../../hooks/useTableAction";
 
 export default function BeerTableAdmin() {
     const { rows, addRow, updRow, clearStateResponse, stateResponse } = useCatalog(beerApi, "beer");
@@ -17,7 +14,7 @@ export default function BeerTableAdmin() {
         successMessageUpd: "Товар успешно обновлен",
         successMessageRemove: "Товар успешно удален",
     });
-    
+
     return (
         <TableAdmin
             columns={[
@@ -75,6 +72,7 @@ export default function BeerTableAdmin() {
                 childrenModal: isUpdAction ? <UpdBeerForm submit={updRow} /> : <AddBeerForm submit={addRow} />,
                 titleModal: isUpdAction ? "Обновить пиво" : "Добавить пиво",
                 successMessage: message,
+                width: "sm",
                 closeModal: closeTableModal,
             }}
             actionButtons={[

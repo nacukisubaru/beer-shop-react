@@ -18,6 +18,7 @@ const ResultNotFoundByFilter: FC<IResultNotFoundByFilter> = ({openModalNotFoundB
                 setOpen={openModalNotFoundByFilter}
                 setClose={closeModalNotFoundByFilter}
                 title={""}
+                width="sm"
                 showOkBtn={true}
                 body={
                     <>

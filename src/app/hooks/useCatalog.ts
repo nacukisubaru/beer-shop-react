@@ -21,9 +21,9 @@ export const useCatalog = (api: any, list?: string) => {
     const { data, error, refetch } = api.useGetListQuery({ page, sortField, order, limitPage, filter: paramsBuilder(filters) },
         { skip: reqFilterDisabled }
     );
-    const [add] = api.useAddMutation();
-    const [upd] = api.useUpdateMutation();
-    const [remove] = api.useRemoveMutation();
+    const [add] =  api.useAddMutation ? api.useAddMutation() : [()=>{}];
+    const [upd] = api.useUpdateMutation ? api.useUpdateMutation() :  [()=>{}];
+    const [remove] = api.useRemoveMutation ? api.useRemoveMutation() : [()=>{}];
     
     const [rows, setRows] = useState<any[]>([]);
     const [isFilterWorking, setFilterWork] = useState<boolean>(false);

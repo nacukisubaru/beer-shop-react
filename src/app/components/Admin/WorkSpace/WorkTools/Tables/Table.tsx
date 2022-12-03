@@ -19,6 +19,7 @@ interface IColumn {
 interface ITableProps {
     rows: any[];
     stateResponse: IStateResponse;
+    tableHeight?: number;
     clearStateResponse: () => void;
 }
 
@@ -26,6 +27,11 @@ interface IModalProps {
     titleModal: string;
     successMessage: string;
     childrenModal: any;
+    width: 'xs'
+    | 'sm'
+    | 'md'
+    | 'lg'
+    | 'xl';
     closeModal: () => void;
 }
 
@@ -93,12 +99,16 @@ const TableAdmin: FC<TableAdminProps> = ({
                 pageSize={limitPage}
                 CustomFilterPanel={filterPanel}
                 Pagination={PaginationTable}
+                toolBarOn={true}
+                sortingOnChange={true}
+                tableHeight={tableProps.tableHeight}
                 onFilterPanelOpen={handlerPanelOpen}
                 onFilterPanelClose={handlerPanelClose}
             />
             <AddContentModal
                 form={ modalProps.childrenModal }
                 title={ modalProps.titleModal }
+                width={ modalProps.width }
                 onClose={modalProps.closeModal}
             />
             <CustomSnackBar

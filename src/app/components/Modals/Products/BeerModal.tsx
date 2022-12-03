@@ -34,6 +34,7 @@ const BeerModal: FC = () => {
                 setClose={closeBeer}
                 title={title}
                 showOkBtn={false}
+                width="sm"
                 body={
                     <>
                         <ProductContent

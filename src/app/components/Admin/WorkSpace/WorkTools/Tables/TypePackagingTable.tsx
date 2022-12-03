@@ -33,6 +33,7 @@ export default function TypePackagingTableAdmin() {
                 childrenModal: isUpdAction ? <UpdTypePackagingForm submit={updRow} /> : <AddTypePackagingForm submit={addRow} />,
                 titleModal: isUpdAction ? "Добавить тип товара" : "Обновить тип товара",
                 successMessage: message,
+                width: "sm",
                 closeModal: closeTableModal
             }}
             actionButtons={[

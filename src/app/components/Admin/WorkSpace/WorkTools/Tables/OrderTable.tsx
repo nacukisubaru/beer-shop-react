@@ -1,53 +1,64 @@
 import { useEffect, useState } from "react";
 import { useCatalog } from "../../../../../hooks/useCatalog";
-import { beerApi } from "../../../../../store/services/beers/beer.api";
+import { useTableAction } from "../../../../../hooks/useTableAction";
+import { orderApi } from "../../../../../store/services/order/order.api";
+import { IBasketOrderProduct } from "../../../../../store/services/order/types/order.types";
+import { useActions } from "../../../../../hooks/useActions";
 import BeerFilterTable from "../Filters/BeerFilterTable";
-import AddBeerForm from "../Forms/Products/Beers/AddBeerForm";
-import UpdBeerForm from "../Forms/Products/Beers/UpdBeerForm";
-
+import EditIcon from "@mui/icons-material/Edit";
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import TableAdmin from "./Table";
+import BasketTable from "./BasketTable";
 
 export default function OrderTableAdmin() {
-    const { rows, addRow, updRow, clearStateResponse, stateResponse } = useCatalog(
-        beerApi,
-        "beer"
-    );
-    
-    const [products, setProducts] = useState(new Map());
+    const { rows, clearStateResponse, stateResponse } = useCatalog(orderApi);
+    const {openModalAddContent} = useActions();
+    const { rowEdit, closeTableModal, isUpdAction, message } = useTableAction({
+        successMessage: "Статус заказа обновлен",
+    });
+
+    const [baskets, setBaskets] = useState(new Map());
+    const [basket, setBasket] = useState<IBasketOrderProduct[]>([]);
 
     useEffect(() => {
         const productsMap = new Map();
         rows.map((row) => {
             productsMap.set(row.id, row.products);
         });
-        setProducts(productsMap);
+        setBaskets(productsMap);
     }, [rows]);
 
+    const showProducts = (params:any) => {
+        const id = params.row.id;
+        setBasket(baskets.get(id));
+        openModalAddContent();
+    }
+
     return (
-        <></>
-        // <TableAdmin
-        //     columns={[
-        //         { field: "id", headerName: "ID", width: 70 },
-        //         { field: "userId", headerName: "ID пользователя", width: 200 },
-        //         { field: "customerName", headerName: "Имя покупателя", width: 150 },
-        //         { field: "customerSurname", headerName: "Фамилия покупателя", width: 150 },
-        //         { field: "customerPhone", headerName: "Номер покупателя", width: 150 },
-        //         { field: "customerEmail", headerName: "Email покупателя", width: 150 },
-        //         { field: "amount", headerName: "Сумма", width: 150 },
-        //         { field: "status", headerName: "Статус", width: 150 },
-        //     ]}
-        //     tableProps={{ rows, clearStateResponse, stateResponse }}
-        //     modalProps={{
-        //         childrenModalForAdd: <AddBeerForm submit={addRow} />,
-        //         childrenModalForUpd: <UpdBeerForm submit={updRow} />,
-        //         titleModalForAdd: "Добавить пиво",
-        //         titleModalForUpd: "Обновить пиво",
-        //         successMessage: "Товар успешно добавлен",
-        //         successMessageUpd: "Товар успешно обновлен",
-        //         successMessageRemove: "Товар успешно удален"
-        //     }}
-        //   //  actions={{hasEdit: true}}
-        //     filterPanel={BeerFilterTable}
-        // />
+        <TableAdmin
+            columns={[
+                { field: "id", headerName: "ID", width: 70 },
+                { field: "userId", headerName: "ID пользователя", width: 200 },
+                { field: "customerName", headerName: "Имя покупателя", width: 150 },
+                { field: "customerSurname", headerName: "Фамилия покупателя", width: 150 },
+                { field: "customerPhone", headerName: "Номер покупателя", width: 150 },
+                { field: "customerEmail", headerName: "Email покупателя", width: 150 },
+                { field: "amount", headerName: "Сумма", width: 150 },
+                { field: "status", headerName: "Статус", width: 150 },
+            ]}
+            tableProps={{ rows, clearStateResponse, stateResponse }}
+            modalProps={{
+                childrenModal: <BasketTable products={basket} />,
+                titleModal: isUpdAction ? "Работа с заказом" : "Просмотр корзины",
+                successMessage: message,
+                width:"md",
+                closeModal: closeTableModal
+            }}
+            actionButtons={[
+                {color: "primary", size: "small", onClick: rowEdit, icon: <EditIcon />},
+                {color: "primary", size: "small", onClick: showProducts, icon: <ShoppingBasketIcon />}
+            ]}
+            filterPanel={BeerFilterTable}
+        />
     );
 }
