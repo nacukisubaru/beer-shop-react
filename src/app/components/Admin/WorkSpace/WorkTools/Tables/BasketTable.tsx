@@ -13,10 +13,10 @@ const BasketTable: FC<IBasketTable> = ({ products }) => {
         <TableGrid
             columns={[
                 { field: "id", headerName: "ID", width: 70 },
-                { field: "name", headerName: "Название", width: 220 },
-                { field: "price", headerName: "Цена", width: 120 },
-                { field: "quantity", headerName: "Количество", width: 90 },
-                { field: "remainder", headerName: "Остаток в баре", width: 120 },
+                { field: "name", headerName: "Название", width: 320 },
+                { field: "price", headerName: "Цена", width: 150 },
+                { field: "quantity", headerName: "Количество", width: 120 },
+                // { field: "remainder", headerName: "Остаток в баре", width: 120 },
                 {
                     field: "image",
                     headerName: "Изображение",
