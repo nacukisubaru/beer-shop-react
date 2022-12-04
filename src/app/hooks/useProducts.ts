@@ -14,9 +14,7 @@ export const useBeerList = () => {
         dispatch(getMinAndMaxPriceBeers());
         dispatch(getMinAndMaxVolumeBeers());
         dispatch(getMinAndMaxFortressBeers());
-    }, [
-        dispatch,
-    ]);
+    }, []);
 }
 
 export const useSnackList = () => {
@@ -29,5 +27,5 @@ export const useSnackList = () => {
 
         snackList();
         dispatch(getMinAndMaxPriceSnacks());
-    }, [dispatch]);
+    }, []);
 }
