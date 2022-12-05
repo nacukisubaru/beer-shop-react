@@ -1,11 +1,13 @@
 import { FC } from "react";
 import { useActions } from "../../../../../hooks/useActions";
 import { useAppSelector } from "../../../../../hooks/useAppSelector";
+import { brandApi } from "../../../../../store/services/brands/brand.api";
 import FilterPanelGrid from "../../../../Grid/FilterPanelGrid";
 
 const BeerFilterTable: FC = () => {
     const { setFilter, removeFilter, resetFilters, filter} = useActions();
     const { tmpfilters } = useAppSelector(state => state.contentReducer);
+    const brandsList = brandApi.useGetListByProductTypeQuery("beers");
 
     const handleSetFilter = (name: string, value: number | string | number[] | string[]) => {
         setFilter({name, value});
@@ -47,10 +49,12 @@ const BeerFilterTable: FC = () => {
                     field: "brandIds",
                     fieldName: "Бренды",
                     inputSelect: {
-                        valueInputSelect: [
-                            { name: "Балтика", value: 5 },
-                            { name: "Гусь", value: 6 },
-                        ],
+                        valueInputSelect: brandsList && brandsList.data ? brandsList.data.map((brand) => {
+                            return {
+                                name: brand.name,
+                                value: brand.id,
+                            };
+                        }) : [],
                         multiple: true,
                     },
                 },
