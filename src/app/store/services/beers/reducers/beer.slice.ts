@@ -29,7 +29,7 @@ export const getBeerList:any = createAsyncThunk(
     async(body: IBody, {rejectWithValue}) => {
         const {path, params} = body;
         try {
-            console.log(body);
+            console.log(body); 
             await beerSlice.actions.dropBeerList();
             const response = await fetch(queryBuilder(path, params));
             if(!response.ok) {

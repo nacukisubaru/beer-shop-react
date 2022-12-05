@@ -45,7 +45,7 @@ const CardList: FC<CardListProps> = ({ cardsList, fetch, page, scrollList = true
                                 buy={item.buy}
                                 show={show} />
                         ))}
-                        <div ref={targetRef}></div>
+                        <div id="reff" ref={targetRef}></div>
                     </div>
                     <div className="filter-wrapper-btn">
                         <BasicSpeedDial actions={actions}></BasicSpeedDial>
