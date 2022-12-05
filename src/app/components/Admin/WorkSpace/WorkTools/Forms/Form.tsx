@@ -35,7 +35,7 @@ interface IForm {
     hasUploadImage?: boolean;
     defaultFile?: string;
     updateId?: number;
-    nameSubmitBtn?: string,
+    nameSubmitBtn?: string;
     submit: (data: any, isObject?: boolean) => Promise<IStateResponse>;
     onSubmit?: () => void;
     onCancel: () => void;
@@ -49,7 +49,7 @@ const Form: FC<IForm> = ({
     nameSubmitBtn,
     submit,
     onSubmit,
-    onCancel
+    onCancel,
 }) => {
     const {
         register,
@@ -68,7 +68,8 @@ const Form: FC<IForm> = ({
     const [noFileError, setNoFileError] = useState(false);
     const [selectedImage, setSelectedImage] = useState<string>(defaultFile);
     const [isChangingAutocomplete, setAutocompleteChange] = useState(false);
-    const [isChangingAutocompleteMult, setAutocompleteChangeMult] = useState(false);
+    const [isChangingAutocompleteMult, setAutocompleteChangeMult] =
+        useState(false);
     const [isChangingSelect, setSelectChange] = useState(false);
     const [optionsIsLoaded, setOptionsLoaded] = useState(false);
 
@@ -82,20 +83,26 @@ const Form: FC<IForm> = ({
 
     useEffect(() => {
         fields.map((field) => {
-            if(field.type === "selectAuto" && field.selectProps) {
+            if (field.type === "selectAuto" && field.selectProps) {
                 const arrayOptions: any = [];
                 const selectProps = field.selectProps;
                 selectProps.items.map((item) => {
-                    const defaultItemsValues = selectProps.defaultItems ? selectProps.defaultItems.map((item) => item.value) : [];
-                    if(!defaultItemsValues.includes(item.value)) {
+                    const defaultItemsValues = selectProps.defaultItems
+                        ? selectProps.defaultItems.map((item) => item.value)
+                        : [];
+                    if (!defaultItemsValues.includes(item.value)) {
                         arrayOptions.push(item);
-                        setSelectorOptions(new Map(selectorOptions.set(field.name,  arrayOptions))); 
+                        setSelectorOptions(
+                            new Map(
+                                selectorOptions.set(field.name, arrayOptions)
+                            )
+                        );
                     }
                     return item;
-                })
+                });
             }
             return field;
-        })
+        });
         setOptionsLoaded(true);
     }, []);
 
@@ -186,7 +193,7 @@ const Form: FC<IForm> = ({
 
     const createForm = (fieldsForm: any, selectedFile: File | null) => {
         const formData = new FormData();
-        if(selectedFile) {
+        if (selectedFile) {
             formData.append("image", selectedFile);
         }
         Object.entries(fieldsForm).map((value: any) => {
@@ -207,12 +214,12 @@ const Form: FC<IForm> = ({
         }
 
         return formData;
-    }
-    
+    };
+
     const submitWithFile = async (fieldsForm: any) => {
         if (selectedFile || defaultFile) {
             setNoFileError(false);
-            
+
             const formData = createForm(fieldsForm, selectedFile);
             const result = await submit(formData);
             if (result.status !== "rejected") {
@@ -224,15 +231,13 @@ const Form: FC<IForm> = ({
                 setNoFileError(true);
             }
         }
-    }
+    };
 
     const submitWithoutFile = async (fieldsForm: any) => {
         fields.map((item: IField) => {
             if (item.type === "number") {
                 const fieldKey = Object.keys(fieldsForm).find(
-                    (key) =>
-                        key === item.name &&
-                        item.type === "number"
+                    (key) => key === item.name && item.type === "number"
                 );
                 if (fieldKey) {
                     fieldsForm[fieldKey] = Number(fieldsForm[fieldKey]);
@@ -249,306 +254,336 @@ const Form: FC<IForm> = ({
         if (result.status !== "rejected") {
             resetFields(fieldsForm);
         }
-    }
+    };
 
     const submitForm = async (data: any) => {
         const allFieldsExist = checkFieldsExist(data);
         if (allFieldsExist) {
             if (hasUploadImage) {
-               await submitWithFile(data);
+                await submitWithFile(data);
             } else {
-               await submitWithoutFile(data)
+                await submitWithoutFile(data);
             }
         }
         onSubmit && onSubmit();
-    }
+    };
+
+    const autocompleteChange = (value: ISelectItem[] | ISelectItem, name: string, selectProps: ISelect) => {
+        console.log({ value });
+        let newValue: any;
+        if (Array.isArray(value)) {
+            newValue = value.map((item: any) => item.value);
+        } else {
+            newValue = value?.value;
+        }
+
+        if (selectProps.multiple) {
+            setAutocompleteChangeMult(true);
+        } else {
+            setAutocompleteChange(true);
+        }
+
+        let values: any;
+        if (Array.isArray(newValue)) {
+            values = newValue;
+        } else {
+            values = [newValue];
+        }
+
+        const arrayOptions: ISelectItem[] = [];
+        selectProps.items.map((item: ISelectItem) => {
+            if (!values.includes(item.value)) {
+                arrayOptions.push(item);
+            }
+            return item;
+        });
+
+        setSelectorOptions(selectorOptions.set(name, arrayOptions));
+        setSelectorArray(new Map(selectorArray.set(name, value)));
+        setValue(name, newValue);
+        
+        if ((Array.isArray(newValue) && !newValue.length) || !newValue) {
+            setError(name, {
+                message: "Поле обязательно для заполнения",
+            });
+        } else {
+            clearErrors(name);
+        }
+    };
 
     return (
         <>
             {optionsIsLoaded && (
-                  <>
-                  <form
-                      onSubmit={handleSubmit(submitForm)}
-                  >
-                      {fields.map((field) => {
-                          const {
-                              name,
-                              label,
-                              type,
-                              selectProps,
-                              validationProps,
-                              defaultValue,
-                          } = field;
-                          const fieldState = getFieldState(name);
-                          let component: any;
-                          switch (type) {
-                              case "text":
-                                  component = (
-                                      <>
-                                          <div
-                                              style={{
-                                                  marginBottom: "20px",
-                                              }}
-                                          >
-                                              <TextField
-                                                  id="text-field"
-                                                  variant="outlined"
-                                                  label={label}
-                                                  defaultValue={
-                                                      defaultValue ? defaultValue : ""
-                                                  }
-                                                  error={fieldState.invalid}
-                                                  {...register(name, validationProps)}
-                                                  fullWidth
-                                              />
-                                              <p style={styleError}>
-                                                  {fieldState.error?.message}
-                                              </p>
-                                          </div>
-                                      </>
-                                  );
-                                  break;
-                              case "number":
-                                  component = (
-                                      <>
-                                          <div
-                                              style={{
-                                                  marginBottom: "20px",
-                                              }}
-                                          >
-                                              <TextField
-                                                  id="text-field"
-                                                  variant="outlined"
-                                                  label={label}
-                                                  defaultValue={
-                                                      defaultValue ? defaultValue : ""
-                                                  }
-                                                  error={fieldState.invalid}
-                                                  {...register(name, validationProps)}
-                                                  type="number"
-                                                  fullWidth
-                                              />
-                                              <p style={styleError}>
-                                                  {fieldState.error?.message}
-                                              </p>
-                                          </div>
-                                      </>
-                                  );
-                                  break;
-                              case "select":
-                                  const selectValues = selectorArray.get(name);
-                                  if (selectProps) {
-                                      !isChangingSelect &&
-                                          selectProps.defaultValue &&
-                                          setValue(name, selectProps.defaultValue);
-                                      component = (
-                                          <>
-                                              <div
-                                                  style={{
-                                                      marginBottom: "20px",
-                                                  }}
-                                              >
-                                                  <CustomSelect
-                                                      multiple={selectProps?.multiple}
-                                                      name={label}
-                                                      id={name}
-                                                      defaultSelectedItem={
-                                                          selectProps.defaultValue
-                                                              ? selectProps.defaultValue
-                                                              : selectValues
-                                                              ? selectValues
-                                                              : ""
-                                                      }
-                                                      list={selectProps?.items}
-                                                      appearance="outlined"
-                                                      action={handleSetSelectValue}
-                                                  />
-                                                  <p style={styleError}>
-                                                      {fieldState.error?.message}
-                                                  </p>
-                                              </div>
-                                          </>
-                                      );
-                                  }
-                                  break;
-                              case "selectAuto":
-                                  if (selectProps) {
-                                      const selectValues = selectorArray.get(name);
-                                      const selectOptions = selectorOptions.get(name);             
-                                      setAutoSelectValues(selectProps, name);
-                                      component = (
-                                          <>
-                                              <div
-                                                  style={{
-                                                      marginBottom: "20px",
-                                                  }}
-                                              >
-                                                  <Autocomplete
-                                                      multiple={selectProps.multiple}
-                                                      value={
-                                                          !isChangingAutocomplete &&
-                                                          selectProps.defaultItem
-                                                              ? selectProps.defaultItem
-                                                              : !isChangingAutocompleteMult &&
-                                                                selectProps.defaultItems
-                                                              ? selectProps.defaultItems
-                                                              : selectValues
-                                                              ? selectValues
-                                                              : selectProps.multiple
-                                                              ? []
-                                                              : {}
-                                                      }
-                                                      id="tags-outlined"
-                                                      options={selectOptions}
-                                                 
-                                                      getOptionLabel={(option) =>
-                                                          option.name
-                                                              ? option.name
-                                                              : ""
-                                                      }
+                <>
+                    <form onSubmit={handleSubmit(submitForm)}>
+                        {fields.map((field) => {
+                            const {
+                                name,
+                                label,
+                                type,
+                                selectProps,
+                                validationProps,
+                                defaultValue,
+                            } = field;
+                            const fieldState = getFieldState(name);
+                            let component: any;
+                            switch (type) {
+                                case "text":
+                                    component = (
+                                        <>
+                                            <div
+                                                style={{
+                                                    marginBottom: "20px",
+                                                }}
+                                            >
+                                                <TextField
+                                                    id="text-field"
+                                                    variant="outlined"
+                                                    label={label}
+                                                    defaultValue={
+                                                        defaultValue
+                                                            ? defaultValue
+                                                            : ""
+                                                    }
+                                                    error={fieldState.invalid}
+                                                    {...register(
+                                                        name,
+                                                        validationProps
+                                                    )}
+                                                    fullWidth
+                                                />
+                                                <p style={styleError}>
+                                                    {fieldState.error?.message}
+                                                </p>
+                                            </div>
+                                        </>
+                                    );
+                                    break;
+                                case "number":
+                                    component = (
+                                        <>
+                                            <div
+                                                style={{
+                                                    marginBottom: "20px",
+                                                }}
+                                            >
+                                                <TextField
+                                                    id="text-field"
+                                                    variant="outlined"
+                                                    label={label}
+                                                    defaultValue={
+                                                        defaultValue
+                                                            ? defaultValue
+                                                            : ""
+                                                    }
+                                                    error={fieldState.invalid}
+                                                    {...register(
+                                                        name,
+                                                        validationProps
+                                                    )}
+                                                    type="number"
+                                                    fullWidth
+                                                />
+                                                <p style={styleError}>
+                                                    {fieldState.error?.message}
+                                                </p>
+                                            </div>
+                                        </>
+                                    );
+                                    break;
+                                case "select":
+                                    const selectValues =
+                                        selectorArray.get(name);
+                                    if (selectProps) {
+                                        !isChangingSelect &&
+                                            selectProps.defaultValue &&
+                                            setValue(
+                                                name,
+                                                selectProps.defaultValue
+                                            );
+                                        component = (
+                                            <>
+                                                <div
+                                                    style={{
+                                                        marginBottom: "20px",
+                                                    }}
+                                                >
+                                                    <CustomSelect
+                                                        multiple={
+                                                            selectProps?.multiple
+                                                        }
+                                                        name={label}
+                                                        id={name}
+                                                        defaultSelectedItem={
+                                                            selectProps.defaultValue
+                                                                ? selectProps.defaultValue
+                                                                : selectValues
+                                                                ? selectValues
+                                                                : ""
+                                                        }
+                                                        list={
+                                                            selectProps?.items
+                                                        }
+                                                        appearance="outlined"
+                                                        action={
+                                                            handleSetSelectValue
+                                                        }
+                                                    />
+                                                    <p style={styleError}>
+                                                        {
+                                                            fieldState.error
+                                                                ?.message
+                                                        }
+                                                    </p>
+                                                </div>
+                                            </>
+                                        );
+                                    }
+                                    break;
+                                case "selectAuto":
+                                    if (selectProps) {
+                                        const selectValues =
+                                            selectorArray.get(name);
+                                        const selectOptions =
+                                            selectorOptions.get(name);
+                                        setAutoSelectValues(selectProps, name);
+                                        component = (
+                                            <>
+                                                <div
+                                                    style={{
+                                                        marginBottom: "20px",
+                                                    }}
+                                                >
+                                                    <Autocomplete
+                                                        multiple={
+                                                            selectProps.multiple
+                                                        }
+                                                        value={
+                                                            !isChangingAutocomplete &&
+                                                            selectProps.defaultItem
+                                                                ? selectProps.defaultItem
+                                                                : !isChangingAutocompleteMult &&
+                                                                  selectProps.defaultItems
+                                                                ? selectProps.defaultItems
+                                                                : selectValues
+                                                                ? selectValues
+                                                                : selectProps.multiple
+                                                                ? []
+                                                                : {}
+                                                        }
+                                                        id="tags-outlined"
+                                                        options={selectOptions}
+                                                        getOptionLabel={(
+                                                            option
+                                                        ) =>
+                                                            option.name
+                                                                ? option.name
+                                                                : ""
+                                                        }
+                                                        filterSelectedOptions
+                                                        renderInput={(
+                                                            params
+                                                        ) => (
+                                                            <TextField
+                                                                {...params}
+                                                                label={label}
+                                                                placeholder={
+                                                                    label
+                                                                }
+                                                            />
+                                                        )}
+                                                        freeSolo={true}
+                                                        onChange={(
+                                                            e,
+                                                            value: any
+                                                        ) => {
+                                                            autocompleteChange(
+                                                                value,
+                                                                name,
+                                                                selectProps
+                                                            );
+                                                        }}
+                                                    />
 
-                                                      filterSelectedOptions
-                                                      renderInput={(params) => (
-                                                          <TextField
-                                                              {...params}
-                                                              label={label}
-                                                              placeholder={label}
-                                                          />
-                                                      )}
-                                                      freeSolo={true}
-                                                  
-                                                      onChange={(e, value: any) => {
-                                                          console.log({value})
-                                                          let newValue: any;
-                                                          if (selectProps.multiple) {
-                                                              newValue = value.map(
-                                                                  (item: any) =>
-                                                                      item.value
-                                                              );
-                                                          } else {
-                                                              newValue = value?.value;
-                                                          }
-      
-                                                          if (selectProps.multiple) {
-                                                              setAutocompleteChangeMult(
-                                                                  true
-                                                              );
-                                                          } else {
-                                                              setAutocompleteChange(
-                                                                  true
-                                                              );
-                                                          }
+                                                    <p style={styleError}>
+                                                        {
+                                                            fieldState.error
+                                                                ?.message
+                                                        }
+                                                    </p>
+                                                </div>
+                                            </>
+                                        );
+                                    }
+                                    break;
+                                default:
+                                    component = <></>;
+                                    break;
+                            }
+                            return component;
+                        })}
 
-                                                          let values: any;
-                                                          if(Array.isArray(newValue)) {
-                                                            values = newValue;
-                                                          } else {
-                                                            values = [newValue];
-                                                          }
-                                                   
-                                                          const arrayOptions: any = [];
-                                                            selectProps.items.map((item)=>{
-                                                            if(!values.includes(item.value)) {
-                                                                arrayOptions.push(item);
-                                                            }
-                                                            return item;
-                                                          });
-
-                                                          setSelectorOptions(selectorOptions.set(field.name, arrayOptions));
-                                                          
-                                                          setSelectorArray(
-                                                              new Map(
-                                                                  selectorArray.set(
-                                                                      name,
-                                                                      value
-                                                                  )
-                                                              )
-                                                          );
-                                                                    
-                                                          setValue(name, newValue);
-                                                          if (
-                                                              (Array.isArray(
-                                                                  newValue
-                                                              ) &&
-                                                                  !newValue.length) ||
-                                                              !newValue
-                                                          ) {
-                                                              setError(name, {
-                                                                  message:
-                                                                      "Поле обязательно для заполнения",
-                                                              });
-                                                          } else {
-                                                              clearErrors(name);
-                                                          }
-                                                      }}
-                                                  />
-      
-                                                  <p style={styleError}>
-                                                      {fieldState.error?.message}
-                                                  </p>
-                                              </div>
-                                          </>
-                                      );
-                                  }
-                                  break;
-                              default:
-                                  component = <></>;
-                                  break;
-                          }
-                          return component;
-                      })}
-      
-                      {hasUploadImage && (
-                          <>
-                              <TextField
-                                  onChange={uploadImage}
-                                  type="file"
-                                  sx={{marginBottom: '10px'}}
-                                  fullWidth
-                              />
-                              {selectedImage && (
-                                  <div
-                                      style={{
-                                          display: "flex",
-                                          justifyContent: "center",
-                                          marginTop: "9px",
-                                      }}
-                                  >
-                                      <Card
-                                          sx={{
-                                              width: 300,
-                                              height: "auto",
-                                              boxShadow: "none"
-                                          }}
-                                          
-                                      >
-                                          <Box
-                                              className="card-img"
-                                              style={{ backgroundSize: "contain" }}
-                                              sx={{
-                                                  background: `url(${selectedImage}) center center no-repeat`,
-                                              }}
-                                          ></Box>
-                                      </Card>
-                                  </div>
-                              )}
-                              {noFileError && (
-                                  <p style={styleError}>
-                                      Фото для товара не загружено
-                                  </p>
-                              )}
-                          </>
-                      )}
-                      <div style={{display: "flex", justifyContent: "space-between"}}>
-                          <Button variant="outlined" onClick={onCancel}>
-                              Отменить
-                          </Button>
-                          <Button variant="contained" type="submit" onClick={handleCheckFieldsExist}>
-                              {nameSubmitBtn ? nameSubmitBtn : "Добавить"}
-                          </Button>
-                      </div>
-                  </form>
-              </>
+                        {hasUploadImage && (
+                            <>
+                                <TextField
+                                    onChange={uploadImage}
+                                    type="file"
+                                    sx={{ marginBottom: "10px" }}
+                                    fullWidth
+                                />
+                                {selectedImage && (
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            marginTop: "9px",
+                                        }}
+                                    >
+                                        <Card
+                                            sx={{
+                                                width: 300,
+                                                height: "auto",
+                                                boxShadow: "none",
+                                            }}
+                                        >
+                                            <Box
+                                                className="card-img"
+                                                style={{
+                                                    backgroundSize: "contain",
+                                                }}
+                                                sx={{
+                                                    background: `url(${selectedImage}) center center no-repeat`,
+                                                }}
+                                            ></Box>
+                                        </Card>
+                                    </div>
+                                )}
+                                {noFileError && (
+                                    <p style={styleError}>
+                                        Фото для товара не загружено
+                                    </p>
+                                )}
+                            </>
+                        )}
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                            }}
+                        >
+                            <Button variant="outlined" onClick={onCancel}>
+                                Отменить
+                            </Button>
+                            <Button
+                                variant="contained"
+                                type="submit"
+                                onClick={handleCheckFieldsExist}
+                            >
+                                {nameSubmitBtn ? nameSubmitBtn : "Добавить"}
+                            </Button>
+                        </div>
+                    </form>
+                </>
             )}
         </>
     );
