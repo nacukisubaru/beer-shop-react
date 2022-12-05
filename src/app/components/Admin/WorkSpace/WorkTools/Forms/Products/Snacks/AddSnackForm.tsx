@@ -2,23 +2,19 @@ import { FC, useEffect } from "react";
 import { useActions } from "../../../../../../../hooks/useActions";
 import { IStateResponse } from "../../../../../../../hooks/useCatalog";
 import { brandApi } from "../../../../../../../store/services/brands/brand.api";
+import { IBrand } from "../../../../../../../store/services/brands/types/brand.types";
 import { typePackagingApi } from "../../../../../../../store/services/type-packaging/type-packaging.api";
+import { ITypePackaging } from "../../../../../../../store/services/type-packaging/types/type-packaging.types";
 import Form from "../../Form";
 
 interface AddSnackFormProps {
+    brandsList: IBrand[];
+    packagingList: ITypePackaging[];
     submit: (body: any, isObject?: boolean) => Promise<IStateResponse>;
 }
 
-const AddSnackForm: FC<AddSnackFormProps> = ({ submit }) => {
-    const brandsList = brandApi.useGetListByProductTypeQuery("snacks");
-    const packagingList = typePackagingApi.useGetListByProductTypeQuery("snacks");
+const AddSnackForm: FC<AddSnackFormProps> = ({ brandsList, packagingList, submit }) => {
     const { closeModalAddContent } = useActions();
-
-    useEffect(() => {
-        brandsList.refetch();
-        packagingList.refetch();
-    }, []);
-
     return (
         <Form
             fields={[
@@ -68,14 +64,16 @@ const AddSnackForm: FC<AddSnackFormProps> = ({ submit }) => {
                     label: "Бренд",
                     selectProps: {
                         multiple: false,
-                        items: brandsList.data
-                            ? brandsList.data.map((brand) => {
-                                  return {
-                                      name: brand.name,
-                                      value: brand.id,
-                                  };
-                              })
-                            : [],
+                        items: brandsList.map((brand) => {
+                            return {
+                                name: brand.name,
+                                value: brand.id,
+                            };
+                        }),
+                        createSelectData: {
+                            name: "Создать бренд",
+                            link: "/admin/brands",
+                        },
                     },
                     validationProps: {
                         required: "Поле обязательно для заполнения",
@@ -90,11 +88,10 @@ const AddSnackForm: FC<AddSnackFormProps> = ({ submit }) => {
                     },
                     selectProps: {
                         multiple: false,
-                        items: packagingList.data
-                            ? packagingList.data.map((item) => {
-                                  return { name: item.name, value: item.id };
-                              })
-                            : [],
+                        items: packagingList.map((item) => {
+                            return { name: item.name, value: item.id };
+                        }),
+                        createSelectData:{name: "Создать тип упаковки", link: "/admin/type-packaging"}
                     },
                 },
                 {

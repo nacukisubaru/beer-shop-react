@@ -1,31 +1,26 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { useActions } from "../../../../../../../hooks/useActions";
 import { useAppSelector } from "../../../../../../../hooks/useAppSelector";
 import { IStateResponse } from "../../../../../../../hooks/useCatalog";
-import { brandApi } from "../../../../../../../store/services/brands/brand.api";
+import { IBrand } from "../../../../../../../store/services/brands/types/brand.types";
 import { snackApi } from "../../../../../../../store/services/snacks/snack.api";
-import { typePackagingApi } from "../../../../../../../store/services/type-packaging/type-packaging.api";
+import { ITypePackaging } from "../../../../../../../store/services/type-packaging/types/type-packaging.types";
 import Form from "../../Form";
 
 interface UpdSnackFormProps {
+    brandsList: IBrand[];
+    packagingList: ITypePackaging[];
     submit: (body: any, isObject?: boolean) => Promise<IStateResponse>;
 }
 
-const UpdSnackForm: FC<UpdSnackFormProps> = ({ submit }) => {
+const UpdSnackForm: FC<UpdSnackFormProps> = ({ brandsList, packagingList, submit }) => {
     const { detailId } = useAppSelector((state) => state.contentReducer);
     const { data, isLoading, refetch } = snackApi.useGetOneQuery(detailId);
-    const brandsList = brandApi.useGetListByProductTypeQuery("snacks");
-    const packagingList = typePackagingApi.useGetListByProductTypeQuery("snacks");
     const { closeModalAddContent } = useActions();
 
     const onSubmit = () => {
         refetch();
     };
-
-    useEffect(() => {
-        brandsList.refetch();
-        packagingList.refetch();
-    }, []);
 
     return (
         <>
@@ -76,14 +71,12 @@ const UpdSnackForm: FC<UpdSnackFormProps> = ({ submit }) => {
                             label: "Бренд",
                             selectProps: {
                                 multiple: false,
-                                items: brandsList.data
-                                    ? brandsList.data.map((brand) => {
-                                          return {
-                                              name: brand.name,
-                                              value: brand.id,
-                                          };
-                                      })
-                                    : [],
+                                items: brandsList.map((brand) => {
+                                    return {
+                                        name: brand.name,
+                                        value: brand.id,
+                                    };
+                                }),
                                 defaultItem: {
                                     name: data?.product?.brandName,
                                     value: data?.product?.brandId,
@@ -102,14 +95,12 @@ const UpdSnackForm: FC<UpdSnackFormProps> = ({ submit }) => {
                             },
                             selectProps: {
                                 multiple: false,
-                                items: packagingList.data
-                                    ? packagingList.data.map((item) => {
-                                          return {
-                                              name: item.name,
-                                              value: item.id,
-                                          };
-                                      })
-                                    : [],
+                                items: packagingList.map((item) => {
+                                    return {
+                                        name: item.name,
+                                        value: item.id,
+                                    };
+                                }),
                                 defaultValue: data?.product?.typePackagingId,
                             },
                         },
@@ -143,8 +134,7 @@ const UpdSnackForm: FC<UpdSnackFormProps> = ({ submit }) => {
                                     { name: "Да", value: "true" },
                                     { name: "Нет", value: "false" },
                                 ],
-                                defaultValue:
-                                    data?.product?.inStock.toString(),
+                                defaultValue: data?.product?.inStock.toString(),
                             },
                         },
                     ]}

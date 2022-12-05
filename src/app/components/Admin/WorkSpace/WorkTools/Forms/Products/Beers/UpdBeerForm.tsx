@@ -1,38 +1,32 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { useActions } from "../../../../../../../hooks/useActions";
 import { useAppSelector } from "../../../../../../../hooks/useAppSelector";
 import { IStateResponse } from "../../../../../../../hooks/useCatalog";
 import { beerApi } from "../../../../../../../store/services/beers/beer.api";
-import { brandApi } from "../../../../../../../store/services/brands/brand.api";
-import { gradeApi } from "../../../../../../../store/services/grades/grade.api";
-import { typePackagingApi } from "../../../../../../../store/services/type-packaging/type-packaging.api";
+import { IBrand } from "../../../../../../../store/services/brands/types/brand.types";
+import { IGrade } from "../../../../../../../store/services/grades/types/grade.type";
+import { ITypePackaging } from "../../../../../../../store/services/type-packaging/types/type-packaging.types";
 import Form from "../../Form";
 
 interface UpdBeerFormProps {
+    gradesList: IGrade[];
+    brandsList: IBrand[];
+    packagingList: ITypePackaging[];
     submit: (body: any, isObject?: boolean) => Promise<IStateResponse>;
 }
 
-const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
+const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit, gradesList, brandsList, packagingList }) => {
     const { detailId } = useAppSelector((state) => state.contentReducer);
     const { data, isLoading, refetch } = beerApi.useGetOneQuery(detailId);
-    const gradesList = gradeApi.useGradesListQuery({});
-    const brandsList = brandApi.useGetListByProductTypeQuery("beers");
-    const packagingList = typePackagingApi.useGetListByProductTypeQuery("beers");
     const { closeModalAddContent } = useActions();
 
     const onSubmit = () => {
         refetch();
     };
 
-    useEffect(() => {
-        gradesList.refetch();
-        brandsList.refetch();
-        packagingList.refetch();
-    }, []);
-
     return (
         <>
-            {isLoading || gradesList.isLoading || brandsList.isLoading || packagingList.isLoading ? (
+            {isLoading  ? (
                 <></>
             ) : (
                 <Form
@@ -115,20 +109,19 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
                             label: "Сорта",
                             selectProps: {
                                 multiple: true,
-                                items: gradesList.data
-                                    ? gradesList.data.map((grade) => {
-                                          return {
-                                              name: grade.name,
-                                              value: grade.id,
-                                          };
-                                      })
-                                    : [],
+                                items: gradesList.map((grade) => {
+                                    return {
+                                        name: grade.name,
+                                        value: grade.id,
+                                    };
+                                }),
                                 defaultItems: data?.grades?.map((grade) => {
                                     return {
                                         value: grade.id,
                                         name: grade.name,
                                     };
                                 }),
+                                createSelectData:{name: "Создать сорт", link: "/admin/grades"}
                             },
                             validationProps: {
                                 required: "Поле обязательно для заполнения",
@@ -140,18 +133,17 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
                             label: "Бренд",
                             selectProps: {
                                 multiple: false,
-                                items: brandsList.data
-                                    ? brandsList.data.map((brand) => {
-                                          return {
-                                              name: brand.name,
-                                              value: brand.id,
-                                          };
-                                      })
-                                    : [],
+                                items: brandsList.map((brand) => {
+                                    return {
+                                        name: brand.name,
+                                        value: brand.id,
+                                    };
+                                }),
                                 defaultItem: {
                                     name: data?.product?.brandName,
                                     value: data?.product?.brandId,
                                 },
+                                createSelectData:{name: "Создать бренд", link: "/admin/brands"}
                             },
                             validationProps: {
                                 required: "Поле обязательно для заполнения",
@@ -159,22 +151,21 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
                         },
                         {
                             name: "typePackagingId",
-                            type: "select",
+                            type: "selectAuto",
                             label: "Тип упаковки",
                             validationProps: {
                                 required: "Поле обязательно для заполнения",
                             },
                             selectProps: {
                                 multiple: false,
-                                items: packagingList.data
-                                    ? packagingList.data.map((item) => {
-                                          return {
-                                              name: item.name,
-                                              value: item.id,
-                                          };
-                                      })
-                                    : [],
+                                items: packagingList.map((item) => {
+                                    return {
+                                        name: item.name,
+                                        value: item.id,
+                                    };
+                                }),
                                 defaultValue: data?.product?.typePackagingId,
+                                createSelectData:{name: "Создать тип упаковки", link: "/admin/type-packaging"}
                             },
                         },
                         {
@@ -207,8 +198,7 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
                                     { name: "Да", value: "true" },
                                     { name: "Нет", value: "false" },
                                 ],
-                                defaultValue:
-                                    data?.product?.inStock.toString(),
+                                defaultValue: data?.product?.inStock.toString(),
                             },
                         },
                         {

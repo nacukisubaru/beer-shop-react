@@ -1,22 +1,24 @@
 import { useCatalog } from "../../../../../hooks/useCatalog";
 import { snackApi } from "../../../../../store/services/snacks/snack.api";
+import { useTableAction } from "../../../../../hooks/useTableAction";
+import { brandApi } from "../../../../../store/services/brands/brand.api";
+import { typePackagingApi } from "../../../../../store/services/type-packaging/type-packaging.api";
 import SnackFilterTable from "../Filters/SnackFilterTable";
 import AddSnackForm from "../Forms/Products/Snacks/AddSnackForm";
 import UpdSnackForm from "../Forms/Products/Snacks/UpdSnackForm";
 import EditIcon from "@mui/icons-material/Edit";
-
 import TableAdmin from "./Table";
-import { useTableAction } from "../../../../../hooks/useTableAction";
 
 export default function SnacksTableAdmin() {
-    const { rows, addRow, updRow, clearStateResponse, stateResponse } = useCatalog(
-        snackApi,
-        "beer"
-    );
+    const brandsList = brandApi.useGetListByProductTypeQuery("snacks");
+    const packagingList =
+        typePackagingApi.useGetListByProductTypeQuery("snacks");
+    const { rows, addRow, updRow, clearStateResponse, stateResponse } =
+        useCatalog(snackApi, "beer");
     const { rowEdit, closeTableModal, isUpdAction, message } = useTableAction({
         successMessage: "Товар успешно добавлен",
         successMessageUpd: "Товар успешно обновлен",
-        successMessageRemove: "Товар успешно удален"
+        successMessageRemove: "Товар успешно удален",
     });
 
     return (
@@ -43,17 +45,41 @@ export default function SnacksTableAdmin() {
                     field: "typePackagingName",
                     headerName: "Тип упаковки",
                     width: 150,
-                }
+                },
             ]}
             tableProps={{ rows, clearStateResponse, stateResponse }}
             modalProps={{
-                childrenModal: isUpdAction ? <UpdSnackForm submit={updRow} /> : <AddSnackForm submit={addRow} />,
-                titleModal: isUpdAction ? "Обновить закуску" : "Добавить закуску",
+                childrenModal: isUpdAction ? (
+                    <UpdSnackForm 
+                    brandsList={brandsList.data ? brandsList.data : []}
+                    packagingList={
+                        packagingList.data ? packagingList.data : []
+                    }
+                    submit={updRow} />
+                ) : (
+                    <AddSnackForm
+                        brandsList={brandsList.data ? brandsList.data : []}
+                        packagingList={
+                            packagingList.data ? packagingList.data : []
+                        }
+                        submit={addRow}
+                    />
+                ),
+                titleModal: isUpdAction
+                    ? "Обновить закуску"
+                    : "Добавить закуску",
                 successMessage: message,
                 width: "sm",
-                closeModal: closeTableModal
+                closeModal: closeTableModal,
             }}
-            actionButtons={[{color: "primary", size: "small", onClick: rowEdit, icon: <EditIcon/>}]}
+            actionButtons={[
+                {
+                    color: "primary",
+                    size: "small",
+                    onClick: rowEdit,
+                    icon: <EditIcon />,
+                },
+            ]}
             filterPanel={SnackFilterTable}
         />
     );

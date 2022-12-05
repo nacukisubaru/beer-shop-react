@@ -1,6 +1,7 @@
 import { Autocomplete, Box, Button, Card, TextField } from "@mui/material";
 import { FC, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { IStateResponse } from "../../../../../hooks/useCatalog";
 import CustomSelect from "../../../../CustomUI/CustomSelect/CustomSelect";
 
@@ -9,12 +10,19 @@ interface ISelectItem {
     value: any;
 }
 
+interface ICreateSelectData {
+    name: string;
+    link: string;
+}
+
 interface ISelect {
     multiple: boolean;
     items: ISelectItem[];
     defaultItems?: ISelectItem[];
     defaultValue?: any;
     defaultItem?: ISelectItem;
+    createSelectData?: ICreateSelectData;
+    onOpen?: () => void;
 }
 
 interface IValidation {
@@ -62,14 +70,14 @@ const Form: FC<IForm> = ({
         setValue,
     } = useForm();
 
+    const navigate = useNavigate();
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [selectorArray, setSelectorArray] = useState(new Map());
     const [selectorOptions, setSelectorOptions] = useState(new Map());
     const [noFileError, setNoFileError] = useState(false);
     const [selectedImage, setSelectedImage] = useState<string>(defaultFile);
     const [isChangingAutocomplete, setAutocompleteChange] = useState(false);
-    const [isChangingAutocompleteMult, setAutocompleteChangeMult] =
-        useState(false);
+    const [isChangingAutocompleteMult, setAutocompleteChangeMult] = useState(false);
     const [isChangingSelect, setSelectChange] = useState(false);
     const [optionsIsLoaded, setOptionsLoaded] = useState(false);
 
@@ -86,20 +94,25 @@ const Form: FC<IForm> = ({
             if (field.type === "selectAuto" && field.selectProps) {
                 const arrayOptions: any = [];
                 const selectProps = field.selectProps;
-                selectProps.items.map((item) => {
-                    const defaultItemsValues = selectProps.defaultItems
-                        ? selectProps.defaultItems.map((item) => item.value)
-                        : [];
-                    if (!defaultItemsValues.includes(item.value)) {
-                        arrayOptions.push(item);
-                        setSelectorOptions(
-                            new Map(
-                                selectorOptions.set(field.name, arrayOptions)
-                            )
-                        );
-                    }
-                    return item;
-                });
+                if (selectProps.items.length) {
+                    selectProps.items.map((item) => {
+                        const defaultItemsValues = selectProps.defaultItems
+                            ? selectProps.defaultItems.map((item) => item.value)
+                            : [];
+                        if (!defaultItemsValues.includes(item.value)) {
+                            arrayOptions.push(item);
+                            setSelectorOptions(
+                                new Map(
+                                    selectorOptions.set(
+                                        field.name,
+                                        arrayOptions
+                                    )
+                                )
+                            );
+                        }
+                        return item;
+                    });
+                }
             }
             return field;
         });
@@ -268,7 +281,11 @@ const Form: FC<IForm> = ({
         onSubmit && onSubmit();
     };
 
-    const autocompleteChange = (value: ISelectItem[] | ISelectItem, name: string, selectProps: ISelect) => {
+    const autocompleteChange = (
+        value: ISelectItem[] | ISelectItem,
+        name: string,
+        selectProps: ISelect
+    ) => {
         console.log({ value });
         let newValue: any;
         if (Array.isArray(value)) {
@@ -301,7 +318,7 @@ const Form: FC<IForm> = ({
         setSelectorOptions(selectorOptions.set(name, arrayOptions));
         setSelectorArray(new Map(selectorArray.set(name, value)));
         setValue(name, newValue);
-        
+
         if ((Array.isArray(newValue) && !newValue.length) || !newValue) {
             setError(name, {
                 message: "Поле обязательно для заполнения",
@@ -442,6 +459,7 @@ const Form: FC<IForm> = ({
                                     break;
                                 case "selectAuto":
                                     if (selectProps) {
+                                        console.log({selectProps})
                                         const selectValues =
                                             selectorArray.get(name);
                                         const selectOptions =
@@ -454,56 +472,75 @@ const Form: FC<IForm> = ({
                                                         marginBottom: "20px",
                                                     }}
                                                 >
-                                                    <Autocomplete
-                                                        multiple={
-                                                            selectProps.multiple
-                                                        }
-                                                        value={
-                                                            !isChangingAutocomplete &&
-                                                            selectProps.defaultItem
-                                                                ? selectProps.defaultItem
-                                                                : !isChangingAutocompleteMult &&
-                                                                  selectProps.defaultItems
-                                                                ? selectProps.defaultItems
-                                                                : selectValues
-                                                                ? selectValues
-                                                                : selectProps.multiple
-                                                                ? []
-                                                                : {}
-                                                        }
-                                                        id="tags-outlined"
-                                                        options={selectOptions}
-                                                        getOptionLabel={(
-                                                            option
-                                                        ) =>
-                                                            option.name
-                                                                ? option.name
-                                                                : ""
-                                                        }
-                                                        filterSelectedOptions
-                                                        renderInput={(
-                                                            params
-                                                        ) => (
-                                                            <TextField
-                                                                {...params}
-                                                                label={label}
-                                                                placeholder={
-                                                                    label
-                                                                }
-                                                            />
-                                                        )}
-                                                        freeSolo={true}
-                                                        onChange={(
-                                                            e,
-                                                            value: any
-                                                        ) => {
-                                                            autocompleteChange(
-                                                                value,
-                                                                name,
-                                                                selectProps
-                                                            );
-                                                        }}
-                                                    />
+                                                    {selectOptions ? (
+                                                        <Autocomplete
+                                                            multiple={
+                                                                selectProps.multiple
+                                                            }
+                                                            value={
+                                                                !isChangingAutocomplete &&
+                                                                selectProps.defaultItem
+                                                                    ? selectProps.defaultItem
+                                                                    : !isChangingAutocompleteMult &&
+                                                                      selectProps.defaultItems
+                                                                    ? selectProps.defaultItems
+                                                                    : selectValues
+                                                                    ? selectValues
+                                                                    : selectProps.multiple
+                                                                    ? []
+                                                                    : {}
+                                                            }
+                                                            id="tags-outlined"
+                                                            options={
+                                                                selectOptions
+                                                            }
+                                                            getOptionLabel={(
+                                                                option
+                                                            ) =>
+                                                                option.name
+                                                                    ? option.name
+                                                                    : ""
+                                                            }
+                                                            filterSelectedOptions
+                                                            renderInput={(
+                                                                params
+                                                            ) => (
+                                                                <TextField
+                                                                    {...params}
+                                                                    label={
+                                                                        label
+                                                                    }
+                                                                    placeholder={
+                                                                        label
+                                                                    }
+                                                                />
+                                                            )}
+                                                            freeSolo={true}
+                                                            onChange={(
+                                                                e,
+                                                                value: any
+                                                            ) => {
+                                                                autocompleteChange(
+                                                                    value,
+                                                                    name,
+                                                                    selectProps
+                                                                );
+                                                            }}
+                                                            onOpen={
+                                                                selectProps.onOpen
+                                                                    ? selectProps.onOpen
+                                                                    : () => {}
+                                                            }
+                                                        />
+                                                    ) : (
+                                                        <>  
+                                                            {selectProps.createSelectData && (
+                                                                <Button onClick={()=>{ selectProps.createSelectData && navigate(selectProps.createSelectData.link)}}>
+                                                                    {selectProps.createSelectData.name}
+                                                                </Button>
+                                                            )}
+                                                        </>
+                                                    )}
 
                                                     <p style={styleError}>
                                                         {

@@ -6,9 +6,16 @@ import AddBeerForm from "../Forms/Products/Beers/AddBeerForm";
 import UpdBeerForm from "../Forms/Products/Beers/UpdBeerForm";
 import EditIcon from "@mui/icons-material/Edit";
 import TableAdmin from "./Table";
+import { gradeApi } from "../../../../../store/services/grades/grade.api";
+import { typePackagingApi } from "../../../../../store/services/type-packaging/type-packaging.api";
+import { brandApi } from "../../../../../store/services/brands/brand.api";
 
 export default function BeerTableAdmin() {
-    const { rows, addRow, updRow, clearStateResponse, stateResponse } = useCatalog(beerApi, "beer");
+    const gradesList = gradeApi.useGradesListQuery({});
+    const brandsList = brandApi.useGetListByProductTypeQuery("beers");
+    const packagingList = typePackagingApi.useGetListByProductTypeQuery("beers");
+    const { rows, addRow, updRow, clearStateResponse, stateResponse } =
+        useCatalog(beerApi, "beer");
     const { rowEdit, closeTableModal, isUpdAction, message } = useTableAction({
         successMessage: "Товар успешно добавлен",
         successMessageUpd: "Товар успешно обновлен",
@@ -69,7 +76,25 @@ export default function BeerTableAdmin() {
             ]}
             tableProps={{ rows, clearStateResponse, stateResponse }}
             modalProps={{
-                childrenModal: isUpdAction ? <UpdBeerForm submit={updRow} /> : <AddBeerForm submit={addRow} />,
+                childrenModal: isUpdAction ? (
+                    <UpdBeerForm
+                        gradesList={gradesList.data ? gradesList.data : []}
+                        brandsList={brandsList.data ? brandsList.data : []}
+                        packagingList={
+                            packagingList.data ? packagingList.data : []
+                        }
+                        submit={updRow}
+                    />
+                ) : (
+                    <AddBeerForm
+                        gradesList={gradesList.data ? gradesList.data : []}
+                        brandsList={brandsList.data ? brandsList.data : []}
+                        packagingList={
+                            packagingList.data ? packagingList.data : []
+                        }
+                        submit={addRow}
+                    />
+                ),
                 titleModal: isUpdAction ? "Обновить пиво" : "Добавить пиво",
                 successMessage: message,
                 width: "sm",
