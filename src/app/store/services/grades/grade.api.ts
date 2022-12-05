@@ -9,7 +9,7 @@ export const gradeApi = createApi({
     endpoints: (build) => ({
         gradesList: build.query<IGrade[], any>({
             query: (params) => ({
-                url: ''
+                url: '/grades/getList'
             })
         }),
         getList: build.query<IGrade[], any>({
