@@ -352,7 +352,8 @@ const Form: FC<IForm> = ({
                             if (selectProps) {
                                 const selectValues = selectorArray.get(name);
                                 setAutoSelectValues(selectProps, name);
-
+                                const defaultItemsValues = selectProps.defaultItems ? selectProps.defaultItems.map((item) => item.value) : [];
+                             
                                 component = (
                                     <>
                                         <div
@@ -376,7 +377,11 @@ const Form: FC<IForm> = ({
                                                         : {}
                                                 }
                                                 id="tags-outlined"
-                                                options={selectProps.items}
+                                                options={selectProps.items.filter((item) => {
+                                                    if(!defaultItemsValues.includes(item.value) && item.value !== selectProps.defaultItem?.value) {
+                                                        return item;
+                                                    }
+                                                })}
                                                 getOptionLabel={(option) =>
                                                     option.name
                                                         ? option.name
