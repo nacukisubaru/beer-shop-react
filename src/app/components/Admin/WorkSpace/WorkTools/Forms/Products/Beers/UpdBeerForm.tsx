@@ -32,7 +32,7 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit }) => {
 
     return (
         <>
-            {isLoading ? (
+            {isLoading || gradesList.isLoading || brandsList.isLoading || packagingList.isLoading ? (
                 <></>
             ) : (
                 <Form
