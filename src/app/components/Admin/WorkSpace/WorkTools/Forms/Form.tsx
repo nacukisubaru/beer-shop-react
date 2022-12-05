@@ -425,27 +425,38 @@ const Form: FC<IForm> = ({
                                                         marginBottom: "20px",
                                                     }}
                                                 >
-                                                    <CustomSelect
-                                                        multiple={
-                                                            selectProps?.multiple
-                                                        }
-                                                        name={label}
-                                                        id={name}
-                                                        defaultSelectedItem={
-                                                            selectProps.defaultValue
-                                                                ? selectProps.defaultValue
-                                                                : selectValues
-                                                                ? selectValues
-                                                                : ""
-                                                        }
-                                                        list={
-                                                            selectProps?.items
-                                                        }
-                                                        appearance="outlined"
-                                                        action={
-                                                            handleSetSelectValue
-                                                        }
-                                                    />
+                                                    { selectProps.items.length ? (
+                                                        <CustomSelect
+                                                            multiple={
+                                                                selectProps?.multiple
+                                                            }
+                                                            name={label}
+                                                            id={name}
+                                                            defaultSelectedItem={
+                                                                selectProps.defaultValue
+                                                                    ? selectProps.defaultValue
+                                                                    : selectValues
+                                                                    ? selectValues
+                                                                    : ""
+                                                            }
+                                                            list={
+                                                                selectProps?.items
+                                                            }
+                                                            appearance="outlined"
+                                                            action={
+                                                                handleSetSelectValue
+                                                            }
+                                                        />
+                                                    ) : (
+                                                        <>  
+                                                            {selectProps.createSelectData && (
+                                                                <Button onClick={()=>{ selectProps.createSelectData && navigate(selectProps.createSelectData.link)}}>
+                                                                    {selectProps.createSelectData.name}
+                                                                </Button>
+                                                            )}
+                                                        </>
+                                                    )}
+                                                    
                                                     <p style={styleError}>
                                                         {
                                                             fieldState.error

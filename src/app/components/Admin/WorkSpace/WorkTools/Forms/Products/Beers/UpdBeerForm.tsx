@@ -151,7 +151,7 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit, gradesList, brandsList, pac
                         },
                         {
                             name: "typePackagingId",
-                            type: "selectAuto",
+                            type: "select",
                             label: "Тип упаковки",
                             validationProps: {
                                 required: "Поле обязательно для заполнения",
