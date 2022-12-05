@@ -10,8 +10,8 @@ export const initialState = {
     maxVolume:<number> 0,
     minFortress:<number> 0,
     maxFortress:<number> 0,
-    forBottling:<any> undefined,
-    filtered:<any> undefined,
+    forBottling:<any> "",
+    filtered:<any> "",
     isActive: 'true',
     sortField: 'price',
     order: 'ASC',
@@ -89,8 +89,8 @@ export const filterProductsSlice = createSlice({
             state.minVolume = 0;
             state.minFortress = 0;
             state.maxFortress = 0;
-            state.forBottling = undefined;
-            state.filtered = undefined;
+            state.forBottling = "";
+            state.filtered = "";
         }
     }
 });

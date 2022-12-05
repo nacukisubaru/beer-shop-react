@@ -294,8 +294,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                                     findFilter &&
                                                     findFilter.value
                                                         ? findFilter.value
-                                                        : valueInputSelect[0]
-                                                              .value
+                                                        : ""
                                                 }
                                                 defaultSelectedItemsMult={
                                                     findFilter &&
@@ -351,7 +350,7 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
                                             defaultSelectedItem={
                                                 findFilter && findFilter.value
                                                     ? findFilter.value
-                                                    : trueValue
+                                                    : ""
                                             }
                                             id={field}
                                             sx={{ marginBottom: "20px" }}
