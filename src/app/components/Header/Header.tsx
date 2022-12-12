@@ -21,7 +21,7 @@ const Header: FC = () => {
     const countProducts: number = useAppSelector(
         (state) => state.basketReducer.count
     );   
-    const {checkRoleUser} = useAuthorizationUser();
+    //const {checkRoleUser} = useAuthorizationUser();
     const {switchMainMenu} = useActions();
 
     return (
@@ -76,7 +76,7 @@ const Header: FC = () => {
                                     <RoomIcon style={{height: '30px', width: '30px'}}/>
                                 </IconButton>
                             </div>
-                            {checkRoleUser("ADMIN") && ( <div>
+                            {/* {checkRoleUser("ADMIN") && ( <div>
                                 <Link to="/admin">
                                     <IconButton>
                                         <AdminPanelSettingsIcon style={{height: '30px', width: '30px'}}/>
@@ -90,7 +90,7 @@ const Header: FC = () => {
                                         <FaceIcon style={{height: '30px', width: '30px'}}/>
                                     </IconButton>
                                 </Link>
-                            </div>
+                            </div> */}
                             <div>
                                 <CartBadge quantity={countProducts}></CartBadge>
                             </div>
