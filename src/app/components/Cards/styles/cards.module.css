@@ -1,4 +1,4 @@
-.card-list {
+.cardList {
     display: flex;
     justify-content: center;
     flex-flow: row wrap;
@@ -18,7 +18,7 @@
     position: relative;
 }
 
-.filter-wrapper-btn {
+.filterWrapperBtn {
     display: flex;
     justify-content: right;
 }
@@ -60,49 +60,49 @@
   and (max-device-width: 667px) 
   and (-webkit-min-device-pixel-ratio: 2)
   and (orientation: portrait) { 
-    .card-list {
+    .cardList {
         margin: 0;
         width: unset;
     }
 }
 
 @media screen and (max-width: 385px) and (min-width: 383px) {
-    .card-list {
+    .cardList {
         margin: 0;
         width: unset;
     }
 }
 
 @media screen and (max-width: 642px) and (min-width: 640px){
-    .card-list {
+    .cardList {
         margin: 0;
         width: unset;
     }
 }
 
 @media screen and (max-width: 321px) and (min-width: 319px) {
-    .card-list {
+    .cardList {
         margin: 0;
         width: unset;
     }
 }
 
 @media screen and (max-width: 481px) and (min-width: 479px){
-   .card-list {
+   .cardList {
         margin: 0;
         width: unset;
     }
 }
 
 @media screen and (min-width: 500px) and (max-width: 720px){
-    .card-list {
+    .cardList {
         margin: 0;
         width: unset;
     }
 }
 
 @media screen and (min-width: 200px) and (max-width: 653px){
-    .card-list {
+    .cardList {
         margin: 0;
         width: unset;
     }
@@ -113,7 +113,7 @@
   and (max-device-width: 1280px) 
   and (-webkit-min-device-pixel-ratio: 1.5) 
   and (orientation: portrait) {
-    .card-list {
+    .cardList {
         margin: 0;
         width: unset;
     }
@@ -124,7 +124,7 @@
   and (min-device-width: 768px) 
   and (max-device-width: 1024px) 
   and (-webkit-min-device-pixel-ratio: 1) {
-    .card-list {
+    .cardList {
         margin: 0;
         width: unset;
     }
@@ -145,7 +145,7 @@
   and (min-device-width: 320px) 
   and (max-device-width: 568px)
   and (-webkit-min-device-pixel-ratio: 2) {
-    .card-list {
+    .cardList {
         margin: 0;
         width: unset;
     }
