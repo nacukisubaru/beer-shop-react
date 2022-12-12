@@ -1,7 +1,7 @@
 import { Box, Button, Card, Typography } from "@mui/material";
 import React, { FC } from "react";
 import { ICard } from "../../types/card.types";
-import "./css/cards.css";
+import "./styles/cards.module.css";
 
 interface ICardSmall extends ICard {
     show: (id: number) => void
