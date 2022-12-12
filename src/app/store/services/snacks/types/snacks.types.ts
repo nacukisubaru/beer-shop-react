@@ -6,3 +6,13 @@ export interface ISnack {
     weight: number,
     product: IProduct
 }
+
+export interface ISnackProduct extends IProduct {
+    weight: number,
+}
+
+export interface ISnackListPaginate {
+    count: number,
+    nextPage: number,
+    rows: ISnack[]
+}

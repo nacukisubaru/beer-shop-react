@@ -19,7 +19,11 @@ export default function Snacks () {
     );
     const minPrice: number = useAppSelector((state) => state.snackReducer.minPrice);
     const maxPrice: number = useAppSelector((state) => state.snackReducer.maxPrice);
-    const {closeFilterMenu, dropSnackList, resetFilters, setSearch} = useActions();
+    const { closeFilterMenu, dropSnackList, resetProductFilters, setSearch, openModalNotFoundByFilter, closeModalNotFoundByFilter } = useActions();
+
+    const isOpen = useAppSelector(
+        (state) => state.notFoundReducer.modalNotFoundByFilter
+    );
 
     const handleApplyFilter = () => {
         fetchSnacksByFilter();
@@ -29,7 +33,7 @@ export default function Snacks () {
     const handleResetFilter = async () => {
         closeFilterMenu();
         await setSearch({q:''});
-        await resetFilters();
+        await resetProductFilters();
         await dropSnackList();
         await dispatch(getSnackList({path: '/snacks/', params: { page: 0, limitPage }}));
     };
@@ -44,7 +48,11 @@ export default function Snacks () {
                 filterList={[]}
             />
             <SnacksList />
-            <ResultNotFoundByFilter />
+            <ResultNotFoundByFilter 
+                openModalNotFoundByFilter={openModalNotFoundByFilter} 
+                closeModalNotFoundByFilter={closeModalNotFoundByFilter} 
+                isOpen={isOpen} 
+            />
             {snackList.length > 0 && !isEmptyObject(snack) && (<SnackModal />)}
         </div>
     );

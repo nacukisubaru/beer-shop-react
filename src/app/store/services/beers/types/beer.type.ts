@@ -14,9 +14,9 @@ export interface IBeer {
     product: IProduct
 }
 
-export interface IBeerProduct {
-    compound: string,
-    fortress: number,
-    ibu: number,
-    volume: number
+
+export interface IBeerListPaginate {
+    count: number,
+    nextPage: number,
+    rows: IBeer[]
 }

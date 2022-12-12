@@ -1,3 +1,7 @@
+import { IProductType } from "../../product-types/types/productTypes.type";
+
 export interface ITypePackaging {
-    name: string
+    id: number,
+    name: string,
+    productType: IProductType
 }

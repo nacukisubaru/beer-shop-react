@@ -13,8 +13,9 @@ const initialState: IAuth = {
         email: '',
         phone: '',
         isActivated: false,
+        roles: [],
         createdAt: '',
-        updatedAt: ''
+        updatedAt: '',
     },
     isAuth: false,
     status: '',

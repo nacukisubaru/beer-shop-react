@@ -48,7 +48,7 @@ const RegistrationView: FC<RegistrationViewProps> = ({ registrate, setRegistrati
         if (!phoneInput || "+7 (___) __ __ ___" === phoneInput) {
             setError("phone", {
                 type: "custom",
-                message: "Поле обязательно к заполнению",
+                message: "Поле обязательно для заполнения",
             });
         } else {
             setValue("phone", phoneInput, {
@@ -91,7 +91,7 @@ const RegistrationView: FC<RegistrationViewProps> = ({ registrate, setRegistrati
             <form onSubmit={handleSubmit(onSubmit)}>
                 <InputMask
                     {...register("phone", {
-                        required: "Поле обязательно к заполнению",
+                        required: "Поле обязательно для заполнения",
                     })}
                     mask="+7 (999) 99 99 999"
                     onBlur={checkFillPhoneInput}
@@ -112,7 +112,7 @@ const RegistrationView: FC<RegistrationViewProps> = ({ registrate, setRegistrati
 
                 <TextField
                     {...register("email", {
-                        required: "Поле обязательно к заполнению",
+                        required: "Поле обязательно для заполнения",
                         pattern: {
                             value: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                             message: "Некорректный email",
@@ -131,7 +131,7 @@ const RegistrationView: FC<RegistrationViewProps> = ({ registrate, setRegistrati
                     label="Пароль"
                     type="password"
                     {...register("password", {
-                        required: "Поле обязательно к заполнению",
+                        required: "Поле обязательно для заполнения",
                         minLength: {
                             value: 5,
                             message: "Минимум 5 символов",
@@ -149,7 +149,7 @@ const RegistrationView: FC<RegistrationViewProps> = ({ registrate, setRegistrati
                     label="Повторите пароль"
                     type="password"
                     {...register("retryPassword", {
-                        required: "Поле обязательно к заполнению",
+                        required: "Поле обязательно для заполнения",
                         minLength: {
                             value: 5,
                             message: "Минимум 5 символов",

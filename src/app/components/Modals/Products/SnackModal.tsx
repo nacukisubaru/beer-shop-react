@@ -33,6 +33,7 @@ const SnackModal: FC = () => {
                 setClose={closeSnack}
                 title={title}
                 showOkBtn={false}
+                width="sm"
                 body={
                     <>
                         <ProductContent

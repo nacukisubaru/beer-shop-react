@@ -6,13 +6,13 @@ import { useAppSelector } from "../../hooks/useAppSelector";
 import "./style.css";
 
 interface IInputSearch {
-    search: (q: string, sort: string[]) => void;
+    search: (q: string, sortField: string, order: string) => void;
     reset: () => void;
 }
 
 const InputSearch: FC<IInputSearch> = ({ search, reset }) => {
     const { setSearch } = useActions();
-    const { q, sort } = useAppSelector((state) => state.filterProductsReducer);
+    const { q, sortField, order } = useAppSelector((state) => state.filterProductsReducer);
     const ref = useRef();
 
     const handleSearch = async (e: any) => {
@@ -21,7 +21,7 @@ const InputSearch: FC<IInputSearch> = ({ search, reset }) => {
         const q = input.value;
         if (q) {
             await setSearch({ q });
-            const data: any = await search(q, sort);
+            const data: any = await search(q, sortField, order);
             if (!data) {
                 await setSearch({ q: "" });
                 input.value = "";

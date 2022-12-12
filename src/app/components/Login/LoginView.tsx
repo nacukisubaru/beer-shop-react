@@ -54,7 +54,7 @@ const LoginView: FC<LoginProps> = ({ login, loginByCode, setLoginPhone, phone, e
         if (!phoneInput || "+7 (___) __ __ ___" === phoneInput) {
             setError("phone", {
                 type: "custom",
-                message: "Поле обязательно к заполнению",
+                message: "Поле обязательно для заполнения",
             });
         } else {
             setValue("phone", phoneInput, {
@@ -70,7 +70,7 @@ const LoginView: FC<LoginProps> = ({ login, loginByCode, setLoginPhone, phone, e
         } else {
             setError("phone", {
                 type: "custom",
-                message: "Поле обязательно к заполнению",
+                message: "Поле обязательно для заполнения",
             });
         }
     };
@@ -111,7 +111,7 @@ const LoginView: FC<LoginProps> = ({ login, loginByCode, setLoginPhone, phone, e
 
                 <input
                     {...register("phone", {
-                        required: "Поле обязательно к заполнению",
+                        required: "Поле обязательно для заполнения",
                     })}
                     id="phone-input-hidden"
                     hidden={true}
@@ -125,7 +125,7 @@ const LoginView: FC<LoginProps> = ({ login, loginByCode, setLoginPhone, phone, e
                     label="Пароль"
                     type="password"
                     {...register("password", {
-                        required: "Поле обязательно к заполнению",
+                        required: "Поле обязательно для заполнения",
                     })}
                     style={{ marginBottom: "10px" }}
                 />

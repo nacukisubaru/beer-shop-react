@@ -15,6 +15,11 @@ import { notFoundReducer } from "./reducers/notFound.slice";
 import { snackApi } from "./services/snacks/snack.api";
 import { verificationCodeReducer } from "./services/verification-code/reducers/verification-code.slice";
 import { orderReducer } from "./services/order/reducers/order.slice";
+import { productApi } from "./services/products/product.api";
+import { contentReducer } from "./reducers/content.slice";
+import { productTypeApi } from "./services/product-types/product-types.api";
+import { roleApi } from "./services/roles/role.api";
+import { orderApi } from "./services/order/order.api";
 
 export const store = configureStore({
     reducer: {
@@ -28,14 +33,30 @@ export const store = configureStore({
         notFoundReducer,
         verificationCodeReducer,
         orderReducer,
+        contentReducer,
         [userApi.reducerPath]: userApi.reducer,
         [gradeApi.reducerPath]: gradeApi.reducer,
         [brandApi.reducerPath]: brandApi.reducer,
         [typePackagingApi.reducerPath]: typePackagingApi.reducer,
         [beerApi.reducerPath]: beerApi.reducer,
         [snackApi.reducerPath]: snackApi.reducer,
+        [productApi.reducerPath]: productApi.reducer,
+        [productTypeApi.reducerPath]: productTypeApi.reducer,
+        [roleApi.reducerPath]: roleApi.reducer,
+        [orderApi.reducerPath]: orderApi.reducer,
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false})
+    
+    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(
+        beerApi.middleware, 
+        userApi.middleware, 
+        gradeApi.middleware, 
+        brandApi.middleware, 
+        typePackagingApi.middleware,
+        snackApi.middleware, 
+        productTypeApi.middleware,
+        productApi.middleware,
+        roleApi.middleware),
+    //middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false})
 });
 
 export type RootState = ReturnType<typeof store.getState>

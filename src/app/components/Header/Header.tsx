@@ -12,14 +12,16 @@ import RoomIcon from '@mui/icons-material/Room';
 import logo from '../../../assets/images/logo.png';
 import vkIcon from '../../../assets/images/vk.png';
 import PhonelinkRingIcon from '@mui/icons-material/PhonelinkRing';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import "./css/style.css";
+import { useAuthorizationUser } from "../../hooks/useAuthorizationUser";
 
 
 const Header: FC = () => {
     const countProducts: number = useAppSelector(
         (state) => state.basketReducer.count
-    );
-
+    );   
+    const {checkRoleUser} = useAuthorizationUser();
     const {switchMainMenu} = useActions();
 
     return (
@@ -74,6 +76,14 @@ const Header: FC = () => {
                                     <RoomIcon style={{height: '30px', width: '30px'}}/>
                                 </IconButton>
                             </div>
+                            {checkRoleUser("ADMIN") && ( <div>
+                                <Link to="/admin">
+                                    <IconButton>
+                                        <AdminPanelSettingsIcon style={{height: '30px', width: '30px'}}/>
+                                    </IconButton>
+                                </Link>
+                            </div>)}
+                           
                             <div>
                                 <Link to="/account">
                                     <IconButton>

@@ -4,12 +4,13 @@ import { useActions } from "../../../hooks/useActions";
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import BasicModal from "../BasicModal";
 
-const ResultNotFoundByFilter: FC = () => {
-    const { openModalNotFoundByFilter, closeModalNotFoundByFilter } = useActions();
-    const isOpen = useAppSelector(
-        (state) => state.notFoundReducer.modalNotFoundByFilter
-    );
+interface IResultNotFoundByFilter {
+    openModalNotFoundByFilter: () => void,
+    closeModalNotFoundByFilter: () => void,
+    isOpen: boolean
+}
 
+const ResultNotFoundByFilter: FC<IResultNotFoundByFilter> = ({openModalNotFoundByFilter, closeModalNotFoundByFilter, isOpen}) => {
     return (
         <>
             <BasicModal
@@ -17,6 +18,7 @@ const ResultNotFoundByFilter: FC = () => {
                 setOpen={openModalNotFoundByFilter}
                 setClose={closeModalNotFoundByFilter}
                 title={""}
+                width="sm"
                 showOkBtn={true}
                 body={
                     <>

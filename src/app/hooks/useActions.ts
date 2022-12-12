@@ -10,6 +10,7 @@ import { snackActions } from "../store/services/snacks/reducers/snack.slice";
 import { notFoundActions } from "../store/reducers/notFound.slice";
 import { verificationCodeActions } from "../store/services/verification-code/reducers/verification-code.slice";
 import { orderActions } from "../store/services/order/reducers/order.slice";
+import { contentActions } from "../store/reducers/content.slice";
 
 const allActions = {
     ...userActions,
@@ -22,6 +23,7 @@ const allActions = {
     ...notFoundActions,
     ...verificationCodeActions,
     ...orderActions,
+    ...contentActions
 }
 
 export const useActions = () => {

@@ -4,7 +4,7 @@ import { useAppSelector } from "../../../hooks/useAppSelector";
 import { useFilter } from "../../../hooks/useFilter";
 import { useProductMap } from "../../../hooks/useProductMap";
 import { useSnackList } from "../../../hooks/useProducts";
-import { snackApi } from "../../../store/services/snacks/snack.api";
+import { productApi } from "../../../store/services/products/product.api";
 import CardList from "../../Cards/CardList";
 import InputSearch from "../../Search/InputSearch";
 import SortPanel from "../../SortPanel/SortPanel";
@@ -18,13 +18,13 @@ const SnacksList: FC<SnacksListProps> = () => {
     const { getSnack, openSnack } = useActions();
     const snacks = useProductMap(snackList, false);
     const { fetchSnacks, fetchSnacksWithSort, snacksSearchByName, resetListAndFetchSnacks, fetchSnacksBySearch, fetchSnacksBySearchWithSort } = useFilter();
-    const [addShowSnack] = snackApi.useAddShowSnackMutation();
+    const [addShow] = productApi.useAddShowMutation();
     useSnackList();
 
     const showSnack = (id: number) => {
         getSnack({ id });
         openSnack();
-        addShowSnack(id);
+        addShow(id);
     };
 
     return (

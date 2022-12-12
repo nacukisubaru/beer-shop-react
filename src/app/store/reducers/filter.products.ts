@@ -10,9 +10,11 @@ export const initialState = {
     maxVolume:<number> 0,
     minFortress:<number> 0,
     maxFortress:<number> 0,
-    forBottling:<any> undefined,
-    filtered:<any> undefined,
-    sort: ['price', 'ASC'],
+    forBottling:<any> "",
+    filtered:<any> "",
+    isActive: 'true',
+    sortField: 'price',
+    order: 'ASC',
     q: ''
 }
 
@@ -71,12 +73,13 @@ export const filterProductsSlice = createSlice({
             state.filtered = action.payload.filtered;
         },
         setSort: (state, action: PayloadAction<{field: string, value: string}>) => {
-            state.sort = [action.payload.field, action.payload.value];
+            state.sortField = action.payload.field;
+            state.order = action.payload.value;
         },
         setSearch: (state, action: PayloadAction<{q: string}>) => {
            state.q = action.payload.q;
         },
-        resetFilters: (state) => {
+        resetProductFilters: (state) => {
             state.grades = [];
             state.brandIds = [];
             state.typesPackagingIds = [];
@@ -86,8 +89,8 @@ export const filterProductsSlice = createSlice({
             state.minVolume = 0;
             state.minFortress = 0;
             state.maxFortress = 0;
-            state.forBottling = undefined;
-            state.filtered = undefined;
+            state.forBottling = "";
+            state.filtered = "";
         }
     }
 });

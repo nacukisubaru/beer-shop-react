@@ -66,9 +66,11 @@ export const useBasket = ():IUseBasket => {
 
     const getBasketByUser = async () => {
         const basketId = getBasketId();
-        //if(basketId) {
-            dispatch(getBasketByUserId(basketId));
-        //}
+        if(!window.location.pathname.includes('/admin')) {
+            //if(basketId) {
+                dispatch(getBasketByUserId(basketId));
+            //}
+        }
     }
 
     const getBasketId = () => {

@@ -15,7 +15,7 @@ interface CardListProps {
     cardsList: ICard[],
     page: number,
     scrollList: boolean,
-    fetch: (page: number, sort: string[]) => void,
+    fetch: (page: number, sortField: string, order: string) => void,
     show: (id: number) => void
 }
 
@@ -45,7 +45,7 @@ const CardList: FC<CardListProps> = ({ cardsList, fetch, page, scrollList = true
                                 buy={item.buy}
                                 show={show} />
                         ))}
-                        <div ref={targetRef}></div>
+                        <div id="reff" ref={targetRef}></div>
                     </div>
                     <div className="filter-wrapper-btn">
                         <BasicSpeedDial actions={actions}></BasicSpeedDial>

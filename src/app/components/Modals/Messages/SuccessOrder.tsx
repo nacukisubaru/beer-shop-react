@@ -23,6 +23,7 @@ const SuccessOrder: FC = () => {
                 setOpen={openModalSuccessOrder}
                 setClose={closeHandler}
                 title={""}
+                width="sm"
                 showOkBtn={true}
                 body={
                     <>

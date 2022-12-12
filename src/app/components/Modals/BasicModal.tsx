@@ -3,6 +3,7 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
+    DialogProps,
     DialogTitle,
     IconButton,
     Typography,
@@ -11,12 +12,18 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import "./css/style.css";
 import { Close } from "@mui/icons-material";
+import { width } from "@mui/system";
 
 interface IBasicModal {
     open: boolean;
     body: any;
     title: string;
     showOkBtn: boolean;
+    width: 'xs'
+    | 'sm'
+    | 'md'
+    | 'lg'
+    | 'xl';
     setOpen: () => void;
     setClose: () => void;
 }
@@ -26,6 +33,7 @@ const BasicModal: FC<IBasicModal> = ({
     body,
     showOkBtn = false,
     title,
+    width,
     setOpen,
     setClose,
 }) => {
@@ -36,7 +44,7 @@ const BasicModal: FC<IBasicModal> = ({
                 onClose={setClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
-                maxWidth="sm"
+                maxWidth={width}
                 fullWidth={true}
             >
                 { title && (

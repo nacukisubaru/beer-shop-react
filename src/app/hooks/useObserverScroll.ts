@@ -32,7 +32,7 @@ export const useObserverScroll = (fetch:any, page: number, scroll: boolean = tru
         }
 
         setNewObserver();
-    }, [targetRef, isVisible, fetch, page, scroll]);
+    }, [targetRef, isVisible]);
 
     return targetRef;
 }
