@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import "./css/style.css";
+//import "./css/style.css";
 import { Close } from "@mui/icons-material";
 import { width } from "@mui/system";
 

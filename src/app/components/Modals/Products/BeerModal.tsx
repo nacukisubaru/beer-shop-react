@@ -5,7 +5,7 @@ import { useBuyProduct } from "../../../hooks/useBuyProduct";
 import { createProductForBuy } from "../../../store/services/basket/reducers/basket.slice";
 import BasicModal from "../BasicModal";
 import ProductContent from "./ProductContent";
-import "../css/style.css";
+//import "../css/style.css";
 
 const BeerModal: FC = () => {
     const { showBeer, beer } = useAppSelector((state) => state.beerReducer);

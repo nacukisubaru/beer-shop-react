@@ -13,7 +13,7 @@ import logo from '../../../assets/images/logo.png';
 import vkIcon from '../../../assets/images/vk.png';
 import PhonelinkRingIcon from '@mui/icons-material/PhonelinkRing';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import "./css/style.css";
+//import "./css/style.css";
 import { useAuthorizationUser } from "../../hooks/useAuthorizationUser";
 
 

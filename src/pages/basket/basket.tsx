@@ -2,7 +2,7 @@ import React from "react";
 import BasketContainer from "../../app/components/Basket/BasketContainer";
 import Menu from "../../app/components/Drawer/Menu/Menu";
 import Header from "../../app/components/Header/Header";
-import "../../index.css";
+//import "../../index.css";
 
 export default function Basket() {
     return (

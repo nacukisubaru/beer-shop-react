@@ -2,7 +2,7 @@ import { Typography } from "@mui/material";
 import { FC, useState } from "react";
 import NorthIcon from "@mui/icons-material/North";
 import SouthIcon from "@mui/icons-material/South";
-import "../SortPanel/style.css";
+//import "../SortPanel/style.css";
 import { useActions } from "../../hooks/useActions";
 import { useAppSelector } from "../../hooks/useAppSelector";
 

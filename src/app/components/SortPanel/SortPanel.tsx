@@ -6,7 +6,7 @@ import {
 } from "@mui/material";
 import { FC } from "react";
 import Sort from "./Sort";
-import "../SortPanel/style.css";
+//import "../SortPanel/style.css";
 import SortMobile from "./SortMobile";
 interface ISortPanel {
     fetchData: (sortField: string, order: string) => void;

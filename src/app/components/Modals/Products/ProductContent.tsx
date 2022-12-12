@@ -3,7 +3,7 @@ import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
-import "../css/style.css";
+//import "../css/style.css";
 import { useAppSelector } from "../../../hooks/useAppSelector";
 
 interface IListInfoItem {

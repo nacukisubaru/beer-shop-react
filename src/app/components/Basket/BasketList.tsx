@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from "react";
-import "./css/basket.css";
+//import "./css/basket.css";
 import BasketCard from "./BaskerCard";
 import { IProductBasket } from "../../types/product.types";
 import TotalCard from "./TotalCard";

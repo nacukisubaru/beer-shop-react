@@ -9,7 +9,7 @@ import BasicSpeedDial from "../SpeedDial/BasicSpeedDial";
 import MenuIcon from "@mui/icons-material/Menu";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import "./styles/cards.module.css";
-import "../../../index.css";
+//import "../../../index.css";
 
 interface CardListProps {
     cardsList: ICard[],

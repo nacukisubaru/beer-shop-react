@@ -3,7 +3,7 @@ import { Box, Button, TextField } from "@mui/material";
 import { FC, useEffect, useRef } from "react";
 import { useActions } from "../../hooks/useActions";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import "./style.css";
+//import "./style.css";
 
 interface IInputSearch {
     search: (q: string, sortField: string, order: string) => void;

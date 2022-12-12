@@ -7,7 +7,7 @@ import Divider from "@mui/material/Divider";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemButton from "@mui/material/ListItemButton";
 import CloseIcon from '@mui/icons-material/Close';
-import "./css/style.css";
+//import "./css/style.css";
 import { IconButton } from "@mui/material";
 
 type Anchor = "top" | "left" | "bottom" | "right";
