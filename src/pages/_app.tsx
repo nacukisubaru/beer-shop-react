@@ -41,7 +41,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
         }
     }, []);
 
-    createTheme({
+   const theme = createTheme({
         palette: {
             primary: {
                 main: '#b05326'
@@ -68,74 +68,13 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
     });
 
     return (
-        <Component {...pageProps} />
+        <ThemeProvider theme={theme}>
+            <Component {...pageProps} />
+        </ThemeProvider>
     );
 };
 
 export default wrapper.withRedux(App);
-//export default App;
-
-// //import "./App.css";
-// import { BrowserRouter, Route, Routes } from "react-router-dom";
-// import { useEffect } from "react";
-// import { useBasket } from "../app/hooks/useBasket";
-// import { getUser } from "../app/store/services/users/reducers/user.slice";
-// import { useDispatch } from "react-redux";
-// import { createTheme, ThemeProvider } from '@mui/material/styles';
-// import Account from "./account/account";
-// import Beers from "./products/beers";
-// import Basket from "./basket/basket";
-// import Snacks from "./products/snacks";
-// import MainAdmin from "./admin/main";
-// import BeerAdmin from "./admin/content/products/beer";
-// import SnacksAdmin from "./admin/content/products/snack";
-// import GradeAdmin from "./admin/content/additional/grade";
-// import BrandAdmin from "./admin/content/additional/brand";
-// import TypePackagingAdmin from "./admin/content/additional/typePackaging";
-// import OrdersAdmin from "./admin/orders/orders";
-
-// function App() {
-//     const {getBasket, getBasketByUser} = useBasket();
-//     const dispatch = useDispatch();
-
-//     useEffect(()=>{
-//         const userId: any = localStorage.getItem("userId");
-//         const accessToken: string | null = localStorage.getItem("accessToken");
-//         if(userId) {
-//             if(accessToken) {
-//                 dispatch(getUser(userId));
-//                 getBasketByUser();
-//             }
-//         } else {
-//             getBasket();
-//         }
-//     },[]);
-
-//     const theme = createTheme({
-//         palette: {
-//             primary: {
-//                 main: '#b05326'
-//             },
-//             text: {
-//                 primary: '#000000',
-//                 secondary: '#757575',
-
-//             }
-//         },
-//         typography: {
-//             fontFamily: [
-//                 'Montserrat',
-//                 'sans-serif',
-//                 '"Helvetica Neue"',
-//                 'Arial',
-//                 'sans-serif'
-//             ].join(','),
-
-//             button: {
-//                 fontWeight: 'bold'
-//             }
-//         },
-//     });
 
 //     return (
 //         <div className="App">
