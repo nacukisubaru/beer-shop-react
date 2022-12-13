@@ -71,11 +71,7 @@ const TableAdmin: FC<TableAdminProps> = ({
 
     const handlerPanelClose = () => {
         setRequestFilterDisabled({ disable: false });
-    };
-
-    useEffect(() => {
-        console.log(modalProps.successMessage)
-    }, [modalProps])
+    };    
 
     return (
         <>

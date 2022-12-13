@@ -85,7 +85,7 @@ interface IWorkSpaceProps {
 const WorkSpace: React.FC<IWorkSpaceProps> = ({tool, menuItems}) => {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -111,7 +111,7 @@ const WorkSpace: React.FC<IWorkSpaceProps> = ({tool, menuItems}) => {
                     <Typography variant="h6" noWrap component="div">
                         Админ панель
                     </Typography>
-                    <Button color="inherit" onClick={()=>{navigate('/products/beers')}}>Сайт</Button>
+                    {/* <Button color="inherit" onClick={()=>{navigate('/products/beers')}}>Сайт</Button> */}
                 </Toolbar>
             </AppBar>
             <Drawer
@@ -143,7 +143,7 @@ const WorkSpace: React.FC<IWorkSpaceProps> = ({tool, menuItems}) => {
                             <ListItem key={item.name} disablePadding>
                                 <ListItemButton 
                                     onClick={() => {
-                                        navigate(item.url);
+                                       // navigate(item.url);
                                     }}
                                     
                                     style={ item.active ? {backgroundColor: '#f5f5f5'} : {}}
