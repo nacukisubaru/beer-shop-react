@@ -5,6 +5,8 @@ import SouthIcon from "@mui/icons-material/South";
 //import "../SortPanel/style.css";
 import { useActions } from "../../hooks/useActions";
 import { useAppSelector } from "../../hooks/useAppSelector";
+import styles from "./styles/sort.module.css";
+import { makeStyles } from "@mui/styles";
 
 interface ISort {
     name: string;
@@ -13,10 +15,17 @@ interface ISort {
     orderValue: string
 }
 
+const useStyles = makeStyles({
+    icon: {
+        fontSize: "13px"
+    },
+})
+
 const Sort: FC<ISort> = ({ name, fieldOrder, orderValue = '', action }) => {
     const {sortField} = useAppSelector(state => state.filterProductsReducer);
     const [order, setOrder] = useState("ASC");
     const {setSort} = useActions();
+    const classes = useStyles();
 
     const sort = async (order: string) => {
         await setOrder(order);
@@ -41,11 +50,11 @@ const Sort: FC<ISort> = ({ name, fieldOrder, orderValue = '', action }) => {
             variant="body1"
             style={{ marginRight: "18px" }}
             onClick={orderValue ? defaultOrder : changeOrder}
-            className={fieldOrder === sortField ? "sort-active" : "sort-deactive"}
+            className={fieldOrder === sortField ? styles.sortActive : styles.sortDeactive}
         >
             {name}
-            {order === "ASC" && !orderValue && <NorthIcon style={{ fontSize: "13px" }} />}
-            {order === "DESC" && !orderValue && <SouthIcon style={{ fontSize: "13px" }} />}
+            {order === "ASC" && !orderValue && <NorthIcon className={classes.icon} />}
+            {order === "DESC" && !orderValue && <SouthIcon className={classes.icon} />}
         </Typography>
     );
 };

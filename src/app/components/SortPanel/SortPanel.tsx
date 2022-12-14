@@ -6,20 +6,32 @@ import {
 } from "@mui/material";
 import { FC } from "react";
 import Sort from "./Sort";
-//import "../SortPanel/style.css";
+import styles from "../SortPanel/styles/sortPanel.module.css";
 import SortMobile from "./SortMobile";
+import { makeStyles } from "@mui/styles";
 interface ISortPanel {
     fetchData: (sortField: string, order: string) => void;
 }
+
+const useStyles = makeStyles({
+    typography: {
+        marginRight: "18px"
+    },
+    formControl: {
+        width: "80%"
+    }
+})
+
 //TODO рефакторинг нужно передавать массив объектов перебирать и генерировать компонент
 const SortPanel: FC<ISortPanel> = ({ fetchData }) => {
+    const classes = useStyles();
     return (
         <>
-            <div className="sort-panel-wrapper sort-desktop">
+            <div className={styles.sortPanelWrapper + " " + styles.sortDesktop}>
                 <Typography
                     variant="body1"
                     color="text.secondary"
-                    style={{ marginRight: "18px" }}
+                    className={classes.typography}
                 >
                     Сортировать по:
                 </Typography>
@@ -48,8 +60,8 @@ const SortPanel: FC<ISortPanel> = ({ fetchData }) => {
                     orderValue=""
                 />
             </div>
-            <div className="sort-panel-wrapper sort-mobile">
-                <FormControl sx={{width: '80%'}}>
+            <div className={styles.sortPanelWrapper + " " + styles.sortMobile}>
+                <FormControl className={classes.formControl}>
                     <InputLabel>Сортировка</InputLabel>
                     <Select>
                         <SortMobile
