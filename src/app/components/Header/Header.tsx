@@ -2,7 +2,8 @@ import React, { FC } from "react";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { IconButton, Typography } from "@mui/material";
 import { useActions } from "../../hooks/useActions";
-import { Link } from "react-router-dom";
+import { useAuthorizationUser } from "../../hooks/useAuthorizationUser";
+import Link from 'next/link'
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CartBadge from "../Badges/CartBadge";
@@ -13,17 +14,15 @@ import logo from '../../../assets/images/logo.png';
 import vkIcon from '../../../assets/images/vk.png';
 import PhonelinkRingIcon from '@mui/icons-material/PhonelinkRing';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-//import "./css/style.css";
-import { useAuthorizationUser } from "../../hooks/useAuthorizationUser";
 
 
 const Header: FC = () => {
     const countProducts: number = useAppSelector(
         (state) => state.basketReducer.count
     );   
-    //const {checkRoleUser} = useAuthorizationUser();
+    const {checkRoleUser} = useAuthorizationUser();
     const {switchMainMenu} = useActions();
-
+    
     return (
         <>
             <Box sx={{ flexGrow: 1 }}>
@@ -76,8 +75,8 @@ const Header: FC = () => {
                                     <RoomIcon style={{height: '30px', width: '30px'}}/>
                                 </IconButton>
                             </div>
-                            {/* {checkRoleUser("ADMIN") && ( <div>
-                                <Link to="/admin">
+                            {checkRoleUser("ADMIN") && ( <div>
+                                <Link href="/admin">
                                     <IconButton>
                                         <AdminPanelSettingsIcon style={{height: '30px', width: '30px'}}/>
                                     </IconButton>
@@ -85,12 +84,12 @@ const Header: FC = () => {
                             </div>)}
                            
                             <div>
-                                <Link to="/account">
+                                <Link href="/account">
                                     <IconButton>
                                         <FaceIcon style={{height: '30px', width: '30px'}}/>
                                     </IconButton>
                                 </Link>
-                            </div> */}
+                            </div> 
                             <div>
                                 <CartBadge quantity={countProducts}></CartBadge>
                             </div>

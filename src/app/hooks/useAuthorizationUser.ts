@@ -1,6 +1,6 @@
 import { unwrapResult } from "@reduxjs/toolkit";
+import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { removeMask } from "../helpers/stringHelper";
 import { checkUserNotExistByEmailAndPhone, checkUserExistByPhone, loginByCode, sendCodeByCall, registrate, login } from "../store/services/users/reducers/user.slice";
 import { ILogin, IRegistration, ISendCodeByCallResponse } from "../store/services/users/types/auth.types";
@@ -12,7 +12,8 @@ export const useAuthorizationUser = () => {
     const { setLoginPhone, setPhone, switchVerificationForm, setMinutesResend, setSecondsResend, switchLoginForm, setCanResendCode, resetRegFields } = useActions();
     const dispatch = useDispatch();
     const { getBasketByUser } = useBasket();
-    const navigate = useNavigate();
+    const router = useRouter();
+    
     const {backRedirectToOrder} = useAppSelector(state => state.orderReducer);
     const {user} = useAppSelector((state) => state.userReducer);
     
@@ -76,7 +77,7 @@ export const useAuthorizationUser = () => {
         if (data.payload.user) {
             await getBasketByUser();
             if(backRedirectToOrder) {
-                navigate('/basket');
+                router.replace('/basket');
             }
         }
     }
