@@ -9,7 +9,6 @@ import BasicSpeedDial from "../SpeedDial/BasicSpeedDial";
 import MenuIcon from "@mui/icons-material/Menu";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import styles from "./styles/cards.module.css";
-//import "../../../index.css";
 
 interface CardListProps {
     cardsList: ICard[],
@@ -30,7 +29,7 @@ const CardList: FC<CardListProps> = ({ cardsList, fetch, page, scrollList = true
 
     return (
         <>
-            <Box className="list-body">
+            <Box>
                 <div>
                     <div className={styles.cardList}>
                         {cardsList.map((item) => (
