@@ -109,7 +109,7 @@ const TableAdmin: FC<TableAdminProps> = ({
             />
             <CustomSnackBar
                 severity="error"
-                message={stateResponse.response.data?.message}
+                message={stateResponse.response && stateResponse.response.data?.message}
                 isOpen={stateResponse.status === "rejected" ? true : false}
                 onClose={clearStateResponse}
             />

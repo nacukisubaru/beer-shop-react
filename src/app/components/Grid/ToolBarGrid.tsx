@@ -17,9 +17,9 @@ const ToolBarGrid: FC= () => {
             <Grid container item xs>
                 {/* default buttons */}
 
-                <GridToolbarColumnsButton nonce={undefined} onResize={undefined} onResizeCapture={undefined}  />
-                <GridToolbarFilterButton nonce={undefined} onResize={undefined} onResizeCapture={undefined} />
-                <GridToolbarDensitySelector nonce={undefined} onResize={undefined} onResizeCapture={undefined} />
+                <GridToolbarColumnsButton   />
+                <GridToolbarFilterButton />
+                <GridToolbarDensitySelector />
             </Grid>
 
             <Grid>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { createList } from "../helpers/arrayHelper";
 import { paramsBuilder } from "../helpers/stringHelper";
 import { limitPageAdmin } from "../http/http.request.config";
@@ -32,16 +32,18 @@ export const useCatalog = (api: any, list?: string) => {
     //так можно избегать варнинга missing dependencies и при это не попапдать в
     //постоянный re-render
     const [mount, setMount] = useState(false);
+
+    const resetFiltersAndSort = () => {
+        resetFilters();
+        setContentSort({field: 'id', sort: 'DESC'});
+    };
+
     useEffect(() => {
-        const reset = () => {
-            resetFilters();
-            setContentSort({field: 'id', sort: 'DESC'});
-        }
         if(!mount) {
-            reset();
+            resetFiltersAndSort();
             setMount(true);
         }
-    }, [resetFilters, setContentSort, mount]);
+    }, [mount]);
 
     useEffect(() => {
         if (data && data.rows) {
