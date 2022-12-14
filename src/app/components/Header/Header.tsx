@@ -3,7 +3,8 @@ import { useAppSelector } from "../../hooks/useAppSelector";
 import { IconButton, Typography } from "@mui/material";
 import { useActions } from "../../hooks/useActions";
 import { useAuthorizationUser } from "../../hooks/useAuthorizationUser";
-import Link from 'next/link'
+import Image from 'next/image';
+import Link from 'next/link';
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CartBadge from "../Badges/CartBadge";
@@ -14,7 +15,7 @@ import logo from '../../../assets/images/logo.png';
 import vkIcon from '../../../assets/images/vk.png';
 import PhonelinkRingIcon from '@mui/icons-material/PhonelinkRing';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-
+import styles from "./styles/header.module.css";
 
 const Header: FC = () => {
     const countProducts: number = useAppSelector(
@@ -24,7 +25,7 @@ const Header: FC = () => {
     const {switchMainMenu} = useActions();
     
     return (
-        <>
+        <header>
             <Box sx={{ flexGrow: 1 }}>
                 <AppBar
                     position="static"
@@ -35,36 +36,31 @@ const Header: FC = () => {
                         justifyContent: 'center'  
                     }}
                 >
-                    <div className="wrapper-header">
-                        <div className="header-nav-element">
-                            <div className="nav-element-burger">
+                    <div className={styles.wrapperHeader}>
+                        <div className={styles.headerNavElement}>
+                            <div className={styles.navElementBurger}>
                                 <IconButton onClick={switchMainMenu}>
                                     <MenuIcon />
                                 </IconButton>
                             </div>
                             <div>
-                                <Box 
-                                    className="logo"
-                                    style={{ backgroundSize: "contain"}}
-                                    sx={{ background: `url(${logo}) center center no-repeat` }} 
-                                >
-                                </Box>
+                                <Image className={styles.logo} style={{ backgroundSize: "contain"}} src={logo}/>
                             </div>
                         </div>
-                        <div className="contacts">
-                            <a className="phone-link" href="tel:+7 920 899 77 72">
-                                <div className="wrapper-icons">
+                        <div className={styles.contacts}>
+                            <a className={styles.phoneLink} href="tel:+7 920 899 77 72">
+                                <div className={styles.wrapperIcons}>
                                 <PhonelinkRingIcon /><Typography> +7 920 899 77 72 </Typography>
                                 </div>
                             </a>
                             <div>
                                 <Typography>
-                                    <a className="phone-link" href="https://2gis.ru/kaluga/firm/70000001036699976" target="blank">ул. Братьев Луканиных, 7, Калуга</a>
+                                    <a className={styles.phoneLink} href="https://2gis.ru/kaluga/firm/70000001036699976" target="blank">ул. Братьев Луканиных, 7, Калуга</a>
                                 </Typography>
                             </div>
                         </div>
-                        <div className="wrapper-icons">
-                            <a className="vk-icon" href="https://vk.com/id474817801" target="blank">
+                        <div className={styles.wrapperIcons}>
+                            <a className={styles.vkIcon} href="https://vk.com/id474817801" target="blank">
                                 <Box 
                                     style={{ backgroundSize: "contain", height: '36px', width: '37px' }}
                                     sx={{ background: `url(${vkIcon}) center center no-repeat` }} 
@@ -97,7 +93,7 @@ const Header: FC = () => {
                     </div>
                 </AppBar>
             </Box>
-        </>
+        </header>
     );
 };
 

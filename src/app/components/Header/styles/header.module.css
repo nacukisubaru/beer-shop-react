@@ -1,4 +1,4 @@
-.wrapper-header {
+.wrapperHeader {
     display: flex;
     justify-content: space-evenly;
     margin-left: 100px;
@@ -12,30 +12,30 @@
     justify-content: center;
 }
 
-.header-nav-element {
+.headerNavElement {
     display: flex;
 }
 
-.nav-element-burger {
+.navElementBurger {
     padding-top: 20px;
     padding-right: 13px;
     margin-top: 7px;
 }
 
-.wrapper-icons {
+.wrapperIcons {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.phone-link {
+.phoneLink {
     text-decoration: none;
     color: unset;
 }
 
 .logo {
     height: 88px; 
-    width: 121px;
+    width: 105px;
     margin-bottom: 9px;
 }
 
@@ -93,7 +93,7 @@
 }
 
 @media screen and (min-width: 500px) and (max-width: 720px){
-    .wrapper-header {
+    .wrapperHeader {
         margin-left: unset;
         margin-right: unset;
     }
@@ -114,7 +114,7 @@
   and (max-device-width: 1280px) 
   and (-webkit-min-device-pixel-ratio: 1.5) 
   and (orientation: portrait) {
-    .wrapper-header {
+    .wrapperHeader {
         margin-left: unset;
         margin-right: unset;
     }
@@ -125,7 +125,7 @@
   and (min-device-width: 768px) 
   and (max-device-width: 1024px) 
   and (-webkit-min-device-pixel-ratio: 1) {
-    .wrapper-header {
+    .wrapperHeader {
         margin-left: unset;
         margin-right: unset;
     }
@@ -138,12 +138,12 @@
   and (min-device-width: 320px) 
   and (max-device-width: 568px)
   and (-webkit-min-device-pixel-ratio: 2) {
-    .wrapper-header {
+    .wrapperHeader {
         margin-left: unset;
         margin-right: unset;
     }
 
-    .vk-icon {
+    .vkIcon {
         display: none;
     }
 }
@@ -152,12 +152,12 @@
   and (min-device-width: 320px) 
   and (max-device-width: 533px)
  {
-    .wrapper-header {
+    .wrapperHeader {
         margin-left: unset;
         margin-right: unset;
     }
 
-    .vk-icon {
+    .vkIcon {
         display: none;
     }
 }
