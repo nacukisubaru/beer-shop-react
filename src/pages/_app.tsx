@@ -20,6 +20,7 @@ import GradeAdmin from "./admin/content/additional/grade";
 import BrandAdmin from "./admin/content/additional/brand";
 import TypePackagingAdmin from "./admin/content/additional/typePackaging";
 import OrdersAdmin from "./admin/orders/orders";
+import Layout from "../app/components/Layout/Layout";
 
 interface AppProps {
     Component: any;
@@ -69,7 +70,9 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
 
     return (
         <ThemeProvider theme={theme}>
-            <Component {...pageProps} />
+            <Layout>
+                <Component {...pageProps} />
+            </Layout>
         </ThemeProvider>
     );
 };

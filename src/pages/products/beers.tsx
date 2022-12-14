@@ -41,7 +41,6 @@ export default function Beers() {
 
     return (
         <div className="page-container">
-            {/* <Header /> */}
             <Menu
                 callbackApplyFilter={handleApplyFilter}
                 callbackResetFilter={handleResetFilter}

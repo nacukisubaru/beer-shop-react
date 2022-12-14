@@ -22,7 +22,7 @@ interface ICartBadgeProps {
 
 const CartBadge: FC<ICartBadgeProps> = ({ quantity }) => {
     return (
-        <Link to="/basket">
+        // <Link to="/basket">
             <IconButton aria-label="cart">
                 <StyledBadge
                     badgeContent={quantity}
@@ -37,7 +37,7 @@ const CartBadge: FC<ICartBadgeProps> = ({ quantity }) => {
                     />
                 </StyledBadge>
             </IconButton>
-        </Link>
+        // </Link>
     );
 };
 
