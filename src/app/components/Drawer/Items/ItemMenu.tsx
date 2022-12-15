@@ -1,10 +1,8 @@
 import { ListItem } from "@mui/material";
+import { FC } from "react";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-
-import { FC } from "react";
-import { Link } from "react-router-dom";
-
+import Link from "next/link";
 interface ItemMenuProps {
     name: string;
     link: string;
@@ -13,7 +11,7 @@ interface ItemMenuProps {
 
 const ItemMenu: FC<ItemMenuProps> = ({ name, link, onClick }) => {
     return (
-        <Link to={link} onClick={onClick} style={{textDecoration: 'none', color: 'black'}}>
+        <Link href={link} onClick={onClick} style={{textDecoration: 'none', color: 'black'}}>
             <ListItem key={name} disablePadding>
                 <ListItemButton>
                     <ListItemText primary={name} />
