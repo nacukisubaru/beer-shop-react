@@ -1,9 +1,9 @@
 import { FC } from "react";
 import Badge, { BadgeProps } from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
+import Link from "next/link";
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { Link } from "react-router-dom";
 
 const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
     "& .MuiBadge-badge": {
@@ -22,7 +22,7 @@ interface ICartBadgeProps {
 
 const CartBadge: FC<ICartBadgeProps> = ({ quantity }) => {
     return (
-        // <Link to="/basket">
+        <Link href="/basket">
             <IconButton aria-label="cart">
                 <StyledBadge
                     badgeContent={quantity}
@@ -37,7 +37,7 @@ const CartBadge: FC<ICartBadgeProps> = ({ quantity }) => {
                     />
                 </StyledBadge>
             </IconButton>
-        // </Link>
+        </Link>
     );
 };
 

@@ -23,6 +23,8 @@ const useStyles = makeStyles({
     stockText: {
         marginTop: "-20px",
         color: "#8d8d8d",
+        display: "flex",
+        justifyContent: "center",
     },
     card: {
         width: 300,

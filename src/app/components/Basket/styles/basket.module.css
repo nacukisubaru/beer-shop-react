@@ -3,7 +3,7 @@
     margin-top: 50px;
 }
 
-.basket-container {
+.basketContainer {
     display: flex;
     box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
     flex-flow: wrap;
@@ -12,12 +12,12 @@
     border-radius: 32px;
 }
 
-.basket-element {
+.basketElement {
     padding: 10px;
     width: 195px;
 }
 
-.product-info-wrapper {
+.productInfoWrapper {
     padding-top: 35px;
 }
 
@@ -27,19 +27,19 @@
     align-items: center;
 }
 
-.basket-quantity {
+.basketQuantity {
     display: flex;
     justify-content: space-evenly;
 }
 
-.basket-price {
+.basketPrice {
     padding-top: 40px;
     /* display: flex; */
     justify-content: right;
     font-size: 20px;
 }
 
-.wrapper-basket-list {
+.wrapperBasketList {
     display: flex;
     justify-content: center;
     margin-right: 212px;
@@ -48,11 +48,11 @@
     margin-left: 250px; */
 }
 
-.container-basket-list {
+.containerBasketList {
     margin-right: 34px;
 }
 
-.total-card {
+.totalCard {
     display: flex;
     justify-content: space-around;
     padding-top: 30px;
@@ -60,7 +60,7 @@
     /* height: 152px; */
 }
 
-.total-card-details {
+.totalCardDetails {
     display: flex;
     margin-left: 55px;
     flex-direction: column;
@@ -68,7 +68,7 @@
     /* margin-bottom: 43px; */
 }
 
-.empty-basket {
+.emptyBasket {
     margin-top: 247px;
     font-size: 35px;
     margin-bottom: 26px;
@@ -82,11 +82,11 @@
     overflow: hidden;
 }
 
-.crossed-out-text {
+.crossedOutText {
     text-decoration: line-through;
 }
 
-.disable-text {
+.disableText {
     color: #8d8d8d;;
 }
 
@@ -96,19 +96,19 @@
   and (max-device-width: 667px) 
   and (-webkit-min-device-pixel-ratio: 2)
   and (orientation: portrait) { 
-    .basket-total-card {
+    .basketTotalCard {
         display: none;
     }
 
-    .container-basket-list {
+    .containerBasketList {
         margin: 0;
     }
 
-    .basket-element {
+    .basketElement {
         width: 150px;
     }
 
-    .wrapper-basket-list {
+    .wrapperBasketList {
         margin-right: unset;
         margin-left: unset;
     }
@@ -116,114 +116,114 @@
 
 
 @media screen and (max-width: 385px) and (min-width: 383px) {
-    .basket-total-card {
+    .basketTotalCard {
         display: none;
     }
 
-    .container-basket-list {
+    .containerBasketList {
         margin: 0;
     }
 
-    .basket-element {
+    .basketElement {
         width: 150px;
     }
 
-    .wrapper-basket-list {
+    .wrapperBasketList {
         margin-right: unset;
         margin-left: unset;
     }
 }
 
 @media screen and (max-width: 642px) and (min-width: 640px){
-    .basket-total-card {
+    .basketTotalCard {
         display: none;
     }
 
-    .container-basket-list {
+    .containerBasketList {
         margin: 0;
     }
 
-    .basket-element {
+    .basketElement {
         width: 150px;
     }
 
-    .wrapper-basket-list {
+    .wrapperBasketList {
         margin-right: unset;
         margin-left: unset;
     }
 }
 
 @media screen and (max-width: 321px) and (min-width: 319px) {
-    .basket-total-card {
+    .basketTotalCard {
         display: none;
     }
 
-    .container-basket-list {
+    .containerBasketList {
         margin: 0;
     }
 
-    .basket-element {
+    .basketElement {
         width: 150px;
     }
 
-    .wrapper-basket-list {
+    .wrapperBasketList {
         margin-right: unset;
         margin-left: unset;
     }
 }
 
 @media screen and (max-width: 481px) and (min-width: 479px){
-    .basket-total-card {
+    .basketTotalCard {
         display: none;
     }
 
-    .container-basket-list {
+    .containerBasketList {
         margin: 0;
     }
 
-    .basket-element {
+    .basketElement {
         width: 150px;
     }
 
-    .wrapper-basket-list {
+    .wrapperBasketList {
         margin-right: unset;
         margin-left: unset;
     }
 }
 
 @media screen and (min-width: 500px) and (max-width: 720px){
-    .basket-total-card {
+    .basketTotalCard {
         display: none;
     }
 
-    .container-basket-list {
+    .containerBasketList {
         margin: 0;
     }
 
-    .basket-element {
+    .basketElement {
         width: 150px;
     }
 
-    .wrapper-basket-list {
+    .wrapperBasketList {
         margin-right: unset;
         margin-left: unset;
     }
 }
 
 @media screen and (min-width: 200px) and (max-width: 653px){
-    .basket-total-card {
+    .basketTotalCard {
         display: none;
     }
 
-    .container-basket-list {
+    .containerBasketList {
         margin: 0;
     }
 
-    .basket-element {
+    .basketElement {
         width: 150px;
     }
 
-    .wrapper-basket-list {
+    .wrapperBasketList {
         margin-right: unset;
         margin-left: unset;
     }
@@ -234,19 +234,19 @@
   and (max-device-width: 1280px) 
   and (-webkit-min-device-pixel-ratio: 1.5) 
   and (orientation: portrait) {
-    .basket-total-card {
+    .basketTotalCard {
         display: none;
     }
 
-    .container-basket-list {
+    .containerBasketList {
         margin: 0;
     }
 
-    .basket-element {
+    .basketElement {
         width: 150px;
     }
 
-    .wrapper-basket-list {
+    .wrapperBasketList {
         margin-right: unset;
         margin-left: unset;
     }
@@ -257,19 +257,19 @@
   and (min-device-width: 768px) 
   and (max-device-width: 1024px) 
   and (-webkit-min-device-pixel-ratio: 1) {
-    .basket-total-card {
+    .basketTotalCard {
         display: none;
     }
 
-    .container-basket-list {
+    .containerBasketList {
         margin: 0;
     }
 
-    .basket-element {
+    .basketElement {
         width: 150px;
     }
 
-    .wrapper-basket-list {
+    .wrapperBasketList {
         margin-right: unset;
         margin-left: unset;
     }
@@ -280,19 +280,19 @@
   (min-device-width: 800px) 
   and (max-device-width: 1280px)
   and (-webkit-min-device-pixel-ratio: 2) {
-    .basket-total-card {
+    .basketTotalCard {
         display: none;
     }
 
-    .container-basket-list {
+    .containerBasketList {
         margin: 0;
     }
 
-    .basket-element {
+    .basketElement {
         width: 150px;
     }
 
-    .wrapper-basket-list {
+    .wrapperBasketList {
         margin-right: unset;
         margin-left: unset;
     }
@@ -305,19 +305,19 @@
   and (min-device-width: 320px) 
   and (max-device-width: 568px)
   and (-webkit-min-device-pixel-ratio: 2) {
-    .basket-total-card {
+    .basketTotalCard {
         display: none;
     }
 
-    .container-basket-list {
+    .containerBasketList {
         margin: 0;
     }
 
-    .basket-element {
+    .basketElement {
         width: 150px;
     }
 
-    .wrapper-basket-list {
+    .wrapperBasketList {
         margin-right: unset;
         margin-left: unset;
     }

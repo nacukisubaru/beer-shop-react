@@ -1,7 +1,7 @@
 import { Autocomplete, Box, Button, Card, TextField } from "@mui/material";
+import { useRouter } from "next/router";
 import { FC, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { IStateResponse } from "../../../../../hooks/useCatalog";
 import CustomSelect from "../../../../CustomUI/CustomSelect/CustomSelect";
 
@@ -69,8 +69,7 @@ const Form: FC<IForm> = ({
         formState: { errors },
         setValue,
     } = useForm();
-
-    const navigate = useNavigate();
+    const router = useRouter();
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [selectorArray, setSelectorArray] = useState(new Map());
     const [selectorOptions, setSelectorOptions] = useState(new Map());
@@ -450,7 +449,7 @@ const Form: FC<IForm> = ({
                                                     ) : (
                                                         <>  
                                                             {selectProps.createSelectData && (
-                                                                <Button onClick={()=>{ selectProps.createSelectData && navigate(selectProps.createSelectData.link)}}>
+                                                                <Button onClick={()=>{ selectProps.createSelectData && router.replace(selectProps.createSelectData.link)}}>
                                                                     {selectProps.createSelectData.name}
                                                                 </Button>
                                                             )}
@@ -546,7 +545,7 @@ const Form: FC<IForm> = ({
                                                     ) : (
                                                         <>  
                                                             {selectProps.createSelectData && (
-                                                                <Button onClick={()=>{ selectProps.createSelectData && navigate(selectProps.createSelectData.link)}}>
+                                                                <Button onClick={()=>{ selectProps.createSelectData && router.replace(selectProps.createSelectData.link)}}>
                                                                     {selectProps.createSelectData.name}
                                                                 </Button>
                                                             )}

@@ -1,10 +1,9 @@
 import React from "react";
-import { useAppSelector } from "../../app/hooks/useAppSelector";
-import Header from "../../app/components/Header/Header";
-import Menu from "../../app/components/Drawer/Menu/Menu";
-import ProfileView from "../../app/components/Profile/ProfileView";
-import LoginAndRegistrationForm from "../../app/components/Login/LoginAndRegForm";
-import VerificationCodeFormContainer from "../../app/components/VerificationCodeForm/VerificationCodeFormContainer";
+import { useAppSelector } from "../app/hooks/useAppSelector";
+import Menu from "../app/components/Drawer/Menu/Menu";
+import ProfileView from "../app/components/Profile/ProfileView";
+import LoginAndRegistrationForm from "../app/components/Login/LoginAndRegForm";
+import VerificationCodeFormContainer from "../app/components/VerificationCodeForm/VerificationCodeFormContainer";
 
 export default function Account() {
     const { isAuth } = useAppSelector((state) => state.userReducer);
@@ -13,7 +12,6 @@ export default function Account() {
     );
     return (
         <>
-            <Header />
             <Menu
                 callbackApplyFilter={() => {}}
                 callbackResetFilter={() => {}}
