@@ -15,7 +15,7 @@ const AdminPanel: FC<IAdminPanelProps> = ({ workTool }) => {
         { name: "Закуски", url: "/admin/snacks", active: false },
         { name: "Бренды", url: "/admin/brands", active: false },
         { name: "Сорта", url: "/admin/grades", active: false },
-        { name: "Типы упаковок", url: "/admin/type-packaging", active: false },
+        { name: "Типы упаковок", url: "/admin/types-packaging", active: false },
     ]);
     const { data, isLoading } = useCheckUserRoleAdminQuery({});
     const [showWorkSpace, setShowWorkSpace] = useState(false);

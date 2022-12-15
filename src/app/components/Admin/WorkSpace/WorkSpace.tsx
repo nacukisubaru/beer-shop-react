@@ -143,7 +143,7 @@ const WorkSpace: React.FC<IWorkSpaceProps> = ({tool, menuItems}) => {
                             <ListItem key={item.name} disablePadding>
                                 <ListItemButton 
                                     onClick={() => {
-                                       // navigate(item.url);
+                                       router.replace(item.url);
                                     }}
                                     
                                     style={ item.active ? {backgroundColor: '#f5f5f5'} : {}}

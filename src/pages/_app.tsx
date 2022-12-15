@@ -14,12 +14,12 @@ import Beers from "./products/beers";
 import Basket from "./basket";
 import Snacks from "./products/snacks";
 import MainAdmin from "./admin/main";
-import BeerAdmin from "./admin/content/products/beer";
-import SnacksAdmin from "./admin/content/products/snack";
-import GradeAdmin from "./admin/content/additional/grade";
-import BrandAdmin from "./admin/content/additional/brand";
-import TypePackagingAdmin from "./admin/content/additional/typePackaging";
-import OrdersAdmin from "./admin/orders/orders";
+import BeerAdmin from "./admin/beer";
+import SnacksAdmin from "./admin/snack";
+import GradeAdmin from "./admin/grade";
+import BrandAdmin from "./admin/brand";
+import TypePackagingAdmin from "./admin/typePackaging";
+import OrdersAdmin from "./admin/orders";
 import Layout from "../app/components/Layout/Layout";
 
 interface AppProps {

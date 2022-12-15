@@ -72,7 +72,7 @@ const Header: FC = () => {
                                 </IconButton>
                             </div>
                             {checkRoleUser("ADMIN") && ( <div>
-                                <Link href="/admin">
+                                <Link href="/admin/main">
                                     <IconButton>
                                         <AdminPanelSettingsIcon style={{height: '30px', width: '30px'}}/>
                                     </IconButton>
