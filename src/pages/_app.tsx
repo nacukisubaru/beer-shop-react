@@ -61,7 +61,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
                 'Arial',
                 'sans-serif'
             ].join(','),
-
+            
             button: {
                 fontWeight: 'bold'
             }

@@ -3,6 +3,7 @@ import { useAppSelector } from "../../hooks/useAppSelector";
 import { IconButton, Typography } from "@mui/material";
 import { useActions } from "../../hooks/useActions";
 import { useAuthorizationUser } from "../../hooks/useAuthorizationUser";
+import { useRouter } from "next/router";
 import Image from 'next/image';
 import Link from 'next/link';
 import AppBar from "@mui/material/AppBar";
@@ -16,6 +17,10 @@ import vkIcon from '../../../assets/images/vk.png';
 import PhonelinkRingIcon from '@mui/icons-material/PhonelinkRing';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import styles from "./styles/header.module.css";
+import PositionedMenu from "../PositionedMenu/PositionedMenu";
+import SportsBarIcon from '@mui/icons-material/SportsBar';
+import IcecreamIcon from '@mui/icons-material/Icecream';
+import SetMealIcon from '@mui/icons-material/SetMeal';
 
 const Header: FC = () => {
     const countProducts: number = useAppSelector(
@@ -23,7 +28,7 @@ const Header: FC = () => {
     );   
     const {checkRoleUser} = useAuthorizationUser();
     const {switchMainMenu} = useActions();
-    
+    const router = useRouter();
     return (
         <header>
             <Box sx={{ flexGrow: 1 }}>
@@ -32,6 +37,7 @@ const Header: FC = () => {
                     style={{ 
                         height: "100px", 
                         background: "white",
+                        color:"black",
                         display: 'flex',
                         justifyContent: 'center'  
                     }}
@@ -43,9 +49,28 @@ const Header: FC = () => {
                                     <MenuIcon />
                                 </IconButton>
                             </div>
-                            <div>
-                                <Image className={styles.logo} style={{ backgroundSize: "contain"}} src={logo}/>
-                            </div>
+                           
+                        </div>
+                        <div style={{flexFlow: 'column',display: 'flex',justifyContent: 'center'}}>
+                            <PositionedMenu 
+                                title="Каталог" 
+                                menuItemList={[
+                                    {name: "Пиво", icon: <SportsBarIcon />, onClick: ()=> {router.replace('/products/beers')}},
+                                    {name: "Снеки", icon: <IcecreamIcon />, onClick: ()=> {router.replace('/products/snacks')}},
+                                    {name: "Рыба", icon: <SetMealIcon />, onClick: ()=> {}}
+                                ]} 
+                                useButton={false}
+                            />
+                        </div>
+                        <div style={{flexFlow: 'column',display: 'flex',justifyContent: 'center'}}>
+                            <Typography variant="body1">Контакты</Typography>
+                        </div>
+                        <div style={{flexFlow: 'column',display: 'flex',justifyContent: 'center'}}>
+                            <Typography variant="body1">О нас</Typography>
+                        </div>
+
+                        <div>
+                            <Image className={styles.logo} style={{ backgroundSize: "contain"}} src={logo}/>
                         </div>
                         <div className={styles.contacts}>
                             <a className={styles.phoneLink} href="tel:+7 920 899 77 72">
@@ -61,10 +86,6 @@ const Header: FC = () => {
                         </div>
                         <div className={styles.wrapperIcons}>
                             <a className={styles.vkIcon} href="https://vk.com/id474817801" target="blank">
-                                {/* <Box 
-                                    style={{ backgroundSize: "contain", height: '36px', width: '37px' }}
-                                    sx={{ background: `url(${vkIcon}) center center no-repeat` }} 
-                                /> */}
                                  <Image  style={{ backgroundSize: "contain", height: '36px', width: '37px' }} src={vkIcon}  />
                             </a>
                             <div>
