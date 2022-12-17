@@ -5,21 +5,22 @@
     margin-right: 100px;
 }
 
-.contacts {
-    color: black;
+.headerElement {
+    flex-flow: column;
+    display: flex;
+    justify-content: center;
+}
+
+.headerNavElementBurger {
     flex-flow: column;
     display: flex;
     justify-content: center;
 }
 
 .headerNavElement {
+    flex-flow: column;
     display: flex;
-}
-
-.navElementBurger {
-    padding-top: 23px;
-    padding-right: 13px;
-    margin-top: 7px;
+    justify-content: center;
 }
 
 .wrapperIcons {
@@ -45,7 +46,7 @@
   and (max-device-width: 667px) 
   and (-webkit-min-device-pixel-ratio: 2)
   and (orientation: portrait) { 
-    .contacts {
+    .headerNavElement {
         display: none;
     }
     .logo {
@@ -54,7 +55,7 @@
 }
 
 @media screen and (max-width: 385px) and (min-width: 383px) {
-    .contacts {
+    .headerNavElement {
         display: none;
     }
     .logo {
@@ -73,7 +74,7 @@
 }
 
 @media screen and (max-width: 321px) and (min-width: 319px) {
-    .contacts {
+    .headerNavElement {
         display: none;
     }
 
@@ -83,7 +84,7 @@
 }
 
 @media screen and (max-width: 481px) and (min-width: 479px){
-    .contacts {
+    .headerNavElement {
         display: none;
     }
 
@@ -100,7 +101,7 @@
 }
 
 @media screen and (min-width: 200px) and (max-width: 653px){
-    .contacts {
+    .headerNavElement {
         display: none;
     }
 

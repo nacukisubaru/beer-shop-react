@@ -43,15 +43,13 @@ const Header: FC = () => {
                     }}
                 >
                     <div className={styles.wrapperHeader}>
-                        <div className={styles.headerNavElement}>
-                            <div className={styles.navElementBurger}>
-                                <IconButton onClick={switchMainMenu}>
-                                    <MenuIcon />
-                                </IconButton>
-                            </div>
-                           
+                        <div className={styles.headerNavElementBurger}>
+                            <IconButton onClick={switchMainMenu}>
+                                <MenuIcon />
+                            </IconButton>
                         </div>
-                        <div style={{flexFlow: 'column',display: 'flex',justifyContent: 'center'}}>
+
+                        <div className={styles.headerNavElement}>
                             <PositionedMenu 
                                 title="Каталог" 
                                 menuItemList={[
@@ -62,17 +60,17 @@ const Header: FC = () => {
                                 useButton={false}
                             />
                         </div>
-                        <div style={{flexFlow: 'column',display: 'flex',justifyContent: 'center'}}>
+                        <div className={styles.headerNavElement}>
                             <Typography variant="body1">Контакты</Typography>
                         </div>
-                        <div style={{flexFlow: 'column',display: 'flex',justifyContent: 'center'}}>
+                        <div className={styles.headerNavElement}>
                             <Typography variant="body1">О нас</Typography>
                         </div>
 
                         <div>
                             <Image className={styles.logo} style={{ backgroundSize: "contain"}} src={logo}/>
                         </div>
-                        <div className={styles.contacts}>
+                        <div className={styles.headerNavElement}>
                             <a className={styles.phoneLink} href="tel:+7 920 899 77 72">
                                 <div className={styles.wrapperIcons}>
                                 <PhonelinkRingIcon /><Typography> +7 920 899 77 72 </Typography>
