@@ -1,13 +1,13 @@
 import React, { FC, useEffect } from "react";
-import "./css/basket.css";
-import BasketCard from "./BaskerCard";
-import { IProductBasket } from "../../types/product.types";
-import TotalCard from "./TotalCard";
 import { Button } from "@mui/material";
-import { Link } from "react-router-dom";
+import { IProductBasket } from "../../types/product.types";
+import { useBasket } from "../../hooks/useBasket";
+import BasketCard from "./BasketCard";
+import TotalCard from "./TotalCard";
+import Link from "next/link";
 import ProductNotInStock from "../Modals/Messages/ProductNotInStock";
 import SuccessOrder from "../Modals/Messages/SuccessOrder";
-import { useBasket } from "../../hooks/useBasket";
+import styles from "./styles/basket.module.css";
 
 interface BasketListProps {
     basketList: IProductBasket[];
@@ -30,8 +30,8 @@ const BasketList: FC<BasketListProps> = ({basketList, order, count}) => {
 
     return (
         <>
-            <div className="wrapper-basket-list">
-                <div className="container-basket-list">
+            <div className={styles.wrapperBasketList}>
+                <div className={styles.containerBasketList}>
                     {basketList.map((item: IProductBasket, index: number) => (
                         <BasketCard
                             key={index}
@@ -47,14 +47,14 @@ const BasketList: FC<BasketListProps> = ({basketList, order, count}) => {
                     ))}
                 </div>
                 {basketList.length > 0 ? (
-                    <div className="basket-total-card">
+                    <div className={styles.basketTotalCard}>
                         <TotalCard totalPrice={total} order={order}/>
                     </div>   
                 ): (
                     <div>
-                        <div className="empty-basket">Ваша корзина пуста</div>
+                        <div className={styles.emptyBasket}>Ваша корзина пуста</div>
                         <div>
-                            <Link to={'/products/beers'} style={{textDecoration: 'none'}}>
+                            <Link href={'/products/beers'} style={{textDecoration: 'none'}}>
                                 <Button variant="contained">Посмотреть каталог</Button>
                             </Link>
                         </div>

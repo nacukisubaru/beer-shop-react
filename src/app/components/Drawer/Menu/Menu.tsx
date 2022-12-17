@@ -44,7 +44,8 @@ const Menu: FC<IMenu> = ({callbackApplyFilter, callbackResetFilter, filter, filt
         setMinPrice({price: min});
         setMaxPrice({price: max});
     }
-
+    //TO DO рефакторинг нужно передавать массив объектов а в TemporaryDrawer в map вызывать ItemMenu и передавать аргументы
+    //также нужно на onclick передавать вызов функции который переключит состояние меню off
     const arrayMenuList: any = [
         <ItemMenu name="Пиво" link="/products/beers" onClick={callbackResetFilter}/>,
         <ItemMenu name="Закуски" link="/products/snacks" onClick={callbackResetFilter}/>,

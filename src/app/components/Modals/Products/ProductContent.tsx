@@ -1,10 +1,10 @@
 import { FC, useState } from "react";
 import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import { useAppSelector } from "../../../hooks/useAppSelector";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
-import "../css/style.css";
-import { useAppSelector } from "../../../hooks/useAppSelector";
+import styles from "../styles/modal.module.css";
 
 interface IListInfoItem {
     key: string,
@@ -62,44 +62,44 @@ const ProductContent: FC<IProductContent> = ({id, listInfo, description, image, 
 
     return (
         <>
-            <div className="modal-beer-content">
+            <div className={styles.modalBeerContent}>
                 <div>
                     <Box
-                        className="modal-beer-img"
+                        className={styles.modalBeerImg}
                         style={{ backgroundSize: "contain" }}
                         sx={{
                             background: `url(${image}) center center no-repeat`,
                         }}
                     ></Box>
         
-                    <div className="quantity">
-                        <span className={!inStock ? "disable-text" : ""}>
+                    <div className={styles.quantity}>
+                        <span className={!inStock ? styles.disableText : ""}>
                             <RemoveCircleOutlineIcon style={{cursor: "pointer"}} onClick={handlerMinusQuan}/>
                         </span>
-                            <div className={!inStock ? "disable-text" : ""}>{quantity}</div>
-                        <span  className={!inStock ? "disable-text" : ""}>
+                            <div className={!inStock ? styles.disableText: ""}><Typography variant="body1">{quantity}</Typography></div>
+                        <span  className={!inStock ? styles.disableText : ""}>
                             <AddCircleOutlineIcon style={{cursor: "pointer"}} onClick={handlerPlusQuan}/>
                         </span>
                     </div>
-                    <div className="buy-btn">
+                    <div className={styles.buyBtn}>
                         <Button variant="outlined" style={{width:'200px'}} disabled={inStock ? false : true} onClick={handleBuy}>купить</Button>
                     </div>
                 </div>
                
-                <div className="modal-beer-info">
+                <div className={styles.modalBeerInfo}>
                     {listInfo.map(item => {
                         return <Typography variant="body1">
-                              <span className="label-info">{ item.key }:</span> {item.value}
+                              <span className={styles.labelInfo}>{ item.key }:</span> {item.value}
                          </Typography>
                     })}
                 </div>
                 
                 <div>
                     <Typography variant="body1">
-                        <span className="label-info">Описание:</span>
+                        <span className={styles.labelInfo}>Описание:</span>
                     </Typography> 
                     <Typography variant="body1">
-                        <div className="modal-beer-desc">{description}</div>
+                        <div className={styles.modalBeerDesc}>{description}</div>
                     </Typography>
                 </div>
             </div>

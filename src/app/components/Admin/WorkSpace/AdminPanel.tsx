@@ -8,28 +8,28 @@ interface IAdminPanelProps {
 }
 
 const AdminPanel: FC<IAdminPanelProps> = ({ workTool }) => {
-    const location = useLocation();
+   // const location = useLocation();
     const [menuState, setMenu] = useState([
         { name: "Заказы", url: "/admin/orders", active: false },
         { name: "Пиво", url: "/admin/beers", active: false },
         { name: "Закуски", url: "/admin/snacks", active: false },
         { name: "Бренды", url: "/admin/brands", active: false },
         { name: "Сорта", url: "/admin/grades", active: false },
-        { name: "Типы упаковок", url: "/admin/type-packaging", active: false },
+        { name: "Типы упаковок", url: "/admin/types-packaging", active: false },
     ]);
     const { data, isLoading } = useCheckUserRoleAdminQuery({});
     const [showWorkSpace, setShowWorkSpace] = useState(false);
     const [isDefinedWorkSpace, setDefinedWorkSpace] = useState(false);
 
-    useEffect(() => {
-        const menuItems = menuState.map((item) => {
-            if (item.url === location.pathname) {
-                item.active = true;
-            }
-            return item;
-        });
-        setMenu(menuItems);
-    }, [location, setMenu]);
+    // useEffect(() => {
+    //     const menuItems = menuState.map((item) => {
+    //         if (item.url === location.pathname) {
+    //             item.active = true;
+    //         }
+    //         return item;
+    //     });
+    //     setMenu(menuItems);
+    // }, [location, setMenu]);
 
     useEffect(() => {
         if (data === true) {

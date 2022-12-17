@@ -40,7 +40,6 @@ export default function Snacks () {
 
     return (
         <div className="page-container">
-            <Header />
             <Menu
                 callbackApplyFilter={handleApplyFilter}
                 callbackResetFilter={handleResetFilter}

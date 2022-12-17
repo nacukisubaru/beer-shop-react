@@ -8,8 +8,7 @@ import CardSmall from "./CardSmall";
 import BasicSpeedDial from "../SpeedDial/BasicSpeedDial";
 import MenuIcon from "@mui/icons-material/Menu";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import "./css/cards.css";
-import "../../../index.css";
+import styles from "./styles/cards.module.css";
 
 interface CardListProps {
     cardsList: ICard[],
@@ -30,9 +29,9 @@ const CardList: FC<CardListProps> = ({ cardsList, fetch, page, scrollList = true
 
     return (
         <>
-            <Box className="list-body">
+            <Box>
                 <div>
-                    <div className="card-list">
+                    <div className={styles.cardList}>
                         {cardsList.map((item) => (
                             <CardSmall
                                 id={item.id}
@@ -47,7 +46,7 @@ const CardList: FC<CardListProps> = ({ cardsList, fetch, page, scrollList = true
                         ))}
                         <div id="reff" ref={targetRef}></div>
                     </div>
-                    <div className="filter-wrapper-btn">
+                    <div className={styles.filterWrapperBtn}>
                         <BasicSpeedDial actions={actions}></BasicSpeedDial>
                     </div>
                 </div>

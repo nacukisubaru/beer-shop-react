@@ -1,7 +1,7 @@
 
 import { unwrapResult } from "@reduxjs/toolkit";
+import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { getBasketById } from "../store/services/basket/reducers/basket.slice";
 import { createOrder } from "../store/services/order/reducers/order.slice";
 import { useActions } from "./useActions";
@@ -9,7 +9,7 @@ import { useAppSelector } from "./useAppSelector";
 import { useBasket } from "./useBasket";
 
 export const useOrder = () => {
-    const navigate = useNavigate();
+    const router = useRouter();
     const {getBasketId} = useBasket();
     const dispatch = useDispatch();
     const {setAwareChangesInBasket, openModalProductNotInStock, setBackRedirectToOrder} = useActions();
@@ -38,7 +38,7 @@ export const useOrder = () => {
             dispatch(createOrder(basketHash));
         } else {
             setBackRedirectToOrder({isRedirect: true});
-            navigate('/account');
+            router.replace('/account');
         }
     }
 

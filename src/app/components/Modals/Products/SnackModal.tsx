@@ -3,7 +3,7 @@ import { useActions } from "../../../hooks/useActions";
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import BasicModal from "../BasicModal";
 import ProductContent from "./ProductContent";
-import "../css/style.css";
+//import "../css/style.css";
 
 import { useBuyProduct } from "../../../hooks/useBuyProduct";
 import { createProductForBuy } from "../../../store/services/basket/reducers/basket.slice";

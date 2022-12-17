@@ -20,8 +20,9 @@ import { contentReducer } from "./reducers/content.slice";
 import { productTypeApi } from "./services/product-types/product-types.api";
 import { roleApi } from "./services/roles/role.api";
 import { orderApi } from "./services/order/order.api";
+import { createWrapper } from "next-redux-wrapper";
 
-export const store = configureStore({
+export const makeStore = () => configureStore({
     reducer: {
         userReducer,
         accountFormsReducer,
@@ -59,5 +60,8 @@ export const store = configureStore({
     //middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false})
 });
 
+export const wrapper = createWrapper(makeStore);
+
+export const store = makeStore();
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch;

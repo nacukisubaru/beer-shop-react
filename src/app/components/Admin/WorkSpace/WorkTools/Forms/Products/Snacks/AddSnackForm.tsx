@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { useActions } from "../../../../../../../hooks/useActions";
 import { IStateResponse } from "../../../../../../../hooks/useCatalog";
 import { brandApi } from "../../../../../../../store/services/brands/brand.api";

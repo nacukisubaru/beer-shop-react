@@ -2,7 +2,10 @@ import React, { FC } from "react";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { IconButton, Typography } from "@mui/material";
 import { useActions } from "../../hooks/useActions";
-import { Link } from "react-router-dom";
+import { useAuthorizationUser } from "../../hooks/useAuthorizationUser";
+import { useRouter } from "next/router";
+import Image from 'next/image';
+import Link from 'next/link';
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CartBadge from "../Badges/CartBadge";
@@ -13,9 +16,11 @@ import logo from '../../../assets/images/logo.png';
 import vkIcon from '../../../assets/images/vk.png';
 import PhonelinkRingIcon from '@mui/icons-material/PhonelinkRing';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import "./css/style.css";
-import { useAuthorizationUser } from "../../hooks/useAuthorizationUser";
-
+import styles from "./styles/header.module.css";
+import PositionedMenu from "../PositionedMenu/PositionedMenu";
+import SportsBarIcon from '@mui/icons-material/SportsBar';
+import IcecreamIcon from '@mui/icons-material/Icecream';
+import SetMealIcon from '@mui/icons-material/SetMeal';
 
 const Header: FC = () => {
     const countProducts: number = useAppSelector(
@@ -23,53 +28,63 @@ const Header: FC = () => {
     );   
     const {checkRoleUser} = useAuthorizationUser();
     const {switchMainMenu} = useActions();
-
+    const router = useRouter();
     return (
-        <>
+        <header>
             <Box sx={{ flexGrow: 1 }}>
                 <AppBar
                     position="static"
                     style={{ 
                         height: "100px", 
                         background: "white",
+                        color:"black",
                         display: 'flex',
                         justifyContent: 'center'  
                     }}
                 >
-                    <div className="wrapper-header">
-                        <div className="header-nav-element">
-                            <div className="nav-element-burger">
-                                <IconButton onClick={switchMainMenu}>
-                                    <MenuIcon />
-                                </IconButton>
-                            </div>
-                            <div>
-                                <Box 
-                                    className="logo"
-                                    style={{ backgroundSize: "contain"}}
-                                    sx={{ background: `url(${logo}) center center no-repeat` }} 
-                                >
-                                </Box>
-                            </div>
+                    <div className={styles.wrapperHeader}>
+                        <div className={styles.headerNavElementBurger}>
+                            <IconButton onClick={switchMainMenu}>
+                                <MenuIcon />
+                            </IconButton>
                         </div>
-                        <div className="contacts">
-                            <a className="phone-link" href="tel:+7 920 899 77 72">
-                                <div className="wrapper-icons">
+
+                        <div className={styles.headerNavElement}>
+                            <PositionedMenu 
+                                title="Каталог" 
+                                menuItemList={[
+                                    {name: "Пиво", icon: <SportsBarIcon />, onClick: ()=> {router.replace('/products/beers')}},
+                                    {name: "Снеки", icon: <IcecreamIcon />, onClick: ()=> {router.replace('/products/snacks')}},
+                                    {name: "Рыба", icon: <SetMealIcon />, onClick: ()=> {}}
+                                ]} 
+                                useButton={false}
+                            />
+                        </div>
+                        <div className={styles.headerNavElement}>
+                            <Typography variant="body1">Контакты</Typography>
+                        </div>
+                        <div className={styles.headerNavElement}>
+                            <Typography variant="body1">О нас</Typography>
+                        </div>
+
+                        <div>
+                            <Image className={styles.logo} style={{ backgroundSize: "contain"}} src={logo}/>
+                        </div>
+                        <div className={styles.headerNavElement}>
+                            <a className={styles.phoneLink} href="tel:+7 920 899 77 72">
+                                <div className={styles.wrapperIcons}>
                                 <PhonelinkRingIcon /><Typography> +7 920 899 77 72 </Typography>
                                 </div>
                             </a>
                             <div>
                                 <Typography>
-                                    <a className="phone-link" href="https://2gis.ru/kaluga/firm/70000001036699976" target="blank">ул. Братьев Луканиных, 7, Калуга</a>
+                                    <a className={styles.phoneLink} href="https://2gis.ru/kaluga/firm/70000001036699976" target="blank">ул. Братьев Луканиных, 7, Калуга</a>
                                 </Typography>
                             </div>
                         </div>
-                        <div className="wrapper-icons">
-                            <a className="vk-icon" href="https://vk.com/id474817801" target="blank">
-                                <Box 
-                                    style={{ backgroundSize: "contain", height: '36px', width: '37px' }}
-                                    sx={{ background: `url(${vkIcon}) center center no-repeat` }} 
-                                />
+                        <div className={styles.wrapperIcons}>
+                            <a className={styles.vkIcon} href="https://vk.com/id474817801" target="blank">
+                                 <Image  style={{ backgroundSize: "contain", height: '36px', width: '37px' }} src={vkIcon}  />
                             </a>
                             <div>
                                 <IconButton>
@@ -77,7 +92,7 @@ const Header: FC = () => {
                                 </IconButton>
                             </div>
                             {checkRoleUser("ADMIN") && ( <div>
-                                <Link to="/admin">
+                                <Link href="/admin/main">
                                     <IconButton>
                                         <AdminPanelSettingsIcon style={{height: '30px', width: '30px'}}/>
                                     </IconButton>
@@ -85,12 +100,12 @@ const Header: FC = () => {
                             </div>)}
                            
                             <div>
-                                <Link to="/account">
+                                <Link href="/account">
                                     <IconButton>
                                         <FaceIcon style={{height: '30px', width: '30px'}}/>
                                     </IconButton>
                                 </Link>
-                            </div>
+                            </div> 
                             <div>
                                 <CartBadge quantity={countProducts}></CartBadge>
                             </div>
@@ -98,7 +113,7 @@ const Header: FC = () => {
                     </div>
                 </AppBar>
             </Box>
-        </>
+        </header>
     );
 };
 

@@ -1,31 +1,31 @@
-.wrap-button {
+.wrapButton {
     display: flex;
     justify-content: center;
 }
 
-.modal-beer-content {
+.modalBeerContent {
     flex-flow: wrap;
 }
 
-.modal-beer-img {
+.modalBeerImg {
     height: 202px;
     margin-bottom: 25px;
 }
 
-.modal-beer-desc {
+.modalBeerDesc {
     width: 100%;
 }
 
-.modal-beer-info {
+.modalBeerInfo {
     width: 63%;
     margin-bottom: 15px;
 }
 
-.label-info {
+.labelInfo {
     font-weight: bold;
 }
 
-.buy-btn {
+.buyBtn {
     display: flex;
     justify-content: center;
     margin-bottom: 15px;
@@ -37,6 +37,6 @@
     margin-bottom: 15px;
 }
 
-.disable-text {
+.disableText {
     color: #8d8d8d;;
 }

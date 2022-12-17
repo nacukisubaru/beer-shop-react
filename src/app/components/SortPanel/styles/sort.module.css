@@ -1,0 +1,11 @@
+.sortActive {
+    color: #b05326;
+    border-bottom: 1px dashed #b05326;
+    cursor: pointer;
+}
+
+.sortDeactive {
+    color: black;
+    border-bottom: 1px dashed black;
+    cursor: pointer;
+}

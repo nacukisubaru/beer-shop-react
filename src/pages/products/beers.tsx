@@ -12,7 +12,6 @@ import Header from "../../app/components/Header/Header";
 import ResultNotFoundByFilter from "../../app/components/Modals/Messages/ResultNotFoundByFilter";
 import BeerModal from "../../app/components/Modals/Products/BeerModal";
 import Filters from "../../app/components/Products/Beers/Filters";
-import "../../index.css";
 
 export default function Beers() {
     const dispath = useDispatch();
@@ -42,7 +41,6 @@ export default function Beers() {
 
     return (
         <div className="page-container">
-            <Header />
             <Menu
                 callbackApplyFilter={handleApplyFilter}
                 callbackResetFilter={handleResetFilter}

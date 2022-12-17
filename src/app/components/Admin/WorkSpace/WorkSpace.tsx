@@ -1,5 +1,7 @@
-import * as React from "react";
 import { styled, useTheme } from "@mui/material/styles";
+import { useRouter } from "next/router";
+import { Button } from "@mui/material";
+import * as React from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -18,8 +20,6 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
-import { useNavigate } from "react-router-dom";
-import { Button } from "@mui/material";
 
 const drawerWidth = 240;
 
@@ -85,7 +85,7 @@ interface IWorkSpaceProps {
 const WorkSpace: React.FC<IWorkSpaceProps> = ({tool, menuItems}) => {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
-    const navigate = useNavigate();
+    const router = useRouter();
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -111,7 +111,7 @@ const WorkSpace: React.FC<IWorkSpaceProps> = ({tool, menuItems}) => {
                     <Typography variant="h6" noWrap component="div">
                         Админ панель
                     </Typography>
-                    <Button color="inherit" onClick={()=>{navigate('/products/beers')}}>Сайт</Button>
+                    <Button color="inherit" onClick={()=>{router.replace('/products/beers')}}>Сайт</Button>
                 </Toolbar>
             </AppBar>
             <Drawer
@@ -143,7 +143,7 @@ const WorkSpace: React.FC<IWorkSpaceProps> = ({tool, menuItems}) => {
                             <ListItem key={item.name} disablePadding>
                                 <ListItemButton 
                                     onClick={() => {
-                                        navigate(item.url);
+                                       router.replace(item.url);
                                     }}
                                     
                                     style={ item.active ? {backgroundColor: '#f5f5f5'} : {}}

@@ -2,18 +2,18 @@ import { FC } from "react";
 import { Typography } from "@mui/material";
 import { useActions } from "../../../hooks/useActions";
 import { useAppSelector } from "../../../hooks/useAppSelector";
+import { useRouter } from "next/router";
 import BasicModal from "../BasicModal";
-import { useNavigate } from "react-router-dom";
 
 const SuccessOrder: FC = () => {
     const { openModalSuccessOrder, closeModalSuccessOrder, resetBasket } = useActions();
     const { modalSuccessOrder, orderId } = useAppSelector((state) => state.orderReducer);
-    const navigate = useNavigate();
+    const router = useRouter();
 
     const closeHandler = async () => {
         await resetBasket();
         await closeModalSuccessOrder();
-        navigate('/products/beers');
+        router.replace('/products/beers');
     }
 
     return (

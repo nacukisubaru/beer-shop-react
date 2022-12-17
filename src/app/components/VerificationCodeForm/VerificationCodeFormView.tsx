@@ -9,7 +9,7 @@ import Button from "@mui/material/Button";
 import Timer from "../Timer/Timer";
 import InputMask from "react-input-mask";
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
-import "./css/style.css";
+//import "./css/style.css";
 
 interface VerificationCodeFormViewProps {
     error: string;

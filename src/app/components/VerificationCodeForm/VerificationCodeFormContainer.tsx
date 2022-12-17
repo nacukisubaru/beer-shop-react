@@ -1,6 +1,6 @@
+import { useRouter } from "next/router";
 import { FC } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { useActions } from "../../hooks/useActions";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useAuthorizationUser } from "../../hooks/useAuthorizationUser";
@@ -18,14 +18,14 @@ const VerificationCodeFormContainer: FC = () => {
     const {error} = useAppSelector((state) => state.userReducer);
     const {backRedirectToOrder} = useAppSelector(state => state.orderReducer);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const router = useRouter();
     const {authByCodeStepLogin} = useAuthorizationUser();
 
     const handlerLoginByCode = async (code: string) => {
         const phoneNumber = lastestForm === "login" ? loginPhone : phone;
         await authByCodeStepLogin(phoneNumber, code);
         if(backRedirectToOrder) {
-            navigate("/basket");
+            router.replace("/basket");
         }
     };
 
