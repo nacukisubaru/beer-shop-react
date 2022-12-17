@@ -17,11 +17,18 @@
     justify-content: center;
 }
 
+.headerNavElementContacts {
+    flex-flow: column;
+    display: flex;
+    justify-content: center;
+}
+
 .headerNavElement {
     flex-flow: column;
     display: flex;
     justify-content: center;
 }
+
 
 .wrapperIcons {
     display: flex;
@@ -46,49 +53,70 @@
   and (max-device-width: 667px) 
   and (-webkit-min-device-pixel-ratio: 2)
   and (orientation: portrait) { 
+    
+    .headerNavElementContacts {
+        display: none;
+    }
     .headerNavElement {
         display: none;
     }
     .logo {
+        height: 80px;
         width: 92px;
     }
 }
 
 @media screen and (max-width: 385px) and (min-width: 383px) {
+    .headerNavElementContacts {
+        display: none;
+    }
     .headerNavElement {
         display: none;
     }
     .logo {
+        height: 80px;
         width: 92px;
     }
 }
 
 @media screen and (max-width: 642px) and (min-width: 640px){
-    .contacts {
+    .headerNavElementContacts {
+        display: none;
+    }
+    .headerNavElement {
         display: none;
     }
 
     .logo {
+        height: 80px;
         width: 92px;
     }
 }
 
 @media screen and (max-width: 321px) and (min-width: 319px) {
+    .headerNavElementContacts {
+        display: none;
+    }
     .headerNavElement {
         display: none;
     }
 
     .logo {
+        height: 80px;
         width: 92px;
     }
 }
 
 @media screen and (max-width: 481px) and (min-width: 479px){
+    .headerNavElementContacts {
+        display: none;
+    }
     .headerNavElement {
         display: none;
     }
 
     .logo {
+        height: 80px;
         width: 92px;
     }
 }
@@ -101,11 +129,15 @@
 }
 
 @media screen and (min-width: 200px) and (max-width: 653px){
+    .headerNavElementContacts {
+        display: none;
+    }
     .headerNavElement {
         display: none;
     }
 
     .logo {
+        height: 80px;
         width: 92px;
     }
 }
@@ -126,6 +158,22 @@
   and (min-device-width: 768px) 
   and (max-device-width: 1024px) 
   and (-webkit-min-device-pixel-ratio: 1) {
+    .headerNavElement {
+        display: none;
+    }
+    .wrapperHeader {
+        margin-left: unset;
+        margin-right: unset;
+    }
+}
+
+@media only screen 
+  and (min-device-width: 712px) 
+  and (max-device-width: 1138px) 
+  and (-webkit-min-device-pixel-ratio: 1) {
+    .headerNavElement {
+        display: none;
+    }
     .wrapperHeader {
         margin-left: unset;
         margin-right: unset;

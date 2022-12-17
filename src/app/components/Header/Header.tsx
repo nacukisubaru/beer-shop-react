@@ -70,7 +70,7 @@ const Header: FC = () => {
                         <div>
                             <Image className={styles.logo} style={{ backgroundSize: "contain"}} src={logo}/>
                         </div>
-                        <div className={styles.headerNavElement}>
+                        <div className={styles.headerNavElementContacts}>
                             <a className={styles.phoneLink} href="tel:+7 920 899 77 72">
                                 <div className={styles.wrapperIcons}>
                                 <PhonelinkRingIcon /><Typography> +7 920 899 77 72 </Typography>
