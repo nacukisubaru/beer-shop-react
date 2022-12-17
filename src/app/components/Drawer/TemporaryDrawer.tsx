@@ -7,8 +7,8 @@ import Divider from "@mui/material/Divider";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemButton from "@mui/material/ListItemButton";
 import CloseIcon from '@mui/icons-material/Close';
-//import "./css/style.css";
 import { IconButton } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
@@ -24,6 +24,20 @@ interface IDrawer {
     callbackResetBtn: () => void;
 }
 
+const useStyles = makeStyles({
+    containerApplyBtn: {
+        height: "100%",
+        width: "100%",
+        display: "flex",
+        justifyContent: "center"
+    },
+    wrapperApplyBtn: {
+        display: "flex", 
+        alignItems: "flex-end",
+        marginBottom: "17px"
+    }
+});
+
 const TemporaryDrawer: FC<IDrawer> = ({
     name,
     arrayList,
@@ -35,7 +49,7 @@ const TemporaryDrawer: FC<IDrawer> = ({
     callbackApplyBtn,
     callbackResetBtn
 }) => {
-    
+    const classes = useStyles();
     const [isOpenList, setOpen] = useState(true);
     const handlerToggleList = () => {
         if(!isOpenList) {
@@ -79,8 +93,8 @@ const TemporaryDrawer: FC<IDrawer> = ({
                 <Drawer anchor={position} open={isOpen} onClose={close}>
                     {list(position)}
                     {showApplyBtn && (
-                        <div className="container-apply-btn">
-                            <div className="wrap-apply-btn">
+                        <div className={classes.containerApplyBtn}>
+                            <div className={classes.wrapperApplyBtn}>
                                 <Button variant="outlined" onClick={callbackResetBtn} style={{marginRight: '5px'}}>Cбросить</Button>
                                 <Button variant="contained" onClick={callbackApplyBtn}>Применить</Button>
                             </div>
