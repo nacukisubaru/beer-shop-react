@@ -61,10 +61,11 @@ const Header: FC = () => {
                         </div>
                         <div className={styles.wrapperIcons}>
                             <a className={styles.vkIcon} href="https://vk.com/id474817801" target="blank">
-                                <Box 
+                                {/* <Box 
                                     style={{ backgroundSize: "contain", height: '36px', width: '37px' }}
                                     sx={{ background: `url(${vkIcon}) center center no-repeat` }} 
-                                />
+                                /> */}
+                                 <Image  style={{ backgroundSize: "contain", height: '36px', width: '37px' }} src={vkIcon}  />
                             </a>
                             <div>
                                 <IconButton>
