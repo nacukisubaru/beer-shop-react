@@ -68,7 +68,9 @@ const Header: FC = () => {
                         </div>
 
                         <div>
-                            <Image className={styles.logo} style={{ backgroundSize: "contain"}} src={logo}/>
+                            <Link href="/">
+                                <Image className={styles.logo} style={{ backgroundSize: "contain"}} src={logo}/>
+                            </Link>
                         </div>
                         <div className={styles.headerNavElementContacts}>
                             <a className={styles.phoneLink} href="tel:+7 920 899 77 72">
