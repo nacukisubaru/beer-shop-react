@@ -1,26 +1,14 @@
 import { FC } from "react";
 import { Provider } from "react-redux";
 import { store, wrapper } from "../app/store/store";
-
-//import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
 import { useBasket } from "../app/hooks/useBasket";
 import { getUser } from "../app/store/services/users/reducers/user.slice";
 import { useDispatch } from "react-redux";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Account from "./account";
-import Beers from "./products/beers";
-import Basket from "./basket";
-import Snacks from "./products/snacks";
-import MainAdmin from "./admin/main";
-import BeerAdmin from "./admin/beer";
-import SnacksAdmin from "./admin/snack";
-import GradeAdmin from "./admin/grade";
-import BrandAdmin from "./admin/brand";
-import TypePackagingAdmin from "./admin/typePackaging";
-import OrdersAdmin from "./admin/orders";
 import Layout from "../app/components/Layout/Layout";
+import "../styles/global.css";
 
 interface AppProps {
     Component: any;
@@ -78,28 +66,3 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
 };
 
 export default wrapper.withRedux(App);
-
-//     return (
-//         <div className="App">
-//             <ThemeProvider theme={theme}>
-//                 <BrowserRouter>
-//                     <Routes>
-//                         <Route path="/account" element={<Account />} />
-//                         <Route path="/products/beers" element={<Beers />}></Route>
-//                         <Route path="/products/snacks" element={<Snacks />}></Route>
-//                         <Route path="/basket" element={<Basket />}></Route>
-//                         <Route path="/admin" element={<MainAdmin />}></Route>
-//                         <Route path="/admin/beers" element={<BeerAdmin />}></Route>
-//                         <Route path="/admin/snacks" element={<SnacksAdmin />}></Route>
-//                         <Route path="/admin/grades" element={<GradeAdmin />}></Route>
-//                         <Route path="/admin/brands" element={<BrandAdmin />}></Route>
-//                         <Route path="/admin/type-packaging" element={<TypePackagingAdmin />}></Route>
-//                         <Route path="/admin/orders" element={<OrdersAdmin />}></Route>
-//                     </Routes>
-//                 </BrowserRouter>
-//             </ThemeProvider>
-//         </div>
-//     );
-// }
-
-// export default App;
