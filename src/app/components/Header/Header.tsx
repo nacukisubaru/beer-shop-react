@@ -33,7 +33,7 @@ const Header: FC = () => {
         <header>
             <Box sx={{ flexGrow: 1 }}>
                 <AppBar
-                    position="static"
+                   position="fixed"
                     style={{ 
                         height: "100px", 
                         background: "white",
