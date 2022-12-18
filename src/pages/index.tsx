@@ -2,6 +2,8 @@ import { Button, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Box } from "@mui/system";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import Menu from "../app/components/Drawer/Menu/Menu";
 import PhotoGaleryList from "../app/components/PhotoGalery/PhotoGaleryList";
 import banner from "../assets/images/banner.jpg";
@@ -63,6 +65,7 @@ const useStyles = makeStyles({
 });
 
 const Home = () => {
+    const router = useRouter();
     const classes = useStyles();
     return (
         <>
@@ -90,9 +93,13 @@ const Home = () => {
                         >
                             попробуй яркий вкус, свежего пива
                         </Typography>
+                    
                         <Button
                             className={classes.bannerButton}
                             variant="contained"
+                            onClick={()=>{
+                                router.replace("/products/beers");
+                            }}
                         >
                             Попробовать
                         </Button>
