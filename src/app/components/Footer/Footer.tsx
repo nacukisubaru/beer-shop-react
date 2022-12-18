@@ -11,9 +11,13 @@ const useStyles = makeStyles({
     footerContent: {
         display: "flex",
         justifyContent: "space-evenly",
+        "@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)":
+        {
+            display: "block",
+        },
     },
     footerWrapper: {
-        paddingTop: "40px",
+        paddingTop: "25px",
     },
     titleColumn: {
         fontWeight: "bold",
@@ -30,7 +34,7 @@ const Footer: FC = () => {
         <>
             <div>
                 <Box sx={{ flexGrow: 1 }}>
-                    <AppBar position="static" style={{ height: "200px" }}>
+                    <AppBar position="static" style={{ height: "400px" }}>
                         <Toolbar>
                             <Container className={classes.footerWrapper}>
                                 <div className={classes.footerContent}>
