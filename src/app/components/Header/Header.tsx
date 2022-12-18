@@ -33,7 +33,7 @@ const Header: FC = () => {
         <header>
             <Box sx={{ flexGrow: 1 }}>
                 <AppBar
-                   position="fixed"
+                   position="static"
                     style={{ 
                         height: "100px", 
                         background: "white",
@@ -42,13 +42,18 @@ const Header: FC = () => {
                         justifyContent: 'center'  
                     }}
                 >
+                    
                     <div className={styles.wrapperHeader}>
                         <div className={styles.headerNavElementBurger}>
                             <IconButton onClick={switchMainMenu}>
                                 <MenuIcon />
                             </IconButton>
                         </div>
-
+                        <div>
+                            <Link href="/">
+                                <Image className={styles.logo} style={{ backgroundSize: "contain"}} src={logo}/>
+                            </Link>
+                        </div>
                         <div className={styles.headerNavElement}>
                             <PositionedMenu 
                                 title="Каталог" 
@@ -67,9 +72,7 @@ const Header: FC = () => {
                             <Typography variant="body1">О нас</Typography>
                         </div>
 
-                        <div>
-                            <Image className={styles.logo} style={{ backgroundSize: "contain"}} src={logo}/>
-                        </div>
+                    
                         <div className={styles.headerNavElementContacts}>
                             <a className={styles.phoneLink} href="tel:+7 920 899 77 72">
                                 <div className={styles.wrapperIcons}>
