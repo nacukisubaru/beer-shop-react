@@ -10,13 +10,8 @@ import banner from "../assets/images/banner.jpg";
 
 const useStyles = makeStyles({
     bannerImage: {
-        backgroundSize: "contain",
-        marginTop: "-43px",
-        zIndex: "-1",
-        position: "absolute",
-        height: "80%",
+        height: "600px",
         width: "100%",
-        inset: "0px",
         objectFit: "cover",
     },
     banner: {
@@ -24,35 +19,25 @@ const useStyles = makeStyles({
         paddingTop: "73px",
         marginLeft: "82px",
         height: "500px",
-        "@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)":
-            {
-                paddingTop: 0,
-            },
+        position: "absolute",
     },
     bannerText: {
         fontFamily: "Kurale",
         color: "white",
         textShadow: "1px 1px 1px #000",
-        "@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)":
-            {
-                fontSize: "50px",
-            },
     },
     bannerText2: {
         fontFamily: "Kurale",
         color: "white",
         textShadow: "1px 1px 1px #000",
-        marginBottom: "17px",
-        "@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)":
-            {
-                fontSize: "50px",
-            },
+        marginBottom: "17px"
     },
     bannerUnderText: {
         fontFamily: "Montserrat",
         color: "white",
         width: "50%",
         marginBottom: "17px",
+        textShadow: "1px 1px 1px #000",
         "@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)":
             {
                 fontSize: "25px",
@@ -61,7 +46,7 @@ const useStyles = makeStyles({
     bannerButton: {
         borderRadius: "19px",
     },
-    text: { fontFamily: "Kurale", color:"#ac5725"}
+    text: { fontFamily: "Kurale", color: "#ac5725" },
 });
 
 const Home = () => {
@@ -93,11 +78,11 @@ const Home = () => {
                         >
                             попробуй яркий вкус, свежего пива
                         </Typography>
-                    
+
                         <Button
                             className={classes.bannerButton}
                             variant="contained"
-                            onClick={()=>{
+                            onClick={() => {
                                 router.replace("/products/beers");
                             }}
                         >
@@ -107,13 +92,14 @@ const Home = () => {
                     <Image
                         className={classes.bannerImage}
                         src={banner}
-                        objectFit="cover"
                         quality={100}
                     />
                 </div>
 
                 <div style={{ display: "flex", justifyContent: "center" }}>
-                    <Typography className={classes.text} variant="h2">Наш бар</Typography>
+                    <Typography className={classes.text} variant="h2">
+                        Наш бар
+                    </Typography>
                 </div>
                 <PhotoGaleryList />
             </div>

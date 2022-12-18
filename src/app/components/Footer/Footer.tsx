@@ -15,6 +15,36 @@ const useStyles = makeStyles({
         {
             display: "block",
         },
+        "@media screen and (max-width: 385px) and (min-width: 383px)":
+        {
+            display: "block",
+        },
+        "@media screen and (max-width: 642px) and (min-width: 640px)":
+        {
+            display: "block",
+        },
+        "@media screen and (max-width: 321px) and (min-width: 319px)":
+        {
+            display: "block",
+        },
+        "@media screen and (max-width: 481px) and (min-width: 479px)":
+        {
+            display: "block",
+        },
+        "@media screen and (min-width: 500px) and (max-width: 720px)":
+        {
+            display: "block",
+        },
+        "@media screen and (min-width: 200px) and (max-width: 653px)":
+        {
+            display: "block",
+        },
+        "@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2)": {
+            display: "block"
+        },
+        "@media only screen and (min-device-width: 320px) and (max-device-width: 533px)": {
+            display: "block"
+        }
     },
     footerWrapper: {
         paddingTop: "25px",

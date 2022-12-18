@@ -33,7 +33,7 @@ const Header: FC = () => {
         <header>
             <Box sx={{ flexGrow: 1 }}>
                 <AppBar
-                   position="fixed"
+                   position="static"
                     style={{ 
                         height: "100px", 
                         background: "white",
@@ -42,6 +42,7 @@ const Header: FC = () => {
                         justifyContent: 'center'  
                     }}
                 >
+                    
                     <div className={styles.wrapperHeader}>
                         <div className={styles.headerNavElementBurger}>
                             <IconButton onClick={switchMainMenu}>

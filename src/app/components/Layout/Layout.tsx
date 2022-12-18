@@ -9,9 +9,6 @@ interface ILayoutProps {
 }
 
 const useStyles = makeStyles({
-    wrapper: {
-        margin: '-8px'
-    },
     childrenWrapper: {
         marginBottom: "50px"
     }
@@ -23,7 +20,7 @@ const Layout: FC<ILayoutProps> = ({ children }) => {
 
     return (
         <>
-            <div className={styles.wrapper}>
+            <div>
                 {router.route.indexOf('/admin/') < 0 && <Header />}
                 <div className={styles.childrenWrapper}>{children}</div>
                 {router.route.indexOf('/admin/') < 0 &&  <Footer />}
