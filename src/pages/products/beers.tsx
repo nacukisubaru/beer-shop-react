@@ -13,7 +13,7 @@ import ResultNotFoundByFilter from "../../app/components/Modals/Messages/ResultN
 import BeerModal from "../../app/components/Modals/Products/BeerModal";
 import Filters from "../../app/components/Products/Beers/Filters";
 import { wrapper } from "../../app/store/store";
-import { fetchSubject } from "../../app/store/services/products/reducers/product.slice";
+import { fetchProducts } from "../../app/store/services/products/reducers/product.slice";
 import { GetServerSideProps } from "next";
 
 export default function Beers() {
@@ -69,7 +69,8 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async ({ q
     console.log('store state on the server before dispatch', store.getState());
     const productData = query.data || 'page data';
     //  http://localhost:3000/product?data='some-data'
-    await store.dispatch(fetchSubject(1));
+
+    await store.dispatch(fetchProducts('/beers/getListByFilter/', { page: 0, limitPage } ));
     console.log('store state on the server after dispatch', store.getState());
   
     return {
