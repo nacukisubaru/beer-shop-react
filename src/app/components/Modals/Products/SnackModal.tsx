@@ -5,7 +5,7 @@ export default function SnackModal() {
     const { product } = useAppSelector(
         (state) => state.productReducer
     );
-    const { brandName, typePackagingName, inStock } = product;
+    const { brandName, typePackagingName, inStock } = product.product;
     const characteristicsList: any = [
         { key: "Вес", value: product.weight },
         { key: "Бренд", value: brandName },
