@@ -9,6 +9,7 @@ import BasicSpeedDial from "../SpeedDial/BasicSpeedDial";
 import MenuIcon from "@mui/icons-material/Menu";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import styles from "./styles/cards.module.css";
+import { makeStyles } from "@mui/styles";
 
 interface CardListProps {
     cardsList: ICard[],
@@ -18,10 +19,16 @@ interface CardListProps {
     show: (id: number) => void
 }
 
+const useStyles = makeStyles({
+    bottom: {
+        marginBottom: "200px"
+    }
+});
+
 const CardList: FC<CardListProps> = ({ cardsList, fetch, page, scrollList = true, show }) => {
     const targetRef: any = useObserverScroll(fetch, page, scrollList);
     const {switchFilterMenu, switchMainMenu} = useActions();
-
+    const classes = useStyles();
     const actions: IAction[] = [
         { icon: <MenuIcon />, name: "Меню", click: switchMainMenu },
         { icon: <FilterAltIcon />, name: "Фильтр",click: switchFilterMenu },
@@ -29,7 +36,7 @@ const CardList: FC<CardListProps> = ({ cardsList, fetch, page, scrollList = true
 
     return (
         <>
-            <Box>
+            <Box className={classes.bottom}>
                 <div>
                     <div className={styles.cardList}>
                         {cardsList.map((item) => (
@@ -44,13 +51,15 @@ const CardList: FC<CardListProps> = ({ cardsList, fetch, page, scrollList = true
                                 buy={item.buy}
                                 show={show} />
                         ))}
-                        <div id="reff" ref={targetRef}></div>
+                       
                     </div>
+                    <div id="reff" ref={targetRef}></div>
                     <div className={styles.filterWrapperBtn}>
                         <BasicSpeedDial actions={actions}></BasicSpeedDial>
                     </div>
                 </div>
             </Box>
+           
         </>
     );
 };

@@ -15,12 +15,22 @@ import Filters from "../../app/components/Products/Beers/Filters";
 import { wrapper } from "../../app/store/store";
 import { fetchProducts } from "../../app/store/services/products/reducers/product.slice";
 import { GetServerSideProps } from "next";
+import ProductsList from "../../app/components/Products/ProductsList";
 
 export default function Beers() {
     const dispath = useDispatch();
-    const {sortField, order} = useAppSelector(state => state.filterProductsReducer);
+    const { sortField, order } = useAppSelector(
+        (state) => state.filterProductsReducer
+    );
     const { fetchBeersByFilter } = useFilter();
-    const { resetProductFilters, dropBeerList, closeFilterMenu, setSearch, openModalNotFoundByFilter, closeModalNotFoundByFilter} = useActions();
+    const {
+        resetProductFilters,
+        dropBeerList,
+        closeFilterMenu,
+        setSearch,
+        openModalNotFoundByFilter,
+        closeModalNotFoundByFilter,
+    } = useActions();
     const { beer, beerList, minPrice, maxPrice } = useAppSelector(
         (state) => state.beerReducer
     );
@@ -36,47 +46,54 @@ export default function Beers() {
 
     const handleResetFilter = async () => {
         closeFilterMenu();
-        await setSearch({q:''});
+        await setSearch({ q: "" });
         await resetProductFilters();
         await dropBeerList();
-        await dispath(getBeerList({path: '/beers/getListByFilter', params: { sortField, order, page: 0, limitPage }}));
+        await dispath(
+            getBeerList({
+                path: "/beers/getListByFilter",
+                params: { sortField, order, page: 0, limitPage },
+            })
+        );
     };
 
     return (
+       
         <div className="page-container">
+            {/* {productList.map(item => {
+                return item.compound;
+            })} */}
             <Menu
                 callbackApplyFilter={handleApplyFilter}
                 callbackResetFilter={handleResetFilter}
-                filter={{minPrice, maxPrice, productType: 'beers'}}
-                filterList={[
-                    <Filters />
-                ]}
+                filter={{ minPrice, maxPrice, productType: "beers" }}
+                filterList={[<Filters />]}
             />
-            <BeersList />
-            <ResultNotFoundByFilter 
-                openModalNotFoundByFilter={openModalNotFoundByFilter} 
-                closeModalNotFoundByFilter={closeModalNotFoundByFilter} 
-                isOpen={isOpen} 
+            <ProductsList productType="beers"/>
+            {/* <BeersList /> */}
+            <ResultNotFoundByFilter
+                openModalNotFoundByFilter={openModalNotFoundByFilter}
+                closeModalNotFoundByFilter={closeModalNotFoundByFilter}
+                isOpen={isOpen}
             />
-            {beerList.length > 0 && !isEmptyObject(beer) && (
-                <BeerModal />
-            )}
+            {beerList.length > 0 && !isEmptyObject(beer) && <BeerModal />}
         </div>
     );
 }
 
-export const getServerSideProps = wrapper.getServerSideProps(store => async ({ query }) => {
-    console.log('store state on the server before dispatch', store.getState());
-    const productData = query.data || 'page data';
-    //  http://localhost:3000/product?data='some-data'
-
-    await store.dispatch(fetchProducts('/beers/getListByFilter/', { page: 0, limitPage } ));
-    console.log('store state on the server after dispatch', store.getState());
-  
-    return {
-      props: {
-        productData
-      }
-    };
-  });
-  
+export const getServerSideProps: GetServerSideProps =
+    wrapper.getServerSideProps((store) => async ({ query }) => {
+        await store.dispatch(
+            fetchProducts("/beers/getListByFilter/", {
+                page: 0,
+                limitPage,
+                isActive: "true",
+                sortField: "price",
+                order: "ASC"
+            })
+        );
+     
+        return {
+            props: {},
+        };
+    });
