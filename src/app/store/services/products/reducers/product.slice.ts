@@ -79,7 +79,7 @@ export const productSlice = createSlice({
             state.showProduct = true;
         },
         closeProduct: (state) => {
-            state.product = false;
+            state.showProduct = false;
         }
     },
 

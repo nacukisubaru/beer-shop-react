@@ -6,21 +6,22 @@ import { getBeerList } from "../../app/store/services/beers/reducers/beer.slice"
 import { useAppSelector } from "../../app/hooks/useAppSelector";
 import { isEmptyObject } from "../../app/helpers/typesHelper";
 import { limitPage } from "../../app/http/http.request.config";
-import BeersList from "../../app/components/Products/Beers/BeersList";
 import Menu from "../../app/components/Drawer/Menu/Menu";
-import Header from "../../app/components/Header/Header";
 import ResultNotFoundByFilter from "../../app/components/Modals/Messages/ResultNotFoundByFilter";
-import BeerModal from "../../app/components/Modals/Products/BeerModal";
 import Filters from "../../app/components/Products/Beers/Filters";
 import { wrapper } from "../../app/store/store";
 import { fetchProducts } from "../../app/store/services/products/reducers/product.slice";
 import { GetServerSideProps } from "next";
 import ProductsList from "../../app/components/Products/ProductsList";
+import BeerModal from "../../app/components/Modals/Products/BeerModal";
 
 export default function Beers() {
     const dispath = useDispatch();
     const { sortField, order } = useAppSelector(
         (state) => state.filterProductsReducer
+    );
+    const {product, productList} = useAppSelector(
+        (state) => state.productReducer
     );
     const { fetchBeersByFilter } = useFilter();
     const {
@@ -31,7 +32,7 @@ export default function Beers() {
         openModalNotFoundByFilter,
         closeModalNotFoundByFilter,
     } = useActions();
-    const { beer, beerList, minPrice, maxPrice } = useAppSelector(
+    const { minPrice, maxPrice } = useAppSelector(
         (state) => state.beerReducer
     );
 
@@ -58,11 +59,7 @@ export default function Beers() {
     };
 
     return (
-       
         <div className="page-container">
-            {/* {productList.map(item => {
-                return item.compound;
-            })} */}
             <Menu
                 callbackApplyFilter={handleApplyFilter}
                 callbackResetFilter={handleResetFilter}
@@ -70,13 +67,12 @@ export default function Beers() {
                 filterList={[<Filters />]}
             />
             <ProductsList productType="beers"/>
-            {/* <BeersList /> */}
             <ResultNotFoundByFilter
                 openModalNotFoundByFilter={openModalNotFoundByFilter}
                 closeModalNotFoundByFilter={closeModalNotFoundByFilter}
                 isOpen={isOpen}
             />
-            {beerList.length > 0 && !isEmptyObject(beer) && <BeerModal />}
+            {productList.length > 0 && !isEmptyObject(product) && <BeerModal />}
         </div>
     );
 }
