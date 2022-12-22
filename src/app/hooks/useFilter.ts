@@ -73,11 +73,11 @@ export const useFilter = (productType?: string): IUseFilter => {
     const fetchProductsWithSort: any = async (sortField: string, order: string) => {
         await resetProductPage();
         await dropProductList();
-        fetchBeers(0, sortField, order);
+        fetchProducts(0, sortField, order);
     }
 
     const fetchProductsBySearch: any = (page: number) => {
-        dispath(getProductsList({ path: `/${productType}/search/`, params: { q: params.q, sort: params.sort, page, limitPage } }));
+        dispath(getProductsList({ path: `/${productType}/search/`, params: { q: params.q, sortField: params.sortField, order: params.order, page, limitPage } }));
     }
 
     const fetchProductsBySearchWithSort: any = async (sortField: string, order: string) => {

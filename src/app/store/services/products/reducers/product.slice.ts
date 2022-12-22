@@ -100,7 +100,6 @@ export const productSlice = createSlice({
         },
         [getProductsList.fulfilled]: (state,action) => {
             state.status = 'resolved';
-       
             state.productList = arrayUniqueByKey(state.productList.concat(action.payload.rows));
             state.page = action.payload.nextPage;
             state.total = action.payload.count;
