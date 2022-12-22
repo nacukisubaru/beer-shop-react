@@ -4,70 +4,22 @@ import React, { FC } from "react";
 import { ICard } from "../../types/card.types";
 import styles from "./styles/cards.module.css";
 
-interface ICardSmall extends ICard {
-    show: (id: number) => void;
+interface IBox {
+    width: string,
+    height: string
 }
 
-const useStyles = makeStyles({
-    titleText: {
-        fontWeight: "bold",
-        fontSize: "18px",
-        display: "flex",
-        justifyContent: "center",
-    },
-    priceText: {
-        fontSize: "20px",
-        display: "flex",
-        justifyContent: "center",
-    },
-    stockText: {
-        marginTop: "-20px",
-        color: "#8d8d8d",
-        display: "flex",
-        justifyContent: "center",
-    },
-    card: {
-        width: 300,
-        height: 390,
-        margin: "10px",
-        borderRadius: "15px",
-        paddingTop: "36px",
-    },
-    cardImg: {
-        height: "200px",
-        marginBottom: "5px",
-        position: "relative",
-        backgroundSize: "contain",
-    },
-    button: {
-        width: "279px",
-        height: "30px",
-    },
-    buttonBottom: {
-        width: "279px",
-        marginBottom: "5px",
-        height: "30px",
-    },
-    cardContent: {
-        paddingLeft: "10px",
-        paddingRight: "10px",
-    },
-    cardContentNoActive: {
-        paddingLeft: "10px",
-        paddingRight: "10px",
-        color: "#8d8d8d",
-    },
-    cardContentDesc: {
-        display: "-webkit-box",
-        maxidth: "285px",
-        webkitLineClamp: 2,
-        webkitBoxOrient: "vertical",
-        overflow: "hidden",
-        height: "39px",
-        display: "flex",
-        justifyContent: "center",
-    },
-});
+export interface ISettingsCard {
+    card: IBox,
+    titleSize: string,
+    imageHeight: string,
+    button: IBox,
+    priceSize: string
+}
+interface ICardSmall extends ICard {
+    settingsCardProps: ISettingsCard;
+    show: (id: number) => void;
+}
 
 const CardSmall: FC<ICardSmall> = ({
     id,
@@ -76,13 +28,77 @@ const CardSmall: FC<ICardSmall> = ({
     price,
     image,
     inStock,
+    settingsCardProps,
     buy,
     show,
 }) => {
-    const classes = useStyles();
     const handleShow = () => {
         return show(id);
     };
+    const {card, button, titleSize, imageHeight, priceSize} = settingsCardProps;
+
+    const useStyles = makeStyles({
+        titleText: {
+            fontWeight: "bold",
+            fontSize: titleSize,
+            display: "flex",
+            justifyContent: "center",
+        },
+        priceText: {
+            fontSize: priceSize,
+            display: "flex",
+            justifyContent: "center",
+        },
+        stockText: {
+            marginTop: "-20px",
+            color: "#8d8d8d",
+            display: "flex",
+            justifyContent: "center",
+        },
+        card: {
+            width: card.width,
+            height:  card.height,
+            margin: "10px",
+            borderRadius: "15px",
+            paddingTop: "36px",
+        },
+        cardImg: {
+            marginBottom: "5px",
+            height: imageHeight,
+            position: "relative",
+            backgroundSize: "contain",
+        },
+        button: {
+            width: button.width,
+            height: button.height,
+        },
+        buttonBottom: {
+            width: button.width,
+            marginBottom: "5px",
+            height: button.height,
+        },
+        cardContent: {
+            paddingLeft: "10px",
+            paddingRight: "10px",
+        },
+        cardContentNoActive: {
+            paddingLeft: "10px",
+            paddingRight: "10px",
+            color: "#8d8d8d",
+        },
+        cardContentDesc: {
+            display: "-webkit-box",
+            maxidth: "285px",
+            webkitLineClamp: 2,
+            webkitBoxOrient: "vertical",
+            overflow: "hidden",
+            height: "32px",
+            display: "flex",
+            justifyContent: "center",
+        },
+    });
+
+    const classes = useStyles();
 
     return (
         <>
@@ -128,6 +144,7 @@ const CardSmall: FC<ICardSmall> = ({
 
                     <Button
                         className={classes.buttonBottom}
+                        style={{width: "", height: ""}}
                         variant="contained"
                         disabled={inStock ? false : true}
                         onClick={buy}

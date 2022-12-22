@@ -4,7 +4,7 @@ import { ICard } from "../../types/card.types";
 import { useObserverScroll } from "../../hooks/useObserverScroll";
 import { IAction } from "../../types/action.deal.types";
 import { useActions } from "../../hooks/useActions";
-import CardSmall from "./CardSmall";
+import CardSmall, { ISettingsCard } from "./CardSmall";
 import BasicSpeedDial from "../SpeedDial/BasicSpeedDial";
 import MenuIcon from "@mui/icons-material/Menu";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
@@ -15,6 +15,8 @@ interface CardListProps {
     cardsList: ICard[],
     page: number,
     scrollList: boolean,
+    settingsCardProps: ISettingsCard,
+    childrenComponent?: any,
     fetch: (page: number, sortField: string, order: string) => void,
     show: (id: number) => void
 }
@@ -25,7 +27,7 @@ const useStyles = makeStyles({
     }
 });
 
-const CardList: FC<CardListProps> = ({ cardsList, fetch, page, scrollList = true, show }) => {
+const CardList: FC<CardListProps> = ({ cardsList, settingsCardProps, fetch, page, scrollList = true, show, childrenComponent }) => {
     const targetRef: any = useObserverScroll(fetch, page, scrollList);
     const {switchFilterMenu, switchMainMenu} = useActions();
     const classes = useStyles();
@@ -49,9 +51,11 @@ const CardList: FC<CardListProps> = ({ cardsList, fetch, page, scrollList = true
                                 image={item.image}
                                 inStock={item.inStock}
                                 buy={item.buy}
-                                show={show} />
+                                settingsCardProps={settingsCardProps}
+                                show={show} 
+                            />
                         ))}
-                       
+                        {childrenComponent && (childrenComponent)}
                     </div>
                     <div id="reff" ref={targetRef}></div>
                     <div className={styles.filterWrapperBtn}>

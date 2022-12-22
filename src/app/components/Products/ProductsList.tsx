@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import React, { FC, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useActions } from "../../hooks/useActions";
@@ -8,32 +9,50 @@ import { productApi } from "../../store/services/products/product.api";
 import { getMinAndMaxPriceProducts } from "../../store/services/products/reducers/product.slice";
 import { productType } from "../../store/types/api.types";
 import CardList from "../Cards/CardList";
+import CardRedirect, { ILink, ISettingsCardRedirect } from "../Cards/CardRedirect";
+import CardSmall, { ISettingsCard } from "../Cards/CardSmall";
 import InputSearch from "../Search/InputSearch";
 import SortPanel from "../SortPanel/SortPanel";
 
-interface IProductList {
-    productType: productType
+interface IRedirectCardProps {
+    linkProps: ILink,
+    settingCardRedirectProps: ISettingsCardRedirect
 }
 
-const ProductsList: FC<IProductList> = ({productType}) => {
+interface IProductList {
+    productType: productType;
+    showTools?: boolean;
+    loadingByScroll?: boolean;
+    smallCards?: boolean;
+    settingsCardProps: ISettingsCard;
+    redirectCardProps?: IRedirectCardProps;
+}
+
+const ProductsList: FC<IProductList> = ({
+    productType,
+    showTools,
+    loadingByScroll,
+    settingsCardProps,
+    redirectCardProps
+}) => {
     const { page, status } = useAppSelector((state) => state.productReducer);
     const { getProduct, openProduct } = useActions();
     const { productList } = useAppSelector((state) => state.productReducer);
-    const {q} = useAppSelector((state) => state.filterProductsReducer);
+    const { q } = useAppSelector((state) => state.filterProductsReducer);
     const products = useProductMap(productList, true);
     const [addShow] = productApi.useAddShowMutation();
     const dispatch = useDispatch();
 
-    const { 
-        fetchProducts, 
-        fetchProductsWithSort, 
-        fetchProductsBySearch, 
-        productsSearchByName, 
-        resetListAndFetchProducts, 
-        fetchProductsBySearchWithSort 
+    const {
+        fetchProducts,
+        fetchProductsWithSort,
+        fetchProductsBySearch,
+        productsSearchByName,
+        resetListAndFetchProducts,
+        fetchProductsBySearchWithSort,
     } = useFilter(productType);
 
-    useEffect(()=> {
+    useEffect(() => {
         dispatch(getMinAndMaxPriceProducts(productType));
     }, []);
 
@@ -45,16 +64,37 @@ const ProductsList: FC<IProductList> = ({productType}) => {
 
     return (
         <>
-            <InputSearch search={productsSearchByName} reset={resetListAndFetchProducts} />
-            <SortPanel fetchData={q ? fetchProductsBySearchWithSort : fetchProductsWithSort} />
+            {showTools && (
+                <>
+                    <InputSearch
+                        search={productsSearchByName}
+                        reset={resetListAndFetchProducts}
+                    />
+                    <SortPanel fetchData={q ? fetchProductsBySearchWithSort: fetchProductsWithSort}
+                    />
+                </>
+            )}
             {productList.length > 0 && (
                 <>
                     <CardList
                         cardsList={products}
-                        fetch={q ? fetchProductsBySearch: fetchProducts}
+                        fetch={q ? fetchProductsBySearch : fetchProducts}
                         page={page}
-                        scrollList={status === "resolved" ? true : false}
+                        scrollList={
+                            status === "resolved" && loadingByScroll
+                                ? true
+                                : false
+                        }
                         show={showProduct}
+                        settingsCardProps={settingsCardProps}
+                        childrenComponent={
+                            redirectCardProps && (
+                                <CardRedirect
+                                    settingsCardProps={redirectCardProps.settingCardRedirectProps}
+                                    linkProps={redirectCardProps.linkProps}
+                                />
+                            )
+                        }
                     ></CardList>
                 </>
             )}

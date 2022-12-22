@@ -1,12 +1,18 @@
 import { Button, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Box } from "@mui/system";
+import { GetServerSideProps } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Menu from "../app/components/Drawer/Menu/Menu";
 import PhotoGaleryList from "../app/components/PhotoGalery/PhotoGaleryList";
+import CatalogBeers from "../app/components/Products/Beers/CatalogBeers";
+import ProductsList from "../app/components/Products/ProductsList";
+import { fetchProducts } from "../app/store/services/products/reducers/product.slice";
+import { wrapper } from "../app/store/store";
 import banner from "../assets/images/banner.jpg";
+import barrelImage from "../assets/images/beer-barrel.png";
 
 const useStyles = makeStyles({
     bannerImage: {
@@ -30,7 +36,7 @@ const useStyles = makeStyles({
         fontFamily: "Kurale",
         color: "white",
         textShadow: "1px 1px 1px #000",
-        marginBottom: "17px"
+        marginBottom: "17px",
     },
     bannerUnderText: {
         fontFamily: "Montserrat",
@@ -95,6 +101,12 @@ const Home = () => {
                         quality={100}
                     />
                 </div>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                    <Typography className={classes.text} variant="h2">
+                        Пиво
+                    </Typography>
+                </div>
+                <CatalogBeers />
 
                 <div style={{ display: "flex", justifyContent: "center" }}>
                     <Typography className={classes.text} variant="h2">
@@ -106,5 +118,21 @@ const Home = () => {
         </>
     );
 };
+
+
+export const getServerSideProps: GetServerSideProps =
+    wrapper.getServerSideProps((store) => async ({ query }) => {
+        await store.dispatch(
+            fetchProducts("/beers/getListByFilter/", {
+                page: 0,
+                limitPage: 3,
+                isActive: "true",
+            })
+        );
+
+        return {
+            props: {},
+        };
+    });
 
 export default Home;

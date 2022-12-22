@@ -38,7 +38,21 @@ export default function Beers() {
                 productType="beers"
                 filterList={[<Filters />]}
             />
-            <ProductsList productType="beers"/>
+            <ProductsList 
+                productType="beers" 
+                showTools={true} 
+                loadingByScroll={true} 
+                settingsCardProps={{
+                    card:{
+                        width: "300px",
+                        height: "390px"
+                    },
+                    button: {width: "279px", height: "30px"},
+                    titleSize: "18px",
+                    imageHeight: "200px",
+                    priceSize: "20px"
+                }}
+            />
             <ResultNotFoundByFilter
                 openModalNotFoundByFilter={openModalNotFoundByFilter}
                 closeModalNotFoundByFilter={closeModalNotFoundByFilter}
