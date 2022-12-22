@@ -24,10 +24,6 @@ const CustomSnackBar: React.FC<CustomSnackBar> = ({severity, message, isOpen = t
         setOpen(isOpen);
     }, [isOpen]);
 
-    const handleClick = () => {
-        setOpen(true);
-    };
-
     const handleClose = (
         event?: React.SyntheticEvent | Event,
         reason?: string
@@ -41,17 +37,15 @@ const CustomSnackBar: React.FC<CustomSnackBar> = ({severity, message, isOpen = t
     };
 
     return (
-    
-            <Snackbar open={open}  onClose={handleClose}>
-                <Alert
-                    onClose={handleClose}
-                    severity={severity}
-                    sx={{ width: "100%" }}
-                >
-                    {message}
-                </Alert>
-            </Snackbar>
-     
+        <Snackbar open={open}  onClose={handleClose}>
+            <Alert
+                onClose={handleClose}
+                severity={severity}
+                sx={{ width: "100%" }}
+            >
+                {message}
+            </Alert>
+        </Snackbar>
     );
 }
 

@@ -17,6 +17,8 @@ interface InitialState {
     page: number,
     total: number,
     showProduct: boolean,
+    minPrice: number,
+    maxPrice: number,
     status: string,
     error: string
 }
@@ -32,6 +34,8 @@ const initialState: InitialState = {
     data: {},
     page: 0,
     total: 0,
+    minPrice: 0,
+    maxPrice: 0,
     showProduct: false,
     status: '',
     error: ''
@@ -42,6 +46,13 @@ export const getProductsList:any = createAsyncThunk(
     async(body: IBody, {rejectWithValue}) => {
         const {path, params} = body;
         return thunkAxiosGet(path, params, false, rejectWithValue);
+    }
+);
+
+export const getMinAndMaxPriceProducts:any = createAsyncThunk(
+    'prices_beers/fetch',
+    async(productType:productType, {rejectWithValue}) => {
+       return thunkAxiosGet('/products/minMaxPrices', {productType}, false, rejectWithValue);
     }
 );
 
@@ -108,6 +119,19 @@ export const productSlice = createSlice({
             state.status = 'rejected';
             state.error = action.payload;
             state.page = 0;
+        },
+        [getMinAndMaxPriceProducts.pending]: (state) => {
+            state.status = 'loading';
+            state.error = '';
+        },
+        [getMinAndMaxPriceProducts.fulfilled]: (state, action: PayloadAction<{minPrice: number, maxPrice: number}[]>) => {
+            state.status = 'resolved';
+            state.minPrice = action.payload[0].minPrice;
+            state.maxPrice = action.payload[0].maxPrice;
+        },
+        [getMinAndMaxPriceProducts.rejected]: (state,action) => {
+            state.status = 'rejected';
+            state.error = action.payload;
         },
     },
 });

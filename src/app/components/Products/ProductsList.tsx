@@ -1,16 +1,18 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useActions } from "../../hooks/useActions";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useFilter } from "../../hooks/useFilter";
 import { useProductMap } from "../../hooks/useProductMap";
-import { useBeerList } from "../../hooks/useProducts";
 import { productApi } from "../../store/services/products/product.api";
+import { getMinAndMaxPriceProducts } from "../../store/services/products/reducers/product.slice";
+import { productType } from "../../store/types/api.types";
 import CardList from "../Cards/CardList";
 import InputSearch from "../Search/InputSearch";
 import SortPanel from "../SortPanel/SortPanel";
 
 interface IProductList {
-    productType: string
+    productType: productType
 }
 
 const ProductsList: FC<IProductList> = ({productType}) => {
@@ -20,6 +22,7 @@ const ProductsList: FC<IProductList> = ({productType}) => {
     const {q} = useAppSelector((state) => state.filterProductsReducer);
     const products = useProductMap(productList, true);
     const [addShow] = productApi.useAddShowMutation();
+    const dispatch = useDispatch();
 
     const { 
         fetchProducts, 
@@ -30,15 +33,15 @@ const ProductsList: FC<IProductList> = ({productType}) => {
         fetchProductsBySearchWithSort 
     } = useFilter(productType);
 
-    //useBeerList();
+    useEffect(()=> {
+        dispatch(getMinAndMaxPriceProducts(productType));
+    }, []);
 
     const showProduct = (id: number) => {
         getProduct({ id });
         openProduct();
         addShow(id);
     };
-
-    console.log({status, productList})
 
     return (
         <>

@@ -1,8 +1,13 @@
 import { FC } from "react";
+import { useDispatch } from "react-redux";
 import { useActions } from "../../../hooks/useActions";
 import { useAppSelector } from "../../../hooks/useAppSelector";
+import { useFilter } from "../../../hooks/useFilter";
+import { limitPage } from "../../../http/http.request.config";
 import { brandApi } from "../../../store/services/brands/brand.api";
+import { getProductsList } from "../../../store/services/products/reducers/product.slice";
 import { typePackagingApi } from "../../../store/services/type-packaging/type-packaging.api";
+import { productType } from "../../../store/types/api.types";
 import CheckboxFilterList from "../../Filters/Checkbox/CheckboxFilterList";
 import RangeSliderFilter from "../../Filters/RangeSlider/RangeSliderFilter";
 import ItemFilterMenu from "../Items/ItemFilterMenu";
@@ -10,25 +15,25 @@ import ItemMenu from "../Items/ItemMenu";
 import TemporaryDrawer from "../TemporaryDrawer";
 
 interface IMenu {
-    callbackApplyFilter: () => void,
-    callbackResetFilter: () => void,
     filterList: any[],
-    filter: {minPrice: number, maxPrice: number, productType: string}
+    productType: productType
 }
 
-const Menu: FC<IMenu> = ({callbackApplyFilter, callbackResetFilter, filter, filterList = []}) => {
-    const brands: any = brandApi.useGetListByProductTypeQuery(filter.productType);
-    const typesPackaging: any = typePackagingApi.useGetListByProductTypeQuery(filter.productType);
-
-    const { closeAllMenues, addBrand, addTypePackaging, setMinPrice, setMaxPrice } = useActions();
+const Menu: FC<IMenu> = ({ productType, filterList = [] }) => {
+    const brands: any = brandApi.useGetListByProductTypeQuery(productType);
+    const typesPackaging: any = typePackagingApi.useGetListByProductTypeQuery(productType);
+    const { fetchProductsByFilter } = useFilter(productType);
+    const dispatch = useDispatch();
+    const { sortField, order, typesPackagingIds, brandIds } = useAppSelector(
+        (state) => state.filterProductsReducer
+    );
+    const { closeAllMenues, addBrand, addTypePackaging, setMinPrice, setMaxPrice, resetProductFilters, closeFilterMenu, setSearch, dropProductList} = useActions();
     const {isFilterMenu, isMainMenu} = useAppSelector(
         (state) => state.drawerMenuReducer
     );
-
-    const {typesPackagingIds, brandIds } = useAppSelector(
-        (state) => state.filterProductsReducer
-    );
-
+    const productState = useAppSelector(
+        (state) => state.productReducer
+    ); 
     const minPrice = useAppSelector((state) => state.filterProductsReducer.minPrice);
     const maxPrice = useAppSelector((state) => state.filterProductsReducer.maxPrice);
 
@@ -44,11 +49,30 @@ const Menu: FC<IMenu> = ({callbackApplyFilter, callbackResetFilter, filter, filt
         setMinPrice({price: min});
         setMaxPrice({price: max});
     }
+
+    const handleApplyFilter = () => {
+        fetchProductsByFilter();
+        closeFilterMenu();
+    };
+
+    const handleResetFilter = async () => {
+        closeFilterMenu();
+        await setSearch({ q: "" });
+        await resetProductFilters();
+        await dropProductList();
+        await dispatch(
+           getProductsList({
+                path: `/${productType}/getListByFilter`,
+                params: { sortField, order, page: 0, limitPage },
+            })
+        );
+    };
+
     //TO DO рефакторинг нужно передавать массив объектов а в TemporaryDrawer в map вызывать ItemMenu и передавать аргументы
     //также нужно на onclick передавать вызов функции который переключит состояние меню off
     const arrayMenuList: any = [
-        <ItemMenu name="Пиво" link="/products/beers" onClick={callbackResetFilter}/>,
-        <ItemMenu name="Закуски" link="/products/snacks" onClick={callbackResetFilter}/>,
+        <ItemMenu name="Пиво" link="/products/beers" onClick={handleResetFilter}/>,
+        <ItemMenu name="Закуски" link="/products/snacks" onClick={handleResetFilter}/>,
     ];
 
     const arrayFilterList: any = [
@@ -81,8 +105,8 @@ const Menu: FC<IMenu> = ({callbackApplyFilter, callbackResetFilter, filter, filt
             key={"Цена"}
             component={
                 <RangeSliderFilter 
-                    defaultMin={filter.minPrice} 
-                    defaultMax={filter.maxPrice} 
+                    defaultMin={productState.minPrice} 
+                    defaultMax={productState.maxPrice} 
                     min={minPrice} max={maxPrice}
                     setFilterValue={setMinMaxPrice} 
                 />
@@ -99,8 +123,8 @@ const Menu: FC<IMenu> = ({callbackApplyFilter, callbackResetFilter, filter, filt
             isOpen={isMainMenu || isFilterMenu ? true : false}
             close={closeAllMenues}
             showApplyBtn={isFilterMenu ? true : false}
-            callbackApplyBtn={callbackApplyFilter}
-            callbackResetBtn={callbackResetFilter}
+            callbackApplyBtn={handleApplyFilter}
+            callbackResetBtn={handleResetFilter}
         ></TemporaryDrawer>
     );
 };
