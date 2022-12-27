@@ -5,16 +5,16 @@ import { ICard } from "../../types/card.types";
 import styles from "./styles/cards.module.css";
 
 interface IBox {
-    width: string,
-    height: string
+    width: string;
+    height: string;
 }
 
 export interface ISettingsCard {
-    card: IBox,
-    titleSize: string,
-    imageHeight: string,
-    button: IBox,
-    priceSize: string
+    card: IBox;
+    titleSize: string;
+    imageHeight: string;
+    button: IBox;
+    priceSize: string;
 }
 interface ICardSmall extends ICard {
     settingsCardProps: ISettingsCard;
@@ -35,99 +35,49 @@ const CardSmall: FC<ICardSmall> = ({
     const handleShow = () => {
         return show(id);
     };
-    const {card, button, titleSize, imageHeight, priceSize} = settingsCardProps;
-
-    const useStyles = makeStyles({
-        titleText: {
-            fontWeight: "bold",
-            fontSize: titleSize,
-            display: "flex",
-            justifyContent: "center",
-        },
-        priceText: {
-            fontSize: priceSize,
-            display: "flex",
-            justifyContent: "center",
-        },
-        stockText: {
-            marginTop: "-20px",
-            color: "#8d8d8d",
-            display: "flex",
-            justifyContent: "center",
-        },
-        card: {
-            width: card.width,
-            height:  card.height,
-            margin: "10px",
-            borderRadius: "15px",
-            paddingTop: "36px",
-        },
-        cardImg: {
-            marginBottom: "5px",
-            height: imageHeight,
-            position: "relative",
-            backgroundSize: "contain",
-        },
-        button: {
-            width: button.width,
-            height: button.height,
-        },
-        buttonBottom: {
-            width: button.width,
-            marginBottom: "5px",
-            height: button.height,
-        },
-        cardContent: {
-            paddingLeft: "10px",
-            paddingRight: "10px",
-        },
-        cardContentNoActive: {
-            paddingLeft: "10px",
-            paddingRight: "10px",
-            color: "#8d8d8d",
-        },
-        cardContentDesc: {
-            display: "-webkit-box",
-            maxidth: "285px",
-            webkitLineClamp: 2,
-            webkitBoxOrient: "vertical",
-            overflow: "hidden",
-            height: "32px",
-            display: "flex",
-            justifyContent: "center",
-        },
-    });
-
-    const classes = useStyles();
+    const { card, button, titleSize, imageHeight, priceSize } =
+        settingsCardProps;
 
     return (
         <>
-            <Card className={classes.card}>
+            <Card
+                className={styles.card}
+                style={{
+                    width: card.width,
+                    height: card.height,
+                }}
+            >
                 <div
                     className={
                         inStock
-                            ? classes.cardContent
-                            : classes.cardContentNoActive
+                            ? styles.cardContent
+                            : styles.cardContentNoActive
                     }
                 >
                     <Box
-                        className={classes.cardImg}
+                        className={styles.cardImg}
                         sx={{
                             background: `url(${image}) center center no-repeat`,
+                            height: imageHeight,
                         }}
                     ></Box>
-                    <Typography variant="body2" className={classes.titleText}>
+                    <Typography
+                        variant="body2"
+                        className={styles.titleText}
+                        style={{ fontSize: titleSize }}
+                    >
                         {title}
                     </Typography>
 
-                    <div className={classes.cardContentDesc}>
+                    <div className={styles.cardContentDesc}>
                         <Typography variant="body2">{description}</Typography>
                     </div>
 
                     <div className={styles.cardContentPrice}>
                         <Typography
                             variant="body2"
-                            className={classes.priceText}
+                            className={styles.priceText}
+                            style={{ fontSize: priceSize }}
                         >
                             {price} &#x20bd;
                         </Typography>
@@ -136,15 +86,18 @@ const CardSmall: FC<ICardSmall> = ({
                     {!inStock && (
                         <Typography
                             variant="body2"
-                            className={classes.stockText}
+                            className={styles.stockText}
                         >
                             Нет в наличии
                         </Typography>
                     )}
 
                     <Button
-                        className={classes.buttonBottom}
-                        style={{width: "", height: ""}}
+                        className={styles.buttonBottom}
+                        style={{
+                            width: button.width,
+                            height: button.height,
+                        }}
                         variant="contained"
                         disabled={inStock ? false : true}
                         onClick={buy}
@@ -152,7 +105,11 @@ const CardSmall: FC<ICardSmall> = ({
                         Купить
                     </Button>
                     <Button
-                        className={classes.button}
+                        className={styles.button}
+                        style={{
+                            width: button.width,
+                            height: button.height,
+                        }}
                         variant="contained"
                         onClick={handleShow}
                     >

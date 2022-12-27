@@ -1,9 +1,7 @@
-import { Box, Button, Card, Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { Card, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import React, { FC } from "react";
-import { ICard } from "../../types/card.types";
 import styles from "./styles/cards.module.css";
 
 interface IBox {
@@ -34,48 +32,39 @@ interface ICardRedirect {
 const CardRedirect: FC<ICardRedirect> = ({ settingsCardProps, linkProps }) => {
     const { card, imageProps } = settingsCardProps;
 
-    const useStyles = makeStyles({
-        card: {
-            width: card.width,
-            height: card.height,
-            margin: "10px",
-            borderRadius: "15px",
-            paddingTop: "36px",
-            backgroundColor: "#b05326",
-        },
-        link: {
-            display: "flex",
-            justifyContent: "center",
-            color: "white",
-            textDecoration: "none",
-        },
-        cardContent: {
-            paddingLeft: "10px",
-            paddingRight: "10px",
-        },
-        cardImg: {
-            marginLeft: "59px",
-            marginTop: "50px",
-            objectFit: "cover",
-        },
-    });
-
-    const classes = useStyles();
-
     return (
         <>
-            <Card className={classes.card}>
-                <div className={classes.cardContent}>
+            <Card
+                className={styles.card}
+                style={{
+                    width: card.width,
+                    height: card.height,
+                    backgroundColor: "#b05326",
+                }}
+            >
+                <div className={styles.cardContent}>
                     {imageProps && (
                         <Image
-                            className={classes.cardImg}
+                            style={{
+                                marginLeft: "59px",
+                                marginTop: "50px",
+                                objectFit: "cover",
+                            }}
                             src={imageProps.image}
                             height={imageProps.imageSettings.height}
                             width={imageProps.imageSettings.width}
                         />
                     )}
 
-                    <Link href={linkProps.url} className={classes.link}>
+                    <Link
+                        href={linkProps.url}
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            color: "white",
+                            textDecoration: "none",
+                        }}
+                    >
                         <Typography variant="body1">
                             {linkProps.title}
                         </Typography>

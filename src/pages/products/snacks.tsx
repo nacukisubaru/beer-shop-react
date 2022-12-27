@@ -14,8 +14,6 @@ export default function Snacks () {
     const { product, productList } = useAppSelector(
         (state) => state.productReducer
     );
-    const minPrice: number = useAppSelector((state) => state.snackReducer.minPrice);
-    const maxPrice: number = useAppSelector((state) => state.snackReducer.maxPrice);
     const { openModalNotFoundByFilter, closeModalNotFoundByFilter } = useActions();
     const isOpen = useAppSelector(
         (state) => state.notFoundReducer.modalNotFoundByFilter
