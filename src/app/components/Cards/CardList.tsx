@@ -13,24 +13,18 @@ import { makeStyles } from "@mui/styles";
 
 interface CardListProps {
     cardsList: ICard[],
-    page: number,
-    scrollList: boolean,
+    page?: number,
+    scrollList?: boolean,
+    filterBtn?:boolean,
     settingsCardProps: ISettingsCard,
     childrenComponent?: any,
-    fetch: (page: number, sortField: string, order: string) => void,
-    show: (id: number) => void
+    fetch?: (page: number, sortField: string, order: string) => void,
+    show?: (id: number) => void
 }
 
-const useStyles = makeStyles({
-    bottom: {
-        marginBottom: "200px"
-    }
-});
-
-const CardList: FC<CardListProps> = ({ cardsList, settingsCardProps, fetch, page, scrollList = true, show, childrenComponent }) => {
+const CardList: FC<CardListProps> = ({ cardsList, settingsCardProps, filterBtn = false, fetch = ()=>{}, page = 0, scrollList = false, show = ()=>{}, childrenComponent }) => {
     const targetRef: any = useObserverScroll(fetch, page, scrollList);
     const {switchFilterMenu, switchMainMenu} = useActions();
-    const classes = useStyles();
     const actions: IAction[] = [
         { icon: <MenuIcon />, name: "Меню", click: switchMainMenu },
         { icon: <FilterAltIcon />, name: "Фильтр",click: switchFilterMenu },
@@ -38,7 +32,7 @@ const CardList: FC<CardListProps> = ({ cardsList, settingsCardProps, fetch, page
 
     return (
         <>
-            <Box className={classes.bottom}>
+            <Box>
                 <div>
                     <div className={styles.cardList}>
                         {cardsList.map((item) => (
@@ -58,9 +52,11 @@ const CardList: FC<CardListProps> = ({ cardsList, settingsCardProps, fetch, page
                         {childrenComponent && (childrenComponent)}
                     </div>
                     <div id="reff" ref={targetRef}></div>
-                    <div className={styles.filterWrapperBtn}>
-                        <BasicSpeedDial actions={actions}></BasicSpeedDial>
-                    </div>
+                    {filterBtn && (
+                        <div className={styles.filterWrapperBtn}>
+                            <BasicSpeedDial actions={actions}></BasicSpeedDial>
+                        </div>
+                    )}
                 </div>
             </Box>
            

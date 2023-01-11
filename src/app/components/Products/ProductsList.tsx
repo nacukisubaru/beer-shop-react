@@ -23,7 +23,6 @@ interface IProductList {
     productType: productType;
     showTools?: boolean;
     loadingByScroll?: boolean;
-    smallCards?: boolean;
     settingsCardProps: ISettingsCard;
     redirectCardProps?: IRedirectCardProps;
 }
@@ -85,6 +84,7 @@ const ProductsList: FC<IProductList> = ({
                                 ? true
                                 : false
                         }
+                        filterBtn={true}
                         show={showProduct}
                         settingsCardProps={settingsCardProps}
                         childrenComponent={

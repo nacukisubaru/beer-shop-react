@@ -96,13 +96,17 @@ export const productSlice = createSlice({
 
     extraReducers: {
         [HYDRATE]: (state, action) => {
-            return {
+            const hydrateObject = {
                 ...state,
                 ...action.payload.subject,
                 page: action.payload.productReducer.page,
                 status: action.payload.productReducer.status,
-                productList: action.payload.productReducer.data.data.rows
             };
+
+            if(action.payload.productReducer.data.data && action.payload.productReducer.data.data.rows) {
+                hydrateObject.productList = action.payload.productReducer.data.data.rows;
+            }
+            return hydrateObject;
         },
         [getProductsList.pending]: (state) => {
             state.status = 'loading';

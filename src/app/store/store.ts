@@ -49,7 +49,7 @@ export const makeStore = () => configureStore({
         [orderApi.reducerPath]: orderApi.reducer,
     },
     
-    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(
+    middleware: getDefaultMiddleware => getDefaultMiddleware({serializableCheck: false}).concat(
         beerApi.middleware, 
         userApi.middleware, 
         gradeApi.middleware, 

@@ -1,7 +1,12 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { thunkAxiosGet } from "../../../../helpers/queryHelper";
+import { Action, createAsyncThunk, createSlice, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
+import axios from "axios";
+import { HYDRATE } from "next-redux-wrapper";
+import { queryBuilder, thunkAxiosGet } from "../../../../helpers/queryHelper";
+import { makeStore } from "../../../store";
 //warning типы исправить
 const initialState = {
+    beerList: [],
+    data: {},
     minPrice: 0,
     maxPrice:0,
     minVolumeDef: 0,
@@ -30,8 +35,23 @@ export const beerSlice = createSlice({
     name: 'beer',
     initialState,
     reducers: {
+        setBeerList(state, action) {
+            state.data = action.payload;
+        },
     },
     extraReducers: {
+        [HYDRATE]: (state, action) => {
+            const hydrateObject = {
+                ...state,
+                ...action.payload.subject,
+            };
+
+            if(action.payload.beerReducer.data.data && action.payload.beerReducer.data.data.rows) {
+                hydrateObject.beerList = action.payload.beerReducer.data.data.rows;
+            }
+
+            return hydrateObject;
+        },
         [getMinAndMaxVolumeBeers.pending]: (state) => {
             state.status = 'loading';
             state.error = '';
@@ -60,6 +80,20 @@ export const beerSlice = createSlice({
         }
     }
 });
+
+export type AppStore = ReturnType<typeof makeStore>;
+export type AppState = ReturnType<AppStore['getState']>;
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppState, unknown, Action>;
+
+export const fetchBeers = (params: any): AppThunk =>
+    async dispatch => {
+        const url = queryBuilder("/beers/getListByFilter/", params);
+        let request = axios;
+        const response = await request.get(url);
+        dispatch(
+            beerSlice.actions.setBeerList({ data: response.data }),
+        );
+    };
 
 export const beerReducer = beerSlice.reducer;
 export const beerActions = beerSlice.actions;
