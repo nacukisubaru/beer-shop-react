@@ -2,12 +2,17 @@ import React, { FC } from "react";
 import { Button, Card, Typography } from "@mui/material";
 import styles from "./styles/basket.module.css";
 
+interface ICardProps {
+    position: string
+}
+
 interface ITotalCard {
     totalPrice: number;
+    cardProps: ICardProps;
     order: () => void;
 }
 
-const TotalCard: FC<ITotalCard> = ({ totalPrice, order }) => {
+const TotalCard: FC<ITotalCard> = ({ totalPrice, cardProps, order }) => {
     return (
         <>
             <Card
@@ -15,8 +20,9 @@ const TotalCard: FC<ITotalCard> = ({ totalPrice, order }) => {
                     width: 350,
                     marginTop: "49px",
                     height: "235px",
-                    position: "fixed",
+                    position: cardProps.position,
                     borderRadius: "32px",
+                    marginLeft: "7px"
                 }}
             >
                 <div className={styles.totalCard}>

@@ -34,7 +34,7 @@ const LoginAndRegistrationForm: FC = () => {
             >
                 <Card sx={{ width: 350 }}>
                     <CardContent>
-                        <Typography variant="h5" component="div">
+                        <Typography variant="h5" component="div" style={{display: "flex", justifyContent: "center"}}>
                             <h2>
                                 {accountForm.isLoginForm ? ('Авторизация') : accountForm.isRegistrationForm && ('Регистрация')}
                             </h2>

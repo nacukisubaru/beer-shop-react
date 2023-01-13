@@ -16,63 +16,61 @@ import CatalogSnacks from "../app/components/Products/Catalog/CatalogSnacks";
 const Home = () => {
     const router = useRouter();
     return (
-        <>
-            <div className="page-container">
-                <Menu
-                    callbackApplyFilter={() => {}}
-                    callbackResetFilter={() => {}}
-                    filter={{ minPrice: 0, maxPrice: 0, productType: "" }}
-                    filterList={[]}
-                />
-                <div>
-                    <div className="banner">
-                        <Typography className="banner-text" variant="h2">
-                            Там где твои друзья
-                        </Typography>
-                        <Typography className="banner-text2" variant="h2">
-                            Пивградъ
-                        </Typography>
-                        <Typography className="banner-under-text" variant="h4">
-                            попробуй яркий вкус, свежего пива
-                        </Typography>
+        <div className="page-container">
+            <Menu
+                callbackApplyFilter={() => {}}
+                callbackResetFilter={() => {}}
+                filter={{ minPrice: 0, maxPrice: 0, productType: "" }}
+                filterList={[]}
+            />
+            <div>
+                <div className="banner">
+                    <Typography className="banner-text" variant="h2">
+                        Там где твои друзья
+                    </Typography>
+                    <Typography className="banner-text2" variant="h2">
+                        Пивградъ
+                    </Typography>
+                    <Typography className="banner-under-text" variant="h4">
+                        попробуй яркий вкус, свежего пива
+                    </Typography>
 
-                        <Button
-                            className="banner-button"
-                            variant="contained"
-                            onClick={() => {
-                                router.replace("/products/beers");
-                            }}
-                        >
-                            Попробовать
-                        </Button>
-                    </div>
-                    <Image
-                        className="banner-image"
-                        src={banner}
-                        quality={100}
-                    />
+                    <Button
+                        className="banner-button"
+                        variant="contained"
+                        onClick={() => {
+                            router.replace("/products/beers");
+                        }}
+                    >
+                        Попробовать
+                    </Button>
                 </div>
-                <div style={{ display: "flex", justifyContent: "center", marginTop: "30px", marginBottom: "30px" }}>
-                    <Typography className="main-page-text" variant="h2">
-                        Наш асортимент
-                    </Typography>
-                </div>
-                <div style={{marginBottom: "30px"}}>
-                    <TabsUI
-                        tabsList={["Пиво", "Снеки", "Рыба"]}
-                        swipeableList={[<CatalogBeers />, <CatalogSnacks />]}
-                    />
-                </div>
-                <div style={{ display: "flex", justifyContent: "center" }}>
-                    <Typography className="main-page-text" variant="h2">
-                        Наш бар
-                    </Typography>
-                </div>
-                <div style={{marginBottom: "30px"}}>
-                    <PhotoGaleryList />
-                </div>
+                <Image
+                    className="banner-image"
+                    src={banner}
+                    quality={100}
+                />
             </div>
-        </>
+            <div style={{ display: "flex", justifyContent: "center", marginTop: "30px", marginBottom: "30px" }}>
+                <Typography className="main-page-text" variant="h2">
+                    Наш асортимент
+                </Typography>
+            </div>
+            <div style={{marginBottom: "30px"}}>
+                <TabsUI
+                    tabsList={["Пиво", "Снеки", "Рыба"]}
+                    swipeableList={[<CatalogBeers />, <CatalogSnacks />]}
+                />
+            </div>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+                <Typography className="main-page-text" variant="h2">
+                    Наш бар
+                </Typography>
+            </div>
+            <div style={{marginBottom: "30px"}}>
+                <PhotoGaleryList />
+            </div>
+        </div>
     );
 };
 
