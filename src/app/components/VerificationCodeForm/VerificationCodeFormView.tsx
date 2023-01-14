@@ -87,13 +87,19 @@ const VerificationCodeFormView: FC<VerificationCodeFormViewProps> = ({
                             {error && <p style={styleError}>{error}</p>}
                             {!canResendCode && (
                                 <div className="code-again-text">
-                                    Запросить код повторно через:{" "}
-                                    <Timer
-                                        minutes={minutesResend}
-                                        seconds={secondsResend}
-                                        setMinutes={setMinutesResend}
-                                        setSeconds={setSecondsResend}
-                                    />{" "}
+                                    <Typography>
+                                        <div style={{display:"flex", justifyContent: "space-evenly", marginBottom: "5px"}}>
+                                        Запросить код повторно через:  
+                                        <Timer
+                                            minutes={minutesResend}
+                                            seconds={secondsResend}
+                                            setMinutes={setMinutesResend}
+                                            setSeconds={setSecondsResend}
+                                        />
+                                        </div>
+                                        
+                                    </Typography>
+                                    
                                 </div>
                             )}
 
