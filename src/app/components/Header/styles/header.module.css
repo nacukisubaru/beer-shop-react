@@ -1,8 +1,10 @@
 .wrapperHeader {
     display: flex;
     justify-content: space-evenly;
-    margin-left: 200px;
-    margin-right: 200px;
+    /* margin-left: 200px;
+    margin-right: 200px; */
+    margin-left: 322px;
+    margin-right: 380px;
 }
 
 .headerElement {

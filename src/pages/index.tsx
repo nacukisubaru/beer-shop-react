@@ -13,9 +13,24 @@ import TabsUI from "../app/components/Tabs/TabsUI";
 import { fetchSnacks } from "../app/store/services/snacks/reducers/snack.slice";
 import CatalogSnacks from "../app/components/Products/Catalog/CatalogSnacks";
 import YMapContacts from "../app/components/YandexMaps/Contacts/YMapContacts";
+import { request } from "../lib/datocms";
+import HTMLReactParser from "html-react-parser";
+import { decodeHtml } from "../app/helpers/stringHelper";
 
-const Home = () => {
+const Home = ({ data }) => {
+    const {
+        bannerslogan,
+        bannerslogan2,
+        titleproducts,
+        titlegallery,
+        titlemap,
+        gallery,
+    } = data.mainpage;
+
+    const { placename, address, worktime, way, photoplace } = data.yandexmap;
+  
     const router = useRouter();
+    console.log({ gallery });
     return (
         <div className="page-container">
             <Menu
@@ -27,13 +42,14 @@ const Home = () => {
             <div>
                 <div className="banner">
                     <Typography className="banner-text" variant="h2">
-                        Там где твои друзья
-                    </Typography>
-                    <Typography className="banner-text2" variant="h2">
-                        Пивградъ
+                        {bannerslogan
+                            ? HTMLReactParser(decodeHtml(bannerslogan))
+                            : "Там где твои друзья<br/>Пивградъ"}
                     </Typography>
                     <Typography className="banner-under-text" variant="h4">
-                        попробуй яркий вкус свежего пива
+                        {bannerslogan2
+                            ? HTMLReactParser(decodeHtml(bannerslogan2))
+                            : "попробуй яркий вкус свежего пива"}
                     </Typography>
 
                     <Button
@@ -46,18 +62,23 @@ const Home = () => {
                         Попробовать
                     </Button>
                 </div>
-                <Image
-                    className="banner-image"
-                    src={banner}
-                    quality={100}
-                />
+                <Image className="banner-image" src={banner} quality={100} />
             </div>
-            <div style={{ display: "flex", justifyContent: "center", marginTop: "60px", marginBottom: "30px" }}>
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: "60px",
+                    marginBottom: "30px",
+                }}
+            >
                 <Typography className="main-page-text" variant="h2">
-                    Наш асортимент
+                    {titleproducts
+                        ? HTMLReactParser(decodeHtml(titleproducts))
+                        : "Наш асортимент"}
                 </Typography>
             </div>
-            <div style={{marginBottom: "60px"}}>
+            <div style={{ marginBottom: "60px" }}>
                 <TabsUI
                     tabsList={["Пиво", "Снеки", "Рыба"]}
                     swipeableList={[<CatalogBeers />, <CatalogSnacks />]}
@@ -65,24 +86,76 @@ const Home = () => {
             </div>
             <div style={{ display: "flex", justifyContent: "center" }}>
                 <Typography className="main-page-text" variant="h2">
-                    Наш бар
+                    {titlegallery
+                        ? HTMLReactParser(decodeHtml(titlegallery))
+                        : "Наш бар"}
                 </Typography>
             </div>
-            <div style={{marginBottom: "60px"}}>
-                <PhotoGaleryList />
+            <div style={{ marginBottom: "60px" }}>
+                <PhotoGaleryList itemsList={gallery} />
             </div>
-            <div style={{ display: "flex", justifyContent: "center", marginBottom: "30px" }}>
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginBottom: "30px",
+                }}
+            >
                 <Typography className="main-page-text" variant="h2">
-                    Мы находимся
+                    {titlemap
+                        ? HTMLReactParser(decodeHtml(titlemap))
+                        : "Мы находимся"}
                 </Typography>
             </div>
-           <YMapContacts />
+            <YMapContacts
+                balloon={{
+                    namePlace: placename,
+                    address: address,
+                    image: photoplace[0].url,
+                    workTime: worktime,
+                    way: way,
+                }}
+            />
         </div>
     );
 };
 
+const HOMEPAGE_QUERY = `query {
+    mainpage {
+      id
+      bannerslogan
+      bannerslogan2
+      titleproducts
+      titlegallery
+      titlemap
+      gallery {
+        id,
+        url,
+        title,
+        customData
+      }
+      _status
+      _firstPublishedAt
+    }
+    yandexmap {
+        id
+        placename
+        address
+        worktime
+        way,
+        photoplace {
+            url
+        }
+    }
+  }`;
+
 export const getServerSideProps: GetServerSideProps =
     wrapper.getServerSideProps((store) => async ({ query }) => {
+        const data = await request({
+            query: HOMEPAGE_QUERY,
+            variables: { limit: 10 },
+        });
+
         await store.dispatch(
             fetchBeers({
                 page: 0,
@@ -100,7 +173,7 @@ export const getServerSideProps: GetServerSideProps =
         );
 
         return {
-            props: {},
+            props: { data },
         };
     });
 

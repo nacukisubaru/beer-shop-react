@@ -1,8 +1,8 @@
-import * as React from "react";
-import ImageList from "@mui/material/ImageList";
-import ImageListItem from "@mui/material/ImageListItem";
+import { FC } from "react";
 import { makeStyles } from "@mui/styles";
 import { ImageListItemBar } from "@mui/material";
+import ImageList from "@mui/material/ImageList";
+import ImageListItem from "@mui/material/ImageListItem";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -28,7 +28,21 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function PhotoGaleryList() {
+interface CustomData {
+    rows?: any,
+    cols?: any,
+    featured?: any
+}
+interface ItemList {
+    url: string,
+    title: string,
+    customData: CustomData
+}
+interface PhotoGaleryListProps {
+    itemsList: ItemList[]
+}
+
+const PhotoGaleryList: FC<PhotoGaleryListProps> = ({itemsList}) => {
     const classes = useStyles();
     return (
         <div style={{ display: "flex", justifyContent: "center" }}>
@@ -42,13 +56,13 @@ export default function PhotoGaleryList() {
                     transform: "translateZ(0)",
                 }}
             >
-                {itemData.map((item) => (
+                {itemsList.map((item) => (
                     <ImageListItem
-                        key={item.img}
-                        cols={item.featured ? 2 : 1}
-                        rows={item.featured ? 2 : 1}
+                        key={item.url}
+                        cols={item.customData.featured ? 2 : 1}
+                        rows={item.customData.featured ? 2 : 1}
                     >
-                        <img src={item.img} alt={item.title} />
+                        <img src={item.url} alt={item.title} />
                         <ImageListItemBar
                             title={item.title}
                             position="top"
@@ -61,32 +75,4 @@ export default function PhotoGaleryList() {
     );
 }
 
-const itemData = [
-    {
-        img: "http://localhost:5000/images/0oByG2iiNLA.png",
-        title: "Бар",
-        rows: 2,
-        cols: 2,
-        featured: true
-    },
-    {
-        img: "http://localhost:5000/images/beergrad-photo1.png",
-        title: "Вход в пивбар",
-    },
-    {
-        img: "http://localhost:5000/images/beergrad-photo2.jpg",
-        title: "Пивградъ",
-    },
-    {
-        img: "http://localhost:5000/images/beergrad-photo3.jpg",
-        title: "Пиво",
-    },
-    {
-        img: "http://localhost:5000/images/beergrad-photo4.jpg",
-        title: "Пиво",
-    },
-    {
-      img: "http://localhost:5000/images/beergrad-photo5.jpg",
-      title: "Пиво",
-    }
-];
+export default PhotoGaleryList;

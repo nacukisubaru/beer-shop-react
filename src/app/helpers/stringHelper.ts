@@ -33,3 +33,20 @@ export const paramsBuilder = (params: IParam[]): string => {
 
     return paramsStr;
 }
+
+export const decodeHtml = (str: string) =>
+{
+    let result = '';
+    var map =
+    {
+        '&amp;': '&',
+        '&lt;': '<',
+        '&gt;': '>',
+        '&quot;': '"',
+        '&#039;': "'"
+    };
+
+    if (str) result = str.replace(/&amp;|&lt;|&gt;|&quot;|&#039;/g, function(m) {return map[m];});
+
+    return result;
+}

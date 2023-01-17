@@ -5,22 +5,19 @@ import imageMap from "../../../../assets/images/beergrad-photo1.png";
 import CustomPortal from "../../Portal/CustomPortal";
 import YMapBaloon from "../Baloon/YMapBaloon";
 
-const Baloon: FC = () => {
-    return (
-        <YMapBaloon
-            baloonProps={{
-                namePlace: "Пивградъ",
-                address: "Калужская область, Калуга, Братьев Луканиных, 7",
-                image: imageMap,
-                workTime: "Ежедневно 10:00-22:00",
-                way: `Остановка Кошелев-проект. Напротив школа №45.
-                    Дом №7 вход дверь с табличкой 'фото'.`,
-            }}
-        />
-    );
-};
+interface IBalloon {
+    namePlace: string,
+    address: string,
+    image: any,
+    workTime: string,
+    way: string,
+}
 
-const YMapContacts: FC = () => {
+interface YMapContactsProps {
+    balloon: IBalloon
+}
+
+const YMapContacts: FC<YMapContactsProps> = ({balloon}) => {
     const [activePortal, setActivePortal] = useState(false);
     const [placemarkIsLoaded, setPlacemarkLoaded] = useState(false);
     const placemark = useRef(null);
@@ -81,7 +78,11 @@ const YMapContacts: FC = () => {
 
             {activePortal && (
                 <CustomPortal
-                    children={<Baloon />}
+                    children={
+                        <YMapBaloon
+                            baloonProps={balloon}
+                        />
+                    }
                     elementId="cardBalloon"
                 ></CustomPortal>
             )}

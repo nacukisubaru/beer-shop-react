@@ -1,6 +1,5 @@
-import { Typography } from "@mui/material";
-import Image from "next/image";
 import { FC } from "react";
+import { Box, Typography } from "@mui/material";
 import styles from "../styles/yandexmap.module.css";
 
 interface BaloonProps {
@@ -27,7 +26,6 @@ const YMapBaloon: FC<YMapBaloonProps> = ({ baloonProps }) => {
                 <Typography variant="h6" style={{ fontWeight: "bold" }}>
                     {baloonProps.namePlace}
                 </Typography>
-               
             </div>
 
             <Typography style={{ fontSize: "15px", marginBottom: "5px" }}>
@@ -40,7 +38,14 @@ const YMapBaloon: FC<YMapBaloonProps> = ({ baloonProps }) => {
                     marginBottom: "10px",
                 }}
             >
-                <Image src={baloonProps.image} className={styles.mapCardImg} />
+                <Box
+                    className={styles.mapCardImg}
+                    sx={{
+                        background: `url(${baloonProps.image}) center center no-repeat`,
+                        height: 200,
+                        width: 200,
+                    }}
+                ></Box>
             </div>
             <Typography style={{ fontSize: "15px" }}>
                 <span style={{ fontWeight: "bold" }}>Режим работы: </span>
