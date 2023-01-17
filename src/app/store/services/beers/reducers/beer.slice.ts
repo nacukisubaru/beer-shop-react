@@ -1,53 +1,21 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IBeer } from "../types/beer.type";
+import { Action, createAsyncThunk, createSlice, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
+import axios from "axios";
+import { HYDRATE } from "next-redux-wrapper";
 import { queryBuilder, thunkAxiosGet } from "../../../../helpers/queryHelper";
-import { arrayUniqueByKey } from "../../../../helpers/arrayHelper";
+import { makeStore } from "../../../store";
 //warning типы исправить
 const initialState = {
-    beerList:<IBeer[]> [],
-    beer:<IBeer> {},
+    beerList: [],
+    data: {},
     minPrice: 0,
     maxPrice:0,
     minVolumeDef: 0,
     maxVolumeDef: 0,
     minFortressDef: 0,
     maxFortressDef: 0,
-    page: 0,
-    total: 0,
-    showBeer: false,
     status: '',
     error: ''
 };
-
-interface IBody {
-    path: string,
-    params: any
-}
-
-export const getBeerList:any = createAsyncThunk(
-    'beers/fetch',
-    async(body: IBody, {rejectWithValue}) => {
-        const {path, params} = body;
-        try {
-            console.log(body); 
-            await beerSlice.actions.dropBeerList();
-            const response = await fetch(queryBuilder(path, params));
-            if(!response.ok) {
-                throw new Error('server error!');
-            }
-            return await response.json();
-        } catch(error: any) {
-            return rejectWithValue(error.message);
-        }
-    }
-);
-
-export const getMinAndMaxPriceBeers:any = createAsyncThunk(
-    'prices_beers/fetch',
-    async(_, {rejectWithValue}) => {
-       return thunkAxiosGet('/products/minMaxPrices', {productType: 'beers'}, false, rejectWithValue);
-    }
-);
 
 export const getMinAndMaxVolumeBeers:any = createAsyncThunk(
     'volume_beers/fetch',
@@ -67,62 +35,22 @@ export const beerSlice = createSlice({
     name: 'beer',
     initialState,
     reducers: {
-        dropBeerList: (state) => {
-            state.beerList = [];
+        setBeerList(state, action) {
+            state.data = action.payload;
         },
-        resetBeerPage: (state) => {
-            state.page = 0;
-        },
-        getBeer: (state, action: PayloadAction<{id:number}>) => {
-            const id = action.payload.id;
-            console.log(state.beerList);
-            state.beer = state.beerList.filter((item: IBeer) => {
-                if(item.productId === id) {
-                    console.log(item.productId);
-                    return item;
-                }
-                return false;
-            })[0];
-        },
-        openBeer: (state) => {
-            state.showBeer = true;
-            console.log(state);
-        },
-        closeBeer: (state) => {
-            console.log(state);
-            state.showBeer = false;
-        }
     },
     extraReducers: {
-        [getBeerList.pending]: (state) => {
-            state.status = 'loading';
-            state.error = '';
-            state.page = 0;
-        },
-        [getBeerList.fulfilled]: (state,action) => {
-            state.status = 'resolved';
-       
-            state.beerList = arrayUniqueByKey(state.beerList.concat(action.payload.rows));
-            state.page = action.payload.nextPage;
-            state.total = action.payload.count;
-        },
-        [getBeerList.rejected]: (state,action) => {
-            state.status = 'rejected';
-            state.error = action.payload;
-            state.page = 0;
-        },
-        [getMinAndMaxPriceBeers.pending]: (state) => {
-            state.status = 'loading';
-            state.error = '';
-        },
-        [getMinAndMaxPriceBeers.fulfilled]: (state, action: PayloadAction<{minPrice: number, maxPrice: number}[]>) => {
-            state.status = 'resolved';
-            state.minPrice = action.payload[0].minPrice;
-            state.maxPrice = action.payload[0].maxPrice;
-        },
-        [getMinAndMaxPriceBeers.rejected]: (state,action) => {
-            state.status = 'rejected';
-            state.error = action.payload;
+        [HYDRATE]: (state, action) => {
+            const hydrateObject = {
+                ...state,
+                ...action.payload.subject,
+            };
+
+            if(action.payload.beerReducer.data.data && action.payload.beerReducer.data.data.rows) {
+                hydrateObject.beerList = action.payload.beerReducer.data.data.rows;
+            }
+
+            return hydrateObject;
         },
         [getMinAndMaxVolumeBeers.pending]: (state) => {
             state.status = 'loading';
@@ -152,6 +80,20 @@ export const beerSlice = createSlice({
         }
     }
 });
+
+export type AppStore = ReturnType<typeof makeStore>;
+export type AppState = ReturnType<AppStore['getState']>;
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppState, unknown, Action>;
+
+export const fetchBeers = (params: any): AppThunk =>
+    async dispatch => {
+        const url = queryBuilder("/beers/getListByFilter/", params);
+        let request = axios;
+        const response = await request.get(url);
+        dispatch(
+            beerSlice.actions.setBeerList({ data: response.data }),
+        );
+    };
 
 export const beerReducer = beerSlice.reducer;
 export const beerActions = beerSlice.actions;

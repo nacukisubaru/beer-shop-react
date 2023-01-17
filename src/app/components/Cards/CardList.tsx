@@ -4,24 +4,27 @@ import { ICard } from "../../types/card.types";
 import { useObserverScroll } from "../../hooks/useObserverScroll";
 import { IAction } from "../../types/action.deal.types";
 import { useActions } from "../../hooks/useActions";
-import CardSmall from "./CardSmall";
+import CardSmall, { ISettingsCard } from "./CardSmall";
 import BasicSpeedDial from "../SpeedDial/BasicSpeedDial";
 import MenuIcon from "@mui/icons-material/Menu";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import styles from "./styles/cards.module.css";
+import { makeStyles } from "@mui/styles";
 
 interface CardListProps {
     cardsList: ICard[],
-    page: number,
-    scrollList: boolean,
-    fetch: (page: number, sortField: string, order: string) => void,
-    show: (id: number) => void
+    page?: number,
+    scrollList?: boolean,
+    filterBtn?:boolean,
+    settingsCardProps: ISettingsCard,
+    childrenComponent?: any,
+    fetch?: (page: number, sortField: string, order: string) => void,
+    show?: (id: number) => void
 }
 
-const CardList: FC<CardListProps> = ({ cardsList, fetch, page, scrollList = true, show }) => {
+const CardList: FC<CardListProps> = ({ cardsList, settingsCardProps, filterBtn = false, fetch = ()=>{}, page = 0, scrollList = false, show = ()=>{}, childrenComponent }) => {
     const targetRef: any = useObserverScroll(fetch, page, scrollList);
     const {switchFilterMenu, switchMainMenu} = useActions();
-
     const actions: IAction[] = [
         { icon: <MenuIcon />, name: "Меню", click: switchMainMenu },
         { icon: <FilterAltIcon />, name: "Фильтр",click: switchFilterMenu },
@@ -42,15 +45,21 @@ const CardList: FC<CardListProps> = ({ cardsList, fetch, page, scrollList = true
                                 image={item.image}
                                 inStock={item.inStock}
                                 buy={item.buy}
-                                show={show} />
+                                settingsCardProps={settingsCardProps}
+                                show={show} 
+                            />
                         ))}
-                        <div id="reff" ref={targetRef}></div>
+                        {childrenComponent && (childrenComponent)}
                     </div>
-                    <div className={styles.filterWrapperBtn}>
-                        <BasicSpeedDial actions={actions}></BasicSpeedDial>
-                    </div>
+                    <div id="reff" ref={targetRef}></div>
+                    {filterBtn && (
+                        <div className={styles.filterWrapperBtn}>
+                            <BasicSpeedDial actions={actions}></BasicSpeedDial>
+                        </div>
+                    )}
                 </div>
             </Box>
+           
         </>
     );
 };

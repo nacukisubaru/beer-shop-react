@@ -16,9 +16,6 @@ interface ISortPanel {
 const useStyles = makeStyles({
     typography: {
         marginRight: "18px"
-    },
-    formControl: {
-        width: "80%"
     }
 })
 
@@ -31,7 +28,7 @@ const SortPanel: FC<ISortPanel> = ({ fetchData }) => {
                 <Typography
                     variant="body1"
                     color="text.secondary"
-                    className={classes.typography}
+                    style={{marginRight: "18px"}}
                 >
                     Сортировать по:
                 </Typography>
@@ -61,7 +58,7 @@ const SortPanel: FC<ISortPanel> = ({ fetchData }) => {
                 />
             </div>
             <div className={styles.sortPanelWrapper + " " + styles.sortMobile}>
-                <FormControl className={classes.formControl}>
+                <FormControl style={{width: "80%"}}>
                     <InputLabel>Сортировка</InputLabel>
                     <Select>
                         <SortMobile

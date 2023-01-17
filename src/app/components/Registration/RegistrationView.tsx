@@ -1,4 +1,4 @@
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import React, { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IRegistration, IRegistrationFields } from "../../store/services/users/types/auth.types";
@@ -75,8 +75,7 @@ const RegistrationView: FC<RegistrationViewProps> = ({ registrate, setRegistrati
     const styleError = {
         display: "flex",
         justifyContent: "left",
-        marginTop: "-9px",
-        height: "6px",
+        marginBottom: "5px",
         color: "red",
     };
 
@@ -108,7 +107,7 @@ const RegistrationView: FC<RegistrationViewProps> = ({ registrate, setRegistrati
                         style={{ marginBottom: "10px" }}
                     />
                 </InputMask>
-                <p style={styleError}>{errors.phone && errors.phone.message}</p>
+                <Typography style={styleError}>{errors.phone && errors.phone.message}</Typography>
 
                 <TextField
                     {...register("email", {
@@ -124,7 +123,7 @@ const RegistrationView: FC<RegistrationViewProps> = ({ registrate, setRegistrati
                     label="Email"
                     style={{ marginBottom: "10px" }}
                 />
-                <p style={styleError}>{errors.email && errors.email.message}</p>
+                <Typography style={styleError}>{errors.email && errors.email.message}</Typography>
                 <TextField
                     fullWidth
                     id="outlined-required"
@@ -140,9 +139,9 @@ const RegistrationView: FC<RegistrationViewProps> = ({ registrate, setRegistrati
                     onChange={updateField}
                     style={{ marginBottom: "10px" }}
                 />
-                <p style={styleError}>
+                <Typography style={styleError}>
                     {errors.password && errors.password.message}
-                </p>
+                </Typography>
                 <TextField
                     fullWidth
                     id="outlined-required"
@@ -159,12 +158,12 @@ const RegistrationView: FC<RegistrationViewProps> = ({ registrate, setRegistrati
                     style={{ marginBottom: "10px" }}
                 />
                 {errors.retryPassword && (
-                    <p style={styleError}>{errors.retryPassword.message}</p>
+                    <Typography style={styleError}>{errors.retryPassword.message}</Typography>
                 )}
-                <p style={styleError}>
+                <Typography style={styleError}>
                     {!passwordsEquals && "Пароли не совпадают"}
-                </p>
-                {error.message && <p style={styleGlobalError}>{error.message}</p>}
+                </Typography>
+                {error.message && <Typography style={styleGlobalError}>{error.message}</Typography>}
                 <Button
                     variant="contained"
                     style={{

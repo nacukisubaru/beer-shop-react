@@ -1,0 +1,72 @@
+.mapCardWrapper {
+    position: relative;
+    top: 225px;
+    margin-left: 378px;
+    z-index: 1;
+    height: 9px;
+}
+
+.mapCard {
+    width: 300px;
+    height: 300px;
+    padding: 13px;
+}
+
+.mapCardImg {
+    background-size: contain;
+    height: 123px;
+    width: 235px;
+}
+
+/* Portrait */
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+    .mapCardWrapper {
+        margin-left: 28px;
+        top: 311px;
+    }
+
+    .mapCard {
+        width: 207px;
+        overflow: scroll;
+        height: 224px;
+    }
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
+    .mapCardWrapper {
+        margin-left: 28px;
+        top: 311px;
+    }
+
+    .mapCard {
+        width: 207px;
+        overflow: scroll;
+        height: 224px;
+    }
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 533px) {
+    .mapCardWrapper {
+        margin-left: 28px;
+        top: 311px;
+    }
+
+    .mapCard {
+        width: 207px;
+        overflow: scroll;
+        height: 224px;
+    }
+}
+
+@media only screen and (min-device-width: 240px) and (max-device-width: 320px) {
+    .mapCardWrapper {
+        margin-left: 15px;
+        top: 311px;
+    }
+
+    .mapCard {
+        width: 207px;
+        overflow: scroll;
+        height: 224px;
+    }
+}

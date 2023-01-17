@@ -4,3 +4,5 @@ export interface IGetListParams {
     order: string,
     filter: string
 }
+
+export type productType = "beers" | "snacks";

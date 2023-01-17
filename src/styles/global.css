@@ -1,4 +1,70 @@
 body {
     margin: 0;
+    padding: 0 !important;
     min-width: 421px;
+}
+
+.banner-image {
+    height: 600px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.banner {
+    width: 58%;
+    padding-top: 73px;
+    margin-left: 82px;
+    height: 500px;
+    position: absolute;
+}
+
+.banner-text {
+    font-family: 'Kurale';
+    color: white;
+    text-shadow: 1px 1px 1px #000;
+}
+
+.banner-text {
+    font-family: 'Kurale';
+    color: white;
+    text-shadow: 1px 1px 1px #000;
+}
+
+.banner-text2 {
+    font-family: "Kurale";
+    color: white;
+    text-shadow: 1px 1px 1px #000;
+    margin-bottom: 17px;
+}
+
+.banner-under-text {
+    font-family: 'Montserrat';
+    color: white;
+    /* width: 50%; */
+    margin-bottom: 17px;
+    text-shadow: 1px 1px 1px #000;
+}
+
+.banner-button {
+    border-radius: 19px;
+}
+
+.main-page-text { 
+    font-family: "Kurale"; 
+    color: #ac5725;
+}
+
+.children-wrapper {
+    min-height: 75vh;
+}
+
+.link-redirect {
+    text-decoration: none;
+    color: black;
+}
+
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+    .banner-under-text {
+        font-size: 25px;
+    }
 }

@@ -42,7 +42,8 @@
 .wrapperBasketList {
     display: flex;
     justify-content: center;
-    margin-right: 212px;
+    min-height: 80vh;
+    /* margin-right: 212px; */
     /* margin-right: 330px; */
     /* margin-right: 585px;
     margin-left: 250px; */
@@ -69,7 +70,7 @@
 }
 
 .emptyBasket {
-    margin-top: 247px;
+    margin-top: 180px;
     font-size: 35px;
     margin-bottom: 26px;
 }
@@ -90,6 +91,11 @@
     color: #8d8d8d;;
 }
 
+.basketTotalCardMobile {
+    display: none;
+    margin-bottom: 50px;
+}
+
 /* Portrait */
 @media only screen 
   and (min-device-width: 375px) 
@@ -98,6 +104,10 @@
   and (orientation: portrait) { 
     .basketTotalCard {
         display: none;
+    }
+
+    .basketTotalCardMobile {
+        display: block;
     }
 
     .containerBasketList {
@@ -120,6 +130,10 @@
         display: none;
     }
 
+    .basketTotalCardMobile {
+        display: block;
+    }
+
     .containerBasketList {
         margin: 0;
     }
@@ -137,6 +151,10 @@
 @media screen and (max-width: 642px) and (min-width: 640px){
     .basketTotalCard {
         display: none;
+    }
+
+    .basketTotalCardMobile {
+        display: block;
     }
 
     .containerBasketList {
@@ -158,6 +176,10 @@
         display: none;
     }
 
+    .basketTotalCardMobile {
+        display: block;
+    }
+
     .containerBasketList {
         margin: 0;
     }
@@ -175,6 +197,10 @@
 @media screen and (max-width: 481px) and (min-width: 479px){
     .basketTotalCard {
         display: none;
+    }
+
+    .basketTotalCardMobile {
+        display: block;
     }
 
     .containerBasketList {
@@ -196,6 +222,10 @@
         display: none;
     }
 
+    .basketTotalCardMobile {
+        display: block;
+    }
+
     .containerBasketList {
         margin: 0;
     }
@@ -213,6 +243,10 @@
 @media screen and (min-width: 200px) and (max-width: 653px){
     .basketTotalCard {
         display: none;
+    }
+
+    .basketTotalCardMobile {
+        display: block;
     }
 
     .containerBasketList {
@@ -238,6 +272,10 @@
         display: none;
     }
 
+    .basketTotalCardMobile {
+        display: block;
+    }
+
     .containerBasketList {
         margin: 0;
     }
@@ -259,6 +297,10 @@
   and (-webkit-min-device-pixel-ratio: 1) {
     .basketTotalCard {
         display: none;
+    }
+
+    .basketTotalCardMobile {
+        display: block;
     }
 
     .containerBasketList {
@@ -284,6 +326,10 @@
         display: none;
     }
 
+    .basketTotalCardMobile {
+        display: block;
+    }
+
     .containerBasketList {
         margin: 0;
     }
@@ -307,6 +353,10 @@
   and (-webkit-min-device-pixel-ratio: 2) {
     .basketTotalCard {
         display: none;
+    }
+
+    .basketTotalCardMobile {
+        display: block;
     }
 
     .containerBasketList {

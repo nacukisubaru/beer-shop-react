@@ -4,6 +4,7 @@ import React, { FC, useEffect, useState } from "react";
 import { ILogin } from "../../store/services/users/types/auth.types";
 import { useForm } from "react-hook-form";
 import InputMask from "react-input-mask";
+import { Typography } from "@mui/material";
 
 interface LoginProps {
     login: (post: ILogin) => void,
@@ -78,11 +79,10 @@ const LoginView: FC<LoginProps> = ({ login, loginByCode, setLoginPhone, phone, e
     const styleError = {
         display: "flex",
         justifyContent: "left",
-        marginTop: "-9px",
-        height: "6px",
+        marginBottom: "5px",
         color: "red",
     };
-
+    
     const styleGlobalError = {
         display: "flex",
         justifyContent: "left",
@@ -117,7 +117,9 @@ const LoginView: FC<LoginProps> = ({ login, loginByCode, setLoginPhone, phone, e
                     hidden={true}
                     style={{ marginBottom: "10px" }}
                 />
-                <p style={styleError}>{errors.phone && errors.phone.message}</p>
+                <Typography style={styleError}>
+                    {errors.phone && errors.phone.message}
+                </Typography>
 
                 <TextField
                     fullWidth
@@ -129,8 +131,8 @@ const LoginView: FC<LoginProps> = ({ login, loginByCode, setLoginPhone, phone, e
                     })}
                     style={{ marginBottom: "10px" }}
                 />
-                <p style={styleError}>{errors.password && errors.password.message}</p>
-                {error.message && <p style={styleGlobalError}>{error.message}</p>}
+                <Typography style={styleError}>{errors.password && errors.password.message}  </Typography>
+                {error.message && <Typography style={styleGlobalError}>{error.message}</Typography>}
                 <Button
                     variant="contained"
                     style={{ width: "316px", marginBottom: "10px" }}

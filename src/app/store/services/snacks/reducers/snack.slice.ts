@@ -1,95 +1,51 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { thunkAxiosGet } from "../../../../helpers/queryHelper";
-import { ISnack } from "../types/snacks.types";
+import { Action, createSlice, ThunkAction } from "@reduxjs/toolkit";
+import axios from "axios";
+import { HYDRATE } from "next-redux-wrapper";
+import { queryBuilder } from "../../../../helpers/queryHelper";
+import { makeStore } from "../../../store";
 const initialState = {
-    snackList:<ISnack[]> [],
-    snack:<ISnack> {},
-    minPrice: 0,
-    maxPrice: 0,
-    page: 0,
-    total: 0,
-    showSnack: false,
+    snackList: [],
+    data: {},
     status: '',
     error: ''
 };
-
-interface IBody {
-    path: string,
-    params: any
-}
-
-export const getSnackList:any = createAsyncThunk(
-    'snacks/fetch',
-    async(body: IBody, {rejectWithValue}) => {
-        const {path, params} = body;
-        return thunkAxiosGet(path, params, false, rejectWithValue);
-    }
-);
-
-export const getMinAndMaxPriceSnacks:any = createAsyncThunk(
-    'prices_snacks/fetch',
-    async(_, {rejectWithValue}) => {
-       return thunkAxiosGet('/products/minMaxPrices', {productType: 'snacks'}, false, rejectWithValue);
-    }
-);
 
 export const snackSlice = createSlice({
     name: 'snack',
     initialState,
     reducers: {
-        dropSnackList: (state) => {
-            state.snackList = [];
+        setSnackList(state, action) {
+            state.data = action.payload;
         },
-        resetSnackPage: (state) => {
-            state.page = 0;
-        },
-        getSnack: (state, action: PayloadAction<{id:number}>) => {
-            const id = action.payload.id;
-            state.snack = state.snackList.filter((item: ISnack) => {
-                if(item.product.id === id) {
-                    return item;
-                }
-            })[0];
-        },
-        openSnack: (state) => {
-            state.showSnack = true;
-        },
-        closeSnack: (state) => {
-            state.showSnack = false;
-        }
     },
     extraReducers: {
-        [getSnackList.pending]: (state) => {
-            state.status = 'loading';
-            state.error = '';
-            state.page = 0;
+        [HYDRATE]: (state, action) => {
+            const hydrateObject = {
+                ...state,
+                ...action.payload.subject
+            };
+
+            if(action.payload.snackReducer.data.data && action.payload.snackReducer.data.data.rows) {
+                hydrateObject.snackList = action.payload.snackReducer.data.data.rows;
+            }
+            return hydrateObject;
         },
-        [getSnackList.fulfilled]: (state,action) => {
-            state.status = 'resolved';
-            state.snackList = state.snackList.concat(action.payload.rows);
-            state.page = action.payload.nextPage;
-            state.total = action.payload.count;
-        },
-        [getSnackList.rejected]: (state,action) => {
-            state.status = 'rejected';
-            state.error = action.payload;
-            state.page = 0;
-        },
-        [getMinAndMaxPriceSnacks.pending]: (state) => {
-            state.status = 'loading';
-            state.error = '';
-        },
-        [getMinAndMaxPriceSnacks.fulfilled]: (state, action: PayloadAction<{minPrice: number, maxPrice: number}[]>) => {
-            state.status = 'resolved';
-            state.minPrice = action.payload[0].minPrice;
-            state.maxPrice = action.payload[0].maxPrice;
-        },
-        [getMinAndMaxPriceSnacks.rejected]: (state,action) => {
-            state.status = 'rejected';
-            state.error = action.payload;
-        }
     }
 });
+
+export type AppStore = ReturnType<typeof makeStore>;
+export type AppState = ReturnType<AppStore['getState']>;
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppState, unknown, Action>;
+
+export const fetchSnacks = (params: any): AppThunk =>
+    async dispatch => {
+        const url = queryBuilder("/snacks/getListByFilter/", params);
+        let request = axios;
+        const response = await request.get(url);
+        dispatch(
+            snackSlice.actions.setSnackList({ data: response.data }),
+        );
+    };
 
 export const snackReducer = snackSlice.reducer;
 export const snackActions = snackSlice.actions;

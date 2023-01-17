@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from "react";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { IProductBasket } from "../../types/product.types";
 import { useBasket } from "../../hooks/useBasket";
 import BasketCard from "./BasketCard";
@@ -16,7 +16,6 @@ interface BasketListProps {
 }
 
 const BasketList: FC<BasketListProps> = ({basketList, order, count}) => {
-    
     const initialValue = 0;
     const total:any =  basketList.length > 0 ? basketList.reduce((accumulator, currentValue: any) => {
         return accumulator + currentValue.price * currentValue.quantity;
@@ -29,10 +28,10 @@ const BasketList: FC<BasketListProps> = ({basketList, order, count}) => {
     }, []);
 
     return (
-        <>
-            <div className={styles.wrapperBasketList}>
-                <div className={styles.containerBasketList}>
-                    {basketList.map((item: IProductBasket, index: number) => (
+        <div className={styles.wrapperBasketList}>
+            <div className={styles.containerBasketList}>
+                {basketList.map((item: IProductBasket, index: number) => (
+                    <>
                         <BasketCard
                             key={index}
                             id={item.id}
@@ -43,27 +42,34 @@ const BasketList: FC<BasketListProps> = ({basketList, order, count}) => {
                             inStock={item.inStock}
                             //characteristics={item.characteristics}
                             image={item.image} 
-                            description={item.description} />
-                    ))}
-                </div>
-                {basketList.length > 0 ? (
-                    <div className={styles.basketTotalCard}>
-                        <TotalCard totalPrice={total} order={order}/>
-                    </div>   
-                ): (
-                    <div>
-                        <div className={styles.emptyBasket}>Ваша корзина пуста</div>
-                        <div>
-                            <Link href={'/products/beers'} style={{textDecoration: 'none'}}>
-                                <Button variant="contained">Посмотреть каталог</Button>
-                            </Link>
+                            description={item.description} 
+                        />
+                        <div className={styles.basketTotalCardMobile}>
+                            <TotalCard totalPrice={total} order={order} cardProps={{position: "inherit"}}/>
                         </div>
-                    </div>
-                )}
+                    </>
+                ))}
             </div>
+            
+            {basketList.length > 0 ? (
+                <div className={styles.basketTotalCard}>
+                    <TotalCard totalPrice={total} order={order} cardProps={{position: "fixed"}}/>
+                </div>   
+            ): (
+                <div>
+                    <Typography className={styles.emptyBasket}>
+                        Ваша корзина пуста
+                    </Typography>
+                  
+                        <Link href={'/products/beers'} style={{textDecoration: 'none'}}>
+                            <Button variant="contained" fullWidth>Посмотреть каталог</Button>
+                        </Link>
+                  
+                </div>
+            )}
             <ProductNotInStock />
             <SuccessOrder />
-        </>
+        </div>
     );
 };
 

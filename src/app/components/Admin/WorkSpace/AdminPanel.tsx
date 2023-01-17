@@ -1,4 +1,5 @@
 import { CircularProgress } from "@mui/material";
+import { useRouter } from "next/router";
 import { FC, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useCheckUserRoleAdminQuery } from "../../../store/services/roles/role.api";
@@ -8,7 +9,7 @@ interface IAdminPanelProps {
 }
 
 const AdminPanel: FC<IAdminPanelProps> = ({ workTool }) => {
-   // const location = useLocation();
+   const {pathname} = useRouter();
     const [menuState, setMenu] = useState([
         { name: "Заказы", url: "/admin/orders", active: false },
         { name: "Пиво", url: "/admin/beers", active: false },
@@ -21,15 +22,15 @@ const AdminPanel: FC<IAdminPanelProps> = ({ workTool }) => {
     const [showWorkSpace, setShowWorkSpace] = useState(false);
     const [isDefinedWorkSpace, setDefinedWorkSpace] = useState(false);
 
-    // useEffect(() => {
-    //     const menuItems = menuState.map((item) => {
-    //         if (item.url === location.pathname) {
-    //             item.active = true;
-    //         }
-    //         return item;
-    //     });
-    //     setMenu(menuItems);
-    // }, [location, setMenu]);
+    useEffect(() => {
+        const menuItems = menuState.map((item) => {
+            if (item.url === pathname) {
+                item.active = true;
+            }
+            return item;
+        });
+        setMenu(menuItems);
+    }, []);
 
     useEffect(() => {
         if (data === true) {

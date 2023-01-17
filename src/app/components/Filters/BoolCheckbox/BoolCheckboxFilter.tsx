@@ -2,7 +2,7 @@ import React, { FC, useState } from "react";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-//import "../css/style.css";
+import { makeStyles } from "@mui/styles";
 
 interface IBoolCheckboxFilter {
     nameTrue: string,
@@ -12,16 +12,23 @@ interface IBoolCheckboxFilter {
     setBoolFilter: (value:boolean) => void
 }
 
+const useStyles = makeStyles({
+    filterContainer: {
+        marginLeft: "24px"
+    }
+});
+
 const BoolCheckboxFilter: FC<IBoolCheckboxFilter> = ({
     nameTrue,
     nameFalse,
     initialStateTrue,
     initialStateFalse,
     setBoolFilter,
- 
 }) => {
     const [stateCheckboxTrue, setStateCheckboxTrue] = useState(initialStateTrue);
     const [stateCheckboxFalse, setStateCheckboxFalse] = useState(initialStateFalse);
+
+    const classes = useStyles();
 
     const handleSetFilterTrue = () => {
         setStateCheckboxTrue(true);
@@ -37,7 +44,7 @@ const BoolCheckboxFilter: FC<IBoolCheckboxFilter> = ({
 
     return (
         <>
-            <div className="filter-container">
+            <div className={classes.filterContainer}>
                 <FormGroup>
                     <FormControlLabel
                         control={

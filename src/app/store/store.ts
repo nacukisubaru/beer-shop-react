@@ -21,6 +21,7 @@ import { productTypeApi } from "./services/product-types/product-types.api";
 import { roleApi } from "./services/roles/role.api";
 import { orderApi } from "./services/order/order.api";
 import { createWrapper } from "next-redux-wrapper";
+import { productReducer } from "./services/products/reducers/product.slice";
 
 export const makeStore = () => configureStore({
     reducer: {
@@ -35,6 +36,7 @@ export const makeStore = () => configureStore({
         verificationCodeReducer,
         orderReducer,
         contentReducer,
+        productReducer,
         [userApi.reducerPath]: userApi.reducer,
         [gradeApi.reducerPath]: gradeApi.reducer,
         [brandApi.reducerPath]: brandApi.reducer,
@@ -47,7 +49,7 @@ export const makeStore = () => configureStore({
         [orderApi.reducerPath]: orderApi.reducer,
     },
     
-    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(
+    middleware: getDefaultMiddleware => getDefaultMiddleware({serializableCheck: false}).concat(
         beerApi.middleware, 
         userApi.middleware, 
         gradeApi.middleware, 
