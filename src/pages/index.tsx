@@ -12,6 +12,7 @@ import { fetchBeers } from "../app/store/services/beers/reducers/beer.slice";
 import TabsUI from "../app/components/Tabs/TabsUI";
 import { fetchSnacks } from "../app/store/services/snacks/reducers/snack.slice";
 import CatalogSnacks from "../app/components/Products/Catalog/CatalogSnacks";
+import YMapContacts from "../app/components/YandexMaps/Contacts/YMapContacts";
 
 const Home = () => {
     const router = useRouter();
@@ -32,7 +33,7 @@ const Home = () => {
                         Пивградъ
                     </Typography>
                     <Typography className="banner-under-text" variant="h4">
-                        попробуй яркий вкус, свежего пива
+                        попробуй яркий вкус свежего пива
                     </Typography>
 
                     <Button
@@ -51,12 +52,12 @@ const Home = () => {
                     quality={100}
                 />
             </div>
-            <div style={{ display: "flex", justifyContent: "center", marginTop: "30px", marginBottom: "30px" }}>
+            <div style={{ display: "flex", justifyContent: "center", marginTop: "60px", marginBottom: "30px" }}>
                 <Typography className="main-page-text" variant="h2">
                     Наш асортимент
                 </Typography>
             </div>
-            <div style={{marginBottom: "30px"}}>
+            <div style={{marginBottom: "60px"}}>
                 <TabsUI
                     tabsList={["Пиво", "Снеки", "Рыба"]}
                     swipeableList={[<CatalogBeers />, <CatalogSnacks />]}
@@ -67,9 +68,15 @@ const Home = () => {
                     Наш бар
                 </Typography>
             </div>
-            <div style={{marginBottom: "30px"}}>
+            <div style={{marginBottom: "60px"}}>
                 <PhotoGaleryList />
             </div>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: "30px" }}>
+                <Typography className="main-page-text" variant="h2">
+                    Мы находимся
+                </Typography>
+            </div>
+           <YMapContacts />
         </div>
     );
 };

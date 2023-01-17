@@ -1,73 +1,92 @@
-import * as React from 'react';
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
+import * as React from "react";
+import ImageList from "@mui/material/ImageList";
+import ImageListItem from "@mui/material/ImageListItem";
+import { makeStyles } from "@mui/styles";
+import { ImageListItemBar } from "@mui/material";
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "space-around",
+        overflow: "hidden",
+        backgroundColor: theme.palette.background.paper,
+    },
+    imageList: {
+        width: 500,
+        height: 450,
+
+        transform: "translateZ(0)",
+    },
+    titleBar: {
+        background:
+            "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, " +
+            "rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
+    },
+    icon: {
+        color: "white",
+    },
+}));
 
 export default function PhotoGaleryList() {
-  return (
-    <div style={{display: "flex", justifyContent: "center"}}>
-        <ImageList sx={{ width: 700, height: 1000 }} cols={3} rowHeight={164}>
-        {itemData.map((item) => (
-            <ImageListItem key={item.img}>
-            <img
-                src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-                srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                alt={item.title}
-                loading="lazy"
-            />
-            </ImageListItem>
-        ))}
-        </ImageList>
-    </div>
-  );
+    const classes = useStyles();
+    return (
+        <div style={{ display: "flex", justifyContent: "center" }}>
+            <ImageList
+                rowHeight={200}
+                gap={1}
+                style={{
+                    width: 600,
+                    height: 550,
+
+                    transform: "translateZ(0)",
+                }}
+            >
+                {itemData.map((item) => (
+                    <ImageListItem
+                        key={item.img}
+                        cols={item.featured ? 2 : 1}
+                        rows={item.featured ? 2 : 1}
+                    >
+                        <img src={item.img} alt={item.title} />
+                        <ImageListItemBar
+                            title={item.title}
+                            position="top"
+                            className={classes.titleBar}
+                        />
+                    </ImageListItem>
+                ))}
+            </ImageList>
+        </div>
+    );
 }
 
 const itemData = [
-  {
-    img: 'http://localhost:5000/images/0oByG2iiNLA.png',
-    title: 'Breakfast',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
-    title: 'Burger',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
-    title: 'Camera',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
-    title: 'Coffee',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
-    title: 'Hats',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
-    title: 'Honey',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6',
-    title: 'Basketball',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f',
-    title: 'Fern',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1597645587822-e99fa5d45d25',
-    title: 'Mushrooms',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af',
-    title: 'Tomato basil',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1471357674240-e1a485acb3e1',
-    title: 'Sea star',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1589118949245-7d38baf380d6',
-    title: 'Bike',
-  },
+    {
+        img: "http://localhost:5000/images/0oByG2iiNLA.png",
+        title: "Бар",
+        rows: 2,
+        cols: 2,
+        featured: true
+    },
+    {
+        img: "http://localhost:5000/images/beergrad-photo1.png",
+        title: "Вход в пивбар",
+    },
+    {
+        img: "http://localhost:5000/images/beergrad-photo2.jpg",
+        title: "Пивградъ",
+    },
+    {
+        img: "http://localhost:5000/images/beergrad-photo3.jpg",
+        title: "Пиво",
+    },
+    {
+        img: "http://localhost:5000/images/beergrad-photo4.jpg",
+        title: "Пиво",
+    },
+    {
+      img: "http://localhost:5000/images/beergrad-photo5.jpg",
+      title: "Пиво",
+    }
 ];

@@ -97,9 +97,7 @@ const VerificationCodeFormView: FC<VerificationCodeFormViewProps> = ({
                                             setSeconds={setSecondsResend}
                                         />
                                         </div>
-                                        
                                     </Typography>
-                                    
                                 </div>
                             )}
 
