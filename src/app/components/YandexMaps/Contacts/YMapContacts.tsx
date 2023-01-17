@@ -28,14 +28,16 @@ const YMapContacts: FC = () => {
     useEffect(()=>{
         if(placemarkIsLoaded) {
             if (placemark.current !== null) {
-                setActivePortal(true);
                 placemark.current.balloon.open();
+                placemark.current.events.add("balloonopen", () => {
+                    setActivePortal(true);
+                });
                 placemark.current.events.add("balloonclose", () => {
                     setActivePortal(false);
                 });
             }
         }
-    }, [placemarkIsLoaded])
+    }, [placemarkIsLoaded]);
 
     return (
         <div

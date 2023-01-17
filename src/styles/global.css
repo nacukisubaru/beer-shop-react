@@ -58,6 +58,11 @@ body {
     min-height: 75vh;
 }
 
+.link-redirect {
+    text-decoration: none;
+    color: black;
+}
+
 @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
     .banner-under-text {
         font-size: 25px;
