@@ -43,6 +43,14 @@ const Footer: FC = () => {
                                             Правила продажи
                                         </Link>
                                     </Typography>
+                                    <Typography variant="body2">
+                                        <Link
+                                            className={styles.link}
+                                            href="/"
+                                        >
+                                            Политика конфиденциальности
+                                        </Link>
+                                    </Typography>
                                 </Container>
                                 <Container>
                                     <Typography
