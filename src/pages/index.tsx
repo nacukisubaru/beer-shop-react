@@ -1,4 +1,4 @@
-import { Button, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { fetchProducts } from "../app/store/services/products/reducers/product.slice";
@@ -13,24 +13,23 @@ import TabsUI from "../app/components/Tabs/TabsUI";
 import { fetchSnacks } from "../app/store/services/snacks/reducers/snack.slice";
 import CatalogSnacks from "../app/components/Products/Catalog/CatalogSnacks";
 import YMapContacts from "../app/components/YandexMaps/Contacts/YMapContacts";
-import { request } from "../lib/datocms";
 import HTMLReactParser from "html-react-parser";
 import { decodeHtml } from "../app/helpers/stringHelper";
+import { cmsQueryExecute } from "../app/helpers/cmsHelper";
 
 const Home = ({ data }) => {
     const {
-        bannerslogan,
-        bannerslogan2,
-        titleproducts,
-        titlegallery,
-        titlemap,
+        bannerSlogan,
+        bannerSlogan2,
+        titleProducts,
+        titleGallery,
+        titleMap,
         gallery,
+        banner,
     } = data.mainpage;
 
-    const { placename, address, worktime, way, photoplace } = data.yandexmap;
-  
+    const { placeName, address, workTime, wayDesc, photosPlace } = data.yandexmap;
     const router = useRouter();
-    console.log({ gallery });
     return (
         <div className="page-container">
             <Menu
@@ -42,13 +41,15 @@ const Home = ({ data }) => {
             <div>
                 <div className="banner">
                     <Typography className="banner-text" variant="h2">
-                        {bannerslogan
-                            ? HTMLReactParser(decodeHtml(bannerslogan))
-                            : "Там где твои друзья<br/>Пивградъ"}
+                        {bannerSlogan
+                            ? HTMLReactParser(decodeHtml(bannerSlogan))
+                            : HTMLReactParser(
+                                  decodeHtml("Там где твои друзья<br/>Пивградъ")
+                              )}
                     </Typography>
                     <Typography className="banner-under-text" variant="h4">
-                        {bannerslogan2
-                            ? HTMLReactParser(decodeHtml(bannerslogan2))
+                        {bannerSlogan2
+                            ? HTMLReactParser(decodeHtml(bannerSlogan2))
                             : "попробуй яркий вкус свежего пива"}
                     </Typography>
 
@@ -62,7 +63,22 @@ const Home = ({ data }) => {
                         Попробовать
                     </Button>
                 </div>
-                <Image className="banner-image" src={banner} quality={100} />
+                {banner.length > 0 ? (
+                    <Box
+                        className="banner-image"
+                        sx={{
+                            background: `url(${banner[0].url}) center center no-repeat`,
+                            height: 200,
+                            width: 200,
+                        }}
+                    ></Box>
+                ) : (
+                    <Image
+                        className="banner-image-ssr"
+                        src={banner}
+                        quality={100}
+                    />
+                )}
             </div>
             <div
                 style={{
@@ -73,8 +89,8 @@ const Home = ({ data }) => {
                 }}
             >
                 <Typography className="main-page-text" variant="h2">
-                    {titleproducts
-                        ? HTMLReactParser(decodeHtml(titleproducts))
+                    {titleProducts
+                        ? HTMLReactParser(decodeHtml(titleProducts))
                         : "Наш асортимент"}
                 </Typography>
             </div>
@@ -84,16 +100,22 @@ const Home = ({ data }) => {
                     swipeableList={[<CatalogBeers />, <CatalogSnacks />]}
                 />
             </div>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-                <Typography className="main-page-text" variant="h2">
-                    {titlegallery
-                        ? HTMLReactParser(decodeHtml(titlegallery))
-                        : "Наш бар"}
-                </Typography>
-            </div>
-            <div style={{ marginBottom: "60px" }}>
-                <PhotoGaleryList itemsList={gallery} />
-            </div>
+
+            {gallery.length > 0 && (
+                <>
+                    <div style={{ display: "flex", justifyContent: "center" }}>
+                        <Typography className="main-page-text" variant="h2">
+                            {titleGallery
+                                ? HTMLReactParser(decodeHtml(titleGallery))
+                                : "Наш бар"}
+                        </Typography>
+                    </div>
+                    <div style={{ marginBottom: "60px" }}>
+                        <PhotoGaleryList itemsList={gallery} />
+                    </div>
+                </>
+            )}
+
             <div
                 style={{
                     display: "flex",
@@ -102,59 +124,64 @@ const Home = ({ data }) => {
                 }}
             >
                 <Typography className="main-page-text" variant="h2">
-                    {titlemap
-                        ? HTMLReactParser(decodeHtml(titlemap))
+                    {titleMap
+                        ? HTMLReactParser(decodeHtml(titleMap))
                         : "Мы находимся"}
                 </Typography>
             </div>
             <YMapContacts
                 balloon={{
-                    namePlace: placename,
+                    namePlace: placeName,
                     address: address,
-                    image: photoplace[0].url,
-                    workTime: worktime,
-                    way: way,
+                    image: photosPlace.data ? photosPlace.data[0].url : [],
+                    workTime: workTime,
+                    way: wayDesc,
                 }}
             />
         </div>
     );
 };
 
-const HOMEPAGE_QUERY = `query {
-    mainpage {
-      id
-      bannerslogan
-      bannerslogan2
-      titleproducts
-      titlegallery
-      titlemap
-      gallery {
-        id,
-        url,
-        title,
-        customData
-      }
-      _status
-      _firstPublishedAt
-    }
-    yandexmap {
-        id
-        placename
-        address
-        worktime
-        way,
-        photoplace {
-            url
-        }
-    }
-  }`;
-
 export const getServerSideProps: GetServerSideProps =
     wrapper.getServerSideProps((store) => async ({ query }) => {
-        const data = await request({
-            query: HOMEPAGE_QUERY,
-            variables: { limit: 10 },
-        });
+        const props: any = {
+            data: {
+                mainpage: {
+                    bannerSlogan: "",
+                    bannerSlogan2: "",
+                    titleProducts: "",
+                    titleGallery: "",
+                    titleMap: "",
+                    gallery: [],
+                    banner: [],
+                },
+                yandexmap: {
+                    placeName: "", 
+                    address: "", 
+                    workTime: "", 
+                    wayDesc: "", 
+                    photosPlace: {data: []}
+                }
+            },
+        };
+
+        const resultMainPage = await cmsQueryExecute(
+            "/api/main-page?populate=*"
+        );
+
+        if (resultMainPage) {
+            resultMainPage.gallery = resultMainPage.gallery.data;
+            resultMainPage.banner = resultMainPage.banner.data;
+            props.data.mainpage = resultMainPage;
+        }
+
+        const resultMapPoints = await cmsQueryExecute(
+            "/api/yandex-map-points?populate=*"
+        );
+  
+        if (resultMapPoints.length > 0) {
+            props.data.yandexmap = resultMapPoints[0];
+        }
 
         await store.dispatch(
             fetchBeers({
@@ -173,7 +200,7 @@ export const getServerSideProps: GetServerSideProps =
         );
 
         return {
-            props: { data },
+            props,
         };
     });
 

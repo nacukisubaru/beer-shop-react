@@ -3,6 +3,14 @@ interface IParam {
     value: any
 }
 
+interface IData {
+    data: any
+}
+
+interface IResponseUnwrap {
+    data: IData
+}
+
 export const removeMask = (phone: string) => {
     return phone.replace(/[^0-9]/g, '');
 }
@@ -49,4 +57,12 @@ export const decodeHtml = (str: string) =>
     if (str) result = str.replace(/&amp;|&lt;|&gt;|&quot;|&#039;/g, function(m) {return map[m];});
 
     return result;
+}
+
+export const unwrapRes = (response: IResponseUnwrap) => {
+    if(response.data && response.data.data) {
+        return response.data.data;
+    }
+    
+    return false;
 }

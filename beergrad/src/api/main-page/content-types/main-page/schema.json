@@ -1,0 +1,60 @@
+{
+  "kind": "singleType",
+  "collectionName": "main_pages",
+  "info": {
+    "singularName": "main-page",
+    "pluralName": "main-pages",
+    "displayName": "Главная страница",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "bannerSlogan": {
+      "type": "string",
+      "default": "Там где твои друзья<br/>Пивградъ",
+      "required": true
+    },
+    "bannerSlogan2": {
+      "type": "string",
+      "default": "попробуй яркий вкус свежего пива",
+      "required": true
+    },
+    "titleProducts": {
+      "type": "string",
+      "required": true,
+      "default": "Наш асортимент"
+    },
+    "titleGallery": {
+      "type": "string",
+      "required": true,
+      "default": "Наш бар"
+    },
+    "titleMap": {
+      "type": "string",
+      "default": "Мы находимся",
+      "required": true
+    },
+    "gallery": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "banner": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    }
+  }
+}

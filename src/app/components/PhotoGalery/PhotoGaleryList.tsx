@@ -59,10 +59,10 @@ const PhotoGaleryList: FC<PhotoGaleryListProps> = ({itemsList}) => {
                 {itemsList.map((item) => (
                     <ImageListItem
                         key={item.url}
-                        cols={item.customData.featured ? 2 : 1}
-                        rows={item.customData.featured ? 2 : 1}
+                        // cols={item.customData.featured ? 2 : 1}
+                        // rows={item.customData.featured ? 2 : 1}
                     >
-                        <img src={item.url} alt={item.title} />
+                        <img src={item.url}  />
                         <ImageListItemBar
                             title={item.title}
                             position="top"
