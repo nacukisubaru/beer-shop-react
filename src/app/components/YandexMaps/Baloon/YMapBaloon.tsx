@@ -47,14 +47,19 @@ const YMapBaloon: FC<YMapBaloonProps> = ({ baloonProps }) => {
                     }}
                 ></Box>
             </div>
-            <Typography style={{ fontSize: "15px" }}>
-                <span style={{ fontWeight: "bold" }}>Режим работы: </span>
-                {baloonProps.workTime}
-            </Typography>
-            <Typography style={{ fontSize: "15px" }}>
-                <span style={{ fontWeight: "bold" }}>Проезд: </span>
-                {baloonProps.way}
-            </Typography>
+            {baloonProps.workTime && (
+                <Typography style={{ fontSize: "15px" }}>
+                    <span style={{ fontWeight: "bold" }}>Режим работы: </span>
+                    {baloonProps.workTime}
+                </Typography>
+            )}
+            
+            {baloonProps.way && (
+                 <Typography style={{ fontSize: "15px" }}>
+                    <span style={{ fontWeight: "bold" }}>Проезд: </span>
+                    {baloonProps.way}
+                </Typography>
+            )}
         </>
     );
 };
