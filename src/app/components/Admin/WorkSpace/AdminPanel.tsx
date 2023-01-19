@@ -1,7 +1,7 @@
 import { CircularProgress } from "@mui/material";
 import { useRouter } from "next/router";
 import { FC, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { hostAdminPanel } from "../../../http/http.request.config";
 import { useCheckUserRoleAdminQuery } from "../../../store/services/roles/role.api";
 import WorkSpace from "./WorkSpace";
 interface IAdminPanelProps {
@@ -17,6 +17,7 @@ const AdminPanel: FC<IAdminPanelProps> = ({ workTool }) => {
         { name: "Бренды", url: "/admin/brands", active: false },
         { name: "Сорта", url: "/admin/grades", active: false },
         { name: "Типы упаковок", url: "/admin/types-packaging", active: false },
+        { name: "Админ панель контент", url: `${hostAdminPanel}/admin/content-manager/collectionType/api::restaurant.restaurant?page=1&pageSize=10&sort=name:ASC`, active: false }
     ]);
     const { data, isLoading } = useCheckUserRoleAdminQuery({});
     const [showWorkSpace, setShowWorkSpace] = useState(false);
