@@ -3,7 +3,7 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { fetchProducts } from "../app/store/services/products/reducers/product.slice";
 import { wrapper } from "../app/store/store";
-import banner from "../assets/images/banner.jpg";
+import bannerImg from "../assets/images/banner.jpg";
 import Menu from "../app/components/Drawer/Menu/Menu";
 import PhotoGaleryList from "../app/components/PhotoGalery/PhotoGaleryList";
 import CatalogBeers from "../app/components/Products/Catalog/CatalogBeers";
@@ -75,7 +75,7 @@ const Home = ({ data }) => {
                 ) : (
                     <Image
                         className="banner-image-ssr"
-                        src={banner}
+                        src={bannerImg}
                         quality={100}
                     />
                 )}
@@ -160,7 +160,7 @@ export const getServerSideProps: GetServerSideProps =
                     address: "", 
                     workTime: "", 
                     wayDesc: "", 
-                    photosPlace: {data: []}
+                    photosPlace: {}
                 }
             },
         };
