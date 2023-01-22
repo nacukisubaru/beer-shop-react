@@ -9,6 +9,7 @@ import Menu from "../../app/components/Drawer/Menu/Menu";
 import ResultNotFoundByFilter from "../../app/components/Modals/Messages/ResultNotFoundByFilter";
 import SnackModal from "../../app/components/Modals/Products/SnackModal";
 import ProductsList from "../../app/components/Products/ProductsList";
+import { fetchArticlesList, fetchHeaderData, fetchPhonesList, fetchSocialNetworks } from "../../app/store/reducers/header.slice";
 
 export default function Snacks () {
     const { product, productList } = useAppSelector(
@@ -62,6 +63,11 @@ export const getServerSideProps: GetServerSideProps =
             })
         );
      
+        await store.dispatch(fetchHeaderData());
+        await store.dispatch(fetchSocialNetworks());
+        await store.dispatch(fetchPhonesList());
+        await store.dispatch(fetchArticlesList());
+
         return {
             props: {},
         };

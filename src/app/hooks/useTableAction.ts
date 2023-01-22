@@ -44,7 +44,6 @@ export const useTableAction = (messages: IMessage) => {
 
     useEffect(() => {
         setMessage(message);
-        console.log(message);
     }, [message])
 
     const closeTableModal = () => {

@@ -16,6 +16,7 @@ import YMapContacts from "../app/components/YandexMaps/Contacts/YMapContacts";
 import HTMLReactParser from "html-react-parser";
 import { decodeHtml } from "../app/helpers/stringHelper";
 import { cmsQueryExecute } from "../app/helpers/cmsHelper";
+import { fetchArticlesList, fetchHeaderData, fetchPhonesList, fetchSocialNetworks } from "../app/store/reducers/header.slice";
 
 const Home = ({ data }) => {
     const {
@@ -182,6 +183,11 @@ export const getServerSideProps: GetServerSideProps =
         if (resultMapPoints.length > 0) {
             props.data.yandexmap = resultMapPoints[0];
         }
+
+        await store.dispatch(fetchHeaderData());
+        await store.dispatch(fetchSocialNetworks());
+        await store.dispatch(fetchPhonesList());
+        await store.dispatch(fetchArticlesList());
 
         await store.dispatch(
             fetchBeers({

@@ -47,12 +47,10 @@ const PhotoGaleryList: FC<PhotoGaleryListProps> = ({itemsList}) => {
     return (
         <div style={{ display: "flex", justifyContent: "center" }}>
             <ImageList
-                rowHeight={200}
                 gap={1}
                 style={{
-                    width: 600,
+                    width: 850,
                     height: 550,
-
                     transform: "translateZ(0)",
                 }}
             >

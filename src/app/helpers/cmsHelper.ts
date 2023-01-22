@@ -25,8 +25,8 @@ export const cmsBuildStructure = (result: any) => {
         const attributes = result.attributes;
         attributes.id = result.id;
         for(let atrInc in attributes) {
-        const attrs:any = attributes[atrInc];
-            if (attrs.data) {
+            const attrs:any = attributes[atrInc];
+            if (attrs && attrs.data) {
                 if (attrs.data !== null) {
                     let nestedFields = attrs.data;
                     //Обработка структуры файлов
@@ -39,7 +39,7 @@ export const cmsBuildStructure = (result: any) => {
                 }
             }
         }
-
+        
         return attributes;
     }
 }

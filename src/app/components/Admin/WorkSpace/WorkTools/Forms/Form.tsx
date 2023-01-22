@@ -285,7 +285,6 @@ const Form: FC<IForm> = ({
         name: string,
         selectProps: ISelect
     ) => {
-        console.log({ value });
         let newValue: any;
         if (Array.isArray(value)) {
             newValue = value.map((item: any) => item.value);
@@ -469,7 +468,6 @@ const Form: FC<IForm> = ({
                                     break;
                                 case "selectAuto":
                                     if (selectProps) {
-                                        console.log({selectProps})
                                         const selectValues =
                                             selectorArray.get(name);
                                         const selectOptions =

@@ -17,7 +17,6 @@ export const verificationCodeSlice = createSlice({
     initialState,
     reducers: {
         setLoginPhone: (state, action: PayloadAction<{phone:string}>) => {
-            console.log({loginPhone: action.payload.phone});
             state.loginPhone = String(action.payload.phone);
         },
         setPhone: (state, action: PayloadAction<{phone:string}>) => {

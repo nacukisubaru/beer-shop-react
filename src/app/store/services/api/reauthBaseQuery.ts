@@ -26,7 +26,6 @@ const reauthBaseQuery: BaseQueryFn<
             };
             localStorage.setItem("accessToken", response.accessToken);
             localStorage.setItem("userId", response.user.id);
-            console.log({args})
             result = await baseQuery(args, api, extraOptions);
         }
     }

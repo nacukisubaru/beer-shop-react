@@ -88,9 +88,6 @@ const TableGrid: FC<ITableGridProps> = ({
                 components={componentSettings}
                 onPreferencePanelOpen={onFilterPanelOpen}
                 onPreferencePanelClose={onFilterPanelClose}
-                onFilterModelChange={() => {
-                    console.log("we cand send request here!");
-                }}
                 localeText={{
                     filterOperatorEquals: "Равняется",
                     filterOperatorContains: "Содержит в себе",

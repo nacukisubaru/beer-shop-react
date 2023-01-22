@@ -1,0 +1,22 @@
+{
+  "kind": "collectionType",
+  "collectionName": "articles_for_customers",
+  "info": {
+    "singularName": "article-for-customers",
+    "pluralName": "articles-for-customers",
+    "displayName": "Статьи(покупателям)",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "articleName": {
+      "type": "string"
+    },
+    "text": {
+      "type": "richtext"
+    }
+  }
+}

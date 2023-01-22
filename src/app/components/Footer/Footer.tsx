@@ -6,8 +6,17 @@ import Typography from "@mui/material/Typography";
 import { Container } from "@mui/system";
 import Link from "next/link";
 import styles from "./styles/footer.module.css";
+import { useAppSelector } from "../../hooks/useAppSelector";
 
 const Footer: FC = () => {
+    const {
+        phone,
+        address,
+        linkForAddress,
+        socialNetworksList,
+        articlesList
+    } = useAppSelector((state) => state.headerReducer);
+    
     return (
         <div>
             <Box sx={{ flexGrow: 1 }}>
@@ -26,31 +35,18 @@ const Footer: FC = () => {
                                     >
                                         Покупателям
                                     </Typography>
-                                    <Typography variant="body2">
-                                        <Link
-                                            className={styles.link}
-                                            
-                                            href="/"
-                                        >
-                                            Как сделать заказ
-                                        </Link>
-                                    </Typography>
-                                    <Typography variant="body2">
-                                        <Link
-                                            className={styles.link}
-                                            href="/"
-                                        >
-                                            Правила продажи
-                                        </Link>
-                                    </Typography>
-                                    <Typography variant="body2">
-                                        <Link
-                                            className={styles.link}
-                                            href="/"
-                                        >
-                                            Политика конфиденциальности
-                                        </Link>
-                                    </Typography>
+                                    { articlesList.map(article => {
+                                        return (
+                                            <Typography variant="body2">
+                                                <Link
+                                                    className={styles.link}
+                                                    href={"/article-for-customers?id="+article.id}
+                                                >
+                                                    {article.articleName}
+                                                </Link>
+                                            </Typography>
+                                        );
+                                    })}
                                 </Container>
                                 <Container>
                                     <Typography
@@ -115,15 +111,20 @@ const Footer: FC = () => {
                                     >
                                         Мы в соцсетях
                                     </Typography>
-                                    <Typography variant="body2">
-                                        <Link
-                                            className={styles.link}
-                                            href="https://vk.com/id474817801"
-                                            target="_blank"
-                                        >
-                                            ВКонтакте
-                                        </Link>
-                                    </Typography>
+                                    { socialNetworksList.length > 0 && socialNetworksList.map(item => {
+                                        return (
+                                            <Typography variant="body2">
+                                                <Link
+                                                    className={styles.link}
+                                                    href={item.link}
+                                                    target="_blank"
+                                                >
+                                                    {item.name}
+                                                </Link>
+                                            </Typography>
+                                        )
+                                    })}
+                                    
                                 </Container>
                                 <Container>
                                     <Typography
@@ -135,18 +136,18 @@ const Footer: FC = () => {
                                     <Typography variant="body2">
                                         <Link
                                             className={styles.link}
-                                            href="tel:+7 920 899 77 72"
+                                            href={"tel:"+phone}
                                         >
-                                            +7 920 899 77 72
+                                            {phone}
                                         </Link>
                                     </Typography>
                                     <Typography variant="body2">
                                         <Link
                                             className={styles.link}
-                                            href="https://2gis.ru/kaluga/firm/70000001036699976"
+                                            href={linkForAddress}
                                             target="_blank"
                                         > 
-                                            ул. Братьев Луканиных, 7, Калуга
+                                            {address}
                                         </Link>
                                     </Typography>
                                 </Container>

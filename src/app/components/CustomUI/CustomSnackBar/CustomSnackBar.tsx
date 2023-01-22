@@ -20,7 +20,6 @@ const CustomSnackBar: React.FC<CustomSnackBar> = ({severity, message, isOpen = t
     const [open, setOpen] = React.useState(isOpen);
 
     React.useEffect(() => {
-        console.log({isOpen})
         setOpen(isOpen);
     }, [isOpen]);
 
