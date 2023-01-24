@@ -22,7 +22,6 @@ import IcecreamIcon from "@mui/icons-material/Icecream";
 import SetMealIcon from "@mui/icons-material/SetMeal";
 import Link from "next/link";
 
-
 interface HeaderProps {}
 
 const Header: FC<HeaderProps> = () => {
@@ -30,12 +29,8 @@ const Header: FC<HeaderProps> = () => {
         (state) => state.basketReducer.count
     );
 
-    const {
-        phone,
-        address,
-        linkForAddress,
-        socialNetworkLink,
-    } = useAppSelector((state) => state.headerReducer);
+    const { phone, address, linkForAddress, socialNetworkLink } =
+        useAppSelector((state) => state.headerReducer);
 
     const { checkRoleUser } = useAuthorizationUser();
     const { switchMainMenu } = useActions();
@@ -53,6 +48,7 @@ const Header: FC<HeaderProps> = () => {
                         justifyContent: "center",
                     }}
                 >
+                    <div style={{display: "flex", justifyContent: "center"}}>
                     <div className={styles.wrapperHeader}>
                         <div className={styles.headerNavElementBurger}>
                             <IconButton onClick={switchMainMenu}>
@@ -106,19 +102,24 @@ const Header: FC<HeaderProps> = () => {
                             </Typography>
                         </div>
                         <div className={styles.headerNavElement}>
-                            <Typography variant="body1">О нас</Typography>
+                            <Typography variant="body1">
+                                <Link
+                                    className="link-redirect"
+                                    href="/about-us"
+                                >
+                                    О нас
+                                </Link>
+                            </Typography>
                         </div>
 
                         <div className={styles.headerNavElementContacts}>
                             <a
                                 className={styles.phoneLink}
-                                href={"tel:"+phone}
+                                href={"tel:" + phone}
                             >
                                 <div className={styles.wrapperIcons}>
                                     <PhonelinkRingIcon />
-                                    <Typography>
-                                        {phone}
-                                    </Typography>
+                                    <Typography>{phone}</Typography>
                                 </div>
                             </a>
                             <div>
@@ -189,6 +190,7 @@ const Header: FC<HeaderProps> = () => {
                                 <CartBadge quantity={countProducts}></CartBadge>
                             </div>
                         </div>
+                    </div>
                     </div>
                 </AppBar>
             </Box>

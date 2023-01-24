@@ -19,7 +19,9 @@ const ArticleForCustomers = ({ data }) => {
             filter={{ minPrice: 0, maxPrice: 0, productType: "" }}
             filterList={[]}
         />
-        {data.text && HTMLReactParser(decodeHtml(data.text))}
+        <div className="wrapper">
+            {data.text && HTMLReactParser(decodeHtml(data.text))}
+        </div>
     </>;
 };
 

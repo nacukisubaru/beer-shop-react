@@ -41,19 +41,18 @@ const Home = ({ data }) => {
             />
             <div>
                 <div className="banner">
-                    <Typography className="banner-text" variant="h2">
+                    <Typography className="banner-text" variant="subtitle1">
                         {bannerSlogan
                             ? HTMLReactParser(decodeHtml(bannerSlogan))
                             : HTMLReactParser(
                                   decodeHtml("Там где твои друзья<br/>Пивградъ")
                               )}
                     </Typography>
-                    <Typography className="banner-under-text" variant="h4">
+                    <Typography className="banner-under-text" variant="subtitle2">
                         {bannerSlogan2
                             ? HTMLReactParser(decodeHtml(bannerSlogan2))
                             : "попробуй яркий вкус свежего пива"}
                     </Typography>
-
                     <Button
                         className="banner-button"
                         variant="contained"
