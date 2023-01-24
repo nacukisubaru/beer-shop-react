@@ -13,6 +13,7 @@ import ResultNotFoundByFilter from "../../app/components/Modals/Messages/ResultN
 import Filters from "../../app/components/Products/Beers/Filters";
 import { getMinAndMaxFortressBeers, getMinAndMaxVolumeBeers } from "../../app/store/services/beers/reducers/beer.slice";
 import { useDispatch } from "react-redux";
+import { fetchArticlesList, fetchHeaderData, fetchPhonesList, fetchSocialNetworks } from "../../app/store/reducers/header.slice";
 
 export default function Beers() {   
     const {product, productList} = useAppSelector(
@@ -74,7 +75,12 @@ export const getServerSideProps: GetServerSideProps =
                 order: "ASC"
             })
         );
-     
+        
+        await store.dispatch(fetchHeaderData());
+        await store.dispatch(fetchSocialNetworks());
+        await store.dispatch(fetchPhonesList());
+        await store.dispatch(fetchArticlesList());
+        
         return {
             props: {},
         };

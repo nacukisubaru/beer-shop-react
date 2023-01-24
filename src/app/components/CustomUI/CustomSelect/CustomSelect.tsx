@@ -42,7 +42,6 @@ const CustomSelect: FC<CustomSelectProps> = ({
             for (let i = 0, l = options.length; i < l; i += 1) {
                 if (options[i].selected) {
                     value.push(options[i].value);
-                    console.log( options[i])
                 }
             }
             if(id) {

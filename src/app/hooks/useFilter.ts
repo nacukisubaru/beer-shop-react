@@ -26,7 +26,7 @@ export const useFilter = (productType: productType): IUseFilter => {
             obj.sortField = sortField;
             obj.order = order;
         }
-        console.log('fetch work')
+        
         dispath(getProductsList({ path: `/${productType}/getListByFilter/`, params: obj }));
     };
 

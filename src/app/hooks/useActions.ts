@@ -12,6 +12,7 @@ import { verificationCodeActions } from "../store/services/verification-code/red
 import { orderActions } from "../store/services/order/reducers/order.slice";
 import { contentActions } from "../store/reducers/content.slice";
 import { productActions } from "../store/services/products/reducers/product.slice";
+import { headerActions } from "../store/reducers/header.slice";
 
 const allActions = {
     ...userActions,
@@ -25,7 +26,8 @@ const allActions = {
     ...verificationCodeActions,
     ...orderActions,
     ...contentActions,
-    ...productActions
+    ...productActions,
+    ...headerActions
 }
 
 export const useActions = () => {

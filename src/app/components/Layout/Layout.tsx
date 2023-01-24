@@ -1,6 +1,6 @@
-import { makeStyles } from "@mui/styles";
 import { useRouter } from "next/router";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
+import { cmsQueryExecute } from "../../helpers/cmsHelper";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 
@@ -11,7 +11,7 @@ interface ILayoutProps {
 
 const Layout: FC<ILayoutProps> = ({ children }) => {
     const router = useRouter();
-
+ 
     return (
         <>
             <div>

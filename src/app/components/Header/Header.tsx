@@ -22,10 +22,16 @@ import IcecreamIcon from "@mui/icons-material/Icecream";
 import SetMealIcon from "@mui/icons-material/SetMeal";
 import Link from "next/link";
 
-const Header: FC = () => {
+interface HeaderProps {}
+
+const Header: FC<HeaderProps> = () => {
     const countProducts: number = useAppSelector(
         (state) => state.basketReducer.count
     );
+
+    const { phone, address, linkForAddress, socialNetworkLink } =
+        useAppSelector((state) => state.headerReducer);
+
     const { checkRoleUser } = useAuthorizationUser();
     const { switchMainMenu } = useActions();
     const router = useRouter();
@@ -42,6 +48,7 @@ const Header: FC = () => {
                         justifyContent: "center",
                     }}
                 >
+                    <div style={{display: "flex", justifyContent: "center"}}>
                     <div className={styles.wrapperHeader}>
                         <div className={styles.headerNavElementBurger}>
                             <IconButton onClick={switchMainMenu}>
@@ -95,27 +102,34 @@ const Header: FC = () => {
                             </Typography>
                         </div>
                         <div className={styles.headerNavElement}>
-                            <Typography variant="body1">О нас</Typography>
+                            <Typography variant="body1">
+                                <Link
+                                    className="link-redirect"
+                                    href="/about-us"
+                                >
+                                    О нас
+                                </Link>
+                            </Typography>
                         </div>
 
                         <div className={styles.headerNavElementContacts}>
                             <a
                                 className={styles.phoneLink}
-                                href="tel:+7 920 899 77 72"
+                                href={"tel:" + phone}
                             >
                                 <div className={styles.wrapperIcons}>
                                     <PhonelinkRingIcon />
-                                    <Typography> +7 920 899 77 72 </Typography>
+                                    <Typography>{phone}</Typography>
                                 </div>
                             </a>
                             <div>
                                 <Typography>
                                     <a
                                         className={styles.phoneLink}
-                                        href="https://2gis.ru/kaluga/firm/70000001036699976"
+                                        href={linkForAddress}
                                         target="blank"
                                     >
-                                        ул. Братьев Луканиных, 7, Калуга
+                                        {address}
                                     </a>
                                 </Typography>
                             </div>
@@ -123,7 +137,7 @@ const Header: FC = () => {
                         <div className={styles.wrapperIcons}>
                             <a
                                 className={styles.vkIcon}
-                                href="https://vk.com/id474817801"
+                                href={socialNetworkLink}
                                 target="blank"
                             >
                                 <Image
@@ -176,6 +190,7 @@ const Header: FC = () => {
                                 <CartBadge quantity={countProducts}></CartBadge>
                             </div>
                         </div>
+                    </div>
                     </div>
                 </AppBar>
             </Box>

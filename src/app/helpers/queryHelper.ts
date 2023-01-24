@@ -44,7 +44,6 @@ export const thunkAxiosPost = async (path = "", params = {}, isApi = false, reje
         return response.data;
 
     } catch (error: any) {
-        console.log(error);
         return rejectWithValue(error);
     }
 }

@@ -22,6 +22,7 @@ import { roleApi } from "./services/roles/role.api";
 import { orderApi } from "./services/order/order.api";
 import { createWrapper } from "next-redux-wrapper";
 import { productReducer } from "./services/products/reducers/product.slice";
+import { headerReducer } from "./reducers/header.slice";
 
 export const makeStore = () => configureStore({
     reducer: {
@@ -37,6 +38,7 @@ export const makeStore = () => configureStore({
         orderReducer,
         contentReducer,
         productReducer,
+        headerReducer,
         [userApi.reducerPath]: userApi.reducer,
         [gradeApi.reducerPath]: gradeApi.reducer,
         [brandApi.reducerPath]: brandApi.reducer,

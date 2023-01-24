@@ -81,7 +81,7 @@ const PaginationGrid: FC<PaginationGridProps> = ({defaultLimitPage, disableNextP
         if(newPage === 0 && firstNum) {
             to = firstNum;
         }
-        console.log({page, newPage})
+        
         if(newPage < page && page === 0) {
             setPrevBtnDisable(true);
         } else {

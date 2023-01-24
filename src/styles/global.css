@@ -7,6 +7,12 @@ body {
 .banner-image {
     height: 600px;
     width: 100%;
+    background-size: cover;
+}
+
+.banner-image-ssr {
+    height: 600px;
+    width: 100%;
     object-fit: cover;
 }
 
@@ -19,21 +25,21 @@ body {
 }
 
 .banner-text {
-    font-family: 'Kurale';
     color: white;
     text-shadow: 1px 1px 1px #000;
+    margin-bottom: 10px;
 }
 
 .banner-text {
     font-family: 'Kurale';
     color: white;
-    text-shadow: 1px 1px 1px #000;
+    text-shadow: 2px 2px 10px #000;
 }
 
 .banner-text2 {
     font-family: "Kurale";
     color: white;
-    text-shadow: 1px 1px 1px #000;
+    text-shadow: 2px 2px 10px #000;
     margin-bottom: 17px;
 }
 
@@ -42,15 +48,14 @@ body {
     color: white;
     /* width: 50%; */
     margin-bottom: 17px;
-    text-shadow: 1px 1px 1px #000;
+    text-shadow: 2px 2px 10px #000;
 }
 
 .banner-button {
     border-radius: 19px;
 }
 
-.main-page-text { 
-    font-family: "Kurale"; 
+.main-page-text {
     color: #ac5725;
 }
 
@@ -63,8 +68,134 @@ body {
     color: black;
 }
 
+.wrapper {
+    margin: 30px;
+    font-family: Montserrat,sans-serif,"Helvetica Neue",Arial,sans-serif;
+}
+
+.image-for-description {
+    height: 482px;
+    width: 325px;
+    background-size: cover;
+    margin-right: 20px;
+    margin-top: 22px;
+    margin-bottom: 22px;
+}
+
+.description-block {
+    width: 554px;
+    padding-top: 70px;
+    margin-right: 12px;
+}
+
+.truncate-row {
+    display: -webkit-box; /* Включаем флексбоксы */
+    -webkit-box-orient: vertical; /* Вертикальная ориентация */
+    overflow: hidden; /* Обрезаем всё за пределами блока */
+}
+
+.truncate-row-5 {
+    -webkit-line-clamp: 5; /* Число отображаемых строк */
+}
+
+.truncate-row-4 {
+    -webkit-line-clamp: 4; /* Число отображаемых строк */
+}
+
+.truncate-row-3 {
+    -webkit-line-clamp: 3; /* Число отображаемых строк */
+}
+
+.truncate-row-2 {
+    -webkit-line-clamp: 2; /* Число отображаемых строк */
+
+}
+.truncate-row-1 {
+    -webkit-line-clamp: 1; /* Число отображаемых строк */
+}
+
 @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
-    .banner-under-text {
-        font-size: 25px;
+    .banner {
+        padding-top: 102px;
+    }
+}
+
+/* Portrait */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 667px) 
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) { 
+    .banner {
+        padding-top: 102px;
+    }
+    .image-for-description {
+        height: 295px;
+        width: 269px;
+    }
+    .description-block {
+        width: 400px;
+        padding-top: 0px;
+    }
+}
+
+@media screen and (max-width: 385px) and (min-width: 383px) {
+    .banner {
+        padding-top: 102px;
+    }
+    .image-for-description {
+        height: 295px;
+        width: 269px;
+    }
+    .description-block {
+        width: 400px;
+        padding-top: 0px;
+    }
+}
+
+@media screen and (max-width: 321px) and (min-width: 319px) {
+    .banner {
+        padding-top: 102px;
+    }
+    .image-for-description {
+        height: 295px;
+        width: 269px;
+    }
+    .description-block {
+        width: 400px;
+        padding-top: 0px;
+    }
+}
+
+@media screen and (max-width: 481px) and (min-width: 479px){
+    .banner {
+        padding-top: 102px;
+    }
+    .image-for-description {
+        height: 295px;
+        width: 269px;
+    }
+    .description-block {
+        width: 400px;
+        padding-top: 0px;
+    }
+}
+
+/* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
+
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 533px)
+ {
+    .banner {
+        padding-top: 102px;
+    }
+    .image-for-description {
+        height: 295px;
+        width: 269px;
+    }
+    .description-block {
+        width: 400px;
+        padding-top: 0px;
     }
 }

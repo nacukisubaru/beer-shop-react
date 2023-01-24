@@ -160,7 +160,6 @@ const FilterPanelGrid: FC<FilterPanelGridProps> = ({
     };
 
     const setFilterValueSelect = (name: string, value: string) => {
-        console.log({ value, name });
         if (setCustomFilter) {
             setCustomFilter(name, value);
         }
