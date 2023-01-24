@@ -21,7 +21,7 @@ const AboutUs: FC = ({ data }) => {
         } else {
             openText(true);
         }
-    }
+    };
 
     return (
         <>
@@ -36,17 +36,19 @@ const AboutUs: FC = ({ data }) => {
                     {text && (
                         <>
                             <div className="description-block">
-                                <Typography
-                                    className="main-page-text"
-                                    variant="h4"
-                                    style={{
-                                        marginBottom: "15px",
-                                        display: "flex",
-                                        justifyContent: "center",
-                                    }}
-                                >
-                                    {title}
-                                </Typography>
+                                {title && (
+                                    <Typography
+                                        className="main-page-text"
+                                        variant="h4"
+                                        style={{
+                                            marginBottom: "15px",
+                                            display: "flex",
+                                            justifyContent: "center",
+                                        }}
+                                    >
+                                        {title}
+                                    </Typography>
+                                )}
                                 <Typography>{text}</Typography>
                             </div>
                         </>
@@ -72,25 +74,39 @@ const AboutUs: FC = ({ data }) => {
                     {text2 && (
                         <>
                             <div className="description-block">
+                                {title2 && (
+                                    <Typography
+                                        className="main-page-text"
+                                        variant="h4"
+                                        style={{
+                                            marginBottom: "15px",
+                                            display: "flex",
+                                            justifyContent: "center",
+                                        }}
+                                    >
+                                        {title2}
+                                    </Typography>
+                                )}
                                 <Typography
-                                    className="main-page-text"
-                                    variant="h4"
-                                    style={{
-                                        marginBottom: "15px",
-                                        display: "flex",
-                                        justifyContent: "center",
-                                    }}
+                                    className={
+                                        isOpenText === false
+                                            ? "truncate-row truncate-row-5"
+                                            : ""
+                                    }
+                                    style={{ marginBottom: "15px" }}
                                 >
-                                    {title2}
+                                    {text2}
                                 </Typography>
-                                <Typography className={isOpenText === false ? "truncate-row truncate-row-5": ""} style={{ marginBottom: "15px"}}>{text2}</Typography>
                                 <div
                                     style={{
                                         display: "flex",
                                         justifyContent: "center",
                                     }}
                                 >
-                                    <Button onClick={handleOpenText} variant="outlined">
+                                    <Button
+                                        onClick={handleOpenText}
+                                        variant="outlined"
+                                    >
                                         Подробнее
                                     </Button>
                                 </div>
@@ -114,7 +130,7 @@ export const getServerSideProps: GetServerSideProps =
         const aboutUsData = await cmsQueryExecute(
             "/api/about-us-page?populate=*"
         );
-        
+
         if (aboutUsData) {
             props.data = aboutUsData;
         }
