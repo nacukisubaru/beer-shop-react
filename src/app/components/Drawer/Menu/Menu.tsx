@@ -118,7 +118,10 @@ const Menu: FC<IMenu> = ({ productType, filterList = [] }) => {
         <TemporaryDrawer
             name={isMainMenu ? "Категории" : "Фильтры"}
             arrayList={isMainMenu ? arrayMenuList : arrayFilterList.concat(filterList)}
-            additionalList={[]}
+            additionalList={[
+                <ItemMenu name="Контакты" link="/contacts"/>,
+                <ItemMenu name="О нас" link="/about-us" />,
+            ]}
             position={isFilterMenu ? "right" : "left"}
             isOpen={isMainMenu || isFilterMenu ? true : false}
             close={closeAllMenues}
