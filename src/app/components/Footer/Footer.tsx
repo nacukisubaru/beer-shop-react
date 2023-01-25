@@ -58,7 +58,7 @@ const Footer: FC = () => {
                                     <Typography variant="body2">
                                         <Link
                                             className={styles.link}
-                                            href="/"
+                                            href="/about-us"
                                         >
                                             О нас
                                         </Link>
@@ -66,7 +66,7 @@ const Footer: FC = () => {
                                     <Typography variant="body2">
                                         <Link
                                             className={styles.link}
-                                            href="/"
+                                            href="/contacts"
                                         >
                                             Контакты
                                         </Link>
