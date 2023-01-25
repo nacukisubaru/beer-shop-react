@@ -1,64 +1,79 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useAppSelector } from "../../../hooks/useAppSelector";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import { useRouter } from "next/router";
+import { useActions } from "../../../hooks/useActions";
 import styles from "../styles/modal.module.css";
+import CustomSnackBar from "../../CustomUI/CustomSnackBar/CustomSnackBar";
 
 interface IListInfoItem {
-    key: string,
-    value: string
+    key: string;
+    value: string;
 }
 
 interface IProductContent {
-    id: number,
-    listInfo: IListInfoItem[],
-    description: string,
-    image: string,
-    inStock: boolean,
-    buy: (quantity: number) => void
+    id: number;
+    listInfo: IListInfoItem[];
+    description: string;
+    image: string;
+    inStock: boolean;
+    buy: (quantity: number) => void;
 }
 
-const ProductContent: FC<IProductContent> = ({id, listInfo, description, image, inStock, buy}) => {
-    const {list} = useAppSelector(state => state.basketReducer);
+const ProductContent: FC<IProductContent> = ({
+    id,
+    listInfo,
+    description,
+    image,
+    inStock,
+    buy,
+}) => {
+    const { list } = useAppSelector((state) => state.basketReducer);
+    const [inBasket, setProductInBasket] = useState(false);
+    const [isBuyBtnClick, clickBuyBtn] = useState(false);
 
-    const findItemInBasket = (id:number) => {
-        const items = list.filter(item => {
-            if(item.id === id) {
+    const router = useRouter();
+    const { closeProduct } = useActions();
+
+    const findItemInBasket = (id: number) => {
+        const items = list.filter((item) => {
+            if (item.id === id) {
                 return item;
             }
             return false;
         });
 
-        if(items.length <= 0) {
+        if (items.length <= 0) {
             return false;
         }
 
         return items[0];
-    }
-
-    const quan = findItemInBasket(id);
-    const [quantity, setQuantity] = useState(quan ? quan.quantity : 1);
-    const [totalQuan, setTotalQuan] = useState(0);
-
-    const handlerPlusQuan = async () => {
-        if(inStock) {
-            await setQuantity(quantity + 1);
-            setTotalQuan(quantity + totalQuan);
-        }
-    }
-
-    const handlerMinusQuan = async () => {
-        if(quantity > 1 && inStock) {
-            await setQuantity(quantity - 1);
-            setTotalQuan(quantity - totalQuan);
-        }
-     }
+    };
 
     const handleBuy = () => {
-        return buy(quantity);
-    }
+        clickBuyBtn(true);
+        setTimeout(() => {
+            clickBuyBtn(false);
+        }, 5000);
+        
+        if (inBasket) {
+            router.replace('/basket');
+            closeProduct();
+        } else {
+            setProductInBasket(true);
+            buy(1);
+        }
+    };
+
+    useEffect(() => {
+        const productInBasket = findItemInBasket(id);
+        if (productInBasket) {
+            setProductInBasket(true);
+        } else {
+            setProductInBasket(false);
+        }
+    }, []);
 
     return (
         <>
@@ -71,40 +86,49 @@ const ProductContent: FC<IProductContent> = ({id, listInfo, description, image, 
                             background: `url(${image}) center center no-repeat`,
                         }}
                     ></Box>
-        
-                    <div className={styles.quantity}>
-                        <span className={!inStock ? styles.disableText : ""}>
-                            <RemoveCircleOutlineIcon style={{cursor: "pointer"}} onClick={handlerMinusQuan}/>
-                        </span>
-                            <div className={!inStock ? styles.disableText: ""}><Typography variant="body1">{quantity}</Typography></div>
-                        <span  className={!inStock ? styles.disableText : ""}>
-                            <AddCircleOutlineIcon style={{cursor: "pointer"}} onClick={handlerPlusQuan}/>
-                        </span>
-                    </div>
                     <div className={styles.buyBtn}>
-                        <Button variant="outlined" style={{width:'200px'}} disabled={inStock ? false : true} onClick={handleBuy}>купить</Button>
+                        <Button
+                            variant={inBasket ? "outlined": "contained"}
+                            style={{ width: "200px" }}
+                            disabled={inStock ? false : true}
+                            onClick={handleBuy}
+                        >
+                            {inBasket ? "Перейти в корзину": "Добавить корзину"}
+                        </Button>
                     </div>
                 </div>
-               
+
                 <div className={styles.modalBeerInfo}>
-                    {listInfo.map(item => {
-                        return <Typography variant="body1">
-                              <span className={styles.labelInfo}>{ item.key }:</span> {item.value}
-                         </Typography>
+                    {listInfo.map((item) => {
+                        return (
+                            <Typography variant="body1">
+                                <span className={styles.labelInfo}>
+                                    {item.key}:
+                                </span>
+                                {" "+item.value}
+                            </Typography>
+                        );
                     })}
                 </div>
-                
+
                 <div>
                     <Typography variant="body1">
                         <span className={styles.labelInfo}>Описание:</span>
-                    </Typography> 
+                    </Typography>
                     <Typography variant="body1">
-                        <div className={styles.modalBeerDesc}>{description}</div>
+                        <div className={styles.modalBeerDesc}>
+                            {description}
+                        </div>
                     </Typography>
                 </div>
             </div>
+            <CustomSnackBar
+                severity="success"
+                message="Товар добавлен в корзину"
+                isOpen={isBuyBtnClick}
+            />
         </>
     );
-}
+};
 
 export default ProductContent;
