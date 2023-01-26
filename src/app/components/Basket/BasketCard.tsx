@@ -49,23 +49,40 @@ const BasketCard: FC<IBasketCard> = ({
     inStock,
 }) => {
     const classes = useStyles();
-    const { plusQuantity, minusQuantity, removeItem } = useActions();
+    const { plusQuantity, minusQuantity, setQuantity, removeItem } = useActions();
     const { remove, update } = useBasket();
 
     const handlerPlusQuan = async () => {
-        await plusQuantity({ id, value: 1 });
-        update(id, quantity + 1);
+        if (quantity + 1 <= 99) {
+            await plusQuantity({ id, value: 1 });
+            update(id, quantity + 1);
+        }
     };
 
     const handlerMinusQuan = async () => {
-        await minusQuantity({ id, value: 1 });
-        update(id, quantity - 1);
+        if (quantity - 1 >= 1) {
+            await minusQuantity({ id, value: 1 });
+            update(id, quantity - 1);
+        }
     };
 
     const handleRemove = () => {
         remove(id);
         return removeItem({ id });
     };
+
+    const handleChangeQuan = (event: any) => {
+        const quan = event.target.value.replace(/[a-zа-яё]/gi, '');
+        if (quan && quan.length <= 2 && quan >= 1) {
+            console.log({quan});
+            event.target.value = parseInt(quan);
+            setQuantity({ id, value: parseInt(quan) });
+            update(id, parseInt(quan));
+        } else {
+            event.target.value = parseInt(quan);
+            setQuantity({ id, value: '' });
+        }
+    }
 
     return (
         <div className={styles.container} key={index}>
@@ -138,7 +155,15 @@ const BasketCard: FC<IBasketCard> = ({
                                 style={{ cursor: "pointer" }}
                                 onClick={handlerMinusQuan}
                             />
-                            <Typography variant="body1">{quantity}</Typography>
+                            <input
+                                type="number"
+                                autoComplete="off"
+                                min={1}
+                                maxLength={2}
+                                className={styles.inputQuantity}
+                                value={quantity}
+                                onInput={handleChangeQuan}
+                            />
                             <AddCircleOutlineIcon
                                 style={{ cursor: "pointer" }}
                                 onClick={handlerPlusQuan}
