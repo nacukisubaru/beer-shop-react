@@ -29,6 +29,7 @@ const useStyles = makeStyles({
         fontSize: "17px",
         marginBottom: "10px",
         fontWeight: "bold",
+        whiteSpace: "nowrap"
     },
     descText: {
         display: "flex",
