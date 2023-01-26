@@ -100,14 +100,16 @@ const ProductContent: FC<IProductContent> = ({
 
                 <div className={styles.modalBeerInfo}>
                     {listInfo.map((item) => {
-                        return (
-                            <Typography variant="body1">
-                                <span className={styles.labelInfo}>
-                                    {item.key}:
-                                </span>
-                                {" "+item.value}
-                            </Typography>
-                        );
+                        if (item.value) {
+                            return (
+                                <Typography variant="body1">
+                                    <span className={styles.labelInfo}>
+                                        {item.key}:
+                                    </span>
+                                    {" "+item.value}
+                                </Typography>
+                            );
+                        }
                     })}
                 </div>
 
