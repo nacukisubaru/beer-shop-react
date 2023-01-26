@@ -9,14 +9,17 @@ import { productApi } from "../../store/services/products/product.api";
 import { getMinAndMaxPriceProducts } from "../../store/services/products/reducers/product.slice";
 import { productType } from "../../store/types/api.types";
 import CardList from "../Cards/CardList";
-import CardRedirect, { ILink, ISettingsCardRedirect } from "../Cards/CardRedirect";
+import CardRedirect, {
+    ILink,
+    ISettingsCardRedirect,
+} from "../Cards/CardRedirect";
 import CardSmall, { ISettingsCard } from "../Cards/CardSmall";
 import InputSearch from "../Search/InputSearch";
 import SortPanel from "../SortPanel/SortPanel";
 
 interface IRedirectCardProps {
-    linkProps: ILink,
-    settingCardRedirectProps: ISettingsCardRedirect
+    linkProps: ILink;
+    settingCardRedirectProps: ISettingsCardRedirect;
 }
 
 interface IProductList {
@@ -32,7 +35,7 @@ const ProductsList: FC<IProductList> = ({
     showTools,
     loadingByScroll,
     settingsCardProps,
-    redirectCardProps
+    redirectCardProps,
 }) => {
     const { page, status } = useAppSelector((state) => state.productReducer);
     const { getProduct, openProduct } = useActions();
@@ -69,7 +72,71 @@ const ProductsList: FC<IProductList> = ({
                         search={productsSearchByName}
                         reset={resetListAndFetchProducts}
                     />
-                    <SortPanel fetchData={q ? fetchProductsBySearchWithSort: fetchProductsWithSort}
+                    <SortPanel
+                        sortItemsList={[
+                            {
+                                name: "Названию",
+                                fieldOrder: "title",
+                                orderBy: "",
+                            },
+                            {
+                                name: "Популярности",
+                                fieldOrder: "show",
+                                orderBy: "DESC",
+                            },
+                            {
+                                name: "Новинкам",
+                                fieldOrder: "createdAt",
+                                orderBy: "",
+                            },
+                            {
+                                name: "Цене",
+                                fieldOrder: "price",
+                                orderBy: "",
+                            },
+                        ]}
+                        sortMobileItemsList={[
+                            {
+                                name: "По названию А-Я",
+                                fieldOrder: "title",
+                                orderBy: "ASC",
+                            },
+                            {
+                                name: "По названию Я-А",
+                                fieldOrder: "title",
+                                orderBy: "DESC",
+                            },
+                            {
+                                name: "По популярности",
+                                fieldOrder: "show",
+                                orderBy: "DESC",
+                            },
+                            {
+                                name: "По дате(старее)",
+                                fieldOrder: "createdAt",
+                                orderBy: "ASC",
+                            },
+                            {
+                                name: "По дате(новее)",
+                                fieldOrder: "createdAt",
+                                orderBy: "DESC",
+                            },
+                            {
+                                name: "По цене min",
+                                fieldOrder: "price",
+                                orderBy: "ASC",
+                            },
+                            {
+                                name: "По цене max",
+                                fieldOrder: "price",
+                                orderBy: "DESC",
+                            },
+                        ]}
+                        fetchData={
+                            q
+                                ? fetchProductsBySearchWithSort
+                                : fetchProductsWithSort
+                        }
                     />
                 </>
             )}
@@ -90,7 +157,9 @@ const ProductsList: FC<IProductList> = ({
                         childrenComponent={
                             redirectCardProps && (
                                 <CardRedirect
-                                    settingsCardProps={redirectCardProps.settingCardRedirectProps}
+                                    settingsCardProps={
+                                        redirectCardProps.settingCardRedirectProps
+                                    }
                                     linkProps={redirectCardProps.linkProps}
                                 />
                             )
