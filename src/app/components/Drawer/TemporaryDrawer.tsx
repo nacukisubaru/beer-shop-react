@@ -15,7 +15,7 @@ type Anchor = "top" | "left" | "bottom" | "right";
 interface IDrawer {
     name:string;
     arrayList: [];
-    additionalList: [];
+    additionalList: any[];
     position: Anchor;
     isOpen: boolean;
     close: () => void;
