@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import React, { FC, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useActions } from "../../hooks/useActions";
@@ -41,6 +41,7 @@ const ProductsList: FC<IProductList> = ({
     const { getProduct, openProduct } = useActions();
     const { productList } = useAppSelector((state) => state.productReducer);
     const { q } = useAppSelector((state) => state.filterProductsReducer);
+    const {loader} = useAppSelector((state) => state.contentReducer);
     const products = useProductMap(productList, true);
     const [addShow] = productApi.useAddShowMutation();
     const dispatch = useDispatch();
@@ -166,6 +167,11 @@ const ProductsList: FC<IProductList> = ({
                         }
                     ></CardList>
                 </>
+            )}
+            {loader && (
+                <div style={{display: "flex", justifyContent: "center", marginTop: "25px", marginBottom: "25px"}}>
+                    <CircularProgress />
+                </div>
             )}
         </>
     );

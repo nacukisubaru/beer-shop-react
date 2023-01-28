@@ -17,7 +17,7 @@ interface IUseFilter {
 
 export const useFilter = (productType: productType): IUseFilter => {
     const dispath = useDispatch();
-    const { openModalNotFoundByFilter, resetProductFilters, setSearch, dropProductList, resetProductPage} = useActions();
+    const { openModalNotFoundByFilter, resetProductFilters, setSearch, dropProductList, resetProductPage, loaderOn, loaderOff} = useActions();
     const params: any = useAppSelector((state) => state.filterProductsReducer);
 
     const fetchProducts: any = async (page: number, sortField: string, order: string) => {
@@ -26,13 +26,16 @@ export const useFilter = (productType: productType): IUseFilter => {
             obj.sortField = sortField;
             obj.order = order;
         }
-        
-        dispath(getProductsList({ path: `/${productType}/getListByFilter/`, params: obj }));
+        loaderOn();
+        await dispath(getProductsList({ path: `/${productType}/getListByFilter/`, params: obj }));
+        loaderOff();
     };
 
     const fetchProductsByFilter: any = async () => {
+        loaderOn();
         await dropProductList();
         const result = await dispath(getProductsList({ path: `/${productType}/getListByFilter/`, params: { ...params, page: 0, limitPage } }));
+        loaderOff();
         setSearch({ q: '' });
         if (result.error) {
             dispath(getProductsList({
@@ -48,29 +51,39 @@ export const useFilter = (productType: productType): IUseFilter => {
     };
 
     const resetListAndFetchProducts: any = async () => {
+        loaderOn();
         await dropProductList();
-        fetchProducts(0, []);
+        await fetchProducts(0, []);
+        loaderOff();
     }
 
     const fetchProductsWithSort: any = async (sortField: string, order: string) => {
+        loaderOn();
         await resetProductPage();
         await dropProductList();
-        fetchProducts(0, sortField, order);
+        await fetchProducts(0, sortField, order);
+        loaderOff();
     }
 
-    const fetchProductsBySearch: any = (page: number) => {
-        dispath(getProductsList({ path: `/${productType}/search/`, params: { q: params.q, sortField: params.sortField, order: params.order, page, limitPage } }));
+    const fetchProductsBySearch: any = async (page: number) => {
+        loaderOn();
+        await dispath(getProductsList({ path: `/${productType}/search/`, params: { q: params.q, sortField: params.sortField, order: params.order, page, limitPage } }));
+        loaderOff();
     }
 
     const fetchProductsBySearchWithSort: any = async (sortField: string, order: string) => {
+        loaderOn();
         await dropProductList();
-        dispath(getProductsList({ path: `/${productType}/search/`, params: { q: params.q, sortField, order, page: 0, limitPage } }));
+        await dispath(getProductsList({ path: `/${productType}/search/`, params: { q: params.q, sortField, order, page: 0, limitPage } }));
+        loaderOff();
     }
 
     const productsSearchByName: any = async (q: string, sortField: string, order: string) => {
+        loaderOn();
         await dropProductList();
         resetProductFilters();
         const result = await dispath(getProductsList({ path: `/${productType}/search/`, params: { q, sortField, order, page: 0, limitPage } }));
+        loaderOff();
         if (result.error) {
             dispath(getProductsList({ path: `/${productType}/getListByFilter/`, params: { page: 0, limitPage } }));
             openModalNotFoundByFilter();
