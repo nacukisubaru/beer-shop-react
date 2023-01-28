@@ -149,16 +149,7 @@ const Header: FC<HeaderProps> = () => {
                                     src={vkIcon}
                                 />
                             </a>
-                            <div>
-                                <IconButton>
-                                    <RoomIcon
-                                        style={{
-                                            height: "30px",
-                                            width: "30px",
-                                        }}
-                                    />
-                                </IconButton>
-                            </div>
+                            
                             {checkRoleUser("ADMIN") && (
                                 <div>
                                     <Link href="/admin/main">

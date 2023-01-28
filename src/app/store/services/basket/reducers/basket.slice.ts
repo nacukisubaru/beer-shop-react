@@ -113,7 +113,7 @@ export const basketSlice = createSlice({
                 item.quantity = item.quantity - obj.value;
             }
         },
-        setQuantity: (state, action: PayloadAction<{id: number, value: number}>) => {
+        setQuantity: (state, action: PayloadAction<{id: number, value: any}>) => {
             const obj = action.payload;
             const item = findItemInBasket(state.list, obj.id);
             if(item) {

@@ -38,7 +38,8 @@ export default function Snacks () {
                     button: {width: "279px", height: "30px"},
                     titleSize: "18px",
                     imageHeight: "200px",
-                    priceSize: "20px"
+                    priceSize: "20px",
+                    showDetailBtn: true
                 }}
             />
             <ResultNotFoundByFilter 

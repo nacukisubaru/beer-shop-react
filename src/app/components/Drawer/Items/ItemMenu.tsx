@@ -6,7 +6,7 @@ import Link from "next/link";
 interface ItemMenuProps {
     name: string;
     link: string;
-    onClick: () => void;
+    onClick?: () => void;
 }
 
 const ItemMenu: FC<ItemMenuProps> = ({ name, link, onClick }) => {

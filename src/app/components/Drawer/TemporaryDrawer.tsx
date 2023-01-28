@@ -15,7 +15,7 @@ type Anchor = "top" | "left" | "bottom" | "right";
 interface IDrawer {
     name:string;
     arrayList: [];
-    additionalList: [];
+    additionalList: any[];
     position: Anchor;
     isOpen: boolean;
     close: () => void;
@@ -80,7 +80,7 @@ const TemporaryDrawer: FC<IDrawer> = ({
             {additionalList.length > 0 && (
                 <>
                     <Divider />
-                    <List>{additionalList.map((item) => item)}</List>
+                    <List sx={{marginLeft: "6px"}}>{additionalList.map((item) => item)}</List>
                 </>
             )}
           

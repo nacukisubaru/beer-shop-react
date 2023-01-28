@@ -1,24 +1,37 @@
 import { Button, TextField, Typography } from "@mui/material";
 import React, { FC, useState } from "react";
 import { useForm } from "react-hook-form";
-import { IRegistration, IRegistrationFields } from "../../store/services/users/types/auth.types";
+import {
+    IRegistration,
+    IRegistrationFields,
+} from "../../store/services/users/types/auth.types";
 import InputMask from "react-input-mask";
+import { CheckBox } from "@mui/icons-material";
+import HTMLReactParser from "html-react-parser";
+import { decodeHtml } from "../../helpers/stringHelper";
 
 interface RegistrationViewProps {
     registrate: (post: IRegistration) => void;
     setRegistrationFields: (fields: IRegistrationFields) => void;
+    consentText?: string;
     defaultValues: {
-        phone: string,
-        email: string,
-        password: string,
-        retryPassword: string
-    }
+        phone: string;
+        email: string;
+        password: string;
+        retryPassword: string;
+    };
     error: {
         message: string;
     };
 }
 
-const RegistrationView: FC<RegistrationViewProps> = ({ registrate, setRegistrationFields, defaultValues, error }) => {
+const RegistrationView: FC<RegistrationViewProps> = ({
+    registrate,
+    setRegistrationFields,
+    consentText,
+    defaultValues,
+    error,
+}) => {
     const [phoneInput, setPhoneInput] = useState(defaultValues.phone);
     const [passwordsEquals, setEqualsPasswords] = useState(true);
     const {
@@ -61,15 +74,15 @@ const RegistrationView: FC<RegistrationViewProps> = ({ registrate, setRegistrati
         setPhoneInput(e.target.value);
     };
 
-    const updateField = (e:any) => {
+    const updateField = (e: any) => {
         setValue(e.target.name, e.target.value, {
             shouldValidate: true,
             shouldDirty: true,
         });
 
-        const {phone, email, password, retryPassword} = getValues();
-        setRegistrationFields({phone, email, password, retryPassword});
-    }
+        const { phone, email, password, retryPassword } = getValues();
+        setRegistrationFields({ phone, email, password, retryPassword });
+    };
 
     const styleError = {
         display: "flex",
@@ -106,7 +119,9 @@ const RegistrationView: FC<RegistrationViewProps> = ({ registrate, setRegistrati
                         style={{ marginBottom: "10px" }}
                     />
                 </InputMask>
-                <Typography style={styleError}>{errors.phone && errors.phone.message}</Typography>
+                <Typography style={styleError}>
+                    {errors.phone && errors.phone.message}
+                </Typography>
 
                 <TextField
                     {...register("email", {
@@ -122,7 +137,9 @@ const RegistrationView: FC<RegistrationViewProps> = ({ registrate, setRegistrati
                     label="Email"
                     style={{ marginBottom: "10px" }}
                 />
-                <Typography style={styleError}>{errors.email && errors.email.message}</Typography>
+                <Typography style={styleError}>
+                    {errors.email && errors.email.message}
+                </Typography>
                 <TextField
                     fullWidth
                     id="outlined-required"
@@ -157,12 +174,18 @@ const RegistrationView: FC<RegistrationViewProps> = ({ registrate, setRegistrati
                     style={{ marginBottom: "10px" }}
                 />
                 {errors.retryPassword && (
-                    <Typography style={styleError}>{errors.retryPassword.message}</Typography>
+                    <Typography style={styleError}>
+                        {errors.retryPassword.message}
+                    </Typography>
                 )}
                 <Typography style={styleError}>
                     {!passwordsEquals && "Пароли не совпадают"}
                 </Typography>
-                {error.message && <Typography style={styleGlobalError}>{error.message}</Typography>}
+                {error.message && (
+                    <Typography style={styleGlobalError}>
+                        {error.message}
+                    </Typography>
+                )}
                 <Button
                     variant="contained"
                     style={{
@@ -173,6 +196,21 @@ const RegistrationView: FC<RegistrationViewProps> = ({ registrate, setRegistrati
                 >
                     Зарегистрироваться
                 </Button>
+                {consentText && (
+                    <>
+                        <div style={{ display: "flex", wordBreak: "break-all" }}>
+                            <CheckBox
+                                sx={{
+                                    marginTop: "14px",
+                                    marginRight: "5px",
+                                    color: "#b15122",
+                                }}
+                            />
+
+                            {HTMLReactParser(decodeHtml(consentText))}
+                        </div>
+                    </>
+                )}
             </form>
         </>
     );

@@ -1,8 +1,11 @@
 import { Box, Button, Card, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import React, { FC } from "react";
+import { useRouter } from "next/router";
+import React, { FC, useEffect, useState } from "react";
+import { useAppSelector } from "../../hooks/useAppSelector";
 import { ICard } from "../../types/card.types";
 import styles from "./styles/cards.module.css";
+import CustomSnackBar from "../CustomUI/CustomSnackBar/CustomSnackBar";
 
 interface IBox {
     width: string;
@@ -15,9 +18,11 @@ export interface ISettingsCard {
     imageHeight: string;
     button: IBox;
     priceSize: string;
+    showDetailBtn?: boolean;
 }
 interface ICardSmall extends ICard {
     settingsCardProps: ISettingsCard;
+    inBasket: boolean;
     show: (id: number) => void;
 }
 
@@ -29,14 +34,31 @@ const CardSmall: FC<ICardSmall> = ({
     image,
     inStock,
     settingsCardProps,
+    inBasket,
     buy,
     show,
 }) => {
+    const { card, button, titleSize, imageHeight, priceSize, showDetailBtn } =
+        settingsCardProps;
+    const [isBuyBtnClick, clickBuyBtn] = useState(false);
+    const router = useRouter();
+
     const handleShow = () => {
         return show(id);
     };
-    const { card, button, titleSize, imageHeight, priceSize } =
-        settingsCardProps;
+
+    const handleBuy = () => {
+        clickBuyBtn(true);
+        setTimeout(() => {
+            clickBuyBtn(false);
+        }, 5000);
+
+        if (inBasket) {
+            router.replace("/basket");
+        } else {
+            buy();
+        }
+    };
 
     return (
         <>
@@ -98,25 +120,34 @@ const CardSmall: FC<ICardSmall> = ({
                             width: button.width,
                             height: button.height,
                         }}
-                        variant="contained"
+                        variant={inBasket ? "outlined" : "contained"}
                         disabled={inStock ? false : true}
-                        onClick={buy}
+                        onClick={handleBuy}
                     >
-                        Купить
+                        {inBasket ? "В корзине" : "В корзину"}
                     </Button>
-                    <Button
-                        className={styles.button}
-                        style={{
-                            width: button.width,
-                            height: button.height,
-                        }}
-                        variant="contained"
-                        onClick={handleShow}
-                    >
-                        Детально
-                    </Button>
+                    {showDetailBtn && (
+                        <Button
+                            className={styles.button}
+                            style={{
+                                width: button.width,
+                                height: button.height,
+                            }}
+                            variant="contained"
+                            onClick={handleShow}
+                        >
+                            Детально
+                        </Button>
+                    )}
                 </div>
             </Card>
+            {router.route !== "/" && (
+                <CustomSnackBar
+                    severity="success"
+                    message="Товар добавлен в корзину"
+                    isOpen={isBuyBtnClick}
+                />
+            )}
         </>
     );
 };

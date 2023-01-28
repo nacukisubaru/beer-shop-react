@@ -1,6 +1,8 @@
 .wrapper {
     margin: 0 auto;
     margin-top: 50px;
+    display: flex;
+    justify-content: center;
 }
 
 .basketContainer {
@@ -51,6 +53,7 @@
 
 .containerBasketList {
     margin-right: 34px;
+    margin-bottom: 35px;
 }
 
 .totalCard {
@@ -96,6 +99,22 @@
     margin-bottom: 50px;
 }
 
+.inputQuantity {
+    border: none;
+    font-size: 18px;
+    outline: none;
+    width: 22px;
+}
+
+.inputQuantity[type='number'] {
+    -moz-appearance:textfield;
+}
+
+.inputQuantity::-webkit-outer-spin-button,
+.inputQuantity::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
 /* Portrait */
 @media only screen 
   and (min-device-width: 375px) 
@@ -122,6 +141,19 @@
         margin-right: unset;
         margin-left: unset;
     }
+
+    .basketPrice {
+        margin-left: 63px;
+    }
+}
+
+@media only screen 
+  and (min-device-width: 480px) 
+  and (max-device-width: 854px) 
+  and (orientation: portrait) {
+    .basketContainer {
+        width: 84%;
+    }
 }
 
 
@@ -146,6 +178,10 @@
         margin-right: unset;
         margin-left: unset;
     }
+
+    .basketPrice {
+        margin-left: 63px;
+    }
 }
 
 @media screen and (max-width: 642px) and (min-width: 640px){
@@ -168,6 +204,10 @@
     .wrapperBasketList {
         margin-right: unset;
         margin-left: unset;
+    }
+
+    .basketPrice {
+        margin-left: 63px;
     }
 }
 
@@ -192,6 +232,10 @@
         margin-right: unset;
         margin-left: unset;
     }
+
+    .basketPrice {
+        margin-left: 63px;
+    }
 }
 
 @media screen and (max-width: 481px) and (min-width: 479px){
@@ -214,6 +258,10 @@
     .wrapperBasketList {
         margin-right: unset;
         margin-left: unset;
+    }
+
+    .basketPrice {
+        margin-left: 63px;
     }
 }
 
@@ -238,6 +286,9 @@
         margin-right: unset;
         margin-left: unset;
     }
+    .basketContainer {
+        width: 63%;
+    }
 }
 
 @media screen and (min-width: 200px) and (max-width: 653px){
@@ -260,6 +311,29 @@
     .wrapperBasketList {
         margin-right: unset;
         margin-left: unset;
+    }
+
+    .basketPrice {
+        margin-left: 63px;
+    }
+}
+
+@media only screen 
+  and (min-device-width: 600px) 
+  and (max-device-width: 1024px) 
+  and (orientation: portrait) {
+    .basketContainer {
+        width: 68%;
+    }
+}
+
+
+@media only screen 
+  and (min-device-width: 712px) 
+  and (max-device-width: 1138px) 
+  and (orientation: portrait) {
+    .basketContainer {
+        width: auto;
     }
 }
 
@@ -288,6 +362,9 @@
         margin-right: unset;
         margin-left: unset;
     }
+    .basketPrice {
+        margin-left: 63px;
+    }
 }
 
 /* Portrait and Landscape */
@@ -314,6 +391,9 @@
     .wrapperBasketList {
         margin-right: unset;
         margin-left: unset;
+    }
+    .basketPrice {
+        margin-left: 63px;
     }
 }
 

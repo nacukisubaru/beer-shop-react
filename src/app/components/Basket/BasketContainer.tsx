@@ -3,13 +3,15 @@ import { useAppSelector } from "../../hooks/useAppSelector";
 import { useOrder } from "../../hooks/useOrder";
 import BasketList from "./BasketList";
 
-interface BasketContainerProps {}
+interface BasketContainerProps {
+    consentText?: string
+}
 
-const BasketContainer: FC<BasketContainerProps> = () => {
+const BasketContainer: FC<BasketContainerProps> = ({consentText}) => {
     const {list, count} = useAppSelector((state) => state.basketReducer);
     const {create} = useOrder();
     
-    return <BasketList basketList={list} count={count} order={create} />;
+    return <BasketList basketList={list} count={count} consentText={consentText} order={create} />;
 };
 
 export default BasketContainer;
