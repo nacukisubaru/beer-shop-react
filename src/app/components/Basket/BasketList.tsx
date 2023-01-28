@@ -10,12 +10,13 @@ import SuccessOrder from "../Modals/Messages/SuccessOrder";
 import styles from "./styles/basket.module.css";
 
 interface BasketListProps {
+    consentText?: string;
     basketList: IProductBasket[];
     count: number;
     order: () => void;
 }
 
-const BasketList: FC<BasketListProps> = ({ basketList, order, count }) => {
+const BasketList: FC<BasketListProps> = ({ basketList, consentText, order, count }) => {
     const initialValue = 0;
     const total: any =
         basketList.length > 0
@@ -57,6 +58,7 @@ const BasketList: FC<BasketListProps> = ({ basketList, order, count }) => {
                             totalPrice={total}
                             order={order}
                             cardProps={{ position: "inherit" }}
+                            consentText={consentText}
                         />
                     </div>
                 )}
@@ -68,6 +70,7 @@ const BasketList: FC<BasketListProps> = ({ basketList, order, count }) => {
                         totalPrice={total}
                         order={order}
                         cardProps={{ position: "fixed" }}
+                        consentText={consentText}
                     />
                 </div>
             ) : (

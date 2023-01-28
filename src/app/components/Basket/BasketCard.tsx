@@ -75,7 +75,6 @@ const BasketCard: FC<IBasketCard> = ({
     const handleChangeQuan = (event: any) => {
         const quan = event.target.value.replace(/[a-zа-яё]/gi, '');
         if (quan && quan.length <= 2 && quan >= 1) {
-            console.log({quan});
             event.target.value = parseInt(quan);
             setQuantity({ id, value: parseInt(quan) });
             update(id, parseInt(quan));

@@ -8,7 +8,11 @@ import RegistrationContainer from "../Registration/RegistrationContainer";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useActions } from "../../hooks/useActions";
 
-const LoginAndRegistrationForm: FC = () => {
+interface LoginAndRegistrationFormProps {
+    consentText?: string
+}
+
+const LoginAndRegistrationForm: FC<LoginAndRegistrationFormProps> = ({consentText}) => {
     const accountForm = useAppSelector((state) => state.accountFormsReducer);
     const {isAuth} = useAppSelector(state => state.userReducer);
     const {switchRegForm, switchLoginForm, clearUserErrors} = useActions();
@@ -55,7 +59,7 @@ const LoginAndRegistrationForm: FC = () => {
                         {accountForm.isLoginForm && !isAuth ? (
                             <LoginContainer />
                         ) : accountForm.isRegistrationForm && !isAuth && (
-                            <RegistrationContainer />
+                            <RegistrationContainer consentText={consentText}/>
                         )}
                     </CardContent>
                 </Card>

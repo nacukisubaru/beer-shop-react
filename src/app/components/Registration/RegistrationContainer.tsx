@@ -4,9 +4,11 @@ import { useAppSelector } from "../../hooks/useAppSelector";
 import { useAuthorizationUser } from "../../hooks/useAuthorizationUser";
 import { useActions } from "../../hooks/useActions";
 
-interface RegistrationContainerProps {}
+interface RegistrationContainerProps {
+    consentText?: string
+}
 
-const RegistrationContainer: FC<RegistrationContainerProps> = () => {
+const RegistrationContainer: FC<RegistrationContainerProps> = ({consentText}) => {
     const regError = useAppSelector((state) => state.userReducer.error);
     const { phone, email, password, retryPassword } = useAppSelector(
         (state) => state.verificationCodeReducer
@@ -20,6 +22,7 @@ const RegistrationContainer: FC<RegistrationContainerProps> = () => {
             setRegistrationFields={setRegFields}
             defaultValues={{ phone, email, password, retryPassword }}
             error={regError}
+            consentText={consentText}
         />
     );
 };
