@@ -6,6 +6,7 @@ export interface IUser {
     surname: string,
     email: string,
     phone: string,
+    avatar: string,
     isActivated: boolean,
     roles: IRole[],
     updatedAt: string,

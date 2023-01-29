@@ -1,7 +1,7 @@
 import React from "react";
 import { useAppSelector } from "../app/hooks/useAppSelector";
 import Menu from "../app/components/Drawer/Menu/Menu";
-import ProfileView from "../app/components/Profile/ProfileView";
+import PersonalAccount from "../app/components/Personal/PersonalAccount";
 import LoginAndRegistrationForm from "../app/components/Login/LoginAndRegForm";
 import VerificationCodeFormContainer from "../app/components/VerificationCodeForm/VerificationCodeFormContainer";
 import {
@@ -28,7 +28,7 @@ export default function Account({data}) {
                 filterList={[]}
             />
             {isAuth ? (
-                <ProfileView />
+                <PersonalAccount />
             ) : isVerificationCodeForm ? (
                 <VerificationCodeFormContainer />
             ) : (
@@ -49,7 +49,6 @@ export const getServerSideProps: GetServerSideProps =
         if (consentData) {
             props.data.text = consentData.text;
         }
-
 
         await store.dispatch(fetchHeaderData());
         await store.dispatch(fetchSocialNetworks());

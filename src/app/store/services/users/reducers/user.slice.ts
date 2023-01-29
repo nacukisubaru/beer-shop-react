@@ -12,6 +12,7 @@ const initialState: IAuth = {
         surname: '',
         email: '',
         phone: '',
+        avatar: '',
         isActivated: false,
         roles: [],
         createdAt: '',

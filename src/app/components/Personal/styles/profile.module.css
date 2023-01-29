@@ -1,0 +1,77 @@
+.wrapperLk {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.cardWrapperLk {
+    width: 417px;
+}
+
+.cardLk {
+    height: 218px;
+    margin: 10px;
+}
+
+.cardContentWrap {
+    display: flex;
+    justify-content: center;
+    margin: 72px;
+}
+
+.cardIcon {
+    font-size: 4em;
+    color: #b05326;
+    margin-right: 10px;
+}
+
+.flexWrap {
+    display: flex;
+}
+
+.personWrapper {
+    display: flex;
+}
+
+.personElement {
+    margin-bottom: 10px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 201px;
+}
+
+.personLabel {
+    font-weight: bold;
+}
+
+.logoutBtn {
+    margin-left: 73px;
+    margin-top: 60px;
+}
+
+.personLink:hover {
+    color: #b05326;
+}
+
+.cardLk:hover {
+    box-shadow: 0px 1px 1px -1px rgb(0 0 0 / 20%), 0px 1px 31px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
+}
+
+.modeIcon {
+    font-size: 18px; 
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.addPhotoIcon {
+    position: absolute;
+    margin-top: 33px;
+    margin-left: 31px;
+    cursor: pointer;
+}
+
+.avatar:hover {
+    opacity: 0.1;
+    cursor: pointer;
+}
