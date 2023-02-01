@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {thunkAxiosGet, thunkAxiosPost} from "../../../../helpers/queryHelper";
 import { removeMask } from "../../../../helpers/stringHelper";
-import { IAuth, ILogin, ILoginByCode, IRegistration, ISendCodeByCallResponse, IUserRegData } from "../types/auth.types";
+import { IAuth, ILogin, ILoginByCode, IRegistration, ISendCodeByCallResponse, IUserRegData, IUserVerifyData } from "../types/auth.types";
 import { IUser } from "../types/user.types";
 
 const initialState: IAuth = {
@@ -19,6 +19,7 @@ const initialState: IAuth = {
         updatedAt: '',
     },
     isAuth: false,
+    isVerify: false,
     status: '',
     error: {message: ''}
 };
@@ -84,6 +85,15 @@ export const checkUserNotExistByEmailAndPhone:any = createAsyncThunk(
         return thunkAxiosGet('/users/checkUserNotExistByEmailAndPhone/', {...body, phone}, false, rejectWithValue);
     }
 );
+
+export const verifyUserBySmsCode:any = createAsyncThunk(
+    'verifyUserBySmsCode/post',
+    async(body: IUserVerifyData, {rejectWithValue}) => {
+        const phone = removeMask(body.phone);
+        return thunkAxiosPost('/users/verifyUserByCode/', {...body, phone}, false, rejectWithValue);
+    }
+);
+
 
 export const userSlice = createSlice({
     name: 'user',
@@ -221,6 +231,17 @@ export const userSlice = createSlice({
             state.status = 'rejected';
             state.error = action.payload;
         },
+        [verifyUserBySmsCode.fulfilled]: (state, action) => {
+            state.status = 'resolved';
+            const payload = action.payload;
+            state.isVerify = true;
+        },
+        [verifyUserBySmsCode.rejected]: (state, action) => {
+            state.status = 'rejected';
+            const payload = action.payload;
+            state.error.message = payload.status_text;
+            state.isVerify = false;
+        }
     }
 })
 

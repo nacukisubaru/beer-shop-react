@@ -24,7 +24,7 @@ interface IBasicModal {
     | 'md'
     | 'lg'
     | 'xl';
-    setOpen: () => void;
+    setOpen?: () => void;
     setClose: () => void;
 }
 

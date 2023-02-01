@@ -2,7 +2,7 @@ import { unwrapResult } from "@reduxjs/toolkit";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { removeMask } from "../helpers/stringHelper";
-import { checkUserNotExistByEmailAndPhone, checkUserExistByPhone, loginByCode, sendCodeByCall, registrate, login } from "../store/services/users/reducers/user.slice";
+import { checkUserNotExistByEmailAndPhone, checkUserExistByPhone, loginByCode, sendCodeByCall, registrate, login, verifyUserBySmsCode } from "../store/services/users/reducers/user.slice";
 import { ILogin, IRegistration, ISendCodeByCallResponse } from "../store/services/users/types/auth.types";
 import { useActions } from "./useActions";
 import { useAppSelector } from "./useAppSelector";
@@ -16,7 +16,7 @@ export const useAuthorizationUser = () => {
     
     const {backRedirectToOrder} = useAppSelector(state => state.orderReducer);
     const {user} = useAppSelector((state) => state.userReducer);
-    
+
     const sendCode = async (phone: string): Promise<boolean> => {
         await setSecondsResend({ seconds: 59 });
         await setMinutesResend({ minutes: 1 });
@@ -86,5 +86,15 @@ export const useAuthorizationUser = () => {
        return user.roles.some((role) => role.value === roleValue);
     }
 
-    return { sendCode, registrateUser, authByCodeStepSendCode, authByCodeStepLogin, loginUser, checkRoleUser };
+    const verifyBySmsCode = async (phone: string, code: string) => {
+        code = code.replace(/\s/g, '');
+        const result = await dispatch(verifyUserBySmsCode({phone, code}));
+        if (result.payload.user) {
+            return true;
+        }
+
+        return false
+    }
+
+    return { sendCode, registrateUser, authByCodeStepSendCode, authByCodeStepLogin, verifyBySmsCode, loginUser, checkRoleUser };
 }

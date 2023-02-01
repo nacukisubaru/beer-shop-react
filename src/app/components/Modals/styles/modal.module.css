@@ -40,3 +40,10 @@
 .disableText {
     color: #8d8d8d;;
 }
+
+.verifyModal {
+    display: flex;
+    justify-content: center;
+    margin-left: 118px;
+    margin-right: 115px;
+}
