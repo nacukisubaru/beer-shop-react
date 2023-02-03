@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { removeMask } from "../helpers/stringHelper";
 import { checkUserNotExistByEmailAndPhone, checkUserExistByPhone, loginByCode, sendCodeByCall, registrate, login, verifyUserBySmsCode } from "../store/services/users/reducers/user.slice";
 import { ILogin, IRegistration, ISendCodeByCallResponse } from "../store/services/users/types/auth.types";
+import { verifyPhoneByCode } from "../store/services/verification-code/reducers/verification-code.slice";
 import { useActions } from "./useActions";
 import { useAppSelector } from "./useAppSelector";
 import { useBasket } from "./useBasket";
@@ -17,7 +18,7 @@ export const useAuthorizationUser = () => {
     const {backRedirectToOrder} = useAppSelector(state => state.orderReducer);
     const {user} = useAppSelector((state) => state.userReducer);
 
-    const sendCode = async (phone: string): Promise<boolean> => {
+    const sendCode = async (phone: string, switchVerifyForm: boolean = true): Promise<boolean> => {
         await setSecondsResend({ seconds: 59 });
         await setMinutesResend({ minutes: 1 });
 
@@ -34,7 +35,9 @@ export const useAuthorizationUser = () => {
         }
 
         setCanResendCode({resendCode: false});
-        switchVerificationForm();
+        if (switchVerifyForm) {
+            switchVerificationForm();
+        }
         return true;
     }
 
@@ -88,13 +91,13 @@ export const useAuthorizationUser = () => {
 
     const verifyBySmsCode = async (phone: string, code: string) => {
         code = code.replace(/\s/g, '');
-        const result = await dispatch(verifyUserBySmsCode({phone, code}));
-        if (result.payload.user) {
-            return true;
-        }
-
-        return false
+        await dispatch(verifyUserBySmsCode({phone, code}));
     }
 
-    return { sendCode, registrateUser, authByCodeStepSendCode, authByCodeStepLogin, verifyBySmsCode, loginUser, checkRoleUser };
+    const verifyPhone = (phone: string, code: string) => {
+        code = code.replace(/\s/g, '');
+        dispatch(verifyPhoneByCode({phone, code}));
+    }
+
+    return { sendCode, registrateUser, authByCodeStepSendCode, authByCodeStepLogin, verifyBySmsCode, verifyPhone, loginUser, checkRoleUser };
 }

@@ -75,3 +75,10 @@
     opacity: 0.1;
     cursor: pointer;
 }
+
+.verifyModal {
+    display: flex;
+    justify-content: center;
+    margin-left: 118px;
+    margin-right: 115px;
+}

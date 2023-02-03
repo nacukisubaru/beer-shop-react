@@ -19,7 +19,7 @@ const initialState: IAuth = {
         updatedAt: '',
     },
     isAuth: false,
-    isVerify: false,
+    isVerifyPhone: false,
     status: '',
     error: {message: ''}
 };
@@ -233,14 +233,15 @@ export const userSlice = createSlice({
         },
         [verifyUserBySmsCode.fulfilled]: (state, action) => {
             state.status = 'resolved';
-            const payload = action.payload;
-            state.isVerify = true;
+            state.error =  {message: ''}
+            state.isVerifyPhone = true;
         },
         [verifyUserBySmsCode.rejected]: (state, action) => {
             state.status = 'rejected';
             const payload = action.payload;
-            state.error.message = payload.status_text;
-            state.isVerify = false;
+            console.log({payload});
+            state.error.message = payload.response.data.message;
+            state.isVerifyPhone = false;
         }
     }
 })

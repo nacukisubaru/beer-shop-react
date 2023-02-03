@@ -1,5 +1,7 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IRegistrationFields } from "../../users/types/auth.types";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { thunkAxiosPost } from "../../../../helpers/queryHelper";
+import { removeMask } from "../../../../helpers/stringHelper";
+import { IRegistrationFields, IUserVerifyData } from "../../users/types/auth.types";
 
 const initialState = {
     loginPhone: "",
@@ -9,8 +11,18 @@ const initialState = {
     retryPassword: "",
     minutesResend: 1,
     secondsResend: 59,
-    canResendCode: false
+    canResendCode: false,
+    isNewPhoneVerify: false,
+    errorPhoneVerify: ""
 };
+
+export const verifyPhoneByCode:any = createAsyncThunk(
+    'verifyPhoneByCode/post',
+    async(body: IUserVerifyData, {rejectWithValue}) => {
+        const phone = removeMask(body.phone);
+        return thunkAxiosPost('/users/verifyPhoneByCode/', {...body, phone}, false, rejectWithValue);
+    }
+);
 
 export const verificationCodeSlice = createSlice({
     name: 'verification-code',
@@ -43,6 +55,19 @@ export const verificationCodeSlice = createSlice({
         setCanResendCode: (state, action: PayloadAction<{resendCode: boolean}>) => {
             state.canResendCode = action.payload.resendCode;
         }
+    },
+    extraReducers: {
+        [verifyPhoneByCode.pending]: (state) => {
+            state.errorPhoneVerify = "";
+        },
+        [verifyPhoneByCode.fulfilled]: (state, action) => {
+            state.isNewPhoneVerify = true;
+            state.errorPhoneVerify = "";
+        },
+        [verifyPhoneByCode.rejected]: (state, action) => {
+            state.isNewPhoneVerify = false;
+            state.errorPhoneVerify = action.payload.status_text;
+        },
     }
 });
 

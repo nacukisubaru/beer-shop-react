@@ -4,7 +4,7 @@ export interface IAuth {
     accessToken: string,
     user: IUser,
     isAuth: boolean,
-    isVerify: boolean,
+    isVerifyPhone: boolean,
     status: string,
     error: {message: string}
 }

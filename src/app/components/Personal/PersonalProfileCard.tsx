@@ -9,15 +9,17 @@ import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import styles from "./styles/profile.module.css";
 import ModeIcon from "@mui/icons-material/Mode";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import VerifyPhoneModal from "../Modals/Personal/VerifyPhoneModal";
+import PersonalVerifyPhone from "./PersonalVerifyPhone";
+import PersonalChangePhone from "./PersonalChangePhone";
 
 const PersonalProfileCard: FC = () => {
-    const { user } = useAppSelector((state) => state.userReducer);
+    const { user, isVerifyPhone } = useAppSelector((state) => state.userReducer);
     const ref = useRef();
     const { resetBasket, setLoginPhone } = useActions();
     const dispatch = useDispatch();
 
     const [isOpenVerifyModal, openVerifyModal] = useState(false);
+    const [isOpenChangePhoneModal, openChangePhoneModal] = useState(false);
 
     const handleLogout = async () => {
         await setLoginPhone({ phone: "" });
@@ -41,7 +43,19 @@ const PersonalProfileCard: FC = () => {
     };
 
     const handleOpenVerifyModal = () => {
-        openVerifyModal(true);
+        if (isVerifyPhone) {
+            openChangePhoneModal(true);
+        } else {
+            openVerifyModal(true);
+        }
+    };
+
+    const handleCloseChangePhoneModal = () => {
+        openChangePhoneModal(false);
+    };
+
+    const handleOpenChangePhoneModal = () => {
+        openChangePhoneModal(true);
     }
 
     return (
@@ -121,7 +135,10 @@ const PersonalProfileCard: FC = () => {
                                     </span>{" "}
                                     {"+" + user.phone}
                                 </Typography>
-                                <ModeIcon className={styles.modeIcon} onClick={handleOpenVerifyModal}/>
+                                <ModeIcon
+                                    className={styles.modeIcon}
+                                    onClick={handleOpenVerifyModal}
+                                />
                             </div>
                             <div className={styles.flexWrap}>
                                 <Typography
@@ -145,11 +162,21 @@ const PersonalProfileCard: FC = () => {
                     </div>
                 </div>
             </Card>
-            <VerifyPhoneModal
+            <PersonalVerifyPhone
                 modalProps={{
                     open: isOpenVerifyModal,
                     title: "Изменение номера телефона",
                     setClose: handleCloseVerifyModal,
+                }}
+                verifyProps={{
+                    verifyNewPhone: false,
+                    verifyAction: handleOpenChangePhoneModal
+                }}
+            />
+            <PersonalChangePhone
+                modalProps={{
+                    open: isOpenChangePhoneModal,
+                    setClose: handleCloseChangePhoneModal,
                 }}
             />
         </div>
@@ -157,6 +184,3 @@ const PersonalProfileCard: FC = () => {
 };
 
 export default PersonalProfileCard;
-function dispatch(arg0: any) {
-    throw new Error("Function not implemented.");
-}
