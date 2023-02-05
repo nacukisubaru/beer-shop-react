@@ -5,6 +5,7 @@ export interface IAuth {
     user: IUser,
     isAuth: boolean,
     isVerifyPhone: boolean,
+    isNewPhoneVerify: boolean,
     status: string,
     error: {message: string}
 }

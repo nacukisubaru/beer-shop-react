@@ -14,7 +14,7 @@ import PersonalChangePhone from "./PersonalChangePhone";
 
 const PersonalProfileCard: FC = () => {
     const { user, isVerifyPhone } = useAppSelector((state) => state.userReducer);
-    const ref = useRef();
+    const ref = useRef(null);
     const { resetBasket, setLoginPhone } = useActions();
     const dispatch = useDispatch();
 

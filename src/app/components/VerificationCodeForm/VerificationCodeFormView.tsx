@@ -25,17 +25,6 @@ const VerificationCodeFormView: FC<VerificationCodeFormViewProps> = ({
     error,
     back,
 }) => {
-    const { setCanResendCode } =
-        useActions();
-    const { minutesResend, secondsResend } = useAppSelector(
-        (state) => state.verificationCodeReducer
-    );
-
-    useEffect(() => {
-        if (minutesResend === 0 && secondsResend === 0) {
-            setCanResendCode({ resendCode: true });
-        }
-    }, [minutesResend, secondsResend, setCanResendCode]);
 
     return (
         <>

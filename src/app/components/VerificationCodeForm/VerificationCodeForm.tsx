@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useActions } from "../../hooks/useActions";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import Typography from "@mui/material/Typography";
@@ -20,13 +20,18 @@ const VerificationCodeForm: FC<IVerificationCodeForm> = ({
     error,
     nameBtn
 }) => {
-    const { setMinutesResend, setSecondsResend, setCanResendCode } =
-        useActions();
+    const { setMinutesResend, setSecondsResend, setCanResendCode } =useActions();
     const { minutesResend, secondsResend, canResendCode } = useAppSelector(
         (state) => state.verificationCodeReducer
     );
-
     const [code, setCode] = useState("");
+
+    useEffect(() => {
+        if (minutesResend === 0 && secondsResend === 0) {
+            setCanResendCode({ resendCode: true });
+        }
+    }, [minutesResend, secondsResend]);
+
 
     const handleSubmit = (e: any) => {
         e.preventDefault();

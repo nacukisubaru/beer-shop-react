@@ -1,10 +1,10 @@
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { removeMask } from "../helpers/stringHelper";
-import { checkUserNotExistByEmailAndPhone, checkUserExistByPhone, loginByCode, sendCodeByCall, registrate, login, verifyUserBySmsCode } from "../store/services/users/reducers/user.slice";
+import { checkUserNotExistByEmailAndPhone, checkUserExistByPhone, loginByCode, sendCodeByCall, registrate, login, verifyUserBySmsCode, verifyPhoneByCode } from "../store/services/users/reducers/user.slice";
 import { ILogin, IRegistration, ISendCodeByCallResponse } from "../store/services/users/types/auth.types";
-import { verifyPhoneByCode } from "../store/services/verification-code/reducers/verification-code.slice";
 import { useActions } from "./useActions";
 import { useAppSelector } from "./useAppSelector";
 import { useBasket } from "./useBasket";
@@ -16,7 +16,21 @@ export const useAuthorizationUser = () => {
     const router = useRouter();
     
     const {backRedirectToOrder} = useAppSelector(state => state.orderReducer);
-    const {user} = useAppSelector((state) => state.userReducer);
+    const {user, error} = useAppSelector((state) => state.userReducer);
+    const [errorMessage, setErrorMessage] = useState("");
+    const {clearUserErrors} = useActions();
+
+    useEffect(() => {
+        if (error.message) {
+           setErrorMessage(error.message);
+        } else {
+            setErrorMessage("");
+        }
+    }, [error]);
+
+    const clearUserErrorMessage = async () => {
+        clearUserErrors();
+    }
 
     const sendCode = async (phone: string, switchVerifyForm: boolean = true): Promise<boolean> => {
         await setSecondsResend({ seconds: 59 });
@@ -99,5 +113,16 @@ export const useAuthorizationUser = () => {
         dispatch(verifyPhoneByCode({phone, code}));
     }
 
-    return { sendCode, registrateUser, authByCodeStepSendCode, authByCodeStepLogin, verifyBySmsCode, verifyPhone, loginUser, checkRoleUser };
+    return { 
+        sendCode, 
+        registrateUser, 
+        authByCodeStepSendCode, 
+        authByCodeStepLogin, 
+        verifyBySmsCode, 
+        verifyPhone, 
+        loginUser, 
+        checkRoleUser,
+        clearUserErrorMessage, 
+        errorMessage 
+    };
 }

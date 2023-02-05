@@ -20,6 +20,7 @@ const initialState: IAuth = {
     },
     isAuth: false,
     isVerifyPhone: false,
+    isNewPhoneVerify: false,
     status: '',
     error: {message: ''}
 };
@@ -78,6 +79,14 @@ export const checkUserExistByPhone:any = createAsyncThunk(
     }
 );
 
+export const checkUserNotExistByPhone:any = createAsyncThunk(
+    'checkUserNotExistByPhone/get',
+    async(phone: string, {rejectWithValue}) => {
+        phone = removeMask(phone);
+        return thunkAxiosGet('/users/checkUserNotExistByPhone/', {phone}, false, rejectWithValue);
+    }
+);
+
 export const checkUserNotExistByEmailAndPhone:any = createAsyncThunk(
     'checkUserNotExistByEmailAndPhone/get',
     async(body: IUserRegData, {rejectWithValue}) => {
@@ -94,6 +103,21 @@ export const verifyUserBySmsCode:any = createAsyncThunk(
     }
 );
 
+export const verifyPhoneByCode:any = createAsyncThunk(
+    'verifyPhoneByCode/post',
+    async(body: IUserVerifyData, {rejectWithValue}) => {
+        const phone = removeMask(body.phone);
+        return thunkAxiosPost('/users/verifyPhoneByCode/', {...body, phone}, false, rejectWithValue);
+    }
+);
+
+export const changePhone:any = createAsyncThunk(
+    'changePhone/post',
+    async(phone:string, {rejectWithValue}) => {
+        phone = removeMask(phone);
+        return thunkAxiosPost('/users/changePhone/', {phone}, true, rejectWithValue);
+    }
+);
 
 export const userSlice = createSlice({
     name: 'user',
@@ -104,6 +128,10 @@ export const userSlice = createSlice({
             const user:any = action.payload.user;
             state.accessToken = token;
             state.user = user;
+        },
+        changePhoneState: (state, action: PayloadAction<{phone: string}>) => {
+            state.user.phone = removeMask(action.payload.phone);
+            state.isVerifyPhone = false;
         },
         clearUserErrors: (state) => {
             state.error = {message: ''};
@@ -220,6 +248,17 @@ export const userSlice = createSlice({
             state.status = 'rejected';
             state.error = action.payload;
         },
+        [checkUserNotExistByPhone.pending]: (state) => {
+            state.status = 'loading';
+        },
+        [checkUserNotExistByPhone.fulfilled]: (state, action) => {
+            state.status = 'resolved';
+            state.error =  {message: ''}
+        },
+        [checkUserNotExistByPhone.rejected]: (state,action) => {
+            state.status = 'rejected';
+            state.error = action.payload;
+        },
         [checkUserNotExistByEmailAndPhone.pending]: (state) => {
             state.status = 'loading';
         },
@@ -239,10 +278,25 @@ export const userSlice = createSlice({
         [verifyUserBySmsCode.rejected]: (state, action) => {
             state.status = 'rejected';
             const payload = action.payload;
-            console.log({payload});
             state.error.message = payload.response.data.message;
             state.isVerifyPhone = false;
-        }
+        },
+        [verifyPhoneByCode.pending]: (state) => {
+            state.status = 'loading';
+            state.isNewPhoneVerify = false;
+            state.error = {message: ''};
+        },
+        [verifyPhoneByCode.fulfilled]: (state, action) => {
+            state.status = 'resolved';
+            state.isNewPhoneVerify = true;
+            state.error = {message: ''};
+        },
+        [verifyPhoneByCode.rejected]: (state, action) => {
+            state.status = 'rejected';
+            state.isNewPhoneVerify = false;
+            const payload = action.payload;
+            state.error.message = payload.response.data.message;
+        },
     }
 })
 

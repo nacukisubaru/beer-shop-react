@@ -1,106 +1,138 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Button, TextField, Typography } from "@mui/material";
 import { useAuthorizationUser } from "../../hooks/useAuthorizationUser";
 import InputMask from "react-input-mask";
 import PersonalVerifyPhone from "./PersonalVerifyPhone";
 import BasicModal from "../Modals/BasicModal";
 import styles from "./styles/profile.module.css";
+import {
+    changePhone,
+    checkUserNotExistByPhone,
+} from "../../store/services/users/reducers/user.slice";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../../hooks/useAppSelector";
+import { useActions } from "../../hooks/useActions";
+import CustomSnackBar from "../CustomUI/CustomSnackBar/CustomSnackBar";
 
 interface IModalProps {
-    open: boolean,
-    setClose: () => void
+    open: boolean;
+    setClose: () => void;
 }
 
 interface IPersonalChangePhone {
-    modalProps: IModalProps,
+    modalProps: IModalProps;
 }
 
-const PersonalChangePhone: FC<IPersonalChangePhone> = ({modalProps}) => {
+const PersonalChangePhone: FC<IPersonalChangePhone> = ({ modalProps }) => {
+    const dispatch = useDispatch();
+
     const { open, setClose } = modalProps;
+    const { changePhoneState } = useActions();
+    const { sendCode, clearUserErrorMessage, errorMessage } = useAuthorizationUser();
+    const { isNewPhoneVerify } = useAppSelector(state => state.userReducer);
 
     const [phoneNumber, setPhone] = useState("");
-    const [phoneError, setPhoneError] = useState("");
     const [isOpenVerifyModal, openVerifyModal] = useState(false);
-    const {sendCode} = useAuthorizationUser();
+    const [isOpenSuccessMess, openSuccessMessage] = useState(false);
 
     const handlerSetPhone = (event: any) => {
         setPhone(event.target.value);
     };
 
-    const handlerRequestCode = async (event:any) => {
+    const handlerRequestCode = async (event: any) => {
         event.preventDefault();
-        //todo проверить телефон что пользователь не зарегистрирован
-        const isSent = await sendCode(phoneNumber, false);
-        if (isSent) {
-            setClose();
-            openVerifyModal(true);
-            setPhoneError("");
-        } else {
-            setPhoneError("Неверно указан номер телефона");
+        const result = await dispatch(checkUserNotExistByPhone(phoneNumber));
+        if (!result.error) {
+            const isSent = await sendCode(phoneNumber, false);
+            if (isSent) {
+                setClose();
+                openVerifyModal(true);
+                clearUserErrorMessage();
+            }
         }
-    }
+    };
 
     const handlerCloseVerify = () => {
         openVerifyModal(false);
+    };
+
+    const changePhoneNumber = async () => {
+        await dispatch(changePhone(phoneNumber));
+        await changePhoneState({ phone: phoneNumber });
+        setPhone("");
+        openSuccessMessage(true);
+    };
+
+    const handlerCloseSuccessMes = () => {
+        openSuccessMessage(false);
     }
 
-    const changePhoneNumber = () => {
-        //todo отправляем запрос на изменение номера телефона
-    }
+    useEffect(() => {
+        if (isNewPhoneVerify) {
+            openVerifyModal(false);
+            changePhoneNumber();
+        }
+    }, [isNewPhoneVerify])
 
     return (
         <>
-         <BasicModal
-            open={open}
-            body={
-                <div className={styles.verifyModal}>
-                   <form>
-                        <InputMask
-                            mask="+7 (999) 99 99 999"
-                            value={phoneNumber}
-                            onChange={handlerSetPhone}
-                        >
-                            <TextField
-                                fullWidth
-                                id="outlined-required"
-                                label="Номер телефона"
-                                type="text"
-                                style={{ marginBottom: "10px" }}
-                            />   
-                        </InputMask>
-                        {phoneError && (
-                            <Typography>
-                                {phoneError}
-                            </Typography>
-                        )}
-                        <Button
-                            variant="contained"
-                            style={{ width: "316px", marginBottom: "10px" }}
-                            type="submit"
-                            onClick={handlerRequestCode}
-                        >
-                            Запросить код
-                        </Button>
-                    </form>
-                </div>
-            }
-            title="Изменение номера телефона"
-            showOkBtn={false}
-            width={"xs"}
-            setClose={setClose}
-        />
-        <PersonalVerifyPhone
-            verifyProps={{
-                phoneNumber,
-                verifyNewPhone: true,
-                verifyAction: changePhoneNumber
-            }}
-            modalProps={{
-                title: "Изменение номера телефона",
-                open: isOpenVerifyModal,
-                setClose: handlerCloseVerify
-            }}
-        />
+            <BasicModal
+                open={open}
+                body={
+                    <div className={styles.verifyModal}>
+                        <form>
+                            <InputMask
+                                mask="+7 (999) 99 99 999"
+                                value={phoneNumber}
+                                onChange={handlerSetPhone}
+                            >
+                                <TextField
+                                    fullWidth
+                                    id="outlined-required"
+                                    label="Номер телефона"
+                                    type="text"
+                                    style={{ marginBottom: "10px" }}
+                                />
+                            </InputMask>
+                            {errorMessage && (
+                                <Typography style={{ color: "red" }}>
+                                    {errorMessage}
+                                </Typography>
+                            )}
+                            <Button
+                                variant="contained"
+                                style={{ width: "316px", marginBottom: "10px" }}
+                                type="submit"
+                                onClick={handlerRequestCode}
+                            >
+                                Запросить код
+                            </Button>
+                        </form>
+                    </div>
+                }
+                title="Изменение номера телефона"
+                showOkBtn={false}
+                width={"xs"}
+                setClose={setClose}
+            />
+            <PersonalVerifyPhone
+                verifyProps={{
+                    phoneNumber,
+                    verifyNewPhone: true,
+                    verifyAction: ()=>{},
+                }}
+                modalProps={{
+                    title: "Изменение номера телефона",
+                    open: isOpenVerifyModal,
+                    setClose: handlerCloseVerify,
+                }}
+            />
+            <CustomSnackBar
+                severity="success"
+                message="Ваш номер телефона успешно изменён"
+                isOpen={isOpenSuccessMess}
+                onClose={handlerCloseSuccessMes}
+            />
         </>
     );
 };

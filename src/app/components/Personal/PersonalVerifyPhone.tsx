@@ -1,9 +1,7 @@
-import { FC, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { FC, useEffect } from "react";
 import { useActions } from "../../hooks/useActions";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useAuthorizationUser } from "../../hooks/useAuthorizationUser";
-import { sendCodeByCall } from "../../store/services/users/reducers/user.slice";
 import VerificationCodeForm from "../VerificationCodeForm/VerificationCodeForm";
 import BasicModal from "../Modals/BasicModal";
 import styles from "./styles/profile.module.css";
@@ -28,41 +26,16 @@ interface IPersonalVerifyPhone {
 const PersonalVerifyPhone: FC<IPersonalVerifyPhone> = ({ modalProps, verifyProps }) => {
     const {open, title, setClose} = modalProps;
     const {phoneNumber, verifyNewPhone, verifyAction} = verifyProps;
-    const { user, error, isVerifyPhone } = useAppSelector(state => state.userReducer);
-    const { isNewPhoneVerify, errorPhoneVerify } = useAppSelector(state => state.verificationCodeReducer);
+    const { user, isVerifyPhone } = useAppSelector(state => state.userReducer);
     const { setMinutesResend, setSecondsResend, setCanResendCode } = useActions();
-    const dispatch = useDispatch();
-    const { verifyBySmsCode, verifyPhone } = useAuthorizationUser();
-    const [verifyError, setVerifyError] = useState("");
+    const { verifyBySmsCode, verifyPhone, clearUserErrorMessage, sendCode, errorMessage } = useAuthorizationUser();
 
     useEffect(() => {
-        if (isVerifyPhone) { 
+        if (isVerifyPhone) {
             setClose();
             verifyAction();
-            setVerifyError("");
         }
     }, [isVerifyPhone]);
-
-    useEffect(() => {
-        if (isNewPhoneVerify) {
-            setClose();
-            verifyAction();
-            setVerifyError("");
-        }
-    }, [isNewPhoneVerify])
-
-    useEffect(() => {
-        if (errorPhoneVerify) {
-            setVerifyError(errorPhoneVerify);
-        }
-    }, [errorPhoneVerify])
-
-    useEffect(() => {
-        console.log({error});
-        if (error.message) {
-            setVerifyError(error.message);
-        }
-    }, [error]);
 
     const getPhone = () => {
         let phone = user.phone;
@@ -74,19 +47,25 @@ const PersonalVerifyPhone: FC<IPersonalVerifyPhone> = ({ modalProps, verifyProps
 
     const handlerRequestCode = () => {
         const phone = getPhone();
-        dispatch(sendCodeByCall(phone));
+        sendCode(phone, false);
         setSecondsResend({seconds: 59});
         setMinutesResend({minutes: 1});
         setCanResendCode({resendCode: false});
     };
 
     const handlerVerify = async (code: string) => {
+        await clearUserErrorMessage();
         const phone = getPhone();
         if (verifyNewPhone) {
             await verifyPhone(phone, code);
         } else {
             await verifyBySmsCode(phone, code);
         }
+    }
+
+    const handleClose = () => {
+        setClose();
+        clearUserErrorMessage();
     }
 
     useEffect(() => {
@@ -102,7 +81,7 @@ const PersonalVerifyPhone: FC<IPersonalVerifyPhone> = ({ modalProps, verifyProps
                         <VerificationCodeForm
                             requestCode={handlerRequestCode}
                             login={handlerVerify}
-                            error={verifyError}
+                            error={errorMessage}
                             nameBtn="Подтвердить"
                         />
                     </div>
@@ -110,7 +89,7 @@ const PersonalVerifyPhone: FC<IPersonalVerifyPhone> = ({ modalProps, verifyProps
                 title={title}
                 showOkBtn={false}
                 width={"xs"}
-                setClose={setClose}
+                setClose={handleClose}
             />
         </>
     );

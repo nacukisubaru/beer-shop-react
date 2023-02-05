@@ -12,17 +12,7 @@ const initialState = {
     minutesResend: 1,
     secondsResend: 59,
     canResendCode: false,
-    isNewPhoneVerify: false,
-    errorPhoneVerify: ""
 };
-
-export const verifyPhoneByCode:any = createAsyncThunk(
-    'verifyPhoneByCode/post',
-    async(body: IUserVerifyData, {rejectWithValue}) => {
-        const phone = removeMask(body.phone);
-        return thunkAxiosPost('/users/verifyPhoneByCode/', {...body, phone}, false, rejectWithValue);
-    }
-);
 
 export const verificationCodeSlice = createSlice({
     name: 'verification-code',
@@ -56,19 +46,6 @@ export const verificationCodeSlice = createSlice({
             state.canResendCode = action.payload.resendCode;
         }
     },
-    extraReducers: {
-        [verifyPhoneByCode.pending]: (state) => {
-            state.errorPhoneVerify = "";
-        },
-        [verifyPhoneByCode.fulfilled]: (state, action) => {
-            state.isNewPhoneVerify = true;
-            state.errorPhoneVerify = "";
-        },
-        [verifyPhoneByCode.rejected]: (state, action) => {
-            state.isNewPhoneVerify = false;
-            state.errorPhoneVerify = action.payload.status_text;
-        },
-    }
 });
 
 export const verificationCodeReducer = verificationCodeSlice.reducer;
