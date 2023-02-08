@@ -1,17 +1,15 @@
-import React, { FC, useRef, useState } from "react";
-import { Box, Button, Card, Typography } from "@mui/material";
+import React, { FC, useState } from "react";
+import { Button, Card, Typography } from "@mui/material";
 import { logout } from "../../store/services/users/reducers/user.slice";
 import { useDispatch } from "react-redux";
 import { useActions } from "../../hooks/useActions";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import styles from "./styles/profile.module.css";
 import ModeIcon from "@mui/icons-material/Mode";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import PersonalVerifyPhone from "./PersonalVerifyPhone";
 import PersonalChangePhone from "./PersonalChangePhone";
 import ProfileChangeFields from "./ProfileChangeFields";
+import AvatarProfile from "./AvatarProfile";
 
 type field = "email" | "фио" | "пароль";
 
@@ -19,7 +17,6 @@ const PersonalProfileCard: FC = () => {
     const { user, isVerifyPhone } = useAppSelector(
         (state) => state.userReducer
     );
-    const ref = useRef(null);
     const { resetBasket, setLoginPhone } = useActions();
     const dispatch = useDispatch();
     const [isOpenVerifyModal, openVerifyModal] = useState(false);
@@ -34,16 +31,6 @@ const PersonalProfileCard: FC = () => {
         resetBasket();
         localStorage.clear();
     };
-
-    const onEnterShowPhotoIcon = () => {
-        ref.current.style.display = "block";
-    };
-
-    const onLeaveHidePhotoIcon = () => {
-        ref.current.style.display = "none";
-    };
-
-    const loadAvatar = () => {};
 
     const handleCloseVerifyModal = () => {
         openVerifyModal(false);
@@ -97,60 +84,27 @@ const PersonalProfileCard: FC = () => {
                             marginTop: "16px",
                         }}
                     >
-                        <span ref={ref} style={{ display: "none" }}>
-                            <FontAwesomeIcon
-                                className={styles.addPhotoIcon}
-                                icon={faCamera}
-                            />
-                        </span>
-                        <div
-                            className={styles.avatar}
-                            onMouseEnter={onEnterShowPhotoIcon}
-                            onMouseLeave={onLeaveHidePhotoIcon}
-                            onClick={loadAvatar}
-                        >
-                            {user.avatar ? (
-                                <Box
-                                    sx={{
-                                        background: `url(${user.avatar}) center center no-repeat`,
-                                        height: 80,
-                                        width: 80,
-                                        backgroundSize: "contain",
-                                        borderRadius: "38px",
-                                    }}
-                                ></Box>
-                            ) : (
-                                <AccountCircleIcon
-                                    className={styles.avatarIcon}
+                        <AvatarProfile avatar={user.avatar}/>
+                        <div className={styles.flexWrap}>                       
+                            <>
+                                <Typography
+                                    variant="h5"
+                                    className={styles.personElement}
                                     style={{
-                                        fontSize: "5em",
-                                        color: "#b05326",
+                                        marginTop: "14px",
+                                        marginLeft: "17px",
                                     }}
+                                >
+                                    <span style={{ width: "201px" }}>
+                                        {user.fio ? user.fio : "Не заполнено"}
+                                    </span>
+                                </Typography>
+                                <ModeIcon
+                                    className={styles.modeIcon}
+                                    style={{ marginTop: "22px" }}
+                                    onClick={handleOpenChangeFio}
                                 />
-                            )}
-                        </div>
-                        <div className={styles.flexWrap}>
-                            {user.fio ? (
-                                <>
-                                    <Typography
-                                        variant="h5"
-                                        className={styles.personElement}
-                                        style={{
-                                            marginTop: "14px",
-                                            marginLeft: "17px",
-                                        }}
-                                    >
-                                        <span style={{ width: "201px" }}>
-                                            {user.fio}
-                                        </span>
-                                    </Typography>
-                                    <ModeIcon
-                                        className={styles.modeIcon}
-                                        style={{ marginTop: "22px" }}
-                                        onClick={handleOpenChangeFio}
-                                    />
-                                </>
-                            ) : "Не заполнен"}
+                            </>
                         </div>
                     </div>
 

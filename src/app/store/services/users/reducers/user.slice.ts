@@ -139,6 +139,13 @@ export const changePassword:any = createAsyncThunk(
     }
 );
 
+export const uploadAvatar:any = createAsyncThunk(
+    'uploadAvatar/post',
+    async(form:any, {rejectWithValue}) => {
+        return thunkAxiosPost('/users/uploadAvatar/', form, true, rejectWithValue);
+    }
+);
+
 export const userSlice = createSlice({
     name: 'user',
     initialState,
@@ -322,6 +329,19 @@ export const userSlice = createSlice({
             state.isNewPhoneVerify = false;
             const payload = action.payload;
             state.error.message = payload.response.data.message;
+        },
+        [uploadAvatar.pending]: (state) => {
+            state.status = 'loading';
+            state.error = {message: ''};
+        },
+        [uploadAvatar.fulfilled]: (state, action) => {
+            state.status = 'resolved';
+            state.error = {message: ''};
+        },
+        [uploadAvatar.rejected]: (state, action) => {
+            state.status = 'rejected';
+            const payload = action.payload;
+            state.error.message = payload.message;
         },
     }
 })
