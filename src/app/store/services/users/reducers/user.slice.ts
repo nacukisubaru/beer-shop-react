@@ -8,8 +8,7 @@ const initialState: IAuth = {
     accessToken: '',
     user: {
         id: 0,
-        name: '',
-        surname: '',
+        fio: '',
         email: '',
         phone: '',
         avatar: '',
@@ -119,6 +118,27 @@ export const changePhone:any = createAsyncThunk(
     }
 );
 
+export const changeFio:any = createAsyncThunk(
+    'changeFio/post',
+    async(fio:string, {rejectWithValue}) => {
+        return thunkAxiosPost('/users/changeFio/', {fio}, true, rejectWithValue);
+    }
+);
+
+export const changeEmail:any = createAsyncThunk(
+    'changeEmail/post',
+    async(email:string, {rejectWithValue}) => {
+        return thunkAxiosPost('/users/changeEmail/', {email}, true, rejectWithValue);
+    }
+);
+
+export const changePassword:any = createAsyncThunk(
+    'changePassword/post',
+    async(password:string, {rejectWithValue}) => {
+        return thunkAxiosPost('/users/changePassword/', {password}, true, rejectWithValue);
+    }
+);
+
 export const userSlice = createSlice({
     name: 'user',
     initialState,
@@ -132,6 +152,12 @@ export const userSlice = createSlice({
         changePhoneState: (state, action: PayloadAction<{phone: string}>) => {
             state.user.phone = removeMask(action.payload.phone);
             state.isVerifyPhone = false;
+        },
+        changeEmailState: (state, action: PayloadAction<{email: string}>) => {
+            state.user.email = action.payload.email;
+        },
+        changeFioState: (state, action: PayloadAction<{fio: string}>) => {
+            state.user.fio = action.payload.fio;
         },
         clearUserErrors: (state) => {
             state.error = {message: ''};

@@ -11,15 +11,22 @@ import ModeIcon from "@mui/icons-material/Mode";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import PersonalVerifyPhone from "./PersonalVerifyPhone";
 import PersonalChangePhone from "./PersonalChangePhone";
+import ProfileChangeFields from "./ProfileChangeFields";
+
+type field = "email" | "фио" | "пароль";
 
 const PersonalProfileCard: FC = () => {
-    const { user, isVerifyPhone } = useAppSelector((state) => state.userReducer);
+    const { user, isVerifyPhone } = useAppSelector(
+        (state) => state.userReducer
+    );
     const ref = useRef(null);
     const { resetBasket, setLoginPhone } = useActions();
     const dispatch = useDispatch();
-
     const [isOpenVerifyModal, openVerifyModal] = useState(false);
     const [isOpenChangePhoneModal, openChangePhoneModal] = useState(false);
+    const [isOpenChangeProfileField, openChangeProfileField] = useState(false);
+    const [changeableField, setChangeableField] = useState<field>("email");
+    const [changeableValue, setChangeableValue] = useState("");
 
     const handleLogout = async () => {
         await setLoginPhone({ phone: "" });
@@ -56,7 +63,29 @@ const PersonalProfileCard: FC = () => {
 
     const handleOpenChangePhoneModal = () => {
         openChangePhoneModal(true);
-    }
+    };
+
+    const handleCloseChangeProfileField = () => {
+        openChangeProfileField(false);
+    };
+
+    const handleOpenChangeProfileEmail = () => {
+        setChangeableField("email");
+        setChangeableValue(user.email);
+        openChangeProfileField(true);
+    };
+
+    const handleOpenChangeFio = () => {
+        setChangeableField("фио");
+        setChangeableValue(user.fio);
+        openChangeProfileField(true);
+    };
+
+    const handleOpenChangePassword = () => {
+        setChangeableField("пароль");
+        setChangeableValue("");
+        openChangeProfileField(true);
+    };
 
     return (
         <div className={styles.cardWrapperLk}>
@@ -101,28 +130,37 @@ const PersonalProfileCard: FC = () => {
                             )}
                         </div>
                         <div className={styles.flexWrap}>
-                            <Typography
-                                variant="h5"
-                                className={styles.personElement}
-                                style={{
-                                    marginTop: "14px",
-                                    marginLeft: "17px",
-                                }}
-                            >
-                                <span style={{ width: "201px" }}>
-                                    {user.name}
-                                </span>
-                            </Typography>
-                            <ModeIcon
-                                className={styles.modeIcon}
-                                style={{ marginTop: "22px" }}
-                            />
+                            {user.fio ? (
+                                <>
+                                    <Typography
+                                        variant="h5"
+                                        className={styles.personElement}
+                                        style={{
+                                            marginTop: "14px",
+                                            marginLeft: "17px",
+                                        }}
+                                    >
+                                        <span style={{ width: "201px" }}>
+                                            {user.fio}
+                                        </span>
+                                    </Typography>
+                                    <ModeIcon
+                                        className={styles.modeIcon}
+                                        style={{ marginTop: "22px" }}
+                                        onClick={handleOpenChangeFio}
+                                    />
+                                </>
+                            ) : "Не заполнен"}
                         </div>
                     </div>
 
                     <div className={styles.personWrapper}>
                         <div>
-                            <Button size="small" style={{ marginLeft: "-6px" }}>
+                            <Button
+                                size="small"
+                                style={{ marginLeft: "-6px" }}
+                                onClick={handleOpenChangePassword}
+                            >
                                 Сменить пароль
                             </Button>
                             <div className={styles.flexWrap}>
@@ -150,7 +188,10 @@ const PersonalProfileCard: FC = () => {
                                     </span>{" "}
                                     {user.email ? user.email : "Не заполнен"}
                                 </Typography>
-                                <ModeIcon className={styles.modeIcon} />
+                                <ModeIcon
+                                    className={styles.modeIcon}
+                                    onClick={handleOpenChangeProfileEmail}
+                                />
                             </div>
                         </div>
                         <Button
@@ -170,13 +211,23 @@ const PersonalProfileCard: FC = () => {
                 }}
                 verifyProps={{
                     verifyNewPhone: false,
-                    verifyAction: handleOpenChangePhoneModal
+                    verifyAction: handleOpenChangePhoneModal,
                 }}
             />
             <PersonalChangePhone
                 modalProps={{
                     open: isOpenChangePhoneModal,
                     setClose: handleCloseChangePhoneModal,
+                }}
+            />
+            <ProfileChangeFields
+                modalProps={{
+                    open: isOpenChangeProfileField,
+                    setClose: handleCloseChangeProfileField,
+                }}
+                changeFieldsProps={{
+                    field: changeableField,
+                    currentValue: changeableValue,
                 }}
             />
         </div>

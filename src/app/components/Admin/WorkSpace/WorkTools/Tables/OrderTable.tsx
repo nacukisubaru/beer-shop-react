@@ -39,8 +39,7 @@ export default function OrderTableAdmin() {
             columns={[
                 { field: "id", headerName: "ID", width: 70 },
                 { field: "userId", headerName: "ID пользователя", width: 200 },
-                { field: "customerName", headerName: "Имя покупателя", width: 150 },
-                { field: "customerSurname", headerName: "Фамилия покупателя", width: 150 },
+                { field: "customerFio", headerName: "ФИО покупателя", width: 150 },
                 { field: "customerPhone", headerName: "Номер покупателя", width: 150 },
                 { field: "customerEmail", headerName: "Email покупателя", width: 150 },
                 { field: "amount", headerName: "Сумма", width: 150 },

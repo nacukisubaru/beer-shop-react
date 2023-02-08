@@ -9,6 +9,7 @@ import InputMask from "react-input-mask";
 import { CheckBox } from "@mui/icons-material";
 import HTMLReactParser from "html-react-parser";
 import { decodeHtml } from "../../helpers/stringHelper";
+import { emailPattern } from "../../helpers/validationHelper";
 
 interface RegistrationViewProps {
     registrate: (post: IRegistration) => void;
@@ -127,7 +128,7 @@ const RegistrationView: FC<RegistrationViewProps> = ({
                     {...register("email", {
                         required: "Поле обязательно для заполнения",
                         pattern: {
-                            value: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                            value: emailPattern,
                             message: "Некорректный email",
                         },
                     })}

@@ -20,8 +20,7 @@ const OrderFilterTable: FC = () => {
             itemFilterList={[
                 { field: "userId", fieldName: "ID покупателя", inputNumber: true },
                 { field: "orderId", fieldName: "ID заказа", inputNumber: true },
-                { field: "customerName", fieldName: "Имя покупателя", inputText: true },
-                { field: "customerSurname", fieldName: "Фамилия покупателя", inputText: true },
+                { field: "customerFio", fieldName: "ФИО покупателя", inputText: true },
                 { field: "customerPhone", fieldName: "Телефон покупателя", inputText: true },
             ]}
             filters={tmpfilters}
