@@ -25,13 +25,11 @@ export const verificationCodeSlice = createSlice({
             state.phone = action.payload.phone;
         },
         setRegFields: (state, action: PayloadAction<IRegistrationFields>) => {
-            state.email = action.payload.email;
             state.phone = action.payload.phone;
             state.password = action.payload.password;
             state.retryPassword = action.payload.retryPassword;
         },
         resetRegFields: (state) => {
-            state.email = "";
             state.phone = "";
             state.password = "";
             state.retryPassword = "";            

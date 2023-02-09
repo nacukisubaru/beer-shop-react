@@ -3,15 +3,20 @@ import { FC, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { emailPattern } from "../../helpers/validationHelper";
 import { useActions } from "../../hooks/useActions";
-import { changeEmail, changeFio, changePassword } from "../../store/services/users/reducers/user.slice";
+import {
+    changeEmail,
+    changeFio,
+    changePassword,
+} from "../../store/services/users/reducers/user.slice";
 import CustomSnackBar from "../CustomUI/CustomSnackBar/CustomSnackBar";
 import BasicModal from "../Modals/BasicModal";
 import styles from "./styles/profile.module.css";
 
-type fieldType = "email" | "фио" | "пароль"; 
+type fieldType = "email" | "фио" | "пароль";
 
 interface IModalProps {
     open: boolean;
+    setSuccessOpen: (isOpen: boolean) => void;
     setClose: () => void;
 }
 
@@ -29,7 +34,7 @@ const ProfileChangeFields: FC<IProfileChangeFields> = ({
     modalProps,
     changeFieldsProps,
 }) => {
-    const { open, setClose } = modalProps;
+    const { open, setClose, setSuccessOpen } = modalProps;
     const { field, currentValue } = changeFieldsProps;
     const { changeEmailState, changeFioState } = useActions();
 
@@ -37,20 +42,16 @@ const ProfileChangeFields: FC<IProfileChangeFields> = ({
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [passwordError, setPasswordError] = useState("");
-    const [openSuccess, setSuccessOpen] = useState(false);
+
     const dispatch = useDispatch();
-    
+
     const handlerSetValue = (event: any) => {
         setFieldValue(event.target.value);
     };
 
     const handlerSetRepeatPasswordValue = (event: any) => {
         setPassword(event.target.value);
-    }
-
-    const handlerSetOpenSuccess = () => {
-        setSuccessOpen(false);
-    }
+    };
 
     const submit = (event: any) => {
         event.preventDefault();
@@ -58,7 +59,7 @@ const ProfileChangeFields: FC<IProfileChangeFields> = ({
         let errorPass = "";
         setPasswordError("");
         setError("");
-        if(field === "пароль" && password.length <= 0) {
+        if (field === "пароль" && password.length <= 0) {
             errorPass = "Поле не заполнено";
         }
         if (fieldValue.length <= 0) {
@@ -73,7 +74,7 @@ const ProfileChangeFields: FC<IProfileChangeFields> = ({
                 if (fieldValue.length < 5) {
                     error = "Пароль от 5 символов";
                 }
-                if(password !== fieldValue) {
+                if (password !== fieldValue) {
                     errorPass = "Пароли не совпадают";
                 }
             }
@@ -91,27 +92,27 @@ const ProfileChangeFields: FC<IProfileChangeFields> = ({
             if (error) {
                 setError(error);
             }
-            if(errorPass) {
+            if (errorPass) {
                 setPasswordError(errorPass);
             }
         }
     };
 
     const changeField = (fieldValue: string) => {
-        switch(field) {
+        switch (field) {
             case "email":
                 dispatch(changeEmail(fieldValue));
-                changeEmailState({email: fieldValue});
-            break;
+                changeEmailState({ email: fieldValue });
+                break;
             case "фио":
                 dispatch(changeFio(fieldValue));
-                changeFioState({fio: fieldValue});
-            break;
+                changeFioState({ fio: fieldValue });
+                break;
             case "пароль":
                 dispatch(changePassword(fieldValue));
-            break;
+                break;
         }
-    }
+    };
 
     useEffect(() => {
         setFieldValue(currentValue);
@@ -156,7 +157,7 @@ const ProfileChangeFields: FC<IProfileChangeFields> = ({
                                     {passwordError}
                                 </Typography>
                             )}
-                           
+
                             <Button
                                 variant="contained"
                                 style={{ width: "316px", marginBottom: "10px" }}
@@ -171,12 +172,6 @@ const ProfileChangeFields: FC<IProfileChangeFields> = ({
                 showOkBtn={false}
                 width={"xs"}
                 setClose={setClose}
-            />
-            <CustomSnackBar
-                severity="success"
-                message={`Поле ${field} успешно изменено`}
-                isOpen={openSuccess}
-                onClose={handlerSetOpenSuccess}
             />
         </>
     );

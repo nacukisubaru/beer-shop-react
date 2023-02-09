@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { removeMask } from "../helpers/stringHelper";
-import { checkUserNotExistByEmailAndPhone, checkUserExistByPhone, loginByCode, sendCodeByCall, registrate, login, verifyUserBySmsCode, verifyPhoneByCode } from "../store/services/users/reducers/user.slice";
+import { checkUserExistByPhone, loginByCode, sendCodeByCall, registrate, login, verifyUserBySmsCode, verifyPhoneByCode, checkUserNotExistByPhone } from "../store/services/users/reducers/user.slice";
 import { ILogin, IRegistration, ISendCodeByCallResponse } from "../store/services/users/types/auth.types";
 import { useActions } from "./useActions";
 import { useAppSelector } from "./useAppSelector";
@@ -50,19 +50,21 @@ export const useAuthorizationUser = () => {
 
         setCanResendCode({resendCode: false});
         if (switchVerifyForm) {
+            console.log('work');
             switchVerificationForm();
         }
         return true;
     }
 
     const registrateUser = async (userData: IRegistration) => {
-        const result = await dispatch(checkUserNotExistByEmailAndPhone({
-            email: userData.email, 
-            phone: userData.phone
-        }));
+        
+        const result = await dispatch(checkUserNotExistByPhone(
+            userData.phone
+        ));
 
         const isUserNotExist = unwrapResult(result);
-        if (isUserNotExist.result) {
+        if (isUserNotExist) {
+            console.log({phone: userData.phone});
             await setPhone({phone: userData.phone});
             const result = await sendCode(userData.phone);
             if (result) {

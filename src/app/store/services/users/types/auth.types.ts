@@ -12,7 +12,6 @@ export interface IAuth {
 
 export interface IRegistration {
     phone: string,
-    email: string,
     password: string
 }
 

@@ -9,7 +9,6 @@ import InputMask from "react-input-mask";
 import { CheckBox } from "@mui/icons-material";
 import HTMLReactParser from "html-react-parser";
 import { decodeHtml } from "../../helpers/stringHelper";
-import { emailPattern } from "../../helpers/validationHelper";
 
 interface RegistrationViewProps {
     registrate: (post: IRegistration) => void;
@@ -17,7 +16,6 @@ interface RegistrationViewProps {
     consentText?: string;
     defaultValues: {
         phone: string;
-        email: string;
         password: string;
         retryPassword: string;
     };
@@ -48,9 +46,9 @@ const RegistrationView: FC<RegistrationViewProps> = ({
     });
 
     const onSubmit = (data: any) => {
-        const { phone, email, password, retryPassword } = data;
+        const { phone, password, retryPassword } = data;
         if (password === retryPassword) {
-            registrate({ phone, email, password });
+            registrate({ phone, password });
             setEqualsPasswords(true);
         } else {
             setEqualsPasswords(false);
@@ -81,8 +79,8 @@ const RegistrationView: FC<RegistrationViewProps> = ({
             shouldDirty: true,
         });
 
-        const { phone, email, password, retryPassword } = getValues();
-        setRegistrationFields({ phone, email, password, retryPassword });
+        const { phone, password, retryPassword } = getValues();
+        setRegistrationFields({ phone, password, retryPassword });
     };
 
     const styleError = {
@@ -124,23 +122,6 @@ const RegistrationView: FC<RegistrationViewProps> = ({
                     {errors.phone && errors.phone.message}
                 </Typography>
 
-                <TextField
-                    {...register("email", {
-                        required: "Поле обязательно для заполнения",
-                        pattern: {
-                            value: emailPattern,
-                            message: "Некорректный email",
-                        },
-                    })}
-                    onChange={updateField}
-                    fullWidth
-                    id="outlined-required"
-                    label="Email"
-                    style={{ marginBottom: "10px" }}
-                />
-                <Typography style={styleError}>
-                    {errors.email && errors.email.message}
-                </Typography>
                 <TextField
                     fullWidth
                     id="outlined-required"

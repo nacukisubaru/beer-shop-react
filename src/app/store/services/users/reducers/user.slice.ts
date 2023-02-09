@@ -168,6 +168,9 @@ export const userSlice = createSlice({
         },
         clearUserErrors: (state) => {
             state.error = {message: ''};
+        },
+        setNewPhoneVerify: (state, action: PayloadAction<{isVerify: boolean}>) => {
+            state.isNewPhoneVerify = action.payload.isVerify;
         }
     },
     extraReducers: {
@@ -232,7 +235,10 @@ export const userSlice = createSlice({
         },
         [getUser.rejected]: (state,action) => {
             state.status = 'rejected';
-            state.error = action.payload;
+            const payload = action.payload;
+            if (payload) {
+                state.error = action.payload;
+            }
         },
         [registrate.pending]: (state) => {
             state.status = 'loading';

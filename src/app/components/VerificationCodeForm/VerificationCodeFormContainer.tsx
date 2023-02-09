@@ -17,16 +17,14 @@ const VerificationCodeFormContainer: FC = () => {
     const {authByCodeStepLogin, sendCode} = useAuthorizationUser();
 
     const handlerLoginByCode = async (code: string) => {
-        const phoneNumber = lastestForm === "login" ? loginPhone : phone;
-        await authByCodeStepLogin(phoneNumber, code);
+        await authByCodeStepLogin(loginPhone, code);
         if(backRedirectToOrder) {
             router.replace("/basket");
         }
     };
 
     const handlerRequestCode = () => {
-        const phoneNumber = lastestForm === "login" ? loginPhone : phone;
-        sendCode(phoneNumber, false);
+        sendCode(loginPhone, false);
         setSecondsResend({seconds: 59});
         setMinutesResend({minutes: 1});
         setCanResendCode({resendCode: false});

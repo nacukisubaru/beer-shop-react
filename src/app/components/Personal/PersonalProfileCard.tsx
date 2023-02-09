@@ -10,16 +10,22 @@ import PersonalVerifyPhone from "./PersonalVerifyPhone";
 import PersonalChangePhone from "./PersonalChangePhone";
 import ProfileChangeFields from "./ProfileChangeFields";
 import AvatarProfile from "./AvatarProfile";
+import CustomSnackBar from "../CustomUI/CustomSnackBar/CustomSnackBar";
+import { useRouter } from "next/router";
 
 type field = "email" | "фио" | "пароль";
 
 const PersonalProfileCard: FC = () => {
+    const dispatch = useDispatch();
+    const router = useRouter();
+
     const { user, isVerifyPhone } = useAppSelector(
         (state) => state.userReducer
     );
     const { resetBasket, setLoginPhone } = useActions();
-    const dispatch = useDispatch();
+    
     const [isOpenVerifyModal, openVerifyModal] = useState(false);
+    const [openSuccess, setSuccessOpen] = useState(false);
     const [isOpenChangePhoneModal, openChangePhoneModal] = useState(false);
     const [isOpenChangeProfileField, openChangeProfileField] = useState(false);
     const [changeableField, setChangeableField] = useState<field>("email");
@@ -60,19 +66,30 @@ const PersonalProfileCard: FC = () => {
         setChangeableField("email");
         setChangeableValue(user.email);
         openChangeProfileField(true);
+        setSuccessOpen(false);
     };
 
     const handleOpenChangeFio = () => {
         setChangeableField("фио");
         setChangeableValue(user.fio);
         openChangeProfileField(true);
+        setSuccessOpen(false);
     };
 
     const handleOpenChangePassword = () => {
         setChangeableField("пароль");
         setChangeableValue("");
         openChangeProfileField(true);
+        setSuccessOpen(false);
     };
+
+    const handlerSetOpenSuccess = () => {
+        setSuccessOpen(false);
+    };
+
+    const clearQuery = () => {
+        history.pushState(null, '', router.pathname);
+    }
 
     return (
         <div className={styles.cardWrapperLk}>
@@ -140,7 +157,7 @@ const PersonalProfileCard: FC = () => {
                                     <span className={styles.personLabel}>
                                         Email:
                                     </span>{" "}
-                                    {user.email ? user.email : "Не заполнен"}
+                                    {user.email ? user.email : "Не заполнено"}
                                 </Typography>
                                 <ModeIcon
                                     className={styles.modeIcon}
@@ -177,12 +194,29 @@ const PersonalProfileCard: FC = () => {
             <ProfileChangeFields
                 modalProps={{
                     open: isOpenChangeProfileField,
+                    setSuccessOpen: setSuccessOpen,
                     setClose: handleCloseChangeProfileField,
                 }}
                 changeFieldsProps={{
                     field: changeableField,
                     currentValue: changeableValue,
                 }}
+            />
+            <CustomSnackBar
+                severity="success"
+                message="Ваш email был подтвержден"
+                isOpen={router.query.activate ? true : false}
+                onClose={clearQuery}
+            />
+            <CustomSnackBar
+                severity="success"
+                message={
+                    changeableField === "email"
+                        ? `${changeableField} успешно изменен вам на почту было отправлено письмо для подтверждения`
+                        : `Поле ${changeableField} успешно изменено`
+                }
+                isOpen={openSuccess}
+                onClose={handlerSetOpenSuccess}
             />
         </div>
     );

@@ -27,7 +27,7 @@ const PersonalChangePhone: FC<IPersonalChangePhone> = ({ modalProps }) => {
     const dispatch = useDispatch();
 
     const { open, setClose } = modalProps;
-    const { changePhoneState } = useActions();
+    const { changePhoneState, setNewPhoneVerify } = useActions();
     const { sendCode, clearUserErrorMessage, errorMessage } = useAuthorizationUser();
     const { isNewPhoneVerify } = useAppSelector(state => state.userReducer);
 
@@ -61,6 +61,7 @@ const PersonalChangePhone: FC<IPersonalChangePhone> = ({ modalProps }) => {
         await changePhoneState({ phone: phoneNumber });
         setPhone("");
         openSuccessMessage(true);
+        setNewPhoneVerify({isVerify: false})
     };
 
     const handlerCloseSuccessMes = () => {
