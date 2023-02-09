@@ -336,6 +336,7 @@ export const userSlice = createSlice({
         },
         [uploadAvatar.fulfilled]: (state, action) => {
             state.status = 'resolved';
+            state.user.avatar = action.payload;
             state.error = {message: ''};
         },
         [uploadAvatar.rejected]: (state, action) => {
