@@ -68,6 +68,12 @@ body {
     text-shadow: 2px 2px 10px #000;
 }
 
+.banner-content {
+    max-width: 79%;
+    min-width: 63%;
+    margin-top: 82px;
+}
+
 .banner-button {
     border-radius: 19px;
 }
