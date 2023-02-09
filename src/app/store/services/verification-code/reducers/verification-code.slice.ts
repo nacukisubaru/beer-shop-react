@@ -1,5 +1,7 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IRegistrationFields } from "../../users/types/auth.types";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { thunkAxiosPost } from "../../../../helpers/queryHelper";
+import { removeMask } from "../../../../helpers/stringHelper";
+import { IRegistrationFields, IUserVerifyData } from "../../users/types/auth.types";
 
 const initialState = {
     loginPhone: "",
@@ -9,7 +11,7 @@ const initialState = {
     retryPassword: "",
     minutesResend: 1,
     secondsResend: 59,
-    canResendCode: false
+    canResendCode: false,
 };
 
 export const verificationCodeSlice = createSlice({
@@ -23,13 +25,11 @@ export const verificationCodeSlice = createSlice({
             state.phone = action.payload.phone;
         },
         setRegFields: (state, action: PayloadAction<IRegistrationFields>) => {
-            state.email = action.payload.email;
             state.phone = action.payload.phone;
             state.password = action.payload.password;
             state.retryPassword = action.payload.retryPassword;
         },
         resetRegFields: (state) => {
-            state.email = "";
             state.phone = "";
             state.password = "";
             state.retryPassword = "";            
@@ -43,7 +43,7 @@ export const verificationCodeSlice = createSlice({
         setCanResendCode: (state, action: PayloadAction<{resendCode: boolean}>) => {
             state.canResendCode = action.payload.resendCode;
         }
-    }
+    },
 });
 
 export const verificationCodeReducer = verificationCodeSlice.reducer;

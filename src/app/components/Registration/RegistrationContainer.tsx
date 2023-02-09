@@ -10,7 +10,7 @@ interface RegistrationContainerProps {
 
 const RegistrationContainer: FC<RegistrationContainerProps> = ({consentText}) => {
     const regError = useAppSelector((state) => state.userReducer.error);
-    const { phone, email, password, retryPassword } = useAppSelector(
+    const { phone, password, retryPassword } = useAppSelector(
         (state) => state.verificationCodeReducer
     );
     const { registrateUser } = useAuthorizationUser();
@@ -20,7 +20,7 @@ const RegistrationContainer: FC<RegistrationContainerProps> = ({consentText}) =>
         <RegistrationView
             registrate={registrateUser}
             setRegistrationFields={setRegFields}
-            defaultValues={{ phone, email, password, retryPassword }}
+            defaultValues={{ phone, password, retryPassword }}
             error={regError}
             consentText={consentText}
         />

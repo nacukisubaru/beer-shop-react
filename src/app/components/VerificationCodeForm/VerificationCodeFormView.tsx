@@ -8,49 +8,23 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Timer from "../Timer/Timer";
 import InputMask from "react-input-mask";
-import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import VerificationCodeForm from "./VerificationCodeForm";
 //import "./css/style.css";
 
 interface VerificationCodeFormViewProps {
     error: string;
     requestCode: () => void;
     login: (code: string) => void;
-    back: () => void;
+    back?: () => void;
 }
 
 const VerificationCodeFormView: FC<VerificationCodeFormViewProps> = ({
     requestCode,
     login,
     error,
-    back
+    back,
 }) => {
-    const { setMinutesResend, setSecondsResend, setCanResendCode } =
-        useActions();
-    const { minutesResend, secondsResend, canResendCode } = useAppSelector(
-        (state) => state.verificationCodeReducer
-    );
-    const [code, setCode] = useState("");
-    const styleError = {
-        display: "flex",
-        justifyContent: "left",
-        marginTop: "-6px",
-        color: "red",
-    };
-
-    const handleSubmit = (e: any) => {
-        e.preventDefault();
-        login(code);
-    };
-
-    const handleChangeCode = (e: any) => {
-        setCode(e.target.value);
-    };
-
-    useEffect(() => {
-        if (minutesResend === 0 && secondsResend === 0) {
-            setCanResendCode({ resendCode: true });
-        }
-    }, [minutesResend, secondsResend, setCanResendCode]);
 
     return (
         <>
@@ -63,61 +37,20 @@ const VerificationCodeFormView: FC<VerificationCodeFormViewProps> = ({
             >
                 <Card sx={{ width: 350 }}>
                     <CardContent>
-                        <KeyboardBackspaceIcon 
-                            style={{display: 'flex', cursor: 'pointer'}}
+                        <KeyboardBackspaceIcon
+                            style={{ display: "flex", cursor: "pointer" }}
                             onClick={back}
                         />
+
                         <Typography variant="h5" component="div">
                             <h2>Введите код</h2>
                         </Typography>
-                        <form onSubmit={handleSubmit}>
-                        <InputMask
-                            mask="9 9 9 9"
-                            value={code}
-                            onChange={(e)=>{handleChangeCode(e)}}
-                        >
-                            <TextField
-                                fullWidth
-                                id="outlined-required"
-                                label="Код"
-                                type="text"
-                                style={{ marginBottom: "10px" }}
-                            />
-                         </InputMask>
-                            {error && <p style={styleError}>{error}</p>}
-                            {!canResendCode && (
-                                <div className="code-again-text">
-                                    <Typography>
-                                        <div style={{display:"flex", justifyContent: "space-evenly", marginBottom: "5px"}}>
-                                        Запросить код повторно через:  
-                                        <Timer
-                                            minutes={minutesResend}
-                                            seconds={secondsResend}
-                                            setMinutes={setMinutesResend}
-                                            setSeconds={setSecondsResend}
-                                        />
-                                        </div>
-                                    </Typography>
-                                </div>
-                            )}
-
-                            <Button
-                                variant="contained"
-                                style={{ width: "316px", marginBottom: "10px" }}
-                                type="submit"
-                            >
-                                Войти
-                            </Button>
-
-                            <Button
-                                variant="contained"
-                                style={{ width: "316px", marginBottom: "10px" }}
-                                onClick={requestCode}
-                                disabled={canResendCode === true ? false : true}
-                            >
-                                Запросить код
-                            </Button>
-                        </form>
+                        <VerificationCodeForm
+                            requestCode={requestCode}
+                            login={login}
+                            error={error}
+                            nameBtn="Войти"
+                        />
                     </CardContent>
                 </Card>
             </div>

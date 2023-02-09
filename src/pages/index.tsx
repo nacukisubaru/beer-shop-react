@@ -16,7 +16,12 @@ import YMapContacts from "../app/components/YandexMaps/Contacts/YMapContacts";
 import HTMLReactParser from "html-react-parser";
 import { decodeHtml } from "../app/helpers/stringHelper";
 import { cmsQueryExecute } from "../app/helpers/cmsHelper";
-import { fetchArticlesList, fetchHeaderData, fetchPhonesList, fetchSocialNetworks } from "../app/store/reducers/header.slice";
+import {
+    fetchArticlesList,
+    fetchHeaderData,
+    fetchPhonesList,
+    fetchSocialNetworks,
+} from "../app/store/reducers/header.slice";
 
 const Home = ({ data }) => {
     const {
@@ -29,7 +34,8 @@ const Home = ({ data }) => {
         banner,
     } = data.mainpage;
 
-    const { placeName, address, workTime, wayDesc, photosPlace } = data.yandexmap;
+    const { placeName, address, workTime, wayDesc, photosPlace } =
+        data.yandexmap;
     const router = useRouter();
     return (
         <div className="page-container">
@@ -40,29 +46,6 @@ const Home = ({ data }) => {
                 filterList={[]}
             />
             <div>
-                <div className="banner">
-                    <Typography className="banner-text" variant="subtitle1">
-                        {bannerSlogan
-                            ? HTMLReactParser(decodeHtml(bannerSlogan))
-                            : HTMLReactParser(
-                                  decodeHtml("Там где твои друзья<br/>Пивградъ")
-                              )}
-                    </Typography>
-                    <Typography className="banner-under-text" variant="subtitle2">
-                        {bannerSlogan2
-                            ? HTMLReactParser(decodeHtml(bannerSlogan2))
-                            : "попробуй яркий вкус свежего пива"}
-                    </Typography>
-                    <Button
-                        className="banner-button"
-                        variant="contained"
-                        onClick={() => {
-                            router.replace("/products/beers");
-                        }}
-                    >
-                        Попробовать
-                    </Button>
-                </div>
                 {banner.length > 0 ? (
                     <Box
                         className="banner-image"
@@ -70,8 +53,42 @@ const Home = ({ data }) => {
                             background: `url(${banner[0].url}) center center no-repeat`,
                             height: 200,
                             width: 200,
+                            display: "flex",
+                            justifyContent: "center"
                         }}
-                    ></Box>
+                    >
+                        <div className="banner-content">
+                            <Typography
+                                className="banner-text"
+                                variant="subtitle1"
+                            >
+                                {bannerSlogan
+                                    ? HTMLReactParser(decodeHtml(bannerSlogan))
+                                    : HTMLReactParser(
+                                          decodeHtml(
+                                              "Там где твои друзья<br/>Пивградъ"
+                                          )
+                                      )}
+                            </Typography>
+                            <Typography
+                                className="banner-under-text"
+                                variant="subtitle2"
+                            >
+                                {bannerSlogan2
+                                    ? HTMLReactParser(decodeHtml(bannerSlogan2))
+                                    : "попробуй яркий вкус свежего пива"}
+                            </Typography>
+                            <Button
+                                className="banner-button"
+                                variant="contained"
+                                onClick={() => {
+                                    router.replace("/products/beers");
+                                }}
+                            >
+                                Попробовать
+                            </Button>
+                        </div>
+                    </Box>
                 ) : (
                     <Image
                         className="banner-image-ssr"
@@ -156,12 +173,12 @@ export const getServerSideProps: GetServerSideProps =
                     banner: [],
                 },
                 yandexmap: {
-                    placeName: "", 
-                    address: "", 
-                    workTime: "", 
-                    wayDesc: "", 
-                    photosPlace: {}
-                }
+                    placeName: "",
+                    address: "",
+                    workTime: "",
+                    wayDesc: "",
+                    photosPlace: {},
+                },
             },
         };
 
@@ -178,7 +195,7 @@ export const getServerSideProps: GetServerSideProps =
         const resultMapPoints = await cmsQueryExecute(
             "/api/yandex-map-points?populate=*"
         );
-  
+
         if (resultMapPoints.length > 0) {
             props.data.yandexmap = resultMapPoints[0];
         }

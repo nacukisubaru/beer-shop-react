@@ -1,8 +1,9 @@
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { removeMask } from "../helpers/stringHelper";
-import { checkUserNotExistByEmailAndPhone, checkUserExistByPhone, loginByCode, sendCodeByCall, registrate, login } from "../store/services/users/reducers/user.slice";
+import { checkUserExistByPhone, loginByCode, sendCodeByCall, registrate, login, verifyUserBySmsCode, verifyPhoneByCode, checkUserNotExistByPhone } from "../store/services/users/reducers/user.slice";
 import { ILogin, IRegistration, ISendCodeByCallResponse } from "../store/services/users/types/auth.types";
 import { useActions } from "./useActions";
 import { useAppSelector } from "./useAppSelector";
@@ -15,9 +16,23 @@ export const useAuthorizationUser = () => {
     const router = useRouter();
     
     const {backRedirectToOrder} = useAppSelector(state => state.orderReducer);
-    const {user} = useAppSelector((state) => state.userReducer);
-    
-    const sendCode = async (phone: string): Promise<boolean> => {
+    const {user, error} = useAppSelector((state) => state.userReducer);
+    const [errorMessage, setErrorMessage] = useState("");
+    const {clearUserErrors} = useActions();
+
+    useEffect(() => {
+        if (error.message) {
+           setErrorMessage(error.message);
+        } else {
+            setErrorMessage("");
+        }
+    }, [error]);
+
+    const clearUserErrorMessage = async () => {
+        clearUserErrors();
+    }
+
+    const sendCode = async (phone: string, switchVerifyForm: boolean = true): Promise<boolean> => {
         await setSecondsResend({ seconds: 59 });
         await setMinutesResend({ minutes: 1 });
 
@@ -34,18 +49,22 @@ export const useAuthorizationUser = () => {
         }
 
         setCanResendCode({resendCode: false});
-        switchVerificationForm();
+        if (switchVerifyForm) {
+            console.log('work');
+            switchVerificationForm();
+        }
         return true;
     }
 
     const registrateUser = async (userData: IRegistration) => {
-        const result = await dispatch(checkUserNotExistByEmailAndPhone({
-            email: userData.email, 
-            phone: userData.phone
-        }));
+        
+        const result = await dispatch(checkUserNotExistByPhone(
+            userData.phone
+        ));
 
         const isUserNotExist = unwrapResult(result);
-        if (isUserNotExist.result) {
+        if (isUserNotExist) {
+            console.log({phone: userData.phone});
             await setPhone({phone: userData.phone});
             const result = await sendCode(userData.phone);
             if (result) {
@@ -86,5 +105,26 @@ export const useAuthorizationUser = () => {
        return user.roles.some((role) => role.value === roleValue);
     }
 
-    return { sendCode, registrateUser, authByCodeStepSendCode, authByCodeStepLogin, loginUser, checkRoleUser };
+    const verifyBySmsCode = async (phone: string, code: string) => {
+        code = code.replace(/\s/g, '');
+        await dispatch(verifyUserBySmsCode({phone, code}));
+    }
+
+    const verifyPhone = (phone: string, code: string) => {
+        code = code.replace(/\s/g, '');
+        dispatch(verifyPhoneByCode({phone, code}));
+    }
+
+    return { 
+        sendCode, 
+        registrateUser, 
+        authByCodeStepSendCode, 
+        authByCodeStepLogin, 
+        verifyBySmsCode, 
+        verifyPhone, 
+        loginUser, 
+        checkRoleUser,
+        clearUserErrorMessage, 
+        errorMessage 
+    };
 }

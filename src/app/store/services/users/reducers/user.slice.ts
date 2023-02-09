@@ -1,23 +1,25 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {thunkAxiosGet, thunkAxiosPost} from "../../../../helpers/queryHelper";
 import { removeMask } from "../../../../helpers/stringHelper";
-import { IAuth, ILogin, ILoginByCode, IRegistration, ISendCodeByCallResponse, IUserRegData } from "../types/auth.types";
+import { IAuth, ILogin, ILoginByCode, IRegistration, ISendCodeByCallResponse, IUserRegData, IUserVerifyData } from "../types/auth.types";
 import { IUser } from "../types/user.types";
 
 const initialState: IAuth = {
     accessToken: '',
     user: {
         id: 0,
-        name: '',
-        surname: '',
+        fio: '',
         email: '',
         phone: '',
+        avatar: '',
         isActivated: false,
         roles: [],
         createdAt: '',
         updatedAt: '',
     },
     isAuth: false,
+    isVerifyPhone: false,
+    isNewPhoneVerify: false,
     status: '',
     error: {message: ''}
 };
@@ -76,11 +78,71 @@ export const checkUserExistByPhone:any = createAsyncThunk(
     }
 );
 
+export const checkUserNotExistByPhone:any = createAsyncThunk(
+    'checkUserNotExistByPhone/get',
+    async(phone: string, {rejectWithValue}) => {
+        phone = removeMask(phone);
+        return thunkAxiosGet('/users/checkUserNotExistByPhone/', {phone}, false, rejectWithValue);
+    }
+);
+
 export const checkUserNotExistByEmailAndPhone:any = createAsyncThunk(
     'checkUserNotExistByEmailAndPhone/get',
     async(body: IUserRegData, {rejectWithValue}) => {
         const phone = removeMask(body.phone);
         return thunkAxiosGet('/users/checkUserNotExistByEmailAndPhone/', {...body, phone}, false, rejectWithValue);
+    }
+);
+
+export const verifyUserBySmsCode:any = createAsyncThunk(
+    'verifyUserBySmsCode/post',
+    async(body: IUserVerifyData, {rejectWithValue}) => {
+        const phone = removeMask(body.phone);
+        return thunkAxiosPost('/users/verifyUserByCode/', {...body, phone}, false, rejectWithValue);
+    }
+);
+
+export const verifyPhoneByCode:any = createAsyncThunk(
+    'verifyPhoneByCode/post',
+    async(body: IUserVerifyData, {rejectWithValue}) => {
+        const phone = removeMask(body.phone);
+        return thunkAxiosPost('/users/verifyPhoneByCode/', {...body, phone}, false, rejectWithValue);
+    }
+);
+
+export const changePhone:any = createAsyncThunk(
+    'changePhone/post',
+    async(phone:string, {rejectWithValue}) => {
+        phone = removeMask(phone);
+        return thunkAxiosPost('/users/changePhone/', {phone}, true, rejectWithValue);
+    }
+);
+
+export const changeFio:any = createAsyncThunk(
+    'changeFio/post',
+    async(fio:string, {rejectWithValue}) => {
+        return thunkAxiosPost('/users/changeFio/', {fio}, true, rejectWithValue);
+    }
+);
+
+export const changeEmail:any = createAsyncThunk(
+    'changeEmail/post',
+    async(email:string, {rejectWithValue}) => {
+        return thunkAxiosPost('/users/changeEmail/', {email}, true, rejectWithValue);
+    }
+);
+
+export const changePassword:any = createAsyncThunk(
+    'changePassword/post',
+    async(password:string, {rejectWithValue}) => {
+        return thunkAxiosPost('/users/changePassword/', {password}, true, rejectWithValue);
+    }
+);
+
+export const uploadAvatar:any = createAsyncThunk(
+    'uploadAvatar/post',
+    async(form:any, {rejectWithValue}) => {
+        return thunkAxiosPost('/users/uploadAvatar/', form, true, rejectWithValue);
     }
 );
 
@@ -94,8 +156,21 @@ export const userSlice = createSlice({
             state.accessToken = token;
             state.user = user;
         },
+        changePhoneState: (state, action: PayloadAction<{phone: string}>) => {
+            state.user.phone = removeMask(action.payload.phone);
+            state.isVerifyPhone = false;
+        },
+        changeEmailState: (state, action: PayloadAction<{email: string}>) => {
+            state.user.email = action.payload.email;
+        },
+        changeFioState: (state, action: PayloadAction<{fio: string}>) => {
+            state.user.fio = action.payload.fio;
+        },
         clearUserErrors: (state) => {
             state.error = {message: ''};
+        },
+        setNewPhoneVerify: (state, action: PayloadAction<{isVerify: boolean}>) => {
+            state.isNewPhoneVerify = action.payload.isVerify;
         }
     },
     extraReducers: {
@@ -160,7 +235,10 @@ export const userSlice = createSlice({
         },
         [getUser.rejected]: (state,action) => {
             state.status = 'rejected';
-            state.error = action.payload;
+            const payload = action.payload;
+            if (payload) {
+                state.error = action.payload;
+            }
         },
         [registrate.pending]: (state) => {
             state.status = 'loading';
@@ -209,6 +287,17 @@ export const userSlice = createSlice({
             state.status = 'rejected';
             state.error = action.payload;
         },
+        [checkUserNotExistByPhone.pending]: (state) => {
+            state.status = 'loading';
+        },
+        [checkUserNotExistByPhone.fulfilled]: (state, action) => {
+            state.status = 'resolved';
+            state.error =  {message: ''}
+        },
+        [checkUserNotExistByPhone.rejected]: (state,action) => {
+            state.status = 'rejected';
+            state.error = action.payload;
+        },
         [checkUserNotExistByEmailAndPhone.pending]: (state) => {
             state.status = 'loading';
         },
@@ -219,6 +308,47 @@ export const userSlice = createSlice({
         [checkUserNotExistByEmailAndPhone.rejected]: (state,action) => {
             state.status = 'rejected';
             state.error = action.payload;
+        },
+        [verifyUserBySmsCode.fulfilled]: (state, action) => {
+            state.status = 'resolved';
+            state.error =  {message: ''}
+            state.isVerifyPhone = true;
+        },
+        [verifyUserBySmsCode.rejected]: (state, action) => {
+            state.status = 'rejected';
+            const payload = action.payload;
+            state.error.message = payload.response.data.message;
+            state.isVerifyPhone = false;
+        },
+        [verifyPhoneByCode.pending]: (state) => {
+            state.status = 'loading';
+            state.isNewPhoneVerify = false;
+            state.error = {message: ''};
+        },
+        [verifyPhoneByCode.fulfilled]: (state, action) => {
+            state.status = 'resolved';
+            state.isNewPhoneVerify = true;
+            state.error = {message: ''};
+        },
+        [verifyPhoneByCode.rejected]: (state, action) => {
+            state.status = 'rejected';
+            state.isNewPhoneVerify = false;
+            const payload = action.payload;
+            state.error.message = payload.response.data.message;
+        },
+        [uploadAvatar.pending]: (state) => {
+            state.status = 'loading';
+            state.error = {message: ''};
+        },
+        [uploadAvatar.fulfilled]: (state, action) => {
+            state.status = 'resolved';
+            state.user.avatar = action.payload;
+            state.error = {message: ''};
+        },
+        [uploadAvatar.rejected]: (state, action) => {
+            state.status = 'rejected';
+            const payload = action.payload;
+            state.error.message = payload.message;
         },
     }
 })

@@ -141,6 +141,9 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
                         fontSize: "25px",
                     },
             },
+            h5: {
+                fontWeight: 600,
+            },
             subtitle1: {
                 fontSize: "60px",
                 lineHeight: "unset",

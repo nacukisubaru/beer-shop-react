@@ -4,13 +4,14 @@ export interface IAuth {
     accessToken: string,
     user: IUser,
     isAuth: boolean,
+    isVerifyPhone: boolean,
+    isNewPhoneVerify: boolean,
     status: string,
     error: {message: string}
 }
 
 export interface IRegistration {
     phone: string,
-    email: string,
     password: string
 }
 
@@ -45,4 +46,9 @@ export interface ISendCodeByCallResponse {
     status: string,
     status_text: string,
     remainingTime: IRemainingTime
+}
+
+export interface IUserVerifyData {
+    phone: string,
+    code: string
 }

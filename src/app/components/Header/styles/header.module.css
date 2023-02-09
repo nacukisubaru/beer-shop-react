@@ -185,10 +185,6 @@
     .wrapperHeader {
         width: 100%;
     }
-
-    .vkIcon {
-        display: none;
-    }
 }
 
 @media only screen 
@@ -197,9 +193,5 @@
  {
     .wrapperHeader {
         width: 100%;
-    }
-
-    .vkIcon {
-        display: none;
     }
 }

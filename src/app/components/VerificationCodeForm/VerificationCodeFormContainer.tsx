@@ -1,15 +1,12 @@
 import { useRouter } from "next/router";
 import { FC } from "react";
-import { useDispatch } from "react-redux";
 import { useActions } from "../../hooks/useActions";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useAuthorizationUser } from "../../hooks/useAuthorizationUser";
-import {
-    sendCodeByCall,
-} from "../../store/services/users/reducers/user.slice";
 import VerificationCodeFormView from "./VerificationCodeFormView";
 
 const VerificationCodeFormContainer: FC = () => {
+    const router = useRouter();
     const { setMinutesResend, setSecondsResend, setCanResendCode, switchLoginForm, clearUserErrors } = useActions();
     const { phone, loginPhone } = useAppSelector(
         (state) => state.verificationCodeReducer
@@ -17,21 +14,17 @@ const VerificationCodeFormContainer: FC = () => {
     const {lastestForm} = useAppSelector((state) => state.accountFormsReducer);
     const {error} = useAppSelector((state) => state.userReducer);
     const {backRedirectToOrder} = useAppSelector(state => state.orderReducer);
-    const dispatch = useDispatch();
-    const router = useRouter();
-    const {authByCodeStepLogin} = useAuthorizationUser();
+    const {authByCodeStepLogin, sendCode} = useAuthorizationUser();
 
     const handlerLoginByCode = async (code: string) => {
-        const phoneNumber = lastestForm === "login" ? loginPhone : phone;
-        await authByCodeStepLogin(phoneNumber, code);
+        await authByCodeStepLogin(loginPhone, code);
         if(backRedirectToOrder) {
             router.replace("/basket");
         }
     };
 
     const handlerRequestCode = () => {
-        const phoneNumber = lastestForm === "login" ? loginPhone : phone;
-        dispatch(sendCodeByCall(phoneNumber));
+        sendCode(loginPhone, false);
         setSecondsResend({seconds: 59});
         setMinutesResend({minutes: 1});
         setCanResendCode({resendCode: false});
