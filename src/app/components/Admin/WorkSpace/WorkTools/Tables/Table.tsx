@@ -9,10 +9,12 @@ import AddContentModal from "../../../../Modals/Admin/AddContent";
 import ResultNotFoundByFilter from "../../../../Modals/Messages/ResultNotFoundByFilter";
 import PaginationTable from "../Pagination/PaginationTable";
 import Action from "../Actions/Action";
-interface IColumn {
+
+export interface IColumn {
     field: string;
     headerName: string;
     width: number;
+    renderFunc?: (params:any) => void;
     filterable?: boolean;
 }
 

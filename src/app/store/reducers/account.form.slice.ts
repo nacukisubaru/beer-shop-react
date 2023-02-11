@@ -26,7 +26,6 @@ export const accountFormsSlice = createSlice({
         },
         switchVerificationForm: (state) => {
             state.isVerificationCodeForm = true;
-            console.log('work')
             state.isLoginForm = false;
             state.isRegistrationForm = false
         }

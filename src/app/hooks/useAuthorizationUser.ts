@@ -50,7 +50,6 @@ export const useAuthorizationUser = () => {
 
         setCanResendCode({resendCode: false});
         if (switchVerifyForm) {
-            console.log('work');
             switchVerificationForm();
         }
         return true;
@@ -64,7 +63,6 @@ export const useAuthorizationUser = () => {
 
         const isUserNotExist = unwrapResult(result);
         if (isUserNotExist) {
-            console.log({phone: userData.phone});
             await setPhone({phone: userData.phone});
             const result = await sendCode(userData.phone);
             if (result) {
