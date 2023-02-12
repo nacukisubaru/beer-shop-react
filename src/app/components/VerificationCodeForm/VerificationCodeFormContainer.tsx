@@ -8,10 +8,9 @@ import VerificationCodeFormView from "./VerificationCodeFormView";
 const VerificationCodeFormContainer: FC = () => {
     const router = useRouter();
     const { setMinutesResend, setSecondsResend, setCanResendCode, switchLoginForm, clearUserErrors } = useActions();
-    const { phone, loginPhone } = useAppSelector(
+    const { loginPhone } = useAppSelector(
         (state) => state.verificationCodeReducer
     );
-    const {lastestForm} = useAppSelector((state) => state.accountFormsReducer);
     const {error} = useAppSelector((state) => state.userReducer);
     const {backRedirectToOrder} = useAppSelector(state => state.orderReducer);
     const {authByCodeStepLogin, sendCode} = useAuthorizationUser();

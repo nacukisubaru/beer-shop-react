@@ -3,6 +3,7 @@ import { FC, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { emailPattern } from "../../helpers/validationHelper";
 import { useActions } from "../../hooks/useActions";
+import { useAuthorizationUser } from "../../hooks/useAuthorizationUser";
 import {
     changeEmail,
     changeFio,
@@ -37,6 +38,7 @@ const ProfileChangeFields: FC<IProfileChangeFields> = ({
     const { open, setClose, setSuccessOpen } = modalProps;
     const { field, currentValue } = changeFieldsProps;
     const { changeEmailState, changeFioState } = useActions();
+    const { errorMessage, clearUserErrorMessage } = useAuthorizationUser();
 
     const [fieldValue, setFieldValue] = useState("");
     const [password, setPassword] = useState("");
@@ -52,6 +54,15 @@ const ProfileChangeFields: FC<IProfileChangeFields> = ({
     const handlerSetRepeatPasswordValue = (event: any) => {
         setPassword(event.target.value);
     };
+
+    const reset = () => {
+        setClose();
+        setSuccessOpen(true);
+        setFieldValue("");
+        setPassword("");
+        setPasswordError("");
+        setError("");
+    }
 
     const submit = (event: any) => {
         event.preventDefault();
@@ -82,12 +93,6 @@ const ProfileChangeFields: FC<IProfileChangeFields> = ({
 
         if (!error && !errorPass) {
             changeField(fieldValue);
-            setClose();
-            setSuccessOpen(true);
-            setFieldValue("");
-            setPassword("");
-            setPasswordError("");
-            setError("");
         } else {
             if (error) {
                 setError(error);
@@ -98,24 +103,35 @@ const ProfileChangeFields: FC<IProfileChangeFields> = ({
         }
     };
 
-    const changeField = (fieldValue: string) => {
+    const changeField = async (fieldValue: string) => {
+        let result: any;
         switch (field) {
             case "email":
-                dispatch(changeEmail(fieldValue));
-                changeEmailState({ email: fieldValue });
+                result = await dispatch(changeEmail(fieldValue));
+                if (result.payload === true) {
+                    reset();
+                    changeEmailState({ email: fieldValue });
+                }
                 break;
             case "фио":
-                dispatch(changeFio(fieldValue));
-                changeFioState({ fio: fieldValue });
+                result = await dispatch(changeFio(fieldValue));
+                if (result.payload === true) {
+                    reset();
+                    changeFioState({ fio: fieldValue });
+                }
                 break;
             case "пароль":
-                dispatch(changePassword(fieldValue));
+                result = await dispatch(changePassword(fieldValue));
+                if (result.payload === true) {
+                    reset();
+                }
                 break;
         }
     };
 
     useEffect(() => {
         setFieldValue(currentValue);
+        clearUserErrorMessage();
     }, [currentValue]);
 
     return (
@@ -124,7 +140,7 @@ const ProfileChangeFields: FC<IProfileChangeFields> = ({
                 open={open}
                 body={
                     <div className={styles.verifyModal}>
-                        <form onSubmit={submit}>
+                        <form onSubmit={submit}>              
                             <TextField
                                 id="profile-field"
                                 label={field}
@@ -140,6 +156,14 @@ const ProfileChangeFields: FC<IProfileChangeFields> = ({
                                     {error}
                                 </Typography>
                             )}
+
+                            {errorMessage && (
+                                <Typography style={{ color: "red" }}>
+                                    {errorMessage}
+                                </Typography>
+                            )}
+
+                            <Typography style={{marginBottom: "5px"}}>Вам придёт уведомление на email когда ваш заказ можно будет забрать из магазина</Typography>
 
                             {field === "пароль" && (
                                 <TextField

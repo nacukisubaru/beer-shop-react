@@ -10,19 +10,24 @@ import { useAppSelector } from "./useAppSelector";
 import { useBasket } from "./useBasket";
 
 export const useAuthorizationUser = () => {
-    const { setLoginPhone, setPhone, switchVerificationForm, setMinutesResend, setSecondsResend, switchLoginForm, setCanResendCode, resetRegFields } = useActions();
+    const { 
+        setLoginPhone, setPhone, 
+        switchVerificationForm, 
+        setMinutesResend, setSecondsResend, 
+        switchLoginForm, setCanResendCode, 
+        resetRegFields, setRegisteredNow } = useActions();
     const dispatch = useDispatch();
     const { getBasketByUser } = useBasket();
     const router = useRouter();
-    
-    const {backRedirectToOrder} = useAppSelector(state => state.orderReducer);
-    const {user, error} = useAppSelector((state) => state.userReducer);
+
+    const { backRedirectToOrder } = useAppSelector(state => state.orderReducer);
+    const { user, error } = useAppSelector((state) => state.userReducer);
     const [errorMessage, setErrorMessage] = useState("");
-    const {clearUserErrors} = useActions();
+    const { clearUserErrors } = useActions();
 
     useEffect(() => {
         if (error.message) {
-           setErrorMessage(error.message);
+            setErrorMessage(error.message);
         } else {
             setErrorMessage("");
         }
@@ -48,7 +53,7 @@ export const useAuthorizationUser = () => {
             setMinutesResend({ minutes });
         }
 
-        setCanResendCode({resendCode: false});
+        setCanResendCode({ resendCode: false });
         if (switchVerifyForm) {
             switchVerificationForm();
         }
@@ -56,19 +61,19 @@ export const useAuthorizationUser = () => {
     }
 
     const registrateUser = async (userData: IRegistration) => {
-        
+
         const result = await dispatch(checkUserNotExistByPhone(
             userData.phone
         ));
 
         const isUserNotExist = unwrapResult(result);
         if (isUserNotExist) {
-            await setPhone({phone: userData.phone});
+            await setPhone({ phone: userData.phone });
             const result = await sendCode(userData.phone);
             if (result) {
                 await dispatch(registrate(userData));
                 resetRegFields();
-                setLoginPhone({phone: userData.phone});
+                setLoginPhone({ phone: userData.phone });
             }
         }
     }
@@ -76,7 +81,7 @@ export const useAuthorizationUser = () => {
     const authByCodeStepSendCode = async (phone: string) => {
         let isUserExist = await dispatch(checkUserExistByPhone(phone));
         if (!isUserExist.error) {
-            await setLoginPhone({phone});
+            await setLoginPhone({ phone });
             sendCode(phone);
         }
     }
@@ -93,36 +98,37 @@ export const useAuthorizationUser = () => {
         const data = await dispatch(login(post));
         if (data.payload.user) {
             await getBasketByUser();
-            if(backRedirectToOrder) {
+            await setRegisteredNow({ isReg: false });
+            if (backRedirectToOrder) {
                 router.replace('/basket');
             }
         }
     }
 
     const checkRoleUser = (roleValue: string) => {
-       return user.roles.some((role) => role.value === roleValue);
+        return user.roles.some((role) => role.value === roleValue);
     }
 
     const verifyBySmsCode = async (phone: string, code: string) => {
         code = code.replace(/\s/g, '');
-        await dispatch(verifyUserBySmsCode({phone, code}));
+        await dispatch(verifyUserBySmsCode({ phone, code }));
     }
 
     const verifyPhone = (phone: string, code: string) => {
         code = code.replace(/\s/g, '');
-        dispatch(verifyPhoneByCode({phone, code}));
+        dispatch(verifyPhoneByCode({ phone, code }));
     }
 
-    return { 
-        sendCode, 
-        registrateUser, 
-        authByCodeStepSendCode, 
-        authByCodeStepLogin, 
-        verifyBySmsCode, 
-        verifyPhone, 
-        loginUser, 
+    return {
+        sendCode,
+        registrateUser,
+        authByCodeStepSendCode,
+        authByCodeStepLogin,
+        verifyBySmsCode,
+        verifyPhone,
+        loginUser,
         checkRoleUser,
-        clearUserErrorMessage, 
-        errorMessage 
+        clearUserErrorMessage,
+        errorMessage
     };
 }
