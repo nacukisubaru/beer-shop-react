@@ -8,7 +8,7 @@ interface IMessage {
 }
 
 export const useTableAction = (messages: IMessage) => {
-    const { setDetailId, openModalAddContent } = useActions();
+    const { setDetailId, setDetailData, openModalAddContent } = useActions();
     const [isUpdAction, setUpdAction] = useState(false);
     const [message, setMessage] = useState<string>("");
 
@@ -33,12 +33,14 @@ export const useTableAction = (messages: IMessage) => {
         }
         await setUpdAction(true);
         await setDetailId({ id });
+        await setDetailData({data: params.row});
         openModalAddContent();
     }
 
     const showDetail = async (params: any) => {
         const id = params.row.id;
         await setDetailId({ id });
+        await setDetailData({data: params.row});
         openModalAddContent();
     }
 

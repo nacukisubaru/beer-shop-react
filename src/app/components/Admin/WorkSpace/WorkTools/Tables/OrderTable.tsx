@@ -8,14 +8,16 @@ import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import TableAdmin from "./Table";
 import BasketTable from "./BasketTable";
 import OrderFilterTable from "../Filters/OrderFilterTable";
+import EditIcon from '@mui/icons-material/Edit';
+import OrderForm from "../Forms/Order/OrderForm";
 
 export default function OrderTableAdmin() {
-    const { rows, clearStateResponse, stateResponse } = useCatalog(orderApi);
+    const { rows, clearStateResponse, updRow, stateResponse } = useCatalog(orderApi);
     const { openModalAddContent } = useActions();
-    const { closeTableModal, message } = useTableAction({
+    const { closeTableModal, message, rowEdit, isUpdAction } = useTableAction({
         successMessage: "Статус заказа обновлен",
     });
-
+    
     const [baskets, setBaskets] = useState(new Map());
     const [basket, setBasket] = useState<IBasketOrderProduct[]>([]);
 
@@ -32,7 +34,7 @@ export default function OrderTableAdmin() {
         setBasket(baskets.get(id));
         openModalAddContent();
     };
-//<div className="status-order" style={{backgroundColor: "red"}} >{params.row.status}</div>
+
     return (
         <TableAdmin
             columns={[
@@ -63,14 +65,14 @@ export default function OrderTableAdmin() {
             ]}
             tableProps={{ rows, clearStateResponse, stateResponse }}
             modalProps={{
-                childrenModal: <BasketTable products={basket} />,
-                titleModal: "Просмотр корзины",
+                childrenModal: isUpdAction ? <OrderForm submit={updRow} /> : <BasketTable products={basket} />,
+                titleModal: isUpdAction ? "Изменить статус заказа" : "Просмотр корзины",
                 successMessage: message,
                 width: "md",
                 closeModal: closeTableModal,
             }}
             actionButtons={[
-                // {color: "primary", size: "small", onClick: rowEdit, icon: <EditIcon />},
+                {color: "primary", size: "small", onClick: rowEdit, icon: <EditIcon />},
                 {
                     color: "primary",
                     size: "small",

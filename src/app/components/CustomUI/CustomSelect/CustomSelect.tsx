@@ -61,7 +61,7 @@ const CustomSelect: FC<CustomSelectProps> = ({
             sx={sx ? sx : {}}
             fullWidth
         >
-            <InputLabel shrink id="demo-simple-select-label">
+            <InputLabel id="demo-simple-select-label">
                 {name ? name : "Select"}
             </InputLabel>
             <Select
