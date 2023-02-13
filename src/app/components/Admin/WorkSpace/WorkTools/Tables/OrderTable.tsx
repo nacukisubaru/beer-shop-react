@@ -39,25 +39,24 @@ export default function OrderTableAdmin() {
         <TableAdmin
             columns={[
                 { field: "id", headerName: "ID", width: 70 },
-                { field: "userId", headerName: "ID пользователя", width: 200 },
                 {
-                    field: "status",
+                    field: "statusId",
                     headerName: "Статус",
                     width: 200,
                     renderFunc: (params: any) => <div className="status-order" style={{backgroundColor: params.row.status.color}} >{params.row.status.statusName}</div>
                 },
                 {
-                    field: "customerFio",
+                    field: "fio",
                     headerName: "ФИО покупателя",
                     width: 150,
                 },
                 {
-                    field: "customerPhone",
+                    field: "phone",
                     headerName: "Номер покупателя",
                     width: 150,
                 },
                 {
-                    field: "customerEmail",
+                    field: "email",
                     headerName: "Email покупателя",
                     width: 150,
                 },

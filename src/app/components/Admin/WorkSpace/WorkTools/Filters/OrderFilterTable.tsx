@@ -21,7 +21,6 @@ const OrderFilterTable: FC = () => {
     return (
         <FilterPanelGrid
             itemFilterList={[
-                { field: "userId", fieldName: "ID покупателя", inputNumber: true },
                 { field: "orderId", fieldName: "ID заказа", inputNumber: true },
                 { field: "customerFio", fieldName: "ФИО покупателя", inputText: true },
                 { field: "customerPhone", fieldName: "Телефон покупателя", inputText: true },
