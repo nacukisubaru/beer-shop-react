@@ -47,3 +47,16 @@ export const orderStatusApi = createApi({
         }),
     })
 });
+
+export const orderUserApi = createApi({
+    reducerPath: 'orderUserApi',
+    baseQuery: reauthBaseQuery,
+    endpoints: (build) => ({
+        getList: build.query<IOrderResponse[], any>({
+            query: (params) => ({
+                url: '/orders/user/' + + params.filter,
+                params
+            }),
+        })
+    })
+});

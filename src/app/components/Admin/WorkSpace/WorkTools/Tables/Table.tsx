@@ -27,7 +27,7 @@ interface ITableProps {
 
 interface IModalProps {
     titleModal: string;
-    successMessage: string;
+    successMessage?: string;
     childrenModal: any;
     width: 'xs'
     | 'sm'
@@ -42,7 +42,7 @@ interface TableAdminProps {
     tableProps: ITableProps;
     modalProps: IModalProps;
     actionButtons?: IButtonOption[];
-    filterPanel: any;
+    filterPanel?: any;
 }
 
 const TableAdmin: FC<TableAdminProps> = ({
@@ -73,7 +73,7 @@ const TableAdmin: FC<TableAdminProps> = ({
 
     const handlerPanelClose = () => {
         setRequestFilterDisabled({ disable: false });
-    };    
+    };
 
     return (
         <>
@@ -117,7 +117,7 @@ const TableAdmin: FC<TableAdminProps> = ({
             />
             <CustomSnackBar
                 severity="success"
-                message={modalProps.successMessage}
+                message={modalProps.successMessage ? modalProps.successMessage : ""}
                 isOpen={stateResponse.status === "fulfilled" ? true : false}
                 onClose={clearStateResponse}
             />

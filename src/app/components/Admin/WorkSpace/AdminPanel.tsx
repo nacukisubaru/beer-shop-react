@@ -1,6 +1,7 @@
 import { CircularProgress } from "@mui/material";
 import { useRouter } from "next/router";
 import { FC, useEffect, useState } from "react";
+import { useActions } from "../../../hooks/useActions";
 import { hostAdminPanel } from "../../../http/http.request.config";
 import { useCheckUserRoleAdminQuery } from "../../../store/services/roles/role.api";
 import WorkSpace from "./WorkSpace";
@@ -22,6 +23,7 @@ const AdminPanel: FC<IAdminPanelProps> = ({ workTool }) => {
     const { data, isLoading } = useCheckUserRoleAdminQuery({});
     const [showWorkSpace, setShowWorkSpace] = useState(false);
     const [isDefinedWorkSpace, setDefinedWorkSpace] = useState(false);
+    const {setShowFilterInTool} = useActions();
 
     useEffect(() => {
         const menuItems = menuState.map((item) => {
@@ -41,6 +43,10 @@ const AdminPanel: FC<IAdminPanelProps> = ({ workTool }) => {
         }
         setDefinedWorkSpace(true);
     }, [data]);
+
+    useEffect(() => {
+        setShowFilterInTool({show: true});
+    })
 
     return isLoading || !isDefinedWorkSpace ? (
         <CircularProgress />

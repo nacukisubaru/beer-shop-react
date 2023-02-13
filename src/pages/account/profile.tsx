@@ -1,18 +1,18 @@
 import React from "react";
-import { useAppSelector } from "../app/hooks/useAppSelector";
-import Menu from "../app/components/Drawer/Menu/Menu";
-import PersonalAccount from "../app/components/Personal/PersonalAccount";
-import LoginAndRegistrationForm from "../app/components/Login/LoginAndRegForm";
-import VerificationCodeFormContainer from "../app/components/VerificationCodeForm/VerificationCodeFormContainer";
+import { useAppSelector } from "../../app/hooks/useAppSelector";
+import Menu from "../../app/components/Drawer/Menu/Menu";
+import PersonalAccount from "../../app/components/Personal/PersonalAccount";
+import LoginAndRegistrationForm from "../../app/components/Login/LoginAndRegForm";
+import VerificationCodeFormContainer from "../../app/components/VerificationCodeForm/VerificationCodeFormContainer";
 import {
     fetchArticlesList,
     fetchHeaderData,
     fetchPhonesList,
     fetchSocialNetworks,
-} from "../app/store/reducers/header.slice";
-import { wrapper } from "../app/store/store";
+} from "../../app/store/reducers/header.slice";
+import { wrapper } from "../../app/store/store";
 import { GetServerSideProps } from "next";
-import { cmsQueryExecute } from "../app/helpers/cmsHelper";
+import { cmsQueryExecute } from "../../app/helpers/cmsHelper";
 
 export default function Account({data}) {
     const { isAuth } = useAppSelector((state) => state.userReducer);
