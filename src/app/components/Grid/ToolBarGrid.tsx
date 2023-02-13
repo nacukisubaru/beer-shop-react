@@ -6,32 +6,36 @@ import {
     GridToolbarDensitySelector,
     GridToolbarFilterButton,
 } from "@mui/x-data-grid";
-import { FC, useState } from "react";
+import { FC } from "react";
 import { useActions } from "../../hooks/useActions";
+import { useAppSelector } from "../../hooks/useAppSelector";
 
 const ToolBarGrid: FC= () => {
     const {openModalAddContent} = useActions();
+    const {showFilterInTool} = useAppSelector(state => state.contentReducer);
 
     return (
-        <GridToolbarContainer>
-            <Grid container item xs>
-                {/* default buttons */}
+        <>
+            {showFilterInTool && (
+                <GridToolbarContainer>
+                    <Grid container item xs>
+                    
+                            <GridToolbarFilterButton />
+                    
+                    </Grid>
 
-                <GridToolbarColumnsButton   />
-                <GridToolbarFilterButton />
-                <GridToolbarDensitySelector />
-            </Grid>
-
-            <Grid>
-                <Button
-                    variant="contained"
-                    size="small"
-                    onClick={openModalAddContent}
-                >
-                    Добавить
-                </Button>
-            </Grid>
-        </GridToolbarContainer>
+                    <Grid>
+                        <Button
+                            variant="contained"
+                            size="small"
+                            onClick={openModalAddContent}
+                        >
+                            Добавить
+                        </Button>
+                    </Grid>
+                </GridToolbarContainer>
+            )}
+        </>
     );
 };
 

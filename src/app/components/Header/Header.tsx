@@ -166,7 +166,7 @@ const Header: FC<HeaderProps> = () => {
                             )}
 
                             <div>
-                                <Link href="/account">
+                                <Link href="/account/profile">
                                     <IconButton>
                                         <FaceIcon
                                             style={{

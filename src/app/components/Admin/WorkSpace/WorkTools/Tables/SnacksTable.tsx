@@ -25,8 +25,8 @@ export default function SnacksTableAdmin() {
         <TableAdmin
             columns={[
                 { field: "id", headerName: "ID", width: 70 },
-                { field: "title", headerName: "Название", width: 200 },
-                { field: "description", headerName: "Описание", width: 150 },
+                { field: "title", headerName: "Название", width: 250 },
+                { field: "description", headerName: "Описание", width: 400 },
                 { field: "price", headerName: "Цена", width: 150 },
                 {
                     field: "quantity",
@@ -44,7 +44,7 @@ export default function SnacksTableAdmin() {
                 {
                     field: "typePackagingName",
                     headerName: "Тип упаковки",
-                    width: 150,
+                    width: 200,
                 },
             ]}
             tableProps={{ rows, clearStateResponse, stateResponse }}

@@ -24,9 +24,9 @@ export default function TypePackagingTableAdmin() {
     return (
         <TableAdmin
             columns={[
-                { field: "id", headerName: "ID", width: 70 },
-                { field: "name", headerName: "Название", width: 200 },
-                { field: "productTypeName", headerName: "Тип товара", width: 200 },
+                { field: "id", headerName: "ID", width: 100 },
+                { field: "name", headerName: "Название", width: 500 },
+                { field: "productTypeName", headerName: "Тип товара", width: 1050 },
             ]}
             tableProps={{ rows, clearStateResponse, stateResponse }}
             modalProps={{

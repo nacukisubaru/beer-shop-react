@@ -21,7 +21,8 @@ interface IinitialState {
     reqFilterDisabled: boolean,
     clickFilter: boolean,
     modalAddContent: boolean,
-    loader: boolean
+    loader: boolean,
+    showFilterInTool: boolean
 }
 
 const initialState: IinitialState = {
@@ -40,7 +41,8 @@ const initialState: IinitialState = {
     reqFilterDisabled: false,
     clickFilter: false,
     modalAddContent: false,
-    loader: false
+    loader: false,
+    showFilterInTool: true
 }
 
 const contentSlice = createSlice({
@@ -136,6 +138,9 @@ const contentSlice = createSlice({
         },
         loaderOff: (state) => {
             state.loader = false;
+        },
+        setShowFilterInTool: (state, action: PayloadAction<{show: boolean}>) => {
+            state.showFilterInTool = action.payload.show;
         }
     }
 });

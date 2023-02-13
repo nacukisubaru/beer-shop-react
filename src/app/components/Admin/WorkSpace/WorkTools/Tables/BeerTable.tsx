@@ -45,12 +45,12 @@ export default function BeerTableAdmin() {
                 {
                     field: "typePackagingName",
                     headerName: "Тип упаковки",
-                    width: 150,
+                    width: 250,
                 },
                 {
                     field: "compound",
                     headerName: "Состав",
-                    width: 150,
+                    width: 300,
                     filterable: false,
                 },
                 {
