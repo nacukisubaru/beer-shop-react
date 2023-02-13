@@ -1,12 +1,12 @@
 import { FC, useEffect, useState } from "react";
 import { useActions } from "../../app/hooks/useActions";
 import { useCatalog } from "../../app/hooks/useCatalog";
-import {
-    orderApi,
-    orderUserApi,
-} from "../../app/store/services/order/order.api";
+import { orderUserApi } from "../../app/store/services/order/order.api";
 import { IBasketOrderProduct } from "../../app/store/services/order/types/order.types";
 import { useTableAction } from "../../app/hooks/useTableAction";
+import { GetServerSideProps } from "next";
+import { fetchArticlesList, fetchHeaderData, fetchPhonesList, fetchSocialNetworks } from "../../app/store/reducers/header.slice";
+import { wrapper } from "../../app/store/store";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import BasketTable from "../../app/components/Admin/WorkSpace/WorkTools/Tables/BasketTable";
 import TableAdmin from "../../app/components/Admin/WorkSpace/WorkTools/Tables/Table";
@@ -89,3 +89,11 @@ const Orders: FC = () => {
 };
 
 export default Orders;
+
+export const getServerSideProps: GetServerSideProps =
+    wrapper.getServerSideProps((store) => async ({ query }) => {
+        await store.dispatch(fetchHeaderData());
+        await store.dispatch(fetchSocialNetworks());
+        await store.dispatch(fetchPhonesList());
+        await store.dispatch(fetchArticlesList());
+    });
