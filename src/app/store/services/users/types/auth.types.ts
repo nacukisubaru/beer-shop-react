@@ -6,6 +6,7 @@ export interface IAuth {
     isAuth: boolean,
     isVerifyPhone: boolean,
     isNewPhoneVerify: boolean,
+    isRegisteredNow: boolean,
     status: string,
     error: {message: string}
 }

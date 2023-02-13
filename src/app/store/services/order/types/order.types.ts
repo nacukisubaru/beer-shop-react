@@ -24,3 +24,10 @@ export interface IOrderResponse {
     nextPage: number, 
     lastPage: number
 }
+
+export interface IOrderStatus {
+    id: number,
+    statusName: string,
+    status: string,
+    color: string
+}

@@ -20,6 +20,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
+import { useActions } from "../../../hooks/useActions";
 
 const drawerWidth = 240;
 
@@ -86,6 +87,7 @@ const WorkSpace: React.FC<IWorkSpaceProps> = ({tool, menuItems}) => {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const router = useRouter();
+    const {setContentPage} = useActions();
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -142,8 +144,9 @@ const WorkSpace: React.FC<IWorkSpaceProps> = ({tool, menuItems}) => {
                         (item: IWorkSpaceMenu, index: number) => (
                             <ListItem key={item.name} disablePadding>
                                 <ListItemButton 
-                                    onClick={() => {
-                                       router.replace(item.url);
+                                    onClick={async () => {
+                                        await setContentPage({page: 0});
+                                        router.replace(item.url);
                                     }}
                                     
                                     style={ item.active ? {backgroundColor: '#f5f5f5'} : {}}

@@ -1,6 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import reauthBaseQuery from '../api/reauthBaseQuery';
-import { IOrderResponse } from './types/order.types';
+import { IOrderResponse, IOrderStatus } from './types/order.types';
 
 export const orderApi = createApi({
     reducerPath: 'orderApi',
@@ -19,6 +19,31 @@ export const orderApi = createApi({
                         { type: 'Orders', id: 'LIST' },
                     ]
                     : [{ type: 'Orders', id: 'LIST' }],
-        }),    
+        }),  
+        update: build.mutation({
+            query: (body) => ({
+                url: '/orders/update/',
+                method: 'POST',
+                body
+            }),
+            invalidatesTags: [{type: 'Orders', id: 'LIST'}]
+        }),  
+    })
+});
+
+export const orderStatusApi = createApi({
+    reducerPath: 'orderStatusApi',
+    baseQuery: reauthBaseQuery,
+    endpoints: (build) => ({
+        getList: build.query<IOrderStatus[], any>({
+            query: () => ({
+                url: '/order-status/getList'
+            }),
+        }),
+        getOne: build.query<IOrderStatus, any>({
+            query: (id: number) => ({
+                url: '/order-status/getOne/'+ id
+            }),
+        }),
     })
 });

@@ -17,6 +17,7 @@ const initialState: IAuth = {
         createdAt: '',
         updatedAt: '',
     },
+    isRegisteredNow: false,
     isAuth: false,
     isVerifyPhone: false,
     isNewPhoneVerify: false,
@@ -171,6 +172,9 @@ export const userSlice = createSlice({
         },
         setNewPhoneVerify: (state, action: PayloadAction<{isVerify: boolean}>) => {
             state.isNewPhoneVerify = action.payload.isVerify;
+        },
+        setRegisteredNow: (state, action: PayloadAction<{isReg: boolean}>) => {
+            state.isRegisteredNow = action.payload.isReg;
         }
     },
     extraReducers: {
@@ -245,14 +249,7 @@ export const userSlice = createSlice({
         },
         [registrate.fulfilled]: (state, action: PayloadAction<IAuth>) => {
             state.status = 'resolved';
-            const token = action.payload.accessToken;
-            const user:any = action.payload.user;
-
-            //state.accessToken = token;
-            //state.user = user;
-            //state.isAuth = true;
-            //localStorage.setItem("accessToken", token);
-            //localStorage.setItem("userId", user.id);
+            state.isRegisteredNow = true;
         },
         [registrate.rejected]: (state,action) => {
             state.status = 'rejected';
@@ -350,6 +347,19 @@ export const userSlice = createSlice({
             const payload = action.payload;
             state.error.message = payload.message;
         },
+        [changeEmail.pending]: (state, action) => {
+            state.status = 'loading';
+            state.error = {message: ''};
+        },
+        [changeEmail.fulfilled]: (state, action) => {
+            state.status = 'resolved';
+            state.error = {message: ''};
+        },
+        [changeEmail.rejected]: (state, action) => {
+            state.status = 'rejected';
+            const payload = action.payload;
+            state.error.message = payload.message;
+        }
     }
 })
 

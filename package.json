@@ -29,6 +29,7 @@
     "graphql-request": "^5.1.0",
     "html-react-parser": "^3.0.8",
     "i": "^0.3.7",
+    "moment": "^2.29.4",
     "next": "^13.0.6",
     "next-redux-wrapper": "^8.0.0",
     "npm": "^9.2.0",

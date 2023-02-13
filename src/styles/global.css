@@ -137,6 +137,16 @@ body {
     -webkit-line-clamp: 1; /* Число отображаемых строк */
 }
 
+.status-order {
+    border-radius: 28px;
+    display: flex;
+    justify-content: center;
+    color: white;
+    padding: 2px 7px 2px 7px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
 @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
     .banner {
         padding-top: 102px;

@@ -6,6 +6,7 @@ import {
 } from "@mui/x-data-grid";
 import { FC, useEffect, useState } from "react";
 import { useActions } from "../../hooks/useActions";
+import { IColumn } from "../Admin/WorkSpace/WorkTools/Tables/Table";
 import ToolBarGrid from "./ToolBarGrid";
 interface ITableGridProps {
     columns: any[];
@@ -45,11 +46,11 @@ const TableGrid: FC<ITableGridProps> = ({
             const field = sortArray[0].field;
             const sort = sortArray[0].sort;
             setSortModel([{ field, sort }]);
-            if(sortingOnChange) {
+            if (sortingOnChange) {
                 setContentSort({ field, sort: sort.toUpperCase() });
             }
         } else {
-            if(sortingOnChange) {
+            if (sortingOnChange) {
                 setContentDefaultSort();
             }
             setSortModel([]);
@@ -63,7 +64,7 @@ const TableGrid: FC<ITableGridProps> = ({
                 ? CustomFilterPanel
                 : GridFilterPanel,
         };
-        if(toolBarOn) {
+        if (toolBarOn) {
             settings.Toolbar = ToolBarGrid;
         }
         if (Pagination) {
@@ -73,11 +74,20 @@ const TableGrid: FC<ITableGridProps> = ({
     }, []);
 
     return (
-        <div style={{ height: tableHeight, width: "100%", marginBottom: "10px" }}>
+        <div
+            style={{ height: tableHeight, width: "100%", marginBottom: "10px" }}
+        >
             <DataGrid
                 rows={rows}
-                columns={columns.map((item) => {
-                    return { ...item, filterOperators };
+                columns={columns.map((item: IColumn) => {
+                    const colObj: any = {
+                        ...item,
+                        filterOperators,
+                    };
+                    if (item.renderFunc) {
+                        colObj.renderCell = item.renderFunc;
+                    }
+                    return colObj;
                 })}
                 pageSize={pageSize}
                 rowsPerPageOptions={[]}

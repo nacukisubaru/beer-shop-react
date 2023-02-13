@@ -19,7 +19,7 @@ import { productApi } from "./services/products/product.api";
 import { contentReducer } from "./reducers/content.slice";
 import { productTypeApi } from "./services/product-types/product-types.api";
 import { roleApi } from "./services/roles/role.api";
-import { orderApi } from "./services/order/order.api";
+import { orderApi, orderStatusApi } from "./services/order/order.api";
 import { createWrapper } from "next-redux-wrapper";
 import { productReducer } from "./services/products/reducers/product.slice";
 import { headerReducer } from "./reducers/header.slice";
@@ -49,6 +49,7 @@ export const makeStore = () => configureStore({
         [productTypeApi.reducerPath]: productTypeApi.reducer,
         [roleApi.reducerPath]: roleApi.reducer,
         [orderApi.reducerPath]: orderApi.reducer,
+        [orderStatusApi.reducerPath]: orderStatusApi.reducer
     },
     
     middleware: getDefaultMiddleware => getDefaultMiddleware({serializableCheck: false}).concat(
@@ -60,7 +61,9 @@ export const makeStore = () => configureStore({
         snackApi.middleware, 
         productTypeApi.middleware,
         productApi.middleware,
-        roleApi.middleware),
+        roleApi.middleware,
+        orderApi.middleware
+    ),
     //middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false})
 });
 
