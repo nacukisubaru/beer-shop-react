@@ -15,6 +15,7 @@ const AdminPanel: FC<IAdminPanelProps> = ({ workTool }) => {
         { name: "Заказы", url: "/admin/orders", active: false },
         { name: "Пиво", url: "/admin/beers", active: false },
         { name: "Закуски", url: "/admin/snacks", active: false },
+        { name: "Рыба", url: "/admin/fish", active: false },
         { name: "Бренды", url: "/admin/brands", active: false },
         { name: "Сорта", url: "/admin/grades", active: false },
         { name: "Типы упаковок", url: "/admin/types-packaging", active: false },

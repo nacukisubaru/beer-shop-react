@@ -1,20 +1,18 @@
+import { FC } from "react";
 import { useCatalog } from "../../../../../hooks/useCatalog";
-import { snackApi } from "../../../../../store/services/snacks/snack.api";
 import { useTableAction } from "../../../../../hooks/useTableAction";
 import { brandApi } from "../../../../../store/services/brands/brand.api";
 import { typePackagingApi } from "../../../../../store/services/type-packaging/type-packaging.api";
-import SnackFilterTable from "../Filters/SnackFilterTable";
-import AddSnackForm from "../Forms/Products/Snacks/AddSnackForm";
-import UpdSnackForm from "../Forms/Products/Snacks/UpdSnackForm";
-import EditIcon from "@mui/icons-material/Edit";
+import { fishApi } from "../../../../../store/services/fish/fish.api";
+import UpdFishForm from "../Forms/Products/Fish/UpdFishForm";
+import AddFishForm from "../Forms/Products/Fish/AddFishForm";
 import TableAdmin from "./Table";
+import EditIcon from "@mui/icons-material/Edit";
 
-export default function SnacksTableAdmin() {
-    const brandsList = brandApi.useGetListByProductTypeQuery("snacks");
-    const packagingList =
-        typePackagingApi.useGetListByProductTypeQuery("snacks");
-    const { rows, addRow, updRow, clearStateResponse, stateResponse } =
-        useCatalog(snackApi, "snack");
+const FishTableAdmin: FC = () => {
+    const brandsList = brandApi.useGetListByProductTypeQuery("fish");
+    const packagingList = typePackagingApi.useGetListByProductTypeQuery("fish");
+    const { rows, addRow, updRow, clearStateResponse, stateResponse } = useCatalog(fishApi, "fish");
     const { rowEdit, closeTableModal, isUpdAction, message } = useTableAction({
         successMessage: "Товар успешно добавлен",
         successMessageUpd: "Товар успешно обновлен",
@@ -46,18 +44,23 @@ export default function SnacksTableAdmin() {
                     headerName: "Тип упаковки",
                     width: 200,
                 },
+                {
+                    field: "fishTypeId",
+                    headerName: "Вид рыбы",
+                    width: 200,
+                },
             ]}
             tableProps={{ rows, clearStateResponse, stateResponse }}
             modalProps={{
                 childrenModal: isUpdAction ? (
-                    <UpdSnackForm 
+                    <UpdFishForm
                     brandsList={brandsList.data ? brandsList.data : []}
                     packagingList={
                         packagingList.data ? packagingList.data : []
                     }
                     submit={updRow} />
                 ) : (
-                    <AddSnackForm
+                    <AddFishForm
                         brandsList={brandsList.data ? brandsList.data : []}
                         packagingList={
                             packagingList.data ? packagingList.data : []
@@ -80,7 +83,9 @@ export default function SnacksTableAdmin() {
                     icon: <EditIcon />,
                 },
             ]}
-            filterPanel={SnackFilterTable}
+           // filterPanel={SnackFilterTable}
         />
     );
 }
+
+export default FishTableAdmin;
