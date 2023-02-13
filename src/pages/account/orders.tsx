@@ -91,9 +91,9 @@ const Orders: FC = () => {
 export default Orders;
 
 export const getServerSideProps: GetServerSideProps =
-    wrapper.getServerSideProps((store) => async ({ query }) => {
-        await store.dispatch(fetchHeaderData());
-        await store.dispatch(fetchSocialNetworks());
-        await store.dispatch(fetchPhonesList());
-        await store.dispatch(fetchArticlesList());
+    wrapper.getServerSideProps((store) => ({query}) => {
+        store.dispatch(fetchHeaderData());
+        store.dispatch(fetchSocialNetworks());
+        store.dispatch(fetchPhonesList());
+        store.dispatch(fetchArticlesList());
     });
