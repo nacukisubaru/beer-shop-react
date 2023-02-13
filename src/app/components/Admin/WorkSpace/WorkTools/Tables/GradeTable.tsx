@@ -23,8 +23,8 @@ export default function GradeTableAdmin() {
     return (
         <TableAdmin
             columns={[
-                { field: "id", headerName: "ID", width: 70 },
-                { field: "name", headerName: "Название", width: 200 },
+                { field: "id", headerName: "ID", width: 100 },
+                { field: "name", headerName: "Название", width: 1500 },
             ]}
             tableProps={{ rows, clearStateResponse, stateResponse }}
             modalProps={{

@@ -23,9 +23,9 @@ export default function BrandTableAdmin() {
     return (
         <TableAdmin
             columns={[
-                { field: "id", headerName: "ID", width: 70 },
-                { field: "name", headerName: "Название", width: 200 },
-                { field: "productTypeName", headerName: "Тип продукта", width: 200 },
+                { field: "id", headerName: "ID", width: 200 },
+                { field: "name", headerName: "Название", width: 500 },
+                { field: "productTypeName", headerName: "Тип продукта", width: 900 },
             ]}
             tableProps={{ rows, clearStateResponse, stateResponse }}
             modalProps={{
