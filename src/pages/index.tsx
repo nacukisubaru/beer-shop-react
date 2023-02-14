@@ -22,6 +22,8 @@ import {
     fetchPhonesList,
     fetchSocialNetworks,
 } from "../app/store/reducers/header.slice";
+import CatalogFish from "../app/components/Products/Catalog/CatalogFish";
+import { fetchFish } from "../app/store/services/fish/reducers/fish.slice";
 
 const Home = ({ data }) => {
     const {
@@ -114,7 +116,7 @@ const Home = ({ data }) => {
             <div style={{ marginBottom: "60px" }}>
                 <TabsUI
                     tabsList={["Пиво", "Снеки", "Рыба"]}
-                    swipeableList={[<CatalogBeers />, <CatalogSnacks />]}
+                    swipeableList={[<CatalogBeers />, <CatalogSnacks />, <CatalogFish />]}
                 />
             </div>
 
@@ -215,6 +217,14 @@ export const getServerSideProps: GetServerSideProps =
 
         await store.dispatch(
             fetchSnacks({
+                page: 0,
+                limitPage: 3,
+                isActive: "true",
+            })
+        );
+
+        await store.dispatch(
+            fetchFish({
                 page: 0,
                 limitPage: 3,
                 isActive: "true",

@@ -24,6 +24,7 @@ import { createWrapper } from "next-redux-wrapper";
 import { productReducer } from "./services/products/reducers/product.slice";
 import { headerReducer } from "./reducers/header.slice";
 import { fishApi, fishTypesApi } from "./services/fish/fish.api";
+import { fishReducer } from "./services/fish/reducers/fish.slice";
 
 export const makeStore = () => configureStore({
     reducer: {
@@ -31,6 +32,7 @@ export const makeStore = () => configureStore({
         accountFormsReducer,
         basketReducer,
         beerReducer,
+        fishReducer,
         drawerMenuReducer,
         filterProductsReducer,
         snackReducer,
