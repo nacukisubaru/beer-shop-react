@@ -1,6 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { IGetListParams } from "../../types/api.types";
-import { IFish, IFishListPaginate } from "./types/fish.type";
+import { IFish, IFishListPaginate, IFishType } from "./types/fish.type";
 import reauthBaseQuery from "../api/reauthBaseQuery";
 
 export const fishApi = createApi({
@@ -49,5 +49,18 @@ export const fishApi = createApi({
             }),
             invalidatesTags: [{type: 'Fish', id: 'LIST'}]
         })
+    })
+});
+
+
+export const fishTypesApi = createApi({
+    reducerPath: 'fishTypesApi',
+    baseQuery: reauthBaseQuery,
+    endpoints: (build) => ({
+        getList: build.query<IFishType[], any>({
+            query: () => ({
+                url: '/fish-types/getList/'
+            }),
+        }),  
     })
 });

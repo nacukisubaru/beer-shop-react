@@ -48,6 +48,15 @@ const UpdSnackForm: FC<UpdSnackFormProps> = ({ brandsList, packagingList, submit
                             defaultValue: data?.product?.description,
                         },
                         {
+                            name: "weight",
+                            type: "number",
+                            label: "Вес",
+                            validationProps: {
+                                required: "Поле обязательно для заполнения",
+                            },
+                            defaultValue: data?.weight,
+                        },
+                        {
                             name: "quantity",
                             type: "number",
                             label: "Количество",

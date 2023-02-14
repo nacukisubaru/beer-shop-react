@@ -23,7 +23,7 @@ import { orderApi, orderStatusApi, orderUserApi } from "./services/order/order.a
 import { createWrapper } from "next-redux-wrapper";
 import { productReducer } from "./services/products/reducers/product.slice";
 import { headerReducer } from "./reducers/header.slice";
-import { fishApi } from "./services/fish/fish.api";
+import { fishApi, fishTypesApi } from "./services/fish/fish.api";
 
 export const makeStore = () => configureStore({
     reducer: {
@@ -52,7 +52,8 @@ export const makeStore = () => configureStore({
         [orderApi.reducerPath]: orderApi.reducer,
         [orderUserApi.reducerPath]: orderUserApi.reducer,
         [orderStatusApi.reducerPath]: orderStatusApi.reducer,
-        [fishApi.reducerPath]: fishApi.reducer
+        [fishApi.reducerPath]: fishApi.reducer,
+        [fishTypesApi.reducerPath]: fishTypesApi.reducer
     },
     
     middleware: getDefaultMiddleware => getDefaultMiddleware({serializableCheck: false}).concat(

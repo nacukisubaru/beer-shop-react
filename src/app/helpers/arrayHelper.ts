@@ -88,7 +88,7 @@ export const createFishList = (fishList: IFish[]): IFishProduct[] => {
                 ...product,
                 isActive: product.isActive ? 'Да' : 'Нет',
                 inStock: product.inStock ? 'Да' : 'Нет',
-                fishTypeId: fish.fishType.name
+                fishTypeId: fish.fishTypeName
             };
         });
     }

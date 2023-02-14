@@ -5,7 +5,8 @@ export interface IFish {
     productId: number,
     weight: number,
     fishTypeId: number,
-    fishType: IFishType
+    fishType: IFishType,
+    fishTypeName: string,
     product: IProduct
 }
 

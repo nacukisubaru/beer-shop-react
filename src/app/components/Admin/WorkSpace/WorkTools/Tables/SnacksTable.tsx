@@ -34,6 +34,7 @@ export default function SnacksTableAdmin() {
                     width: 150,
                     filterable: false,
                 },
+                { field: "weight", headerName: "Вес", width: 90 },
                 { field: "isActive", headerName: "Активность", width: 150 },
                 { field: "inStock", headerName: "В наличии", width: 150 },
                 {

@@ -595,6 +595,8 @@ const Form: FC<IForm> = ({
                                                 className="card-img"
                                                 style={{
                                                     backgroundSize: "contain",
+                                                    height: "220px",
+                                                    marginBottom: "20px"
                                                 }}
                                                 sx={{
                                                     background: `url(${selectedImage}) center center no-repeat`,

@@ -35,9 +35,9 @@ const AddSnackForm: FC<AddSnackFormProps> = ({ brandsList, packagingList, submit
                     },
                 },
                 {
-                    name: "compound",
-                    type: "text",
-                    label: "Состав",
+                    name: "weight",
+                    type: "number",
+                    label: "Вес",
                     validationProps: {
                         required: "Поле обязательно для заполнения",
                     },

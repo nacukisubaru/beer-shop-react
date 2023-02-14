@@ -3,25 +3,32 @@ import { useActions } from "../../../../../../../hooks/useActions";
 import { useAppSelector } from "../../../../../../../hooks/useAppSelector";
 import { IStateResponse } from "../../../../../../../hooks/useCatalog";
 import { IBrand } from "../../../../../../../store/services/brands/types/brand.types";
-import { snackApi } from "../../../../../../../store/services/snacks/snack.api";
+import { fishApi } from "../../../../../../../store/services/fish/fish.api";
+import { IFishType } from "../../../../../../../store/services/fish/types/fish.type";
 import { ITypePackaging } from "../../../../../../../store/services/type-packaging/types/type-packaging.types";
 import Form from "../../Form";
 
 interface UpdFishFormProps {
     brandsList: IBrand[];
     packagingList: ITypePackaging[];
+    fishTypesList: IFishType[];
     submit: (body: any, isObject?: boolean) => Promise<IStateResponse>;
 }
 
-const UpdFishForm: FC<UpdFishFormProps> = ({ brandsList, packagingList, submit }) => {
+const UpdFishForm: FC<UpdFishFormProps> = ({
+    brandsList,
+    packagingList,
+    fishTypesList,
+    submit,
+}) => {
     const { detailId } = useAppSelector((state) => state.contentReducer);
-    const { data, isLoading, refetch } = snackApi.useGetOneQuery(detailId);
+    const { data, isLoading, refetch } = fishApi.useGetOneQuery(detailId);
     const { closeModalAddContent } = useActions();
 
     const onSubmit = () => {
         refetch();
     };
-
+    console.log(data?.fishTypeId);
     return (
         <>
             {isLoading ? (
@@ -46,6 +53,15 @@ const UpdFishForm: FC<UpdFishFormProps> = ({ brandsList, packagingList, submit }
                                 required: "Поле обязательно для заполнения",
                             },
                             defaultValue: data?.product?.description,
+                        },
+                        {
+                            name: "weight",
+                            type: "number",
+                            label: "Вес",
+                            validationProps: {
+                                required: "Поле обязательно для заполнения",
+                            },
+                            defaultValue: data?.weight,
                         },
                         {
                             name: "quantity",
@@ -102,6 +118,26 @@ const UpdFishForm: FC<UpdFishFormProps> = ({ brandsList, packagingList, submit }
                                     };
                                 }),
                                 defaultValue: data?.product?.typePackagingId,
+                            },
+                        },
+                        {
+                            name: "fishTypeId",
+                            type: "select",
+                            label: "Тип рыбы",
+                            validationProps: {
+                                required: "Поле обязательно для заполнения",
+                            },
+                            selectProps: {
+                                multiple: false,
+                                items: fishTypesList.map((item: IFishType) => {
+                                    return { name: item.name, value: item.id };
+                                }),
+                              
+                                defaultValue: data?.fishTypeId,
+                                createSelectData: {
+                                    name: "Создать тип рыбы",
+                                    link: "/admin/fish-types",
+                                },
                             },
                         },
                         {
