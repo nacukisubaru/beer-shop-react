@@ -85,7 +85,9 @@ const Header: FC<HeaderProps> = () => {
                                     {
                                         name: "Рыба",
                                         icon: <SetMealIcon />,
-                                        onClick: () => {},
+                                        onClick: () => {
+                                            router.replace("/products/fish");
+                                        },
                                     },
                                 ]}
                                 useButton={false}

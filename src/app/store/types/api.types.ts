@@ -5,4 +5,4 @@ export interface IGetListParams {
     filter: string
 }
 
-export type productType = "beers" | "snacks";
+export type productType = "beers" | "snacks" | "fish";
