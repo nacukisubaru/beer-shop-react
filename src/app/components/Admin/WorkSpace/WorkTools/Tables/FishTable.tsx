@@ -52,6 +52,7 @@ const FishTableAdmin: FC = () => {
                 { field: "weight", headerName: "Вес", width: 90 },
                 { field: "isActive", headerName: "Активность", width: 150 },
                 { field: "inStock", headerName: "В наличии", width: 150 },
+                { field: "isPromote", headerName: "Выводить на главной?", width: 180 },
             ]}
             tableProps={{ rows, clearStateResponse, stateResponse }}
             modalProps={{

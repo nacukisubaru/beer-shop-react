@@ -55,7 +55,8 @@ export const createBeersList = (beersList: IBeer[]): IBeerProduct[] => {
                 filtered: beer.filtered ? 'Да' : 'Нет',
                 forBottling: beer.forBottling ? 'Да' : 'Нет',
                 isActive: product.isActive ? 'Да' : 'Нет',
-                inStock: product.inStock ? 'Да' : 'Нет'
+                inStock: product.inStock ? 'Да' : 'Нет',
+                isPromote: product.isPromote ? 'Да' : 'Нет',
             };
         });
     }
@@ -71,7 +72,8 @@ export const createSnacksList = (snacksList: ISnack[]): ISnackProduct[] => {
                 ...snack,
                 ...product,
                 isActive: product.isActive ? 'Да' : 'Нет',
-                inStock: product.inStock ? 'Да' : 'Нет'
+                inStock: product.inStock ? 'Да' : 'Нет',
+                isPromote: product.isPromote ? 'Да' : 'Нет',
             };
         });
     }
@@ -88,6 +90,7 @@ export const createFishList = (fishList: IFish[]): IFishProduct[] => {
                 ...product,
                 isActive: product.isActive ? 'Да' : 'Нет',
                 inStock: product.inStock ? 'Да' : 'Нет',
+                isPromote: product.isPromote ? 'Да' : 'Нет',
                 fishTypeId: fish.fishTypeName
             };
         });

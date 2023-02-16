@@ -7,6 +7,7 @@ export interface IProduct {
     brandId: number,
     inStock: boolean,
     isActive: boolean,
+    isPromote: boolean,
     image: string,
     brandName: string,
     typePackagingName: string,

@@ -124,6 +124,21 @@ const AddSnackForm: FC<AddSnackFormProps> = ({ brandsList, packagingList, submit
                         ],
                     },
                 },
+                {
+                    name: "isPromote",
+                    type: "select",
+                    label: "Выводить на главной",
+                    validationProps: {
+                        required: "Поле обязательно для заполнения",
+                    },
+                    selectProps: {
+                        multiple: false,
+                        items: [
+                            { name: "Да", value: "true" },
+                            { name: "Нет", value: "false" },
+                        ],
+                    },
+                },
             ]}
             submit={submit}
             hasUploadImage={true}

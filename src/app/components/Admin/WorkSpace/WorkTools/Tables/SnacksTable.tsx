@@ -47,6 +47,7 @@ export default function SnacksTableAdmin() {
                     headerName: "Тип упаковки",
                     width: 200,
                 },
+                { field: "isPromote", headerName: "Выводить на главной?", width: 180 },
             ]}
             tableProps={{ rows, clearStateResponse, stateResponse }}
             modalProps={{

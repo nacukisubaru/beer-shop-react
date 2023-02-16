@@ -173,6 +173,23 @@ const UpdFishForm: FC<UpdFishFormProps> = ({
                                 defaultValue: data?.product?.inStock.toString(),
                             },
                         },
+                        {
+                            name: "isPromote",
+                            type: "select",
+                            label: "Выводить на главной",
+                            validationProps: {
+                                required: "Поле обязательно для заполнения",
+                            },
+                            selectProps: {
+                                multiple: false,
+                                items: [
+                                    { name: "Да", value: "true" },
+                                    { name: "Нет", value: "false" },
+                                ],
+                                defaultValue:
+                                    data?.product?.isPromote?.toString(),
+                            },
+                        },
                     ]}
                     submit={submit}
                     hasUploadImage={true}

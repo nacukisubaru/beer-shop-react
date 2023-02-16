@@ -212,6 +212,7 @@ export const getServerSideProps: GetServerSideProps =
                 page: 0,
                 limitPage: 3,
                 isActive: "true",
+                isPromote: "true"
             })
         );
 
@@ -220,6 +221,7 @@ export const getServerSideProps: GetServerSideProps =
                 page: 0,
                 limitPage: 3,
                 isActive: "true",
+                isPromote: "true"
             })
         );
 
@@ -228,6 +230,7 @@ export const getServerSideProps: GetServerSideProps =
                 page: 0,
                 limitPage: 3,
                 isActive: "true",
+                isPromote: "true"
             })
         );
 

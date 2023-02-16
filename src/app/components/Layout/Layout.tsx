@@ -17,7 +17,7 @@ const Layout: FC<ILayoutProps> = ({ children }) => {
             <div>
                 {router.route.indexOf('/admin/') < 0 && <Header />}
                 <div className="children-wrapper">{children}</div>
-                {router.route.indexOf('/admin/') < 0 &&  <Footer />}
+                {router.route.indexOf('/admin/') < 0 && <Footer />}
             </div>
         </>
     );

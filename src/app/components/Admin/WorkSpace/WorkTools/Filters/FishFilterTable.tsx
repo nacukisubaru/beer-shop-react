@@ -66,6 +66,16 @@ const FishFilterTable: FC = () => {
                     },
                 },
                 {
+                    field: "isPromote",
+                    fieldName: "Выводится на главной",
+                    inputSelectBoolean: {
+                        trueName: "Да",
+                        trueValue: "true",
+                        falseName: "Нет",
+                        falseValue: "false",
+                    },
+                },
+                {
                     field: "inStock",
                     fieldName: "В наличии",
                     inputSelectBoolean: {
