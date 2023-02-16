@@ -64,7 +64,8 @@ export const useCatalog = (api: any, list?: string) => {
             if (errorRes.status === 404) {
                 disableNextPage();
             }
-            if (errorRes.status === 404 && isFilterWorking) {
+    
+            if (errorRes.status === 404 && isFilterWorking && filters.length) {
                 openAdminModalNotFoundByFilter();
                 resetFilters();
             }

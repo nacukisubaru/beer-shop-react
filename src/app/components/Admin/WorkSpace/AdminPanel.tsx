@@ -19,6 +19,7 @@ const AdminPanel: FC<IAdminPanelProps> = ({ workTool }) => {
         { name: "Бренды", url: "/admin/brands", active: false },
         { name: "Сорта", url: "/admin/grades", active: false },
         { name: "Типы упаковок", url: "/admin/types-packaging", active: false },
+        { name: "Тип рыбы", url: "/admin/fish-types", active: false },
         { name: "Админ панель контент", url: `${hostAdminPanel}/admin/content-manager/collectionType/api::restaurant.restaurant?page=1&pageSize=10&sort=name:ASC`, active: false }
     ]);
     const { data, isLoading } = useCheckUserRoleAdminQuery({});

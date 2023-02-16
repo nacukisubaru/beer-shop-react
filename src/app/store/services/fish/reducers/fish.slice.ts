@@ -41,12 +41,14 @@ export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppState, unkn
 
 export const fetchFish = (params: any): AppThunk =>
     async dispatch => {
-        const url = queryBuilder("/fish/getListByFilter/", params);
-        let request = axios;
-        const response = await request.get(url);
-        dispatch(
-            fishSlice.actions.setFishList({ data: response.data }),
-        );
+        try {
+            const url = queryBuilder("/fish/getListByFilter/", params);
+            let request = axios;
+            const response = await request.get(url);
+            dispatch(
+                fishSlice.actions.setFishList({ data: response.data }),
+            );
+        } catch(error) {}
     };
 
 export const fishReducer = fishSlice.reducer;

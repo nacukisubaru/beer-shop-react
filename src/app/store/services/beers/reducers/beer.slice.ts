@@ -87,12 +87,14 @@ export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppState, unkn
 
 export const fetchBeers = (params: any): AppThunk =>
     async dispatch => {
-        const url = queryBuilder("/beers/getListByFilter/", params);
-        let request = axios;
-        const response = await request.get(url);
-        dispatch(
-            beerSlice.actions.setBeerList({ data: response.data }),
-        );
+        try {
+            const url = queryBuilder("/beers/getListByFilter/", params);
+            let request = axios;
+            const response = await request.get(url);
+            dispatch(
+                beerSlice.actions.setBeerList({ data: response.data }),
+            );
+        } catch(error) {}
     };
 
 export const beerReducer = beerSlice.reducer;

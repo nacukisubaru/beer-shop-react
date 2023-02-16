@@ -64,3 +64,52 @@ export const fishTypesApi = createApi({
         }),  
     })
 });
+
+export const fishTypesCrudApi = createApi({
+    reducerPath: 'fishTypesCrudApi',
+    tagTypes: ['FishType'],
+    baseQuery: reauthBaseQuery,
+    endpoints: (build) => ({
+        getList: build.query<IFishType[], any>({
+            query: (params) => ({
+                url: '/fish-types/getListPagination/' + params.filter,
+                params
+            }),
+            providesTags: (result: any) =>
+            result
+                ? [
+                    ...result.rows.map((value: any) => ({ type: 'FishType', id: value.id })),
+                    { type: 'FishType', id: 'LIST' },
+                ]
+                : [{ type: 'FishType', id: 'LIST' }],
+        }),
+        getOne: build.query<IFishType, number>({
+            query: (id: number) => ({
+                url: '/fish-types/getById/'+id
+            })
+        }),
+        add: build.mutation({
+            query: (body) => ({
+                url: '/fish-types/create/',
+                method: 'POST',
+                body
+            }),
+            invalidatesTags: [{type: 'FishType', id: 'LIST'}]
+        }),
+        update: build.mutation({
+            query: (body) => ({
+                url: '/fish-types/update/',
+                method: 'POST',
+                body
+            }),
+            invalidatesTags: [{type: 'FishType', id: 'LIST'}]
+        }),
+        remove: build.mutation({
+            query:(body) => ({
+                url: '/fish-types/remove/' + body.id,
+                method: 'DELETE'
+            }),
+            invalidatesTags: [{type: 'FishType', id: 'LIST'}]
+        })
+    })
+});
