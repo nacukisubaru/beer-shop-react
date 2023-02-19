@@ -5,5 +5,6 @@ export interface ICard {
     price: number,
     image: string,
     inStock: boolean,
+    detailUrl: string,
     buy: () => void
 }

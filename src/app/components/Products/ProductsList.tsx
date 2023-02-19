@@ -42,7 +42,7 @@ const ProductsList: FC<IProductList> = ({
     const { productList } = useAppSelector((state) => state.productReducer);
     const { q } = useAppSelector((state) => state.filterProductsReducer);
     const {loader} = useAppSelector((state) => state.contentReducer);
-    const products = useProductMap(productList, true);
+    const products = useProductMap(productList, productType);
     const [addShow] = productApi.useAddShowMutation();
     const dispatch = useDispatch();
 

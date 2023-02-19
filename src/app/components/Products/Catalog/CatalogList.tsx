@@ -13,13 +13,15 @@ interface IRedirectCardProps {
 interface IProductList {
     redirectCardProps?: IRedirectCardProps;
     productList:any;
+    productType: string;
 }
 
 const CatalogList: FC<IProductList> = ({
     productList,
-    redirectCardProps
+    redirectCardProps,
+    productType
 }) => {
-    const products = useProductMap(productList, true);
+    const products = useProductMap(productList, productType);
     return (
         <>   
             {productList.length > 0 && (

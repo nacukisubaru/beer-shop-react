@@ -7,6 +7,7 @@ const CatalogSnacks: FC = () => {
     const {snackList} = useAppSelector(state => state.snackReducer);
     return (
         <CatalogList
+            productType="snacks"
             productList={snackList}
             redirectCardProps={{
                 linkProps: {
