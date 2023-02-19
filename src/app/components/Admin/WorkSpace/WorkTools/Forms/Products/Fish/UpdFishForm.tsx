@@ -2,31 +2,36 @@ import { FC } from "react";
 import { useActions } from "../../../../../../../hooks/useActions";
 import { useAppSelector } from "../../../../../../../hooks/useAppSelector";
 import { IStateResponse } from "../../../../../../../hooks/useCatalog";
-import { beerApi } from "../../../../../../../store/services/beers/beer.api";
 import { IBrand } from "../../../../../../../store/services/brands/types/brand.types";
-import { IGrade } from "../../../../../../../store/services/grades/types/grade.type";
+import { fishApi } from "../../../../../../../store/services/fish/fish.api";
+import { IFishType } from "../../../../../../../store/services/fish/types/fish.type";
 import { ITypePackaging } from "../../../../../../../store/services/type-packaging/types/type-packaging.types";
 import Form from "../../Form";
 
-interface UpdBeerFormProps {
-    gradesList: IGrade[];
+interface UpdFishFormProps {
     brandsList: IBrand[];
     packagingList: ITypePackaging[];
+    fishTypesList: IFishType[];
     submit: (body: any, isObject?: boolean) => Promise<IStateResponse>;
 }
 
-const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit, gradesList, brandsList, packagingList }) => {
+const UpdFishForm: FC<UpdFishFormProps> = ({
+    brandsList,
+    packagingList,
+    fishTypesList,
+    submit,
+}) => {
     const { detailId } = useAppSelector((state) => state.contentReducer);
-    const { data, isLoading, refetch } = beerApi.useGetOneQuery(detailId);
+    const { data, isLoading, refetch } = fishApi.useGetOneQuery(detailId);
     const { closeModalAddContent } = useActions();
 
     const onSubmit = () => {
         refetch();
     };
-
+    console.log(data?.fishTypeId);
     return (
         <>
-            {isLoading  ? (
+            {isLoading ? (
                 <></>
             ) : (
                 <Form
@@ -50,13 +55,13 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit, gradesList, brandsList, pac
                             defaultValue: data?.product?.description,
                         },
                         {
-                            name: "compound",
-                            type: "text",
-                            label: "Состав",
+                            name: "weight",
+                            type: "number",
+                            label: "Вес",
                             validationProps: {
                                 required: "Поле обязательно для заполнения",
                             },
-                            defaultValue: data?.compound,
+                            defaultValue: data?.weight,
                         },
                         {
                             name: "quantity",
@@ -77,57 +82,6 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit, gradesList, brandsList, pac
                             defaultValue: data?.product?.price,
                         },
                         {
-                            name: "volume",
-                            type: "number",
-                            label: "Объём",
-                            validationProps: {
-                                required: "Поле обязательно для заполнения",
-                            },
-                            defaultValue: data?.volume,
-                        },
-                        {
-                            name: "fortress",
-                            type: "number",
-                            label: "Крепкость",
-                            validationProps: {
-                                required: "Поле обязательно для заполнения",
-                            },
-                            defaultValue: data?.fortress,
-                        },
-                        {
-                            name: "ibu",
-                            type: "number",
-                            label: "ibu",
-                            validationProps: {
-                                required: "Поле обязательно для заполнения",
-                            },
-                            defaultValue: data?.ibu,
-                        },
-                        {
-                            name: "gradeIds",
-                            type: "selectAuto",
-                            label: "Сорта",
-                            selectProps: {
-                                multiple: true,
-                                items: gradesList.map((grade) => {
-                                    return {
-                                        name: grade.name,
-                                        value: grade.id,
-                                    };
-                                }),
-                                defaultItems: data?.grades?.map((grade) => {
-                                    return {
-                                        value: grade.id,
-                                        name: grade.name,
-                                    };
-                                }),
-                                createSelectData:{name: "Создать сорт", link: "/admin/grades"}
-                            },
-                            validationProps: {
-                                required: "Поле обязательно для заполнения",
-                            },
-                        },
-                        {
                             name: "brandId",
                             type: "selectAuto",
                             label: "Бренд",
@@ -143,7 +97,6 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit, gradesList, brandsList, pac
                                     name: data?.product?.brandName,
                                     value: data?.product?.brandId,
                                 },
-                                createSelectData:{name: "Создать бренд", link: "/admin/brands"}
                             },
                             validationProps: {
                                 required: "Поле обязательно для заполнения",
@@ -165,7 +118,26 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit, gradesList, brandsList, pac
                                     };
                                 }),
                                 defaultValue: data?.product?.typePackagingId,
-                                createSelectData:{name: "Создать тип упаковки", link: "/admin/type-packaging"}
+                            },
+                        },
+                        {
+                            name: "fishTypeId",
+                            type: "select",
+                            label: "Тип рыбы",
+                            validationProps: {
+                                required: "Поле обязательно для заполнения",
+                            },
+                            selectProps: {
+                                multiple: false,
+                                items: fishTypesList.map((item: IFishType) => {
+                                    return { name: item.name, value: item.id };
+                                }),
+                              
+                                defaultValue: data?.fishTypeId,
+                                createSelectData: {
+                                    name: "Создать тип рыбы",
+                                    link: "/admin/fish-types",
+                                },
                             },
                         },
                         {
@@ -202,41 +174,6 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit, gradesList, brandsList, pac
                             },
                         },
                         {
-                            name: "filtered",
-                            type: "select",
-                            label: "Фильтрация",
-                            validationProps: {
-                                required: "Поле обязательно для заполнения",
-                            },
-                            selectProps: {
-                                multiple: false,
-                                items: [
-                                    { name: "Фильтрованное", value: "true" },
-                                    {
-                                        name: "Не фильтрованное",
-                                        value: "false",
-                                    },
-                                ],
-                                defaultValue: data?.filtered.toString(),
-                            },
-                        },
-                        {
-                            name: "forBottling",
-                            type: "select",
-                            label: "Розлив",
-                            validationProps: {
-                                required: "Поле обязательно для заполнения",
-                            },
-                            selectProps: {
-                                multiple: false,
-                                items: [
-                                    { name: "Розливное", value: "true" },
-                                    { name: "Не розливное", value: "false" },
-                                ],
-                                defaultValue: data?.forBottling.toString(),
-                            },
-                        },
-                        {
                             name: "isPromote",
                             type: "select",
                             label: "Выводить на главной",
@@ -267,4 +204,4 @@ const UpdBeerForm: FC<UpdBeerFormProps> = ({ submit, gradesList, brandsList, pac
     );
 };
 
-export default UpdBeerForm;
+export default UpdFishForm;

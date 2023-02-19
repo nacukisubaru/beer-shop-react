@@ -1,19 +1,25 @@
 import { FC } from "react";
 import { useActions } from "../../../../../../../hooks/useActions";
 import { IStateResponse } from "../../../../../../../hooks/useCatalog";
-import { brandApi } from "../../../../../../../store/services/brands/brand.api";
 import { IBrand } from "../../../../../../../store/services/brands/types/brand.types";
-import { typePackagingApi } from "../../../../../../../store/services/type-packaging/type-packaging.api";
+import { fishTypesApi } from "../../../../../../../store/services/fish/fish.api";
+import { IFishType } from "../../../../../../../store/services/fish/types/fish.type";
 import { ITypePackaging } from "../../../../../../../store/services/type-packaging/types/type-packaging.types";
 import Form from "../../Form";
 
-interface AddSnackFormProps {
+interface AddFishFormProps {
     brandsList: IBrand[];
+    fishTypesList: IFishType[];
     packagingList: ITypePackaging[];
     submit: (body: any, isObject?: boolean) => Promise<IStateResponse>;
 }
 
-const AddSnackForm: FC<AddSnackFormProps> = ({ brandsList, packagingList, submit }) => {
+const AddFishForm: FC<AddFishFormProps> = ({
+    brandsList,
+    packagingList,
+    fishTypesList,
+    submit,
+}) => {
     const { closeModalAddContent } = useActions();
     return (
         <Form
@@ -91,7 +97,28 @@ const AddSnackForm: FC<AddSnackFormProps> = ({ brandsList, packagingList, submit
                         items: packagingList.map((item) => {
                             return { name: item.name, value: item.id };
                         }),
-                        createSelectData:{name: "Создать тип упаковки", link: "/admin/type-packaging"}
+                        createSelectData: {
+                            name: "Создать тип упаковки",
+                            link: "/admin/type-packaging",
+                        },
+                    },
+                },
+                {
+                    name: "fishTypeId",
+                    type: "select",
+                    label: "Тип рыбы",
+                    validationProps: {
+                        required: "Поле обязательно для заполнения",
+                    },
+                    selectProps: {
+                        multiple: false,
+                        items: fishTypesList.map((item: IFishType) => {
+                            return { name: item.name, value: item.id };
+                        }),
+                        createSelectData: {
+                            name: "Создать тип рыбы",
+                            link: "/admin/fish-types",
+                        },
                     },
                 },
                 {
@@ -147,4 +174,4 @@ const AddSnackForm: FC<AddSnackFormProps> = ({ brandsList, packagingList, submit
     );
 };
 
-export default AddSnackForm;
+export default AddFishForm;

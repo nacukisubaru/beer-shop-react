@@ -73,6 +73,7 @@ const Menu: FC<IMenu> = ({ productType, filterList = [] }) => {
     const arrayMenuList: any = [
         <ItemMenu name="Пиво" link="/products/beers" onClick={handleResetFilter}/>,
         <ItemMenu name="Закуски" link="/products/snacks" onClick={handleResetFilter}/>,
+        <ItemMenu name="Рыба" link="/products/fish" onClick={handleResetFilter}/>,
     ];
 
     const arrayFilterList: any = [

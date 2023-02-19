@@ -1,16 +1,16 @@
 import { FC } from "react";
 import { useActions } from "../../../../../../../hooks/useActions";
 import { IStateResponse } from "../../../../../../../hooks/useCatalog";
-import { useGetProductTypesQuery } from "../../../../../../../store/services/product-types/product-types.api";
+import { IProductType } from "../../../../../../../store/services/product-types/types/productTypes.type";
 import Form from "../../Form";
 
 interface AddBrandFormProps {
+    productTypes: IProductType[];
     submit: (body: any, isObject?: boolean) => Promise<IStateResponse>;
 }
 
-const AddBrandForm: FC<AddBrandFormProps> = ({ submit }) => {
+const AddBrandForm: FC<AddBrandFormProps> = ({ productTypes, submit }) => {
     const { closeModalAddContent } = useActions();
-    const { data } = useGetProductTypesQuery({});
 
     return (
         <Form
@@ -29,11 +29,9 @@ const AddBrandForm: FC<AddBrandFormProps> = ({ submit }) => {
                     label: "Тип товара",
                     selectProps: {
                         multiple: false,
-                        items: data
-                            ? data.map((item) => {
-                                  return { name: item.name, value: item.id };
-                              })
-                            : [],
+                        items: productTypes.map((item) => {
+                            return { name: item.name, value: item.id };
+                        }),
                     },
                     validationProps: {
                         required: "Поле обязательно для заполнения",

@@ -1,7 +1,8 @@
 import { IBeer } from "../store/services/beers/types/beer.type";
 import { IBrand, IBrandWithProductType } from "../store/services/brands/types/brand.types";
+import { IFish } from "../store/services/fish/types/fish.type";
 import { IGrade } from "../store/services/grades/types/grade.type";
-import { ISnack, ISnackProduct } from "../store/services/snacks/types/snacks.types";
+import { ISnack, } from "../store/services/snacks/types/snacks.types";
 
 interface IProduct {
     id: number,
@@ -28,6 +29,13 @@ interface IBeerProduct extends IProduct {
     grades: IGrade[],
 }
 
+interface ISnackProduct extends IProduct {
+}
+
+interface IFishProduct extends IProduct {
+    fishTypeId: any;
+}
+
 export const arrayUniqueByKey = (array:any, key = 'id') => {
     const map:any = Map;
     const arrayUniqueByKey = [
@@ -47,7 +55,8 @@ export const createBeersList = (beersList: IBeer[]): IBeerProduct[] => {
                 filtered: beer.filtered ? 'Да' : 'Нет',
                 forBottling: beer.forBottling ? 'Да' : 'Нет',
                 isActive: product.isActive ? 'Да' : 'Нет',
-                inStock: product.inStock ? 'Да' : 'Нет'
+                inStock: product.inStock ? 'Да' : 'Нет',
+                isPromote: product.isPromote ? 'Да' : 'Нет',
             };
         });
     }
@@ -61,13 +70,35 @@ export const createSnacksList = (snacksList: ISnack[]): ISnackProduct[] => {
             const product = snack.product;
             return {
                 ...snack,
-                ...product
+                ...product,
+                isActive: product.isActive ? 'Да' : 'Нет',
+                inStock: product.inStock ? 'Да' : 'Нет',
+                isPromote: product.isPromote ? 'Да' : 'Нет',
             };
         });
     }
     
     return [];
 }
+
+export const createFishList = (fishList: IFish[]): IFishProduct[] => {
+    if(Array.isArray(fishList) && fishList.length) {
+        return fishList.map((fish) => {
+            const product = fish.product;
+            return {
+                ...fish,
+                ...product,
+                isActive: product.isActive ? 'Да' : 'Нет',
+                inStock: product.inStock ? 'Да' : 'Нет',
+                isPromote: product.isPromote ? 'Да' : 'Нет',
+                fishTypeId: fish.fishTypeName
+            };
+        });
+    }
+    
+    return [];
+}
+
 
 export const createBrandsList = (brandList: IBrand[]): IBrandWithProductType[] => {
     if(Array.isArray(brandList) && brandList.length) {
@@ -89,6 +120,8 @@ export const createList = (array:any, list: string) => {
            return createBeersList(array);
         case 'snack':
            return createSnacksList(array);
+        case 'fish':
+            return createFishList(array);
         case 'brand':
             return createBrandsList(array);
     }

@@ -48,6 +48,15 @@ const UpdSnackForm: FC<UpdSnackFormProps> = ({ brandsList, packagingList, submit
                             defaultValue: data?.product?.description,
                         },
                         {
+                            name: "weight",
+                            type: "number",
+                            label: "Вес",
+                            validationProps: {
+                                required: "Поле обязательно для заполнения",
+                            },
+                            defaultValue: data?.weight,
+                        },
+                        {
                             name: "quantity",
                             type: "number",
                             label: "Количество",
@@ -135,6 +144,23 @@ const UpdSnackForm: FC<UpdSnackFormProps> = ({ brandsList, packagingList, submit
                                     { name: "Нет", value: "false" },
                                 ],
                                 defaultValue: data?.product?.inStock.toString(),
+                            },
+                        },
+                        {
+                            name: "isPromote",
+                            type: "select",
+                            label: "Выводить на главной",
+                            validationProps: {
+                                required: "Поле обязательно для заполнения",
+                            },
+                            selectProps: {
+                                multiple: false,
+                                items: [
+                                    { name: "Да", value: "true" },
+                                    { name: "Нет", value: "false" },
+                                ],
+                                defaultValue:
+                                    data?.product?.isPromote?.toString(),
                             },
                         },
                     ]}

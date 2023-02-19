@@ -12,6 +12,7 @@ export const initialState = {
     maxFortress:<number> 0,
     forBottling:<any> "",
     filtered:<any> "",
+    fishTypes:<number[]> [],
     isActive: 'true',
     sortField: 'price',
     order: 'ASC',
@@ -47,6 +48,11 @@ export const filterProductsSlice = createSlice({
             const id = action.payload.id;
             const result = removeItem(state.typesPackagingIds, id);
             result ? state.typesPackagingIds = result : state.typesPackagingIds.push(id);
+        },
+        addFishType: (state, action: PayloadAction<{id:number}>) => {
+            const id = action.payload.id;
+            const result = removeItem(state.fishTypes, id);
+            result ? state.fishTypes = result : state.fishTypes.push(id);
         },
         setMinPrice: (state, action: PayloadAction<{price:number}>) => {
             state.minPrice = action.payload.price;

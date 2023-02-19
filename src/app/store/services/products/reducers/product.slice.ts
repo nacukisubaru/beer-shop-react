@@ -65,7 +65,7 @@ export const productSlice = createSlice({
             state.status = "resolved";
             state.page = 1;
         },
-        setProductListRejected(state, action) {
+        setProductListRejected(state) {
             state.status = "rejected";
         },
         setProductListPending(state, action) {
@@ -164,7 +164,7 @@ export const fetchProducts = (path: string, params: any): AppThunk =>
             );
         } catch (error: any) {
             dispatch(
-                productSlice.actions.setProductListRejected({ data: error.response.data }),
+                productSlice.actions.setProductListRejected(),
             );
         }
     };

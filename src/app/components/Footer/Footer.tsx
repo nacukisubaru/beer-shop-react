@@ -98,7 +98,7 @@ const Footer: FC = () => {
                                     <Typography variant="body2">
                                         <Link
                                             className={styles.link}
-                                            href="/"
+                                            href="/products/fish"
                                         >
                                             Рыба
                                         </Link>

@@ -2,12 +2,14 @@ import { FC } from "react";
 import { useActions } from "../../../../../hooks/useActions";
 import { useAppSelector } from "../../../../../hooks/useAppSelector";
 import { brandApi } from "../../../../../store/services/brands/brand.api";
+import { fishTypesApi } from "../../../../../store/services/fish/fish.api";
 import FilterPanelGrid from "../../../../Grid/FilterPanelGrid";
 
-const SnackFilterTable: FC = () => {
+const FishFilterTable: FC = () => {
     const { setFilter, removeFilter, resetFilters, filter} = useActions();
     const { tmpfilters  } = useAppSelector(state => state.contentReducer);
-    const brandsList = brandApi.useGetListByProductTypeQuery("snacks");
+    const brandsList = brandApi.useGetListByProductTypeQuery("fish");
+    const fishTypeList = fishTypesApi.useGetListQuery({});
 
     const handleSetFilter = (name: string, value: number | string | number[] | string[]) => {
         setFilter({name, value});
@@ -35,6 +37,19 @@ const SnackFilterTable: FC = () => {
                             return {
                                 name: brand.name,
                                 value: brand.id,
+                            };
+                        }) : [],
+                        multiple: true,
+                    },
+                },
+                {
+                    field: "fishTypeId",
+                    fieldName: "Тип рыбы",
+                    inputSelect: {
+                        valueInputSelect: fishTypeList && fishTypeList.data ? fishTypeList.data.map((fishType) => {
+                            return {
+                                name: fishType.name,
+                                value: fishType.id,
                             };
                         }) : [],
                         multiple: true,
@@ -81,4 +96,4 @@ const SnackFilterTable: FC = () => {
     );
 };
 
-export default SnackFilterTable;
+export default FishFilterTable;

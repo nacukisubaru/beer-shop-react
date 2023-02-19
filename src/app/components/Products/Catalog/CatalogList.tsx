@@ -33,7 +33,7 @@ const CatalogList: FC<IProductList> = ({
                                 height: "300px",
                             },
                             button: { width: "210px", height: "30px" },
-                            titleSize: "20px",
+                            titleSize: "17px",
                             imageHeight: "150px",
                             priceSize: "17px",
                         }}

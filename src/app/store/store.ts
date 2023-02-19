@@ -23,6 +23,8 @@ import { orderApi, orderStatusApi, orderUserApi } from "./services/order/order.a
 import { createWrapper } from "next-redux-wrapper";
 import { productReducer } from "./services/products/reducers/product.slice";
 import { headerReducer } from "./reducers/header.slice";
+import { fishApi, fishTypesApi, fishTypesCrudApi } from "./services/fish/fish.api";
+import { fishReducer } from "./services/fish/reducers/fish.slice";
 
 export const makeStore = () => configureStore({
     reducer: {
@@ -30,6 +32,7 @@ export const makeStore = () => configureStore({
         accountFormsReducer,
         basketReducer,
         beerReducer,
+        fishReducer,
         drawerMenuReducer,
         filterProductsReducer,
         snackReducer,
@@ -50,7 +53,10 @@ export const makeStore = () => configureStore({
         [roleApi.reducerPath]: roleApi.reducer,
         [orderApi.reducerPath]: orderApi.reducer,
         [orderUserApi.reducerPath]: orderUserApi.reducer,
-        [orderStatusApi.reducerPath]: orderStatusApi.reducer
+        [orderStatusApi.reducerPath]: orderStatusApi.reducer,
+        [fishApi.reducerPath]: fishApi.reducer,
+        [fishTypesApi.reducerPath]: fishTypesApi.reducer,
+        [fishTypesCrudApi.reducerPath]: fishTypesCrudApi.reducer
     },
     
     middleware: getDefaultMiddleware => getDefaultMiddleware({serializableCheck: false}).concat(
@@ -63,7 +69,9 @@ export const makeStore = () => configureStore({
         productTypeApi.middleware,
         productApi.middleware,
         roleApi.middleware,
-        orderApi.middleware
+        orderApi.middleware,
+        fishApi.middleware,
+        fishTypesCrudApi.middleware
     ),
     //middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false})
 });
