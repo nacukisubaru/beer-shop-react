@@ -1,12 +1,9 @@
 import * as React from "react";
 import SwipeableViews from "react-swipeable-views";
 import { useTheme } from "@mui/material/styles";
-import AppBar from "@mui/material/AppBar";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import CatalogBeers from "../Products/Catalog/CatalogBeers";
 
 interface TabsUIProps {
     tabsList: string[];
@@ -30,7 +27,7 @@ const TabsUI: React.FC<TabsUIProps> = ({ tabsList, swipeableList }) => {
             <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
                 <Tabs value={value} onChange={handleChange} centered>
                     {tabsList.map((tab) => {
-                       return <Tab label={tab} style={{fontSize: "16px"}}/>;
+                       return <Tab label={tab} key={tab} style={{fontSize: "16px"}}/>;
                     })}
                 </Tabs>
             </Box>

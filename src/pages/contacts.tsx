@@ -1,8 +1,5 @@
 import { Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
-import Link from "next/link";
-import Menu from "../app/components/Drawer/Menu/Menu";
-import YMapContacts from "../app/components/YandexMaps/Contacts/YMapContacts";
 import { cmsQueryExecute } from "../app/helpers/cmsHelper";
 import { useAppSelector } from "../app/hooks/useAppSelector";
 import {
@@ -10,11 +7,24 @@ import {
     fetchHeaderData,
     fetchPhonesList,
     fetchSocialNetworks,
-    headerReducer,
 } from "../app/store/reducers/header.slice";
 import { wrapper } from "../app/store/store";
+import { FC } from "react";
+import { IYandexMap } from "../app/types/seo.types";
+import Head from "next/head";
+import Link from "next/link";
+import Menu from "../app/components/Drawer/Menu/Menu";
+import YMapContacts from "../app/components/YandexMaps/Contacts/YMapContacts";
 
-const Contacts = ({ data }) => {
+interface ISSRData {
+    yandexmap: IYandexMap
+}
+
+interface IContactsProps {
+    data: ISSRData
+}
+
+const Contacts: FC<IContactsProps> = ({ data }) => {
     const { placeName, address, workTime, wayDesc, photosPlace } =
         data.yandexmap;
     const { socialNetworksList, phoneList } = useAppSelector(
@@ -23,11 +33,12 @@ const Contacts = ({ data }) => {
 
     return (
         <>
-             <Menu
-                callbackApplyFilter={() => {}}
-                callbackResetFilter={() => {}}
-                filter={{ minPrice: 0, maxPrice: 0, productType: "" }}
+             <Head>
+                <title>Контакты | Пивградъ</title>
+            </Head>
+            <Menu
                 filterList={[]}
+                productType="beers"
             />
             <div style={{ paddingLeft: "40px", marginTop: "25px" }}>
                 <Typography>Адрес:</Typography>
@@ -44,6 +55,7 @@ const Contacts = ({ data }) => {
                 {phoneList.length > 0 && phoneList.map((item) => {
                     return (
                         <Typography
+                            key={item.number}
                             style={{ fontWeight: "bold", marginBottom: "20px" }}
                         >
                             {item.number}

@@ -7,6 +7,7 @@ const CatalogFish: FC = () => {
     const {fishList} = useAppSelector(state => state.fishReducer);
     return (
         <CatalogList
+            productType="fish"
             productList={fishList}
             redirectCardProps={{
                 linkProps: {

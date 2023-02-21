@@ -16,6 +16,7 @@ const Action: FC<IActionProps> = ({ buttons, paramsAction }) => {
                 };
                 return (
                     <IconButton
+                        key={button.size}
                         color={button.color}
                         size={button.size}
                         component="span"

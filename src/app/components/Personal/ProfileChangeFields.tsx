@@ -163,7 +163,12 @@ const ProfileChangeFields: FC<IProfileChangeFields> = ({
                                 </Typography>
                             )}
 
-                            <Typography style={{marginBottom: "5px"}}>Вам придёт уведомление на email когда ваш заказ можно будет забрать из магазина</Typography>
+                            {field === "email" && (
+                                <Typography style={{marginBottom: "5px"}}>
+                                    Вам придёт уведомление на email когда ваш заказ можно будет забрать из магазина
+                                </Typography>
+                            )}
+                            
 
                             {field === "пароль" && (
                                 <TextField

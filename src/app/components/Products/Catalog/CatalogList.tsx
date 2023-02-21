@@ -13,13 +13,15 @@ interface IRedirectCardProps {
 interface IProductList {
     redirectCardProps?: IRedirectCardProps;
     productList:any;
+    productType: string;
 }
 
 const CatalogList: FC<IProductList> = ({
     productList,
-    redirectCardProps
+    redirectCardProps,
+    productType
 }) => {
-    const products = useProductMap(productList, true);
+    const products = useProductMap(productList, productType);
     return (
         <>   
             {productList.length > 0 && (
@@ -30,7 +32,7 @@ const CatalogList: FC<IProductList> = ({
                         settingsCardProps={{
                             card: {
                                 width: "230px",
-                                height: "300px",
+                                height: "307px",
                             },
                             button: { width: "210px", height: "30px" },
                             titleSize: "17px",
@@ -43,7 +45,7 @@ const CatalogList: FC<IProductList> = ({
                                     settingsCardProps={{
                                         card: {
                                             width: "230px",
-                                            height: "300px",
+                                            height: "307px",
                                         },
                                         imageProps: {
                                             image: redirectCardProps.icon,

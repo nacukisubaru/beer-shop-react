@@ -73,6 +73,7 @@ const CardList: FC<CardListProps> = ({
                                 buy={item.buy}
                                 settingsCardProps={settingsCardProps}
                                 show={show}
+                                detailUrl={item.detailUrl}
                                 inBasket={
                                     findItemInBasket(item.id) ? true : false
                                 }

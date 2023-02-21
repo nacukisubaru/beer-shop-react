@@ -21,17 +21,33 @@ import FishModal from "../../app/components/Modals/Products/FishModal";
 import ItemFilterMenu from "../../app/components/Drawer/Items/ItemFilterMenu";
 import CheckboxFilterList from "../../app/components/Filters/Checkbox/CheckboxFilterList";
 import { fishTypesApi } from "../../app/store/services/fish/fish.api";
+import { cmsQueryExecute } from "../../app/helpers/cmsHelper";
+import Head from "next/head";
 
-const Fish: FC = () => {
+interface IFishMetaTags {
+    titleFishsMeta: string;
+    descFishsMeta: string;
+    keywordsFishsMeta: string;
+}
+
+interface IFishProps {
+    metaTags: IFishMetaTags;
+}
+
+const Fish: FC<IFishProps> = ({ metaTags }) => {
     const { product, productList } = useAppSelector(
         (state) => state.productReducer
     );
-    const { openModalNotFoundByFilter, closeModalNotFoundByFilter, addFishType } = useActions();
+    const {
+        openModalNotFoundByFilter,
+        closeModalNotFoundByFilter,
+        addFishType,
+    } = useActions();
     const isOpen = useAppSelector(
         (state) => state.notFoundReducer.modalNotFoundByFilter
     );
-    
-    const {fishTypes} = useAppSelector(
+
+    const { fishTypes } = useAppSelector(
         (state) => state.filterProductsReducer
     );
 
@@ -42,46 +58,59 @@ const Fish: FC = () => {
     };
 
     return (
-        <div className="page-container">
-            <Menu
-                productType="fish"
-                filterList={[
-                    <ItemFilterMenu
-                        key="Разновидность"
-                        name="Разновидность"
-                        component={
-                            <CheckboxFilterList
-                                list={fishTypesList ? fishTypesList.data: []}
-                                selectedList={fishTypes}
-                                setFilter={addFishTypeFilter}
-                            />
-                        }
-                    />,
-                ]}
-            />
-            <ProductsList
-                productType="fish"
-                showTools={true}
-                loadingByScroll={true}
-                settingsCardProps={{
-                    card: {
-                        width: "300px",
-                        height: "390px",
-                    },
-                    button: { width: "279px", height: "30px" },
-                    titleSize: "18px",
-                    imageHeight: "200px",
-                    priceSize: "20px",
-                    showDetailBtn: true,
-                }}
-            />
-            <ResultNotFoundByFilter
-                openModalNotFoundByFilter={openModalNotFoundByFilter}
-                closeModalNotFoundByFilter={closeModalNotFoundByFilter}
-                isOpen={isOpen}
-            />
-            {productList.length > 0 && !isEmptyObject(product) && <FishModal />}
-        </div>
+        <>
+            <Head>
+                <meta keywords={metaTags.keywordsFishsMeta}></meta>
+                <meta
+                    description={metaTags.descFishsMeta}
+                ></meta>
+                <title>{metaTags.titleFishsMeta + " | Пивградъ"}</title>
+            </Head>
+            <div className="page-container">
+                <Menu
+                    productType="fish"
+                    filterList={[
+                        <ItemFilterMenu
+                            key="Разновидность"
+                            name="Разновидность"
+                            component={
+                                <CheckboxFilterList
+                                    list={
+                                        fishTypesList ? fishTypesList.data : []
+                                    }
+                                    selectedList={fishTypes}
+                                    setFilter={addFishTypeFilter}
+                                />
+                            }
+                        />,
+                    ]}
+                />
+                <ProductsList
+                    productType="fish"
+                    showTools={true}
+                    loadingByScroll={true}
+                    settingsCardProps={{
+                        card: {
+                            width: "300px",
+                            height: "400px",
+                        },
+                        button: { width: "279px", height: "30px" },
+                        titleSize: "18px",
+                        imageHeight: "200px",
+                        priceSize: "20px",
+                        showDetailBtn: true,
+                    }}
+                />
+                <ResultNotFoundByFilter
+                    openModalNotFoundByFilter={openModalNotFoundByFilter}
+                    closeModalNotFoundByFilter={closeModalNotFoundByFilter}
+                    isOpen={isOpen}
+                />
+                {productList.length > 0 && !isEmptyObject(product) && (
+                    <FishModal />
+                )}
+            </div>
+        </>
     );
 };
 
@@ -89,6 +118,22 @@ export default Fish;
 
 export const getServerSideProps: GetServerSideProps =
     wrapper.getServerSideProps((store) => async ({ query }) => {
+        const props: IFishProps = {
+            metaTags: {
+                titleFishsMeta: "",
+                descFishsMeta: "",
+                keywordsFishsMeta: "",
+            },
+        };
+
+        const resultMeta = await cmsQueryExecute(
+            "/api/catalog-product-meta?populate=*"
+        );
+
+        if (resultMeta) {
+            props.metaTags = resultMeta;
+        }
+
         await store.dispatch(
             fetchProducts("/fish/getListByFilter/", {
                 page: 0,
@@ -105,6 +150,6 @@ export const getServerSideProps: GetServerSideProps =
         await store.dispatch(fetchArticlesList());
 
         return {
-            props: {},
+            props,
         };
     });

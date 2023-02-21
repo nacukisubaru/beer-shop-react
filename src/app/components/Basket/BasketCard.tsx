@@ -24,18 +24,16 @@ const useStyles = makeStyles({
         justifyContent: "center",
     },
     titleText: {
-        display: "flex",
-        justifyContent: "center",
         fontSize: "17px",
         marginBottom: "10px",
         fontWeight: "bold",
-        whiteSpace: "nowrap"
-    },
-    descText: {
+        maxWidth: "285px",
+        WebkitLineClamp: 2,
+        WebkitBoxOrient: "vertical",
+        overflow: "hidden",
+        height: "20px",
         display: "flex",
-        justifyContent: "center",
-        fontSize: "15px",
-        marginBottom: "10px",
+        justifyContent: "center"
     },
 });
 
@@ -122,15 +120,8 @@ const BasketCard: FC<IBasketCard> = ({
                         <div
                             className={
                                 inStock
-                                    ? styles.description +
-                                      " " +
-                                      classes.descText
-                                    : styles.description +
-                                      " " +
-                                      " " +
-                                      classes.descText +
-                                      " " +
-                                      styles.disableText
+                                    ? styles.description : styles.description +
+                                    " " + styles.disableText
                             }
                         >
                             <Typography variant="body2">

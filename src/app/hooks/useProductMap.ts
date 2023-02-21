@@ -7,28 +7,27 @@ import { useActions } from "./useActions";
 import { useAppSelector } from "./useAppSelector";
 import { useBasket } from "./useBasket";
 
-export const useProductMap = (list: IBeer[] | ISnack[], isBeer: boolean) => {
+export const useProductMap = (list: IBeer[] | ISnack[], productType: string) => {
     const [addShow] = productApi.useAddShowMutation();
     const basketList = useAppSelector((state) => state.basketReducer.list);
     const { addItem, plusQuantity, plusCountPosition } = useActions();
-    const {add, update} = useBasket();  
+    const { add, update } = useBasket();
 
     return list.map(
         (item) => {
-           const product: IProductBasket = createProductForBuy(item.product);
-          
-           const buy = () => { 
+            const product: IProductBasket = createProductForBuy(item.product);
+            const buy = () => {
                 const existInBasket = basketList.some(
                     (item) => item.id === product.id
                 );
-            
+
                 if (!existInBasket) {
                     add(1, item.product.id);
                     addItem(product);
                     plusCountPosition();
                     addShow(item.productId);
                 } else {
-                    const productBasket: IProductBasket[] = basketList.filter((item) => {return item.id === product.id});
+                    const productBasket: IProductBasket[] = basketList.filter((item) => { return item.id === product.id });
                     update(item.product.id, productBasket[0].quantity + 1)
                     plusQuantity({ id: item.id, value: 1 });
                 }
@@ -36,6 +35,7 @@ export const useProductMap = (list: IBeer[] | ISnack[], isBeer: boolean) => {
 
             return {
                 ...product,
+                detailUrl: `/products/${productType}/${item.productId}`,
                 buy
             };
         }

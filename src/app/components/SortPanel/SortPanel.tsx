@@ -29,6 +29,7 @@ const SortPanel: FC<ISortPanel> = ({ sortItemsList, sortMobileItemsList, fetchDa
                 </Typography>
                 {sortItemsList.map((item) => {
                     return <Sort
+                        key={item.name}
                         name={item.name}
                         fieldOrder={item.fieldOrder}
                         action={fetchData}

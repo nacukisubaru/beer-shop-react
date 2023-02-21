@@ -13,7 +13,7 @@ import CardRedirect, {
     ILink,
     ISettingsCardRedirect,
 } from "../Cards/CardRedirect";
-import CardSmall, { ISettingsCard } from "../Cards/CardSmall";
+import { ISettingsCard } from "../Cards/CardSmall";
 import InputSearch from "../Search/InputSearch";
 import SortPanel from "../SortPanel/SortPanel";
 
@@ -42,7 +42,7 @@ const ProductsList: FC<IProductList> = ({
     const { productList } = useAppSelector((state) => state.productReducer);
     const { q } = useAppSelector((state) => state.filterProductsReducer);
     const {loader} = useAppSelector((state) => state.contentReducer);
-    const products = useProductMap(productList, true);
+    const products = useProductMap(productList, productType);
     const [addShow] = productApi.useAddShowMutation();
     const dispatch = useDispatch();
 

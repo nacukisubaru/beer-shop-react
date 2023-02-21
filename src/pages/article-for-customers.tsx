@@ -10,19 +10,23 @@ import {
     fetchSocialNetworks,
 } from "../app/store/reducers/header.slice";
 import { wrapper } from "../app/store/store";
+import Head from "next/head";
 
 const ArticleForCustomers = ({ data }) => {
-    return <>
-        <Menu
-            callbackApplyFilter={() => {}}
-            callbackResetFilter={() => {}}
-            filter={{ minPrice: 0, maxPrice: 0, productType: "" }}
-            filterList={[]}
-        />
-        <div className="wrapper">
-            {data.text && HTMLReactParser(decodeHtml(data.text))}
-        </div>
-    </>;
+    return (
+        <>
+            <Head>
+                <title>Информация для клиента | Пивградъ</title>
+            </Head>
+            <Menu
+                filterList={[]}
+                productType="beers"
+            />
+            <div className="wrapper">
+                {data.text && HTMLReactParser(decodeHtml(data.text))}
+            </div>
+        </>
+    );
 };
 
 export default ArticleForCustomers;

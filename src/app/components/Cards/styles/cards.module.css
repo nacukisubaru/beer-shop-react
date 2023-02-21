@@ -41,7 +41,6 @@
 }
 
 .cardContentDesc {
-    display: -webkit-box;
     max-width: 285px;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -60,9 +59,13 @@
 }
 
 .titleText {
-    font-weight: bold;
     display: flex;
     justify-content: center;
+    max-width: 285px;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: 30px;
 }
 
 .priceText {
@@ -93,14 +96,11 @@
     color: #8d8d8d;
 }
 
-.cardContentDesc {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    height: 32px;
+.redirectCardTitle {
     display: flex;
     justify-content: center;
+    color: white;
+    text-decoration: none;
 }
 
 /* Portrait */

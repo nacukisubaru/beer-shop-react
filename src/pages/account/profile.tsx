@@ -13,6 +13,7 @@ import {
 import { wrapper } from "../../app/store/store";
 import { GetServerSideProps } from "next";
 import { cmsQueryExecute } from "../../app/helpers/cmsHelper";
+import Head from "next/head";
 
 export default function Account({data}) {
     const { isAuth } = useAppSelector((state) => state.userReducer);
@@ -21,11 +22,12 @@ export default function Account({data}) {
     );
     return (
         <>
+            <Head>
+                <title>{ isAuth ? 'Личный кабинет | Пивградъ' : 'Авторизация | Пивградъ' }</title>
+            </Head>
             <Menu
-                callbackApplyFilter={() => {}}
-                callbackResetFilter={() => {}}
-                filter={{ minPrice: 0, maxPrice: 0, productType: "" }}
                 filterList={[]}
+                productType="beers"
             />
             {isAuth ? (
                 <PersonalAccount />
