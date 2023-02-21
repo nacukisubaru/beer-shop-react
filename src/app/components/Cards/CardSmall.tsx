@@ -91,7 +91,7 @@ const CardSmall: FC<ICardSmall> = ({
                         <Typography
                             variant="body2"
                             className={styles.titleText}
-                            style={{ fontSize: titleSize }}
+                            style={{ fontSize: titleSize, fontWeight: "bold" }}
                         >
                             {title}
                         </Typography>
