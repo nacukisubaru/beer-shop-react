@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { FC, useEffect } from "react";
 import { useActions } from "../../app/hooks/useActions";
 import { useAppSelector } from "../../app/hooks/useAppSelector";
 import { isEmptyObject } from "../../app/helpers/typesHelper";
@@ -11,18 +11,36 @@ import BeerModal from "../../app/components/Modals/Products/BeerModal";
 import Menu from "../../app/components/Drawer/Menu/Menu";
 import ResultNotFoundByFilter from "../../app/components/Modals/Messages/ResultNotFoundByFilter";
 import Filters from "../../app/components/Products/Beers/Filters";
-import { getMinAndMaxFortressBeers, getMinAndMaxVolumeBeers } from "../../app/store/services/beers/reducers/beer.slice";
+import {
+    getMinAndMaxFortressBeers,
+    getMinAndMaxVolumeBeers,
+} from "../../app/store/services/beers/reducers/beer.slice";
 import { useDispatch } from "react-redux";
-import { fetchArticlesList, fetchHeaderData, fetchPhonesList, fetchSocialNetworks } from "../../app/store/reducers/header.slice";
+import {
+    fetchArticlesList,
+    fetchHeaderData,
+    fetchPhonesList,
+    fetchSocialNetworks,
+} from "../../app/store/reducers/header.slice";
+import { cmsQueryExecute } from "../../app/helpers/cmsHelper";
+import Head from "next/head";
 
-export default function Beers() {   
-    const {product, productList} = useAppSelector(
+interface IBeersMetaTags {
+    titleBeersMeta: string;
+    descBeersMeta: string;
+    keywordsBeersMeta: string;
+}
+
+interface IBeersProps {
+    metaTags: IBeersMetaTags;
+}
+
+const Beers: FC<IBeersProps> = ({ metaTags }) => {
+    const { product, productList } = useAppSelector(
         (state) => state.productReducer
     );
-    const {
-        openModalNotFoundByFilter,
-        closeModalNotFoundByFilter,
-    } = useActions();
+    const { openModalNotFoundByFilter, closeModalNotFoundByFilter } =
+        useActions();
     const isOpen = useAppSelector(
         (state) => state.notFoundReducer.modalNotFoundByFilter
     );
@@ -34,55 +52,83 @@ export default function Beers() {
     }, []);
 
     return (
-        <div className="page-container">
-            <Menu
-                productType="beers"
-                filterList={[<Filters />]}
-            />
-            <ProductsList 
-                productType="beers" 
-                showTools={true} 
-                loadingByScroll={true} 
-                settingsCardProps={{
-                    card:{
-                        width: "300px",
-                        height: "390px"
-                    },
-                    button: {width: "279px", height: "30px"},
-                    titleSize: "18px",
-                    imageHeight: "200px",
-                    priceSize: "20px",
-                    showDetailBtn: true
-                }}
-            />
-            <ResultNotFoundByFilter
-                openModalNotFoundByFilter={openModalNotFoundByFilter}
-                closeModalNotFoundByFilter={closeModalNotFoundByFilter}
-                isOpen={isOpen}
-            />
-            {productList.length > 0 && !isEmptyObject(product) && <BeerModal />}
-        </div>
+        <>
+            <Head>
+                <meta
+                    keywords={metaTags.keywordsBeersMeta}
+                ></meta>
+                <meta
+                    description={metaTags.descBeersMeta}
+                ></meta>
+                <title>{metaTags.titleBeersMeta} | Пивградъ</title>
+            </Head>
+            <div className="page-container">
+                <Menu productType="beers" filterList={[<Filters />]} />
+                <ProductsList
+                    productType="beers"
+                    showTools={true}
+                    loadingByScroll={true}
+                    settingsCardProps={{
+                        card: {
+                            width: "300px",
+                            height: "390px",
+                        },
+                        button: { width: "279px", height: "30px" },
+                        titleSize: "18px",
+                        imageHeight: "200px",
+                        priceSize: "20px",
+                        showDetailBtn: true,
+                    }}
+                />
+                <ResultNotFoundByFilter
+                    openModalNotFoundByFilter={openModalNotFoundByFilter}
+                    closeModalNotFoundByFilter={closeModalNotFoundByFilter}
+                    isOpen={isOpen}
+                />
+                {productList.length > 0 && !isEmptyObject(product) && (
+                    <BeerModal />
+                )}
+            </div>
+        </>
     );
-}
+};
+
+export default Beers;
 
 export const getServerSideProps: GetServerSideProps =
     wrapper.getServerSideProps((store) => async ({ query }) => {
+        const props: IBeersProps = {
+            metaTags: {
+                titleBeersMeta: "",
+                descBeersMeta: "",
+                keywordsBeersMeta: "",
+            },
+        };
+
+        const resultMeta = await cmsQueryExecute(
+            "/api/catalog-product-meta?populate=*"
+        );
+
+        if (resultMeta) {
+            props.metaTags = resultMeta;
+        }
+
         await store.dispatch(
             fetchProducts("/beers/getListByFilter/", {
                 page: 0,
                 limitPage,
                 isActive: "true",
                 sortField: "price",
-                order: "ASC"
+                order: "ASC",
             })
         );
-        
+
         await store.dispatch(fetchHeaderData());
         await store.dispatch(fetchSocialNetworks());
         await store.dispatch(fetchPhonesList());
         await store.dispatch(fetchArticlesList());
-        
+
         return {
-            props: {},
+            props,
         };
     });

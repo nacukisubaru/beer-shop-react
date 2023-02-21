@@ -12,26 +12,39 @@ import { wrapper } from "../../../app/store/store";
 import styles from "../../products/styles/product.module.css";
 import axios from "axios";
 import Head from "next/head";
+import { FC } from "react";
+import { cmsQueryExecute } from "../../../app/helpers/cmsHelper";
 
-export default function ({ product }) {
+interface IBeerMetaTags {
+    titleBeerMeta: string;
+    descBeerMeta: string;
+    keywordsBeerMeta: string;
+}
+interface IBeerDetailProps {
+    product: any,
+    metaTags: IBeerMetaTags
+}
+
+const BeerDetail: FC<IBeerDetailProps> = ({ product, metaTags }) => {
     const productDetail: IBeer = product;
 
     return (
         <>
             <Head>
-                <meta keywords="ss"></meta>
-                <meta description="ss"></meta>
-                <title>{productDetail.product.title}</title>
+                <meta
+                    keywords={`${metaTags.keywordsBeerMeta} ${productDetail.product.title}, 
+                    пиво ${productDetail.product.title}, пиво ${productDetail.product.title} купить`}
+                ></meta>
+                <meta
+                    description={`Купить пиво ${productDetail.product.title} в Калуге. ${metaTags.descBeerMeta}`}
+                ></meta>
+                <title>{productDetail.product.title} {metaTags.titleBeerMeta} | Пивградъ</title>
             </Head>
-            <div style={{ margin: "85px" }}>
-                <div style={{ display: "flex", justifyContent: "center", marginBottom: "55px" }}>
+            <div className={styles.detailCardWrapp}>
+                <div className={styles.detailWrapper}>
                     <div>
                         <Box
-                            style={{
-                                backgroundSize: "contain",
-                                height: "383px",
-                                width: "360px",
-                            }}
+                            className={styles.detailImage}
                             sx={{
                                 background: `url(${productDetail.product.image}) center center no-repeat`,
                             }}
@@ -62,34 +75,48 @@ export default function ({ product }) {
                             Упаковка: {productDetail.product.typePackagingName}
                         </Typography>
                         <Typography>
-                            На розлив: {productDetail.forBottling}
+                            На розлив:{" "}
+                            {productDetail.forBottling ? "Да" : "Нет"}
                         </Typography>
                         <Typography>
-                            Фильтрованное: {productDetail.filtered}
+                            Фильтрованное:{" "}
+                            {productDetail.filtered ? "Да" : "Нет"}
                         </Typography>
                         <Typography>
-                            В наличии: {productDetail.product.inStock}
+                            В наличии:{" "}
+                            {productDetail.product.inStock ? "Да" : "Нет"}
                         </Typography>
                     </div>
                 </div>
                 <div className={styles.description}>
-                    <Typography variant="h5">
-                        Описание:
-                    </Typography>
-                    <Typography>
-                        {productDetail.product.description}
-                    </Typography>
+                    <Typography variant="h5">Описание:</Typography>
+                    <Typography>{productDetail.product.description}</Typography>
                 </div>
             </div>
         </>
     );
-}
+};
+
+export default BeerDetail;
 
 export const getServerSideProps: GetServerSideProps =
     wrapper.getServerSideProps((store) => async ({ res }) => {
-        const props: any = {
+        const props: IBeerDetailProps = {
             product: {},
+            metaTags: {
+                titleBeerMeta: "",
+                descBeerMeta : "",
+                keywordsBeerMeta: ""
+            }
         };
+
+        const resultMeta = await cmsQueryExecute(
+            "/api/catalog-product-meta?populate=*"
+        );
+
+        if (resultMeta) {
+            props.metaTags = resultMeta;
+        }
 
         const url = res.req.url;
         if (url) {

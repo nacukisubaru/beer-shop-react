@@ -13,8 +13,19 @@ import {
     headerReducer,
 } from "../app/store/reducers/header.slice";
 import { wrapper } from "../app/store/store";
+import Head from "next/head";
+import { FC } from "react";
+import { IYandexMap } from "../app/types/seo.types";
 
-const Contacts = ({ data }) => {
+interface ISSRData {
+    yandexmap: IYandexMap
+}
+
+interface IContactsProps {
+    data: ISSRData
+}
+
+const Contacts: FC<IContactsProps> = ({ data }) => {
     const { placeName, address, workTime, wayDesc, photosPlace } =
         data.yandexmap;
     const { socialNetworksList, phoneList } = useAppSelector(
@@ -23,6 +34,9 @@ const Contacts = ({ data }) => {
 
     return (
         <>
+             <Head>
+                <title>Контакты | Пивградъ</title>
+            </Head>
              <Menu
                 callbackApplyFilter={() => {}}
                 callbackResetFilter={() => {}}

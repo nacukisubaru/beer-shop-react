@@ -5,12 +5,19 @@ import { orderUserApi } from "../../app/store/services/order/order.api";
 import { IBasketOrderProduct } from "../../app/store/services/order/types/order.types";
 import { useTableAction } from "../../app/hooks/useTableAction";
 import { GetServerSideProps } from "next";
-import { fetchArticlesList, fetchHeaderData, fetchPhonesList, fetchSocialNetworks } from "../../app/store/reducers/header.slice";
+import {
+    fetchArticlesList,
+    fetchHeaderData,
+    fetchPhonesList,
+    fetchSocialNetworks,
+} from "../../app/store/reducers/header.slice";
 import { wrapper } from "../../app/store/store";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import BasketTable from "../../app/components/Admin/WorkSpace/WorkTools/Tables/BasketTable";
 import TableAdmin from "../../app/components/Admin/WorkSpace/WorkTools/Tables/Table";
-var moment = require('moment'); // require
+import Head from "next/head";
+
+var moment = require("moment"); // require
 
 const Orders: FC = () => {
     const { rows, clearStateResponse, stateResponse } =
@@ -41,50 +48,59 @@ const Orders: FC = () => {
     });
 
     return (
-        <div style={{ margin: "15px" }}>
-            <TableAdmin
-                columns={[
-                    { field: "id", headerName: "Номер заказа", width: 150 },
-                    {
-                        field: "createdAt",
-                        headerName: "Дата время заказа",
-                        width: 400,
-                        renderFunc: (params: any) =>  moment(params.row.createdAt).format('DD.MM.YYYY HH:mm'),
-                    },
-                    {
-                        field: "statusId",
-                        headerName: "Статус",
-                        width: 550,
-                        renderFunc: (params: any) => (
-                            <div
-                                className="status-order"
-                                style={{
-                                    backgroundColor: params.row.status.color,
-                                }}
-                            >
-                                {params.row.status.statusName}
-                            </div>
-                        ),
-                    },
-                    { field: "amount", headerName: "Сумма", width: 550 },
-                ]}
-                tableProps={{ rows, clearStateResponse, stateResponse }}
-                modalProps={{
-                    childrenModal: <BasketTable products={basket} />,
-                    titleModal: "Просмотр корзины",
-                    width: "md",
-                    closeModal: closeTableModal,
-                }}
-                actionButtons={[
-                    {
-                        color: "primary",
-                        size: "small",
-                        onClick: showProducts,
-                        icon: <ShoppingBasketIcon />,
-                    },
-                ]}
-            />
-        </div>
+        <>
+            <Head>
+                <title>Мои заказы</title>
+            </Head>
+            <div style={{ margin: "15px" }}>
+                <TableAdmin
+                    columns={[
+                        { field: "id", headerName: "Номер заказа", width: 150 },
+                        {
+                            field: "createdAt",
+                            headerName: "Дата время заказа",
+                            width: 400,
+                            renderFunc: (params: any) =>
+                                moment(params.row.createdAt).format(
+                                    "DD.MM.YYYY HH:mm"
+                                ),
+                        },
+                        {
+                            field: "statusId",
+                            headerName: "Статус",
+                            width: 550,
+                            renderFunc: (params: any) => (
+                                <div
+                                    className="status-order"
+                                    style={{
+                                        backgroundColor:
+                                            params.row.status.color,
+                                    }}
+                                >
+                                    {params.row.status.statusName}
+                                </div>
+                            ),
+                        },
+                        { field: "amount", headerName: "Сумма", width: 550 },
+                    ]}
+                    tableProps={{ rows, clearStateResponse, stateResponse }}
+                    modalProps={{
+                        childrenModal: <BasketTable products={basket} />,
+                        titleModal: "Просмотр корзины",
+                        width: "md",
+                        closeModal: closeTableModal,
+                    }}
+                    actionButtons={[
+                        {
+                            color: "primary",
+                            size: "small",
+                            onClick: showProducts,
+                            icon: <ShoppingBasketIcon />,
+                        },
+                    ]}
+                />
+            </div>
+        </>
     );
 };
 

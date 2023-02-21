@@ -1,7 +1,6 @@
 import { Box, Button, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import { FC, useState } from "react";
-import Menu from "../app/components/Drawer/Menu/Menu";
 import { cmsQueryExecute } from "../app/helpers/cmsHelper";
 import {
     fetchArticlesList,
@@ -10,6 +9,8 @@ import {
     fetchSocialNetworks,
 } from "../app/store/reducers/header.slice";
 import { wrapper } from "../app/store/store";
+import Head from "next/head";
+import Menu from "../app/components/Drawer/Menu/Menu";
 
 const AboutUs: FC = ({ data }) => {
     const { imageForText, imageForText2, text, text2, title, title2 } = data;
@@ -25,6 +26,9 @@ const AboutUs: FC = ({ data }) => {
 
     return (
         <>
+            <Head>
+                <title>О нас | Пивградъ</title>
+            </Head>
             <Menu
                 callbackApplyFilter={() => {}}
                 callbackResetFilter={() => {}}

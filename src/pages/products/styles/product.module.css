@@ -1,10 +1,46 @@
+.detailCardWrapp {
+    margin: 85px;
+}
+
+.detailWrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 55px;
+}
+
 .detailInfo {
     max-width: 25%;
     margin-left: 28px;
     margin-top: 60px;
 }
 
-.description {
-    margin-left: 75px;
-    margin-right: 75px;
+.detailImage {
+    background-size: contain;
+    height: 383px;
+    width: 360px;
+}
+
+/* Portrait */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 667px) 
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) { 
+    .detailWrapper {
+        display: grid;
+    }
+
+    .detailInfo {
+        max-width: none;
+    }
+}
+
+@media screen and (min-width: 200px) and (max-width: 653px){
+    .detailWrapper {
+        display: grid;
+    }
+
+    .detailInfo {
+        max-width: none;
+    }
 }

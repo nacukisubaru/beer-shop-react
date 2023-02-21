@@ -5,10 +5,14 @@ import Menu from "../app/components/Drawer/Menu/Menu";
 import { cmsQueryExecute } from "../app/helpers/cmsHelper";
 import { fetchArticlesList, fetchHeaderData, fetchPhonesList, fetchSocialNetworks } from "../app/store/reducers/header.slice";
 import { wrapper } from "../app/store/store";
+import Head from "next/head";
 
 export default function Basket({ data }) {
     return (
         <>
+            <Head>
+                <title>Корзина | Пивградъ</title>
+            </Head>
             <div className="page-container">
                 <Menu callbackApplyFilter={()=>{}} callbackResetFilter={()=>{}} filter={{minPrice: 0, maxPrice: 0, productType: ''}} filterList={[]}/>
                 <BasketContainer consentText={data.text && data.text}/>

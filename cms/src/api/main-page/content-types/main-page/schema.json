@@ -55,6 +55,18 @@
       "allowedTypes": [
         "images"
       ]
+    },
+    "titleMeta": {
+      "type": "string",
+      "required": true
+    },
+    "descriptionMeta": {
+      "type": "richtext",
+      "required": true
+    },
+    "keywordsMeta": {
+      "type": "text",
+      "required": true
     }
   }
 }

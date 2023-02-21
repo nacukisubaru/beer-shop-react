@@ -1,0 +1,86 @@
+{
+  "kind": "singleType",
+  "collectionName": "catalog_products_meta",
+  "info": {
+    "singularName": "catalog-product-meta",
+    "pluralName": "catalog-products-meta",
+    "displayName": "Каталог товаров мета"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "titleBeersMeta": {
+      "type": "string",
+      "required": true
+    },
+    "descBeersMeta": {
+      "type": "richtext",
+      "required": true
+    },
+    "keywordsBeersMeta": {
+      "type": "text",
+      "required": true
+    },
+    "titleBeerMeta": {
+      "type": "string",
+      "required": true
+    },
+    "descBeerMeta": {
+      "type": "richtext",
+      "required": true
+    },
+    "keywordsBeerMeta": {
+      "type": "text",
+      "required": true
+    },
+    "titleSnacksMeta": {
+      "type": "string",
+      "required": true
+    },
+    "descSnacksMeta": {
+      "type": "richtext",
+      "required": true
+    },
+    "keywordsSnacksMeta": {
+      "type": "text",
+      "required": true
+    },
+    "titleSnackMeta": {
+      "type": "string",
+      "required": true
+    },
+    "descSnackMeta": {
+      "type": "richtext",
+      "required": true
+    },
+    "keywordsSnackMeta": {
+      "type": "text",
+      "required": true
+    },
+    "titleFishsMeta": {
+      "type": "string",
+      "required": true
+    },
+    "descFishsMeta": {
+      "type": "richtext",
+      "required": true
+    },
+    "keywordsFishsMeta": {
+      "type": "text"
+    },
+    "titleFishMeta": {
+      "type": "string",
+      "required": true
+    },
+    "descFishMeta": {
+      "type": "richtext",
+      "required": true
+    },
+    "keywordsFishMeta": {
+      "type": "text",
+      "required": true
+    }
+  }
+}

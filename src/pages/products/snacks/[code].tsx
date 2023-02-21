@@ -12,26 +12,40 @@ import { wrapper } from "../../../app/store/store";
 import axios from "axios";
 import styles from "../../products/styles/product.module.css";
 import Head from "next/head";
+import { FC } from "react";
+import { cmsQueryExecute } from "../../../app/helpers/cmsHelper";
 
-export default function ({ product }) {
+interface ISnackMetaTags {
+    titleSnackMeta: string;
+    descSnackMeta: string;
+    keywordsSnackMeta: string;
+}
+
+interface ISnackDetailProps {
+    product: any;
+    metaTags: ISnackMetaTags;
+}
+
+const SnackDetail: FC<ISnackDetailProps> = ({ product, metaTags }) => {
     const productDetail: ISnack = product;
 
     return (
         <>
             <Head>
-                <meta keywords="ss"></meta>
-                <meta description="ss"></meta>
-                <title>{productDetail.product.title}</title>
+                <meta
+                    keywords={`${metaTags.keywordsSnackMeta} 
+                    ${productDetail.product.title}, снеки ${productDetail.product.title} к пиву, снеки ${productDetail.product.title} купить,`}
+                ></meta>
+                <meta
+                    description={`Купить снеки ${productDetail.product.title} в Калуге. ${metaTags.descSnackMeta}`}
+                ></meta>
+                <title>{productDetail.product.title} {metaTags.titleSnackMeta} | Пивградъ</title>
             </Head>
-            <div style={{ margin: "25px" }}>
-                <div style={{ display: "flex", justifyContent: "center" }}>
+            <div className={styles.detailCardWrapp}>
+                <div className={styles.detailWrapper}>
                     <div>
                         <Box
-                            style={{
-                                backgroundSize: "contain",
-                                height: "383px",
-                                width: "360px",
-                            }}
+                            className={styles.detailImage}
                             sx={{
                                 background: `url(${product.product.image}) center center no-repeat`,
                             }}
@@ -55,25 +69,41 @@ export default function ({ product }) {
                             Упаковка: {productDetail.product.typePackagingName}
                         </Typography>
                         <Typography>
-                            В наличии: {productDetail.product.inStock}
+                            В наличии:{" "}
+                            {productDetail.product.inStock ? "Да" : "Нет"}
                         </Typography>
                     </div>
                 </div>
-                
-                    <Typography>
-                        Описание: {productDetail.product.description}
-                    </Typography>
-          
+
+                <div className={styles.description}>
+                    <Typography variant="h5">Описание:</Typography>
+                    <Typography>{productDetail.product.description}</Typography>
+                </div>
             </div>
         </>
     );
-}
+};
+
+export default SnackDetail;
 
 export const getServerSideProps: GetServerSideProps =
     wrapper.getServerSideProps((store) => async ({ res }) => {
-        const props: any = {
+        const props: ISnackDetailProps = {
             product: {},
+            metaTags: {
+                titleSnackMeta: "",
+                descSnackMeta : "",
+                keywordsSnackMeta: ""
+            }
         };
+
+        const resultMeta = await cmsQueryExecute(
+            "/api/catalog-product-meta?populate=*"
+        );
+
+        if (resultMeta) {
+            props.metaTags = resultMeta;
+        }
 
         const url = res.req.url;
         if (url) {
