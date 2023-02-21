@@ -8,17 +8,13 @@ import {
     fetchSocialNetworks,
 } from "../../../app/store/reducers/header.slice";
 import { IBeer } from "../../../app/store/services/beers/types/beer.type";
-import { wrapper } from "../../../app/store/store";
-import styles from "../../products/styles/product.module.css";
-import axios from "axios";
-import Head from "next/head";
+import { wrapper } from "../../../app/store/store";import axios from "axios";
 import { FC } from "react";
 import { cmsQueryExecute } from "../../../app/helpers/cmsHelper";
-import Menu from "../../../app/components/Drawer/Menu/Menu";
-import { useBuyProduct } from "../../../app/hooks/useBuyProduct";
 import { IProductBasket } from "../../../app/types/product.types";
-import CustomSnackBar from "../../../app/components/CustomUI/CustomSnackBar/CustomSnackBar";
-import Link from "next/link";
+import ProductDetail from "../../../app/components/Products/ProductDetail";
+import HTMLReactParser from "html-react-parser";
+import { decodeHtml } from "../../../app/helpers/stringHelper";
 
 interface IBeerMetaTags {
     titleBeerMeta: string;
@@ -34,96 +30,67 @@ interface IBeerDetailProps {
 const BeerDetail: FC<IBeerDetailProps> = ({ product, metaTags }) => {
     const productDetail: IBeer = product;
     const productBasket: IProductBasket = productDetail.product;
-    const { buyProduct, inBasket, isBuyBtnClick } = useBuyProduct(productBasket);
 
     return (
-        <>
-            <Head>
-                <meta
-                    keywords={`${metaTags.keywordsBeerMeta} ${productDetail.product.title}, 
-                    пиво ${productDetail.product.title}, пиво ${productDetail.product.title} купить`}
-                ></meta>
-                <meta
-                    description={`Купить пиво ${productDetail.product.title} в Калуге. ${metaTags.descBeerMeta}`}
-                ></meta>
-                <title>
-                    {productDetail.product.title +
-                        " " +
-                        metaTags.titleBeerMeta +
-                        " | Пивградъ"}
-                </title>
-            </Head>
-            <Menu filterList={[]} productType="beers" />
-            <div className={styles.detailCardWrapp}>
-                <Link href="/products/beers"><Typography>&#8592; Назад</Typography></Link>
-                <div className={styles.detailWrapper}>
-                    <div>
-                        <Box
-                            className={styles.detailImage}
-                            sx={{
-                                background: `url(${productDetail.product.image}) center center no-repeat`,
-                            }}
-                        ></Box>
-                    </div>
-                    <div className={styles.detailInfo}>
-                        <Typography
-                            variant="h5"
-                            style={{ marginBottom: "5px" }}
-                        >
-                            {productDetail.product.title}
-                        </Typography>
-                        <Typography>
-                            Состав: {productDetail.compound}
-                        </Typography>
-                        <Typography>Объём: {productDetail.volume}</Typography>
-                        <Typography>
-                            Крепкость: {productDetail.fortress}
-                        </Typography>
-                        <Typography>ibu: {productDetail.ibu}</Typography>
-                        <Typography>
-                            Бренд: {productDetail.product.brandName}
-                        </Typography>
-                        <Typography>
-                            Упаковка: {productDetail.product.typePackagingName}
-                        </Typography>
-                        <Typography>
-                            На розлив:{" "}
-                            {productDetail.forBottling ? "Да" : "Нет"}
-                        </Typography>
-                        <Typography>
-                            Фильтрованное:{" "}
-                            {productDetail.filtered ? "Да" : "Нет"}
-                        </Typography>
-                        <Typography>
-                            В наличии:{" "}
-                            {productDetail.product.inStock ? "Да" : "Нет"}
-                        </Typography>
-
-                        <Button
-                            variant={inBasket ? "outlined" : "contained"}
-                            style={{ width: "200px", marginTop: "14px" }}
-                            disabled={
-                                productDetail.product.inStock ? false : true
-                            }
-                            onClick={buyProduct}
-                        >
-                            {inBasket
-                                ? "Перейти в корзину"
-                                : "Добавить корзину"}
-                        </Button>
-                    </div>
-                </div>
-                <div className={styles.description}>
-                    <Typography variant="h5">Описание:</Typography>
-                    <Typography>{productDetail.product.description}</Typography>
-                </div>
-            </div>
-            <CustomSnackBar
-                severity="success"
-                message="Товар добавлен в корзину"
-                isOpen={isBuyBtnClick}
-            />
-        </>
+        <ProductDetail
+            seoProps={{
+                title:
+                    productDetail.product.title +
+                    " " +
+                    metaTags.titleBeerMeta +
+                    " | Пивградъ",
+                desc: `Купить пиво ${productDetail.product.title} в Калуге. ${metaTags.descBeerMeta}`,
+                keywords: `${metaTags.keywordsBeerMeta} ${productDetail.product.title}, 
+                пиво ${productDetail.product.title}, пиво ${productDetail.product.title} купить`,
+            }}
+            productProps={{
+                image: productDetail.product.image,
+                title: productDetail.product.title,
+                description: productDetail.product.description,
+                characteristics: [
+                    {
+                        label: "Цена",
+                        name: HTMLReactParser(
+                            decodeHtml(
+                                `${productDetail.product.price} &#x20bd;`
+                            )
+                        ),
+                    },
+                    { label: "Состав", name: productDetail.compound },
+                    {
+                        label: "Сорта",
+                        name: productDetail.grades
+                            .map((grade) => grade.name)
+                            .toString(),
+                    },
+                    { label: "Крепкость", name: productDetail.fortress },
+                    { label: "IBU", name: productDetail.ibu },
+                    { label: "Бренд", name: productDetail.product.brandName },
+                    { label: "Объём", name: productDetail.volume },
+                    {
+                        label: "Упаковка",
+                        name: productDetail.product.typePackagingName,
+                    },
+                    {
+                        label: "На розлив",
+                        name: productDetail.forBottling ? "Да" : "Нет",
+                    },
+                    {
+                        label: "Фильтрованное",
+                        name: productDetail.filtered ? "Да" : "Нет",
+                    },
+                    {
+                        label: "В наличии",
+                        name: productDetail.product.inStock ? "Да" : "Нет",
+                    },
+                ],
+            }}
+            buyProps={{
+                productBasket,
+                productInStock: productDetail.product.inStock,
+            }}
+            redirectUrl="/products/beers"
+        />
     );
 };
 

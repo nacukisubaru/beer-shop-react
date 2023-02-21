@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { Box, Button, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import { queryBuilder } from "../../../app/helpers/queryHelper";
 import {
@@ -11,14 +10,11 @@ import {
 import { ISnack } from "../../../app/store/services/snacks/types/snacks.types";
 import { wrapper } from "../../../app/store/store";
 import { cmsQueryExecute } from "../../../app/helpers/cmsHelper";
-import { useBuyProduct } from "../../../app/hooks/useBuyProduct";
 import { IProductBasket } from "../../../app/types/product.types";
+import { decodeHtml } from "../../../app/helpers/stringHelper";
 import axios from "axios";
-import styles from "../../products/styles/product.module.css";
-import Head from "next/head";
-import CustomSnackBar from "../../../app/components/CustomUI/CustomSnackBar/CustomSnackBar";
-import Menu from "../../../app/components/Drawer/Menu/Menu";
-import Link from "next/link";
+import ProductDetail from "../../../app/components/Products/ProductDetail";
+import HTMLReactParser from "html-react-parser";
 
 interface ISnackMetaTags {
     titleSnackMeta: string;
@@ -34,79 +30,50 @@ interface ISnackDetailProps {
 const SnackDetail: FC<ISnackDetailProps> = ({ product, metaTags }) => {
     const productDetail: ISnack = product;
     const productBasket: IProductBasket = productDetail.product;
-    const { buyProduct, inBasket, isBuyBtnClick } = useBuyProduct(productBasket);
-    
-    return (
-        <>
-            <Head>
-                <meta
-                    keywords={`${metaTags.keywordsSnackMeta} 
-                    ${productDetail.product.title}, снеки ${productDetail.product.title} к пиву, снеки ${productDetail.product.title} купить,`}
-                ></meta>
-                <meta
-                    description={`Купить снеки ${productDetail.product.title} в Калуге. ${metaTags.descSnackMeta}`}
-                ></meta>
-                <title>{productDetail.product.title + " " + metaTags.titleSnackMeta + " | Пивградъ"}</title>
-            </Head>
-            <Menu
-                filterList={[]}
-                productType="beers"
-            />
-            <div className={styles.detailCardWrapp}>
-                <Link href="/products/snacks"><Typography>&#8592; Назад</Typography></Link>
-                <div className={styles.detailWrapper}>
-                    <div>
-                        <Box
-                            className={styles.detailImage}
-                            sx={{
-                                background: `url(${product.product.image}) center center no-repeat`,
-                            }}
-                        ></Box>
-                    </div>
-                    <div className={styles.detailInfo}>
-                        <Typography 
-                            variant="h5"
-                            style={{ marginBottom: "5px" }}
-                        >
-                            {productDetail.product.title}
-                        </Typography>
-                        <Typography>Вес: {productDetail.weight}</Typography>
-                        <Typography>
-                            Бренд: {productDetail.product.brandName}
-                        </Typography>
-                        <Typography>
-                            Упаковка: {productDetail.product.typePackagingName}
-                        </Typography>
-                        <Typography>
-                            В наличии:{" "}
-                            {productDetail.product.inStock ? "Да" : "Нет"}
-                        </Typography>
-                        <Button
-                            variant={inBasket ? "outlined" : "contained"}
-                            style={{ width: "200px", marginTop: "14px" }}
-                            disabled={
-                                productDetail.product.inStock ? false : true
-                            }
-                            onClick={buyProduct}
-                        >
-                            {inBasket
-                                ? "Перейти в корзину"
-                                : "Добавить корзину"}
-                        </Button>
-                    </div>
-                </div>
 
-                <div className={styles.description}>
-                    <Typography variant="h5">Описание:</Typography>
-                    <Typography>{productDetail.product.description}</Typography>
-                </div>
-            </div>
-            <CustomSnackBar
-                severity="success"
-                message="Товар добавлен в корзину"
-                isOpen={isBuyBtnClick}
-            />
-        </>
+    return (
+        <ProductDetail
+            seoProps={{
+                title:
+                    productDetail.product.title +
+                    " " +
+                    metaTags.titleSnackMeta +
+                    " | Пивградъ",
+                desc: `Купить снеки ${productDetail.product.title} в Калуге. ${metaTags.descSnackMeta}`,
+                keywords: `${metaTags.keywordsSnackMeta} 
+                ${productDetail.product.title}, снеки ${productDetail.product.title} к пиву, снеки ${productDetail.product.title} купить`,
+            }}
+            productProps={{
+                image: productDetail.product.image,
+                title: productDetail.product.title,
+                description: productDetail.product.description,
+                characteristics: [
+                    {
+                        label: "Цена",
+                        name: HTMLReactParser(
+                            decodeHtml(
+                                `${productDetail.product.price} &#x20bd;`
+                            )
+                        ),
+                    },
+                    { label: "Вес", name: productDetail.weight },
+                    { label: "Бренд", name: productDetail.product.brandName },
+                    {
+                        label: "Упаковка",
+                        name: productDetail.product.typePackagingName,
+                    },
+                    {
+                        label: "В наличии",
+                        name: productDetail.product.inStock ? "Да" : "Нет",
+                    },
+                ],
+            }}
+            buyProps={{
+                productBasket,
+                productInStock: productDetail.product.inStock,
+            }}
+            redirectUrl="/products/snacks"
+        />
     );
 };
 
@@ -118,9 +85,9 @@ export const getServerSideProps: GetServerSideProps =
             product: {},
             metaTags: {
                 titleSnackMeta: "",
-                descSnackMeta : "",
-                keywordsSnackMeta: ""
-            }
+                descSnackMeta: "",
+                keywordsSnackMeta: "",
+            },
         };
 
         const resultMeta = await cmsQueryExecute(

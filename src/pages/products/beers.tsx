@@ -71,7 +71,7 @@ const Beers: FC<IBeersProps> = ({ metaTags }) => {
                     settingsCardProps={{
                         card: {
                             width: "300px",
-                            height: "390px",
+                            height: "400px",
                         },
                         button: { width: "279px", height: "30px" },
                         titleSize: "18px",
