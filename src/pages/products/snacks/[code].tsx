@@ -18,6 +18,7 @@ import styles from "../../products/styles/product.module.css";
 import Head from "next/head";
 import CustomSnackBar from "../../../app/components/CustomUI/CustomSnackBar/CustomSnackBar";
 import Menu from "../../../app/components/Drawer/Menu/Menu";
+import Link from "next/link";
 
 interface ISnackMetaTags {
     titleSnackMeta: string;
@@ -52,6 +53,7 @@ const SnackDetail: FC<ISnackDetailProps> = ({ product, metaTags }) => {
                 productType="beers"
             />
             <div className={styles.detailCardWrapp}>
+                <Link href="/products/snacks"><Typography>&#8592; Назад</Typography></Link>
                 <div className={styles.detailWrapper}>
                     <div>
                         <Box

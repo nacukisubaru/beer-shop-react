@@ -18,6 +18,7 @@ import Menu from "../../../app/components/Drawer/Menu/Menu";
 import { useBuyProduct } from "../../../app/hooks/useBuyProduct";
 import { IProductBasket } from "../../../app/types/product.types";
 import CustomSnackBar from "../../../app/components/CustomUI/CustomSnackBar/CustomSnackBar";
+import Link from "next/link";
 
 interface IFishMetaTags {
     titleFishMeta: string;
@@ -52,6 +53,7 @@ const FishDetail: FC<IFishDetailProps> = ({ product, metaTags }) => {
                 productType="beers"
             />
             <div className={styles.detailCardWrapp}>
+                <Link href="/products/fish"><Typography>&#8592; Назад</Typography></Link>
                 <div className={styles.detailWrapper}>
                     <div>
                         <Box
