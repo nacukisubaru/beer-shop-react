@@ -32,7 +32,7 @@ const CatalogList: FC<IProductList> = ({
                         settingsCardProps={{
                             card: {
                                 width: "230px",
-                                height: "300px",
+                                height: "307px",
                             },
                             button: { width: "210px", height: "30px" },
                             titleSize: "17px",
@@ -45,7 +45,7 @@ const CatalogList: FC<IProductList> = ({
                                     settingsCardProps={{
                                         card: {
                                             width: "230px",
-                                            height: "300px",
+                                            height: "307px",
                                         },
                                         imageProps: {
                                             image: redirectCardProps.icon,
