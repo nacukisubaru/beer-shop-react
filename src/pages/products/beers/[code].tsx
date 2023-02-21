@@ -14,12 +14,14 @@ import axios from "axios";
 import Head from "next/head";
 import { FC } from "react";
 import { cmsQueryExecute } from "../../../app/helpers/cmsHelper";
+import Menu from "../../../app/components/Drawer/Menu/Menu";
 
 interface IBeerMetaTags {
     titleBeerMeta: string;
     descBeerMeta: string;
     keywordsBeerMeta: string;
 }
+
 interface IBeerDetailProps {
     product: any,
     metaTags: IBeerMetaTags
@@ -40,6 +42,10 @@ const BeerDetail: FC<IBeerDetailProps> = ({ product, metaTags }) => {
                 ></meta>
                 <title>{productDetail.product.title} {metaTags.titleBeerMeta} | Пивградъ</title>
             </Head>
+            <Menu
+                filterList={[]}
+                productType="beers"
+            />
             <div className={styles.detailCardWrapp}>
                 <div className={styles.detailWrapper}>
                     <div>

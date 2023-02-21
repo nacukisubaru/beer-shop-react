@@ -78,10 +78,8 @@ const Home: FC<IHomeProps> = ({ data }) => {
             </Head>
             <div className="page-container">
                 <Menu
-                    callbackApplyFilter={() => {}}
-                    callbackResetFilter={() => {}}
-                    filter={{ minPrice: 0, maxPrice: 0, productType: "" }}
                     filterList={[]}
+                    productType="beers"
                 />
                 <div>
                     {banner.length > 0 ? (

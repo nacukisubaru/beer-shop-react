@@ -30,10 +30,8 @@ const AboutUs: FC = ({ data }) => {
                 <title>О нас | Пивградъ</title>
             </Head>
             <Menu
-                callbackApplyFilter={() => {}}
-                callbackResetFilter={() => {}}
-                filter={{ minPrice: 0, maxPrice: 0, productType: "" }}
                 filterList={[]}
+                productType="beers"
             />
             <div style={{ margin: "13px" }}>
                 <div style={{ display: "flex", justifyContent: "center" }}>

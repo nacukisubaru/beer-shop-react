@@ -26,10 +26,8 @@ export default function Account({data}) {
                 <title>{ isAuth ? 'Личный кабинет | Пивградъ' : 'Авторизация | Пивградъ' }</title>
             </Head>
             <Menu
-                callbackApplyFilter={() => {}}
-                callbackResetFilter={() => {}}
-                filter={{ minPrice: 0, maxPrice: 0, productType: "" }}
                 filterList={[]}
+                productType="beers"
             />
             {isAuth ? (
                 <PersonalAccount />

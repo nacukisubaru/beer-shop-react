@@ -16,6 +16,7 @@ import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import BasketTable from "../../app/components/Admin/WorkSpace/WorkTools/Tables/BasketTable";
 import TableAdmin from "../../app/components/Admin/WorkSpace/WorkTools/Tables/Table";
 import Head from "next/head";
+import Menu from "../../app/components/Drawer/Menu/Menu";
 
 var moment = require("moment"); // require
 
@@ -52,6 +53,10 @@ const Orders: FC = () => {
             <Head>
                 <title>Мои заказы</title>
             </Head>
+            <Menu
+                filterList={[]}
+                productType="beers"
+            />
             <div style={{ margin: "15px" }}>
                 <TableAdmin
                     columns={[

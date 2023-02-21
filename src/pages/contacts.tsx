@@ -37,11 +37,9 @@ const Contacts: FC<IContactsProps> = ({ data }) => {
              <Head>
                 <title>Контакты | Пивградъ</title>
             </Head>
-             <Menu
-                callbackApplyFilter={() => {}}
-                callbackResetFilter={() => {}}
-                filter={{ minPrice: 0, maxPrice: 0, productType: "" }}
+            <Menu
                 filterList={[]}
+                productType="beers"
             />
             <div style={{ paddingLeft: "40px", marginTop: "25px" }}>
                 <Typography>Адрес:</Typography>

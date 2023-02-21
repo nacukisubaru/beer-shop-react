@@ -78,13 +78,15 @@ const CardSmall: FC<ICardSmall> = ({
                             : styles.cardContentNoActive
                     }
                 >
-                    <Box
-                        className={styles.cardImg}
-                        sx={{
-                            background: `url(${image}) center center no-repeat`,
-                            height: imageHeight,
-                        }}
-                    ></Box>
+                    <Link href={detailUrl}>
+                        <Box
+                            className={styles.cardImg}
+                            sx={{
+                                background: `url(${image}) center center no-repeat`,
+                                height: imageHeight,
+                            }}
+                        ></Box>
+                    </Link>
                     <Link href={detailUrl}>
                         <Typography
                             variant="body2"
@@ -94,20 +96,24 @@ const CardSmall: FC<ICardSmall> = ({
                             {title}
                         </Typography>
                     </Link>
-
-                    <div className={styles.cardContentDesc}>
-                        <Typography variant="body2">{description}</Typography>
-                    </div>
-
-                    <div className={styles.cardContentPrice}>
-                        <Typography
-                            variant="body2"
-                            className={styles.priceText}
-                            style={{ fontSize: priceSize }}
-                        >
-                            {price} &#x20bd;
-                        </Typography>
-                    </div>
+                    
+                    <Link href={detailUrl}>
+                        <div className={styles.cardContentDesc}>
+                            <Typography variant="body2">{description}</Typography>
+                        </div>
+                    </Link>
+                    
+                    <Link href={detailUrl}>
+                        <div className={styles.cardContentPrice}>
+                            <Typography
+                                variant="body2"
+                                className={styles.priceText}
+                                style={{ fontSize: priceSize }}
+                            >
+                                {price} &#x20bd;
+                            </Typography>
+                        </div>
+                    </Link>
 
                     {!inStock && (
                         <Typography

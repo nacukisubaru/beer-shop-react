@@ -14,6 +14,7 @@ import axios from "axios";
 import Head from "next/head";
 import { FC } from "react";
 import { cmsQueryExecute } from "../../../app/helpers/cmsHelper";
+import Menu from "../../../app/components/Drawer/Menu/Menu";
 
 interface IFishMetaTags {
     titleFishMeta: string;
@@ -41,6 +42,10 @@ const FishDetail: FC<IFishDetailProps> = ({ product, metaTags }) => {
                 ></meta>
                 <title>{productDetail.product.title} {metaTags.titleFishMeta} | Пивградъ</title>
             </Head>
+            <Menu
+                filterList={[]}
+                productType="beers"
+            />
             <div className={styles.detailCardWrapp}>
                 <div className={styles.detailWrapper}>
                     <div>

@@ -14,6 +14,7 @@ import styles from "../../products/styles/product.module.css";
 import Head from "next/head";
 import { FC } from "react";
 import { cmsQueryExecute } from "../../../app/helpers/cmsHelper";
+import Menu from "../../../app/components/Drawer/Menu/Menu";
 
 interface ISnackMetaTags {
     titleSnackMeta: string;
@@ -41,6 +42,10 @@ const SnackDetail: FC<ISnackDetailProps> = ({ product, metaTags }) => {
                 ></meta>
                 <title>{productDetail.product.title} {metaTags.titleSnackMeta} | Пивградъ</title>
             </Head>
+            <Menu
+                filterList={[]}
+                productType="beers"
+            />
             <div className={styles.detailCardWrapp}>
                 <div className={styles.detailWrapper}>
                     <div>

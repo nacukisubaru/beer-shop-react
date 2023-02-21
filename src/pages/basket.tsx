@@ -14,7 +14,10 @@ export default function Basket({ data }) {
                 <title>Корзина | Пивградъ</title>
             </Head>
             <div className="page-container">
-                <Menu callbackApplyFilter={()=>{}} callbackResetFilter={()=>{}} filter={{minPrice: 0, maxPrice: 0, productType: ''}} filterList={[]}/>
+                <Menu
+                    filterList={[]}
+                    productType="beers"
+                />
                 <BasketContainer consentText={data.text && data.text}/>
             </div>
         </>

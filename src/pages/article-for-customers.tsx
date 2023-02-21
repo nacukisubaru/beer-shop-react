@@ -19,10 +19,8 @@ const ArticleForCustomers = ({ data }) => {
                 <title>Информация для клиента | Пивградъ</title>
             </Head>
             <Menu
-                callbackApplyFilter={() => {}}
-                callbackResetFilter={() => {}}
-                filter={{ minPrice: 0, maxPrice: 0, productType: "" }}
                 filterList={[]}
+                productType="beers"
             />
             <div className="wrapper">
                 {data.text && HTMLReactParser(decodeHtml(data.text))}
