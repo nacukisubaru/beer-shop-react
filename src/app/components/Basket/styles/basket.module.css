@@ -79,11 +79,23 @@
 }
 
 .description {
-    display: -webkit-box;
     max-width: 285px;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    height: 39px;
+    display: flex;
+    justify-content: center;
+}
+
+.titleText {
+    max-width: 285px;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: 39px;
+    display: flex;
+    justify-content: center;
 }
 
 .crossedOutText {
