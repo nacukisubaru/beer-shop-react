@@ -28,7 +28,7 @@ const UpdFishForm: FC<UpdFishFormProps> = ({
     const onSubmit = () => {
         refetch();
     };
-    console.log(data?.fishTypeId);
+    
     return (
         <>
             {isLoading ? (

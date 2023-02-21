@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import { queryBuilder } from "../../../app/helpers/queryHelper";
 import {
@@ -15,6 +15,9 @@ import Head from "next/head";
 import { FC } from "react";
 import { cmsQueryExecute } from "../../../app/helpers/cmsHelper";
 import Menu from "../../../app/components/Drawer/Menu/Menu";
+import { useBuyProduct } from "../../../app/hooks/useBuyProduct";
+import { IProductBasket } from "../../../app/types/product.types";
+import CustomSnackBar from "../../../app/components/CustomUI/CustomSnackBar/CustomSnackBar";
 
 interface IFishMetaTags {
     titleFishMeta: string;
@@ -29,6 +32,8 @@ interface IFishDetailProps {
 
 const FishDetail: FC<IFishDetailProps> = ({ product, metaTags }) => {
     const productDetail: IFish = product;
+    const productBasket: IProductBasket = productDetail.product;
+    const { buyProduct, inBasket, isBuyBtnClick } = useBuyProduct(productBasket);
 
     return (
         <>
@@ -40,7 +45,7 @@ const FishDetail: FC<IFishDetailProps> = ({ product, metaTags }) => {
                 <meta
                     description={`Купить рыбу ${productDetail.product.title} в Калуге. ${metaTags.descFishMeta}`}
                 ></meta>
-                <title>{productDetail.product.title} {metaTags.titleFishMeta} | Пивградъ</title>
+                <title>{productDetail.product.title + " " + metaTags.titleFishMeta + " | Пивградъ"}</title>
             </Head>
             <Menu
                 filterList={[]}
@@ -57,14 +62,11 @@ const FishDetail: FC<IFishDetailProps> = ({ product, metaTags }) => {
                         ></Box>
                     </div>
                     <div className={styles.detailInfo}>
-                        <Typography variant="h5">
-                            {productDetail.product.title}
-                        </Typography>
-                        <Typography
+                        <Typography 
                             variant="h5"
                             style={{ marginBottom: "5px" }}
                         >
-                            Характеристики:
+                            {productDetail.product.title}
                         </Typography>
                         <Typography>Вес: {productDetail.weight}</Typography>
                         <Typography>
@@ -80,6 +82,18 @@ const FishDetail: FC<IFishDetailProps> = ({ product, metaTags }) => {
                             В наличии:{" "}
                             {productDetail.product.inStock ? "Да" : "Нет"}
                         </Typography>
+                        <Button
+                            variant={inBasket ? "outlined" : "contained"}
+                            style={{ width: "200px", marginTop: "14px" }}
+                            disabled={
+                                productDetail.product.inStock ? false : true
+                            }
+                            onClick={buyProduct}
+                        >
+                            {inBasket
+                                ? "Перейти в корзину"
+                                : "Добавить корзину"}
+                        </Button>
                     </div>
                 </div>
                 <div className={styles.description}>
@@ -87,6 +101,11 @@ const FishDetail: FC<IFishDetailProps> = ({ product, metaTags }) => {
                     <Typography>{productDetail.product.description}</Typography>
                 </div>
             </div>
+            <CustomSnackBar
+                severity="success"
+                message="Товар добавлен в корзину"
+                isOpen={isBuyBtnClick}
+            />
         </>
     );
 };

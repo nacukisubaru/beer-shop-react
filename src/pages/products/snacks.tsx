@@ -44,7 +44,7 @@ const Snacks: FC<ISnacksProps> = ({ metaTags }) => {
             <Head>
                 <meta keywords={metaTags.keywordsSnacksMeta}></meta>
                 <meta description={metaTags.descSnacksMeta}></meta>
-                <title>{metaTags.titleSnacksMeta} | Пивградъ</title>
+                <title>{metaTags.titleSnacksMeta + " | Пивградъ"}</title>
             </Head>
             <div className="page-container">
                 <Menu productType="snacks" filterList={[]} />

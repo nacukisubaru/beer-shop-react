@@ -64,7 +64,7 @@ const Fish: FC<IFishProps> = ({ metaTags }) => {
                 <meta
                     description={metaTags.descFishsMeta}
                 ></meta>
-                <title>{metaTags.titleFishsMeta} | Пивградъ</title>
+                <title>{metaTags.titleFishsMeta + " | Пивградъ"}</title>
             </Head>
             <div className="page-container">
                 <Menu

@@ -1,9 +1,8 @@
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { useAppSelector } from "../../../hooks/useAppSelector";
-import { useRouter } from "next/router";
-import { useActions } from "../../../hooks/useActions";
+import { useBuyProduct } from "../../../hooks/useBuyProduct";
+import { IProductBasket } from "../../../types/product.types";
 import styles from "../styles/modal.module.css";
 import CustomSnackBar from "../../CustomUI/CustomSnackBar/CustomSnackBar";
 
@@ -18,7 +17,7 @@ interface IProductContent {
     description: string;
     image: string;
     inStock: boolean;
-    buy: (quantity: number) => void;
+    productForBuy: IProductBasket
 }
 
 const ProductContent: FC<IProductContent> = ({
@@ -27,53 +26,9 @@ const ProductContent: FC<IProductContent> = ({
     description,
     image,
     inStock,
-    buy,
+    productForBuy
 }) => {
-    const { list } = useAppSelector((state) => state.basketReducer);
-    const [inBasket, setProductInBasket] = useState(false);
-    const [isBuyBtnClick, clickBuyBtn] = useState(false);
-
-    const router = useRouter();
-    const { closeProduct } = useActions();
-
-    const findItemInBasket = (id: number) => {
-        const items = list.filter((item) => {
-            if (item.id === id) {
-                return item;
-            }
-            return false;
-        });
-
-        if (items.length <= 0) {
-            return false;
-        }
-
-        return items[0];
-    };
-
-    const handleBuy = () => {
-        clickBuyBtn(true);
-        setTimeout(() => {
-            clickBuyBtn(false);
-        }, 5000);
-        
-        if (inBasket) {
-            router.replace('/basket');
-            closeProduct();
-        } else {
-            setProductInBasket(true);
-            buy(1);
-        }
-    };
-
-    useEffect(() => {
-        const productInBasket = findItemInBasket(id);
-        if (productInBasket) {
-            setProductInBasket(true);
-        } else {
-            setProductInBasket(false);
-        }
-    }, []);
+    const {buyProduct, inBasket, isBuyBtnClick} = useBuyProduct(productForBuy);
 
     return (
         <>
@@ -91,7 +46,7 @@ const ProductContent: FC<IProductContent> = ({
                             variant={inBasket ? "outlined": "contained"}
                             style={{ width: "200px" }}
                             disabled={inStock ? false : true}
-                            onClick={handleBuy}
+                            onClick={buyProduct}
                         >
                             {inBasket ? "Перейти в корзину": "Добавить корзину"}
                         </Button>

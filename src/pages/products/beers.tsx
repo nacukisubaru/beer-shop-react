@@ -60,7 +60,7 @@ const Beers: FC<IBeersProps> = ({ metaTags }) => {
                 <meta
                     description={metaTags.descBeersMeta}
                 ></meta>
-                <title>{metaTags.titleBeersMeta} | Пивградъ</title>
+                <title>{metaTags.titleBeersMeta + " | Пивградъ"}</title>
             </Head>
             <div className="page-container">
                 <Menu productType="beers" filterList={[<Filters />]} />

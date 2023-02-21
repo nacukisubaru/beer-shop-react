@@ -1,4 +1,5 @@
-import { Box, Typography } from "@mui/material";
+import { FC } from "react";
+import { Box, Button, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import { queryBuilder } from "../../../app/helpers/queryHelper";
 import {
@@ -9,11 +10,13 @@ import {
 } from "../../../app/store/reducers/header.slice";
 import { ISnack } from "../../../app/store/services/snacks/types/snacks.types";
 import { wrapper } from "../../../app/store/store";
+import { cmsQueryExecute } from "../../../app/helpers/cmsHelper";
+import { useBuyProduct } from "../../../app/hooks/useBuyProduct";
+import { IProductBasket } from "../../../app/types/product.types";
 import axios from "axios";
 import styles from "../../products/styles/product.module.css";
 import Head from "next/head";
-import { FC } from "react";
-import { cmsQueryExecute } from "../../../app/helpers/cmsHelper";
+import CustomSnackBar from "../../../app/components/CustomUI/CustomSnackBar/CustomSnackBar";
 import Menu from "../../../app/components/Drawer/Menu/Menu";
 
 interface ISnackMetaTags {
@@ -29,7 +32,9 @@ interface ISnackDetailProps {
 
 const SnackDetail: FC<ISnackDetailProps> = ({ product, metaTags }) => {
     const productDetail: ISnack = product;
-
+    const productBasket: IProductBasket = productDetail.product;
+    const { buyProduct, inBasket, isBuyBtnClick } = useBuyProduct(productBasket);
+    
     return (
         <>
             <Head>
@@ -40,7 +45,7 @@ const SnackDetail: FC<ISnackDetailProps> = ({ product, metaTags }) => {
                 <meta
                     description={`Купить снеки ${productDetail.product.title} в Калуге. ${metaTags.descSnackMeta}`}
                 ></meta>
-                <title>{productDetail.product.title} {metaTags.titleSnackMeta} | Пивградъ</title>
+                <title>{productDetail.product.title + " " + metaTags.titleSnackMeta + " | Пивградъ"}</title>
             </Head>
             <Menu
                 filterList={[]}
@@ -57,14 +62,11 @@ const SnackDetail: FC<ISnackDetailProps> = ({ product, metaTags }) => {
                         ></Box>
                     </div>
                     <div className={styles.detailInfo}>
-                        <Typography variant="h5">
-                            {productDetail.product.title}
-                        </Typography>
-                        <Typography
+                        <Typography 
                             variant="h5"
                             style={{ marginBottom: "5px" }}
                         >
-                            Характеристики:
+                            {productDetail.product.title}
                         </Typography>
                         <Typography>Вес: {productDetail.weight}</Typography>
                         <Typography>
@@ -77,6 +79,18 @@ const SnackDetail: FC<ISnackDetailProps> = ({ product, metaTags }) => {
                             В наличии:{" "}
                             {productDetail.product.inStock ? "Да" : "Нет"}
                         </Typography>
+                        <Button
+                            variant={inBasket ? "outlined" : "contained"}
+                            style={{ width: "200px", marginTop: "14px" }}
+                            disabled={
+                                productDetail.product.inStock ? false : true
+                            }
+                            onClick={buyProduct}
+                        >
+                            {inBasket
+                                ? "Перейти в корзину"
+                                : "Добавить корзину"}
+                        </Button>
                     </div>
                 </div>
 
@@ -85,6 +99,11 @@ const SnackDetail: FC<ISnackDetailProps> = ({ product, metaTags }) => {
                     <Typography>{productDetail.product.description}</Typography>
                 </div>
             </div>
+            <CustomSnackBar
+                severity="success"
+                message="Товар добавлен в корзину"
+                isOpen={isBuyBtnClick}
+            />
         </>
     );
 };

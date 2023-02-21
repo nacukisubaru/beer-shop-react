@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import { queryBuilder } from "../../../app/helpers/queryHelper";
 import {
@@ -15,6 +15,9 @@ import Head from "next/head";
 import { FC } from "react";
 import { cmsQueryExecute } from "../../../app/helpers/cmsHelper";
 import Menu from "../../../app/components/Drawer/Menu/Menu";
+import { useBuyProduct } from "../../../app/hooks/useBuyProduct";
+import { IProductBasket } from "../../../app/types/product.types";
+import CustomSnackBar from "../../../app/components/CustomUI/CustomSnackBar/CustomSnackBar";
 
 interface IBeerMetaTags {
     titleBeerMeta: string;
@@ -23,12 +26,14 @@ interface IBeerMetaTags {
 }
 
 interface IBeerDetailProps {
-    product: any,
-    metaTags: IBeerMetaTags
+    product: any;
+    metaTags: IBeerMetaTags;
 }
 
 const BeerDetail: FC<IBeerDetailProps> = ({ product, metaTags }) => {
     const productDetail: IBeer = product;
+    const productBasket: IProductBasket = productDetail.product;
+    const { buyProduct, inBasket, isBuyBtnClick } = useBuyProduct(productBasket);
 
     return (
         <>
@@ -40,12 +45,14 @@ const BeerDetail: FC<IBeerDetailProps> = ({ product, metaTags }) => {
                 <meta
                     description={`Купить пиво ${productDetail.product.title} в Калуге. ${metaTags.descBeerMeta}`}
                 ></meta>
-                <title>{productDetail.product.title} {metaTags.titleBeerMeta} | Пивградъ</title>
+                <title>
+                    {productDetail.product.title +
+                        " " +
+                        metaTags.titleBeerMeta +
+                        " | Пивградъ"}
+                </title>
             </Head>
-            <Menu
-                filterList={[]}
-                productType="beers"
-            />
+            <Menu filterList={[]} productType="beers" />
             <div className={styles.detailCardWrapp}>
                 <div className={styles.detailWrapper}>
                     <div>
@@ -57,14 +64,11 @@ const BeerDetail: FC<IBeerDetailProps> = ({ product, metaTags }) => {
                         ></Box>
                     </div>
                     <div className={styles.detailInfo}>
-                        <Typography variant="h5">
-                            {productDetail.product.title}
-                        </Typography>
                         <Typography
                             variant="h5"
                             style={{ marginBottom: "5px" }}
                         >
-                            Характеристики:
+                            {productDetail.product.title}
                         </Typography>
                         <Typography>
                             Состав: {productDetail.compound}
@@ -92,6 +96,19 @@ const BeerDetail: FC<IBeerDetailProps> = ({ product, metaTags }) => {
                             В наличии:{" "}
                             {productDetail.product.inStock ? "Да" : "Нет"}
                         </Typography>
+
+                        <Button
+                            variant={inBasket ? "outlined" : "contained"}
+                            style={{ width: "200px", marginTop: "14px" }}
+                            disabled={
+                                productDetail.product.inStock ? false : true
+                            }
+                            onClick={buyProduct}
+                        >
+                            {inBasket
+                                ? "Перейти в корзину"
+                                : "Добавить корзину"}
+                        </Button>
                     </div>
                 </div>
                 <div className={styles.description}>
@@ -99,6 +116,11 @@ const BeerDetail: FC<IBeerDetailProps> = ({ product, metaTags }) => {
                     <Typography>{productDetail.product.description}</Typography>
                 </div>
             </div>
+            <CustomSnackBar
+                severity="success"
+                message="Товар добавлен в корзину"
+                isOpen={isBuyBtnClick}
+            />
         </>
     );
 };
@@ -111,9 +133,9 @@ export const getServerSideProps: GetServerSideProps =
             product: {},
             metaTags: {
                 titleBeerMeta: "",
-                descBeerMeta : "",
-                keywordsBeerMeta: ""
-            }
+                descBeerMeta: "",
+                keywordsBeerMeta: "",
+            },
         };
 
         const resultMeta = await cmsQueryExecute(
