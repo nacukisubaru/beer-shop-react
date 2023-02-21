@@ -61,6 +61,7 @@ const Header: FC<HeaderProps> = () => {
                                     className={styles.logo}
                                     style={{ backgroundSize: "contain" }}
                                     src={logo}
+                                    alt="logo"
                                 />
                             </Link>
                         </div>
@@ -149,6 +150,7 @@ const Header: FC<HeaderProps> = () => {
                                         width: "37px",
                                     }}
                                     src={vkIcon}
+                                    alt="vk icon"
                                 />
                             </a>
                             

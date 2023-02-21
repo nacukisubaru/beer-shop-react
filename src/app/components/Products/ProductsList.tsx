@@ -13,7 +13,7 @@ import CardRedirect, {
     ILink,
     ISettingsCardRedirect,
 } from "../Cards/CardRedirect";
-import CardSmall, { ISettingsCard } from "../Cards/CardSmall";
+import { ISettingsCard } from "../Cards/CardSmall";
 import InputSearch from "../Search/InputSearch";
 import SortPanel from "../SortPanel/SortPanel";
 

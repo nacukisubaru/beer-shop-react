@@ -28,12 +28,14 @@ const SortMobileSelect: FC<ISortMobile> = ({ sortItemsList, sort }) => {
             {sortItemsList.map((item) => {
                 return (
                     <MenuItem
+                        key={item.name}
                         value={item.name}
                         onClick={() => {
                             handleSort(item.fieldOrder, item.orderBy);
                         }}
                     >
                         <Typography
+                            key={item.name}
                             variant="body1"
                             style={{ marginRight: "18px" }}
                         >

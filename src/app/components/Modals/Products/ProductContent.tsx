@@ -57,7 +57,7 @@ const ProductContent: FC<IProductContent> = ({
                     {listInfo.map((item) => {
                         if (item.value) {
                             return (
-                                <Typography variant="body1">
+                                <Typography key={item.key} variant="body1">
                                     <span className={styles.labelInfo}>
                                         {item.key}:
                                     </span>
@@ -73,9 +73,9 @@ const ProductContent: FC<IProductContent> = ({
                         <span className={styles.labelInfo}>Описание:</span>
                     </Typography>
                     <Typography variant="body1">
-                        <div className={styles.modalBeerDesc}>
+                        <span className={styles.modalBeerDesc}>
                             {description}
-                        </div>
+                        </span>
                     </Typography>
                 </div>
             </div>

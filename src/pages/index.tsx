@@ -1,19 +1,9 @@
 import { Box, Button, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import { fetchProducts } from "../app/store/services/products/reducers/product.slice";
 import { wrapper } from "../app/store/store";
-import bannerImg from "../assets/images/banner.jpg";
-import Menu from "../app/components/Drawer/Menu/Menu";
-import PhotoGaleryList from "../app/components/PhotoGalery/PhotoGaleryList";
-import CatalogBeers from "../app/components/Products/Catalog/CatalogBeers";
-import Image from "next/image";
 import { fetchBeers } from "../app/store/services/beers/reducers/beer.slice";
-import TabsUI from "../app/components/Tabs/TabsUI";
 import { fetchSnacks } from "../app/store/services/snacks/reducers/snack.slice";
-import CatalogSnacks from "../app/components/Products/Catalog/CatalogSnacks";
-import YMapContacts from "../app/components/YandexMaps/Contacts/YMapContacts";
-import HTMLReactParser from "html-react-parser";
 import { decodeHtml } from "../app/helpers/stringHelper";
 import { cmsQueryExecute } from "../app/helpers/cmsHelper";
 import {
@@ -22,11 +12,20 @@ import {
     fetchPhonesList,
     fetchSocialNetworks,
 } from "../app/store/reducers/header.slice";
-import CatalogFish from "../app/components/Products/Catalog/CatalogFish";
 import { fetchFish } from "../app/store/services/fish/reducers/fish.slice";
-import Head from "next/head";
 import { FC } from "react";
 import { IYandexMap } from "../app/types/seo.types";
+import Head from "next/head";
+import CatalogSnacks from "../app/components/Products/Catalog/CatalogSnacks";
+import YMapContacts from "../app/components/YandexMaps/Contacts/YMapContacts";
+import HTMLReactParser from "html-react-parser";
+import TabsUI from "../app/components/Tabs/TabsUI";
+import CatalogFish from "../app/components/Products/Catalog/CatalogFish";
+import bannerImg from "../assets/images/banner.jpg";
+import Menu from "../app/components/Drawer/Menu/Menu";
+import PhotoGaleryList from "../app/components/PhotoGalery/PhotoGaleryList";
+import CatalogBeers from "../app/components/Products/Catalog/CatalogBeers";
+import Image from "next/image";
 
 interface IMainPage {
     bannerSlogan: string,
@@ -134,6 +133,7 @@ const Home: FC<IHomeProps> = ({ data }) => {
                             className="banner-image-ssr"
                             src={bannerImg}
                             quality={100}
+                            alt="banner"
                         />
                     )}
                 </div>
@@ -155,9 +155,9 @@ const Home: FC<IHomeProps> = ({ data }) => {
                     <TabsUI
                         tabsList={["Пиво", "Снеки", "Рыба"]}
                         swipeableList={[
-                            <CatalogBeers />,
-                            <CatalogSnacks />,
-                            <CatalogFish />,
+                            <CatalogBeers key="Пиво" />,
+                            <CatalogSnacks key="Снеки" />,
+                            <CatalogFish key="Рыба" />,
                         ]}
                     />
                 </div>

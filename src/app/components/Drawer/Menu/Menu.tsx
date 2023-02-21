@@ -71,9 +71,9 @@ const Menu: FC<IMenu> = ({ productType, filterList = [] }) => {
     //TO DO рефакторинг нужно передавать массив объектов а в TemporaryDrawer в map вызывать ItemMenu и передавать аргументы
     //также нужно на onclick передавать вызов функции который переключит состояние меню off
     const arrayMenuList: any = [
-        <ItemMenu name="Пиво" link="/products/beers" onClick={handleResetFilter}/>,
-        <ItemMenu name="Закуски" link="/products/snacks" onClick={handleResetFilter}/>,
-        <ItemMenu name="Рыба" link="/products/fish" onClick={handleResetFilter}/>,
+        <ItemMenu name="Пиво" key="Пиво" link="/products/beers" onClick={handleResetFilter}/>,
+        <ItemMenu name="Закуски" key="Закуски" link="/products/snacks" onClick={handleResetFilter}/>,
+        <ItemMenu name="Рыба" key="Рыба" link="/products/fish" onClick={handleResetFilter}/>,
     ];
 
     const arrayFilterList: any = [
@@ -120,8 +120,8 @@ const Menu: FC<IMenu> = ({ productType, filterList = [] }) => {
             name={isMainMenu ? "Категории" : "Фильтры"}
             arrayList={isMainMenu ? arrayMenuList : arrayFilterList.concat(filterList)}
             additionalList={ isMainMenu ? [
-                <ItemMenu name="Контакты" link="/contacts"/>,
-                <ItemMenu name="О нас" link="/about-us" />,
+                <ItemMenu name="Контакты" key="Контакты" link="/contacts"/>,
+                <ItemMenu name="О нас" key="О нас" link="/about-us" />,
             ] : []}
             position={isFilterMenu ? "right" : "left"}
             isOpen={isMainMenu || isFilterMenu ? true : false}

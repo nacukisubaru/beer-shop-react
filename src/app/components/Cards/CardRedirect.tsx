@@ -34,43 +34,36 @@ const CardRedirect: FC<ICardRedirect> = ({ settingsCardProps, linkProps }) => {
 
     return (
         <>
-            <Card
-                className={styles.card}
-                style={{
-                    width: card.width,
-                    height: card.height,
-                    backgroundColor: "#b05326",
-                }}
-            >
-                <div className={styles.cardContent}>
-                    {imageProps && (
-                        <Image
-                            style={{
-                                marginLeft: "59px",
-                                marginTop: "50px",
-                                objectFit: "cover",
-                            }}
-                            src={imageProps.image}
-                            height={imageProps.imageSettings.height}
-                            width={imageProps.imageSettings.width}
-                        />
-                    )}
+            <Link href={linkProps.url}>
+                <Card
+                    className={styles.card}
+                    style={{
+                        width: card.width,
+                        height: card.height,
+                        backgroundColor: "#b05326",
+                    }}
+                >
+                    <div className={styles.cardContent}>
+                        {imageProps && (
+                            <Image
+                                style={{
+                                    marginLeft: "59px",
+                                    marginTop: "50px",
+                                    objectFit: "cover",
+                                }}
+                                src={imageProps.image}
+                                height={imageProps.imageSettings.height}
+                                width={imageProps.imageSettings.width}
+                                alt="card redirect"
+                            />
+                        )}
 
-                    <Link
-                        href={linkProps.url}
-                        style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            color: "white",
-                            textDecoration: "none",
-                        }}
-                    >
-                        <Typography variant="body1">
+                        <Typography className={styles.redirectCardTitle} variant="body1">
                             {linkProps.title}
                         </Typography>
-                    </Link>
-                </div>
-            </Card>
+                    </div>
+                </Card>
+            </Link>
         </>
     );
 };

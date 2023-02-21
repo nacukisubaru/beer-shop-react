@@ -3,8 +3,6 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-
 interface IMenuItem {
     name: string;
     icon?: any;
@@ -17,18 +15,11 @@ interface IPositionedMenu {
     menuItemList: IMenuItem[];
 }
 
-const useStyles = makeStyles({
-    titleText: {
-        cursor: "pointer",
-    },
-});
-
 const PositionedMenu: React.FC<IPositionedMenu> = ({
     title,
     useButton,
     menuItemList,
 }) => {
-    const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -52,8 +43,8 @@ const PositionedMenu: React.FC<IPositionedMenu> = ({
                 </Button>
             ) : (
                 <Typography
-                    className={classes.titleText}
                     variant="body1"
+                    style={{ cursor: "pointer" }}
                     onClick={handleClick}
                 >
                     {title}
@@ -76,9 +67,9 @@ const PositionedMenu: React.FC<IPositionedMenu> = ({
             >
                 {menuItemList.map((item: IMenuItem) => {
                     return (
-                        <MenuItem onClick={item.onClick}>
+                        <MenuItem key={item.name} onClick={item.onClick}>
                             {item.icon && (
-                                <div style={{marginRight: '5px'}}>{ item.icon }</div>
+                                <div key={item.name} style={{marginRight: '5px'}}>{ item.icon }</div>
                             )}
                             {item.name}
                         </MenuItem>
