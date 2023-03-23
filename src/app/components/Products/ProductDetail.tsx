@@ -51,8 +51,8 @@ const ProductDetail: FC<IProductDetailProps> = ({
     return (
         <>
             <Head>
-                <meta keywords={seoProps.keywords}></meta>
-                <meta description={seoProps.desc}></meta>
+                <meta name="keywords" content={seoProps.keywords}></meta>
+                <meta name="description" content={seoProps.desc}></meta>
                 <title>{seoProps.title}</title>
             </Head>
             <Menu filterList={[]} productType="beers" />

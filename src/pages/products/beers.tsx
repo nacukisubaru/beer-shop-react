@@ -55,10 +55,12 @@ const Beers: FC<IBeersProps> = ({ metaTags }) => {
         <>
             <Head>
                 <meta
-                    keywords={metaTags.keywordsBeersMeta}
+                    name="keywords"
+                    content={metaTags.keywordsBeersMeta}
                 ></meta>
                 <meta
-                    description={metaTags.descBeersMeta}
+                    name="description"
+                    content={metaTags.descBeersMeta}
                 ></meta>
                 <title>{metaTags.titleBeersMeta + " | Пивградъ"}</title>
             </Head>

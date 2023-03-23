@@ -42,8 +42,12 @@ const Snacks: FC<ISnacksProps> = ({ metaTags }) => {
     return (
         <>
             <Head>
-                <meta keywords={metaTags.keywordsSnacksMeta}></meta>
-                <meta description={metaTags.descSnacksMeta}></meta>
+                <meta
+                    name="keywords" 
+                    content={metaTags.keywordsSnacksMeta}></meta>
+                <meta 
+                     name="description"
+                     content={metaTags.descSnacksMeta}></meta>
                 <title>{metaTags.titleSnacksMeta + " | Пивградъ"}</title>
             </Head>
             <div className="page-container">

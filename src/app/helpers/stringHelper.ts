@@ -45,7 +45,7 @@ export const paramsBuilder = (params: IParam[]): string => {
 export const decodeHtml = (str: string) =>
 {
     let result = '';
-    var map =
+    var map: any =
     {
         '&amp;': '&',
         '&lt;': '<',

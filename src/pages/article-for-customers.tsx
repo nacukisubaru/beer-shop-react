@@ -11,8 +11,13 @@ import {
 } from "../app/store/reducers/header.slice";
 import { wrapper } from "../app/store/store";
 import Head from "next/head";
+import { FC } from "react";
 
-const ArticleForCustomers = ({ data }) => {
+interface ArticleForCustomersProps {
+    data: any
+}
+
+const ArticleForCustomers: FC<ArticleForCustomersProps> = ({ data }) => {
     return (
         <>
             <Head>

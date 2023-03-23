@@ -78,12 +78,6 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
                 "@media screen and (max-width: 481px) and (min-width: 479px)": {
                     fontSize: "40px",
                 },
-                "@media screen and (max-width: 321px) and (min-width: 319px)": {
-                    fontSize: "40px",
-                },
-                "@media screen and (max-width: 481px) and (min-width: 479px)": {
-                    fontSize: "40px",
-                },
                 "@media screen and (min-width: 500px) and (max-width: 720px)": {
                     fontSize: "40px",
                 },
@@ -112,12 +106,6 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
                     fontSize: "25px",
                 },
                 "@media screen and (max-width: 642px) and (min-width: 640px)": {
-                    fontSize: "25px",
-                },
-                "@media screen and (max-width: 321px) and (min-width: 319px)": {
-                    fontSize: "25px",
-                },
-                "@media screen and (max-width: 481px) and (min-width: 479px)": {
                     fontSize: "25px",
                 },
                 "@media screen and (max-width: 321px) and (min-width: 319px)": {
@@ -163,12 +151,6 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
                 "@media screen and (max-width: 481px) and (min-width: 479px)": {
                     fontSize: "43px",
                 },
-                "@media screen and (max-width: 321px) and (min-width: 319px)": {
-                    fontSize: "43px",
-                },
-                "@media screen and (max-width: 481px) and (min-width: 479px)": {
-                    fontSize: "43px",
-                },
                 "@media screen and (min-width: 500px) and (max-width: 720px)": {
                     fontSize: "43px",
                 },
@@ -195,12 +177,6 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
                     fontSize: "31px",
                 },
                 "@media screen and (max-width: 642px) and (min-width: 640px)": {
-                    fontSize: "31px",
-                },
-                "@media screen and (max-width: 321px) and (min-width: 319px)": {
-                    fontSize: "31px",
-                },
-                "@media screen and (max-width: 481px) and (min-width: 479px)": {
                     fontSize: "31px",
                 },
                 "@media screen and (max-width: 321px) and (min-width: 319px)": {

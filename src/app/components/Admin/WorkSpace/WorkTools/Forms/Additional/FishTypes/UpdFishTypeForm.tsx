@@ -3,7 +3,6 @@ import { useActions } from "../../../../../../../hooks/useActions";
 import { useAppSelector } from "../../../../../../../hooks/useAppSelector";
 import { IStateResponse } from "../../../../../../../hooks/useCatalog";
 import { fishTypesCrudApi } from "../../../../../../../store/services/fish/fish.api";
-import { useGetProductTypesQuery } from "../../../../../../../store/services/product-types/product-types.api";
 import Form from "../../Form";
 
 interface UpdFishTypeFormProps {

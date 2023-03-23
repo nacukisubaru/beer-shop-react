@@ -7,11 +7,11 @@ import { ISnack } from "../../snacks/types/snacks.types";
 import { IBeer } from "../../beers/types/beer.type";
 import { arrayUniqueByKey } from "../../../../helpers/arrayHelper";
 
-type productTypeArray =  IBeer[] | ISnack[];
+
 type productType =  IBeer | ISnack;
 
 interface InitialState {
-    productList: productTypeArray,
+    productList: any[],
     product: any,
     data: any,
     page: number,

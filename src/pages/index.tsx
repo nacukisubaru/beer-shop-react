@@ -70,9 +70,9 @@ const Home: FC<IHomeProps> = ({ data }) => {
         <>
             <Head>
                 <title>{titleMeta}</title>
-                <meta keywords={keywordsMeta}
+                <meta name="keywords" content={keywordsMeta}
                 ></meta>
-                <meta description={descriptionMeta}
+                <meta name="description" content={descriptionMeta}
                 ></meta>
             </Head>
             <div className="page-container">

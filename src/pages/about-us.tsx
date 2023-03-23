@@ -12,7 +12,28 @@ import { wrapper } from "../app/store/store";
 import Head from "next/head";
 import Menu from "../app/components/Drawer/Menu/Menu";
 
-const AboutUs: FC = ({ data }) => {
+interface IimageForText {
+    url: string
+}
+
+interface IimageForTextData {
+    data: IimageForText[]
+}
+
+interface IAboutUsData {
+    imageForText: IimageForTextData, 
+    imageForText2: IimageForTextData, 
+    text: string, 
+    text2: string, 
+    title: string, 
+    title2: string
+}
+
+interface IAboutUsProps {
+    data: IAboutUsData
+}
+
+const AboutUs: FC<IAboutUsProps> = ({ data }) => {
     const { imageForText, imageForText2, text, text2, title, title2 } = data;
     const [isOpenText, openText] = useState(false);
 
@@ -125,8 +146,15 @@ export default AboutUs;
 
 export const getServerSideProps: GetServerSideProps =
     wrapper.getServerSideProps((store) => async ({ query }) => {
-        const props: any = {
-            data: {},
+        const props: IAboutUsProps = {
+            data: { 
+                imageForText: {data: []}, 
+                imageForText2: {data: []}, 
+                text: "", 
+                text2: "", 
+                title: "", 
+                title2: ""
+            },
         };
 
         const aboutUsData = await cmsQueryExecute(

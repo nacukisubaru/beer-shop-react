@@ -3,7 +3,34 @@ import { HYDRATE } from "next-redux-wrapper";
 import { cmsQueryExecute } from "../../helpers/cmsHelper";
 import { AppThunk } from "../services/beers/reducers/beer.slice";
 
-const initialState = {
+interface IArticle {
+    id: number,
+    articleName: string
+}
+
+interface ISocialNetwork {
+    id: number,
+    link: string,
+    name: string
+}
+
+interface IPhone {
+    id: number,
+    number: string
+}
+
+interface IinitialState {
+    phone: string,
+    address:string,
+    linkForAddress: string,
+    socialNetworkName: string,
+    socialNetworkLink: string,
+    phoneList: IPhone[],
+    socialNetworksList: ISocialNetwork[],
+    articlesList: IArticle[]
+}
+
+const initialState:IinitialState = {
     phone: "",
     address: "",
     linkForAddress: "",

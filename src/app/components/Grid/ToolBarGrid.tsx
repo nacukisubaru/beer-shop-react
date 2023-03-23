@@ -28,7 +28,7 @@ const ToolBarGrid: FC= () => {
                         <Button
                             variant="contained"
                             size="small"
-                            onClick={openModalAddContent}
+                            onClick={() => {openModalAddContent()}}
                         >
                             Добавить
                         </Button>

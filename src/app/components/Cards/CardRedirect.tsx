@@ -5,8 +5,8 @@ import React, { FC } from "react";
 import styles from "./styles/cards.module.css";
 
 interface IBox {
-    width: string;
-    height: string;
+    width: any;
+    height: any;
 }
 
 interface IImageProps {
