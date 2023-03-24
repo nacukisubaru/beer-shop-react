@@ -88,7 +88,7 @@ const PersonalProfileCard: FC = () => {
     };
 
     const clearQuery = () => {
-       // history.pushState(null, '', router.pathname);
+        router.push(router.pathname);
     }
 
     return (
