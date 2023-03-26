@@ -2,7 +2,7 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) TS template.
 
-## Рабочий сайт
+## Рабочий сайт(тестовый стенд)
 https://beer-grad.ru/
 Доступ от админ панели:
 Перейти в https://beer-grad.ru/account/profile
