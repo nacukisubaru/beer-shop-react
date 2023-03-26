@@ -61,7 +61,7 @@ const YMapContacts: FC<YMapContactsProps> = ({balloon}) => {
                             hintContent:
                                 "<b> Пивградъ </b>",
                             balloonContent: `<div id="cardBalloon" style=" width: 240px;
-                            height: 400px;"></div>`,
+                            height:350px;"></div>`,
                         }}
                         options={{ openEmptyBalloon: true, balloonPanelMaxMapArea: 1}}
                         modules={['geoObject.addon.balloon']}

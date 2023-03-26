@@ -87,9 +87,9 @@ export const getServerSideProps: GetServerSideProps =
     wrapper.getServerSideProps((store) => async ({ query }) => {
         const props: ISnacksProps = {
             metaTags: {
-                titleSnacksMeta: "",
-                descSnacksMeta: "",
-                keywordsSnacksMeta: "",
+                titleSnacksMeta:  "Каталог снеков | Пивградъ",
+                descSnacksMeta: "Лучшие снеки к пиву в лучшем пивбаре Калуги. Пивградъ. Купите вкусных снеков к пиву.",
+                keywordsSnacksMeta: "Каталог снеков, снеки в Калуге, купить снеки в Калуге, купить снеки к пиву, снеки, купить снеки к пиву в Калуге, вкусные снеки, вкусные снеки к пиву",
             },
         };
 

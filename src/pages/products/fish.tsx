@@ -121,9 +121,9 @@ export const getServerSideProps: GetServerSideProps =
     wrapper.getServerSideProps((store) => async ({ query }) => {
         const props: IFishProps = {
             metaTags: {
-                titleFishsMeta: "",
-                descFishsMeta: "",
-                keywordsFishsMeta: "",
+                titleFishsMeta: "Каталог рыбы | Пивградъ",
+                descFishsMeta: "Покупайте рыбку к пиву в лучшем баре Калуги Пивграде.",
+                keywordsFishsMeta: "Каталог рыбы, рыба, рыба в Калуге, купить рыбу в Калуге, купить рыбу, вкусная рыба, копченая рыба, купить копченую рыбу, купить копченую рыбу в Калуге, купить рыбу к пиву, купить рыбу к пиву в Калуге",
             },
         };
 

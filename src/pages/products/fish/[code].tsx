@@ -88,9 +88,9 @@ export const getServerSideProps: GetServerSideProps =
         const props: IFishDetailProps = {
             product: {},
             metaTags: {
-                titleFishMeta: "",
-                descFishMeta: "",
-                keywordsFishMeta: "",
+                titleFishMeta: "Вкусная рыба",
+                descFishMeta: "Большой ассортимент рыбы в лучшем баре Калуги Пивградъ. Купите рыбу по отличной цене.",
+                keywordsFishMeta: "рыба, рыба в Калуге, купить рыбу в Калуге, купить рыбу, вкусная рыба, копченая рыба, купить копченую рыбу, купить копченую рыбу в Калуге, купить рыбу к пиву, купить рыбу к пиву в Калуге",
             },
         };
 

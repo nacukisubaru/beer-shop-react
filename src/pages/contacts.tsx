@@ -15,6 +15,7 @@ import Head from "next/head";
 import Link from "next/link";
 import Menu from "../app/components/Drawer/Menu/Menu";
 import YMapContacts from "../app/components/YandexMaps/Contacts/YMapContacts";
+import { host } from "../app/http/http.request.config";
 
 interface ISSRData {
     yandexmap: IYandexMap
@@ -102,11 +103,11 @@ export const getServerSideProps: GetServerSideProps =
         const props: any = {
             data: {
                 yandexmap: {
-                    placeName: "",
-                    address: "",
-                    workTime: "",
-                    wayDesc: "",
-                    photosPlace: {},
+                    placeName: "Пивградъ бар",
+                    address: "ул. Братьев Луканиных, 7, Калуга",
+                    workTime: "10:00-20:00",
+                    wayDesc: "Остановка Кошелев-проект м-н, Ленинский округ, Калуга",
+                    photosPlace:  {data: [{url: host + "/assets/beergrad-photo1.png"}]},
                 },
             },
         };
