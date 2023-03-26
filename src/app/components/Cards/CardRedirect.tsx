@@ -41,6 +41,7 @@ const CardRedirect: FC<ICardRedirect> = ({ settingsCardProps, linkProps }) => {
                         width: card.width,
                         height: card.height,
                         backgroundColor: "#b05326",
+                        borderRadius: "15px"
                     }}
                 >
                     <div className={styles.cardContent}>

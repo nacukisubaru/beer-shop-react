@@ -81,7 +81,6 @@ const AvatarProfile: FC<IAvatarProfileProps> = ({ avatar = "" }) => {
                     ></Box>
                 ) : (
                     <AccountCircleIcon
-                        className={styles.avatarIcon}
                         style={{
                             fontSize: "5em",
                             color: "#b05326",
