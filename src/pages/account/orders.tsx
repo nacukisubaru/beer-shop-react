@@ -52,6 +52,7 @@ const Orders: FC = () => {
         <>
             <Head>
                 <title>Мои заказы</title>
+                <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
             </Head>
             <Menu
                 filterList={[]}
@@ -110,11 +111,19 @@ const Orders: FC = () => {
 };
 
 export default Orders;
-
 export const getServerSideProps: GetServerSideProps =
-    wrapper.getServerSideProps((store) => async () => {
+    wrapper.getServerSideProps((store) => async ({ query }) => {
+        const props = {
+            data: { 
+            },
+        };
+
         await store.dispatch(fetchHeaderData());
         await store.dispatch(fetchSocialNetworks());
         await store.dispatch(fetchPhonesList());
         await store.dispatch(fetchArticlesList());
+
+        return {
+            props,
+        };
     });

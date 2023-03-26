@@ -1,5 +1,5 @@
 import { GetServerSideProps } from "next";
-import React from "react";
+import React, { FC } from "react";
 import BasketContainer from "../app/components/Basket/BasketContainer";
 import Menu from "../app/components/Drawer/Menu/Menu";
 import { cmsQueryExecute } from "../app/helpers/cmsHelper";
@@ -7,11 +7,16 @@ import { fetchArticlesList, fetchHeaderData, fetchPhonesList, fetchSocialNetwork
 import { wrapper } from "../app/store/store";
 import Head from "next/head";
 
-export default function Basket({ data }) {
+interface BasketProps {
+    data: any
+}
+
+const Basket: FC<BasketProps> = ({ data }) => {
     return (
         <>
             <Head>
                 <title>Корзина | Пивградъ</title>
+                <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
             </Head>
             <div className="page-container">
                 <Menu
@@ -23,6 +28,8 @@ export default function Basket({ data }) {
         </>
     );
 }
+
+export default Basket;
 
 export const getServerSideProps: GetServerSideProps =
     wrapper.getServerSideProps((store) => async ({ query }) => {

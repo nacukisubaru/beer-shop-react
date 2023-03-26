@@ -5,7 +5,7 @@
 }
 
 .cardWrapperLk {
-    width: 417px;
+    width: 378px;
 }
 
 .cardLk {
@@ -20,7 +20,7 @@
 }
 
 .cardIcon {
-    font-size: 4em;
+    height: 76px;
     color: #b05326;
     margin-right: 10px;
 }
@@ -46,8 +46,8 @@
 }
 
 .logoutBtn {
-    margin-left: 73px;
-    margin-top: 60px;
+    margin-left: 27px !important;
+    margin-top: 51px !important;
 }
 
 .personLink:hover {
@@ -69,6 +69,7 @@
     margin-top: 33px;
     margin-left: 31px;
     cursor: pointer;
+    width: 17px;
 }
 
 .avatar:hover {

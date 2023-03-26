@@ -20,7 +20,7 @@ interface YMapContactsProps {
 const YMapContacts: FC<YMapContactsProps> = ({balloon}) => {
     const [activePortal, setActivePortal] = useState(false);
     const [placemarkIsLoaded, setPlacemarkLoaded] = useState(false);
-    const placemark = useRef(null);
+    const placemark: any = useRef(null);
 
     useEffect(()=>{
         if(placemarkIsLoaded) {
@@ -51,7 +51,7 @@ const YMapContacts: FC<YMapContactsProps> = ({balloon}) => {
                     height="600px"
                 >
                     <Placemark
-                        instanceRef={el => {
+                        instanceRef={(el: any) => {
                             placemark.current = el;
                             setPlacemarkLoaded(true);
                         }}
@@ -61,7 +61,7 @@ const YMapContacts: FC<YMapContactsProps> = ({balloon}) => {
                             hintContent:
                                 "<b> Пивградъ </b>",
                             balloonContent: `<div id="cardBalloon" style=" width: 240px;
-                            height: 400px;"></div>`,
+                            height:350px;"></div>`,
                         }}
                         options={{ openEmptyBalloon: true, balloonPanelMaxMapArea: 1}}
                         modules={['geoObject.addon.balloon']}

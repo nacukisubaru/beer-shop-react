@@ -11,12 +11,18 @@ import {
 } from "../app/store/reducers/header.slice";
 import { wrapper } from "../app/store/store";
 import Head from "next/head";
+import { FC } from "react";
 
-const ArticleForCustomers = ({ data }) => {
+interface ArticleForCustomersProps {
+    data: any
+}
+
+const ArticleForCustomers: FC<ArticleForCustomersProps> = ({ data }) => {
     return (
         <>
             <Head>
                 <title>Информация для клиента | Пивградъ</title>
+                <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
             </Head>
             <Menu
                 filterList={[]}

@@ -1,0 +1,41 @@
+   <!-- public/sitemap.xml -->
+   <xml version="1.0" encoding="UTF-8">
+   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+       <loc>https://beer-grad.ru</loc>
+       <lastmod>2023-03-26</lastmod>
+    </url>
+    <url>
+       <loc>https://beer-grad.ru/products/beers</loc>
+       <lastmod>2023-03-26</lastmod>
+    </url>
+    <url>
+       <loc>https://beer-grad.ru/products/snacks</loc>
+       <lastmod>2023-03-26</lastmod>
+    </url>
+    <url>
+       <loc>https://beer-grad.ru/products/fish</loc>
+       <lastmod>2023-03-26</lastmod>
+    </url>
+    <url>
+       <loc>https://beer-grad.ru/contacts</loc>
+       <lastmod>2023-03-26</lastmod>
+    </url>
+    <url>
+       <loc>https://beer-grad.ru/about-us</loc>
+       <lastmod>2023-03-26</lastmod>
+    </url>
+    <url>
+       <loc>https://beer-grad.ru/basket</loc>
+       <lastmod>2023-03-26</lastmod>
+    </url>
+    <url>
+       <loc>https://beer-grad.ru/basket</loc>
+       <lastmod>2023-03-26</lastmod>
+    </url>
+    <url>
+       <loc>https://beer-grad.ru/account/profile</loc>
+       <lastmod>2023-03-26</lastmod>
+    </url>
+   </urlset>
+   </xml>

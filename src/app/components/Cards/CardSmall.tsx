@@ -1,8 +1,6 @@
 import { Box, Button, Card, Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 import { useRouter } from "next/router";
-import React, { FC, useEffect, useState } from "react";
-import { useAppSelector } from "../../hooks/useAppSelector";
+import React, { FC, useState } from "react";
 import { ICard } from "../../types/card.types";
 import styles from "./styles/cards.module.css";
 import CustomSnackBar from "../CustomUI/CustomSnackBar/CustomSnackBar";
@@ -65,10 +63,14 @@ const CardSmall: FC<ICardSmall> = ({
     return (
         <>
             <Card
-                className={styles.card}
                 style={{
                     width: card.width,
                     height: card.height,
+                    margin: "10px",
+                    borderRadius: "15px",
+                    paddingTop: "36px",
+                    boxShadow:
+                        "0px 2px 12px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
                 }}
             >
                 <div
@@ -78,37 +80,51 @@ const CardSmall: FC<ICardSmall> = ({
                             : styles.cardContentNoActive
                     }
                 >
+                    <div style={{ maxHeight: "200px" }}>
+                        <Link href={detailUrl}>
+                            <Box
+                                className={styles.cardImg}
+                                sx={{
+                                    background: `url(${image}) center center no-repeat`,
+                                    backgroundSize: "contain",
+                                    position: "relative",
+                                    marginBottom: "5px",
+                                    height: imageHeight
+                                }}
+                            ></Box>
+                        </Link>
+                    </div>
                     <Link href={detailUrl}>
-                        <Box
-                            className={styles.cardImg}
-                            sx={{
-                                background: `url(${image}) center center no-repeat`,
-                                height: imageHeight,
-                            }}
-                        ></Box>
-                    </Link>
-                    <Link href={detailUrl}>
-                        <Typography
-                            variant="body2"
-                            className={styles.titleText}
-                            style={{ fontSize: titleSize, fontWeight: "bold" }}
-                        >
-                            {title}
-                        </Typography>
-                    </Link>
-                    
-                    <Link href={detailUrl}>
-                        <div className={styles.cardContentDesc}>
-                            <Typography variant="body2">{description}</Typography>
+                        <div className={styles.titleText}>
+                            <Typography
+                                variant="body2"
+                                style={{
+                                    fontSize: titleSize,
+                                    fontWeight: "bold",
+                                }}
+                            >
+                                {title}
+                            </Typography>
                         </div>
                     </Link>
-                    
+
+                    <Link href={detailUrl}>
+                        <div className={styles.cardContentDesc}>
+                            <Typography variant="body2">
+                                {description}
+                            </Typography>
+                        </div>
+                    </Link>
+
                     <Link href={detailUrl}>
                         <div className={styles.cardContentPrice}>
                             <Typography
                                 variant="body2"
-                                className={styles.priceText}
-                                style={{ fontSize: priceSize }}
+                                style={{
+                                    fontSize: priceSize,
+                                    display: "flex",
+                                    justifyContent: "center",
+                                }}
                             >
                                 {price} &#x20bd;
                             </Typography>
@@ -151,6 +167,7 @@ const CardSmall: FC<ICardSmall> = ({
                     )}
                 </div>
             </Card>
+
             {router.route !== "/" && (
                 <CustomSnackBar
                     severity="success"

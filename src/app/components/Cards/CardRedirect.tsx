@@ -5,8 +5,8 @@ import React, { FC } from "react";
 import styles from "./styles/cards.module.css";
 
 interface IBox {
-    width: string;
-    height: string;
+    width: any;
+    height: any;
 }
 
 interface IImageProps {
@@ -41,6 +41,7 @@ const CardRedirect: FC<ICardRedirect> = ({ settingsCardProps, linkProps }) => {
                         width: card.width,
                         height: card.height,
                         backgroundColor: "#b05326",
+                        borderRadius: "15px"
                     }}
                 >
                     <div className={styles.cardContent}>

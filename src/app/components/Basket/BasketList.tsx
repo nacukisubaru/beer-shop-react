@@ -94,9 +94,11 @@ const BasketList: FC<BasketListProps> = ({ basketList, consentText, order, count
                 </div>
             ) : (
                 <div>
-                    <Typography className={styles.emptyBasket}>
-                        Ваша корзина пуста
-                    </Typography>
+                    <div className={styles.emptyBasket}> 
+                        <Typography variant="h4">
+                            Ваша корзина пуста
+                        </Typography>
+                    </div>
 
                     <Link
                         href={"/products/beers"}

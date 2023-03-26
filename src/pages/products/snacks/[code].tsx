@@ -84,9 +84,9 @@ export const getServerSideProps: GetServerSideProps =
         const props: ISnackDetailProps = {
             product: {},
             metaTags: {
-                titleSnackMeta: "",
-                descSnackMeta: "",
-                keywordsSnackMeta: "",
+                titleSnackMeta: "Вкусные снеки",
+                descSnackMeta: "Большой ассортимент снеков в лучшем баре Калуги Пивградъ. Купите снеки по отличной цене.",
+                keywordsSnackMeta: "снеки в Калуге, купить снеки в Калуге, купить снеки к пиву, снеки, купить снеки к пиву в Калуге, вкусные снеки, вкусные снеки к пиву",
             },
         };
 

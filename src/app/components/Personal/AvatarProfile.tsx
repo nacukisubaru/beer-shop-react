@@ -16,12 +16,13 @@ interface IAvatarProfileProps {
 const AvatarProfile: FC<IAvatarProfileProps> = ({ avatar = "" }) => {
     const [image, setImage] = useState<string>(avatar);
     const { errorMessage } = useAuthorizationUser();
-    const ref = useRef(null);
-    const refFile = useRef(null);
+    const ref: any = useRef(null);
+    const refFile: any = useRef(null);
     const dispatch = useDispatch();
 
     const onEnterShowPhotoIcon = () => {
         ref.current.style.display = "block";
+        
     };
 
     const onLeaveHidePhotoIcon = () => {
@@ -80,7 +81,6 @@ const AvatarProfile: FC<IAvatarProfileProps> = ({ avatar = "" }) => {
                     ></Box>
                 ) : (
                     <AccountCircleIcon
-                        className={styles.avatarIcon}
                         style={{
                             fontSize: "5em",
                             color: "#b05326",

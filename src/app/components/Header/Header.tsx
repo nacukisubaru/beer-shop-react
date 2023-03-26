@@ -51,7 +51,7 @@ const Header: FC<HeaderProps> = () => {
                     <div style={{display: "flex", justifyContent: "center"}}>
                     <div className={styles.wrapperHeader}>
                         <div className={styles.headerNavElementBurger}>
-                            <IconButton onClick={switchMainMenu}>
+                            <IconButton onClick={() => {switchMainMenu()}}>
                                 <MenuIcon />
                             </IconButton>
                         </div>

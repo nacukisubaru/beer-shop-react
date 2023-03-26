@@ -3,7 +3,34 @@ import { HYDRATE } from "next-redux-wrapper";
 import { cmsQueryExecute } from "../../helpers/cmsHelper";
 import { AppThunk } from "../services/beers/reducers/beer.slice";
 
-const initialState = {
+interface IArticle {
+    id: number,
+    articleName: string
+}
+
+interface ISocialNetwork {
+    id: number,
+    link: string,
+    name: string
+}
+
+interface IPhone {
+    id: number,
+    number: string
+}
+
+interface IinitialState {
+    phone: string,
+    address:string,
+    linkForAddress: string,
+    socialNetworkName: string,
+    socialNetworkLink: string,
+    phoneList: IPhone[],
+    socialNetworksList: ISocialNetwork[],
+    articlesList: IArticle[]
+}
+
+const initialState:IinitialState = {
     phone: "",
     address: "",
     linkForAddress: "",
@@ -69,31 +96,49 @@ export const headerSlice = createSlice({
 });
 
 export const fetchHeaderData = (): AppThunk => async dispatch => {
-    const data = await cmsQueryExecute('/api/header');
-    if (data) {
-        dispatch(headerSlice.actions.setHeaderState(data));
+    let data = await cmsQueryExecute('/api/header');
+    if (!data) {
+        data = {
+            phone: "+7 920 899-77-72",
+            address: "ул. Братьев Луканиных, 7, Калуга",
+            linkForAddress: "https://yandex.ru/maps/org/pivgrad/215648184161/?ll=36.180887%2C54.497520&z=17.09",
+            socialNetworkName: "ВКонтакте",
+            socialNetworkLink: "https://vk.com/id474817801" 
+        };
     }
+
+    dispatch(headerSlice.actions.setHeaderState(data));
 }
 
 export const fetchPhonesList = (): AppThunk => async dispatch => {
-    const data = await cmsQueryExecute('/api/phone-numbers');
-    if (data) {
-        dispatch(headerSlice.actions.setPhonesList(data));
+    let data = await cmsQueryExecute('/api/phone-numbers');
+    if (!data) {
+        data = [{id: "1", number:"+7 920 899-77-72"}];
     }
+
+    dispatch(headerSlice.actions.setPhonesList(data));
+    
 }
 
 export const fetchSocialNetworks = (): AppThunk => async dispatch => {
-    const data = await cmsQueryExecute('/api/social-networks');
-    if (data) {
-        dispatch(headerSlice.actions.setSocialNetworks(data));
+    let data = await cmsQueryExecute('/api/social-networks');
+    if (!data) {
+        data = [{id: "1", name: "ВКонтакте", link:"https://vk.com/id474817801"}];
     }
+
+    dispatch(headerSlice.actions.setSocialNetworks(data));
 }
 
 export const fetchArticlesList = (): AppThunk => async dispatch => {
-    const articles = await cmsQueryExecute(`/api/articles-for-customers/`);
-    if (articles) {
-        dispatch(headerSlice.actions.setArticlesList(articles));
+    let articles = await cmsQueryExecute(`/api/articles-for-customers/`);
+    if (!articles) {
+        articles = [
+            {id: "1", articleName: "Политика конфеденциальности", link:""},
+            {id: "2", articleName: "Как оформить заказ", link:""},
+        ];
     }
+  
+    dispatch(headerSlice.actions.setArticlesList(articles));
 }
 
 export const headerReducer = headerSlice.reducer;

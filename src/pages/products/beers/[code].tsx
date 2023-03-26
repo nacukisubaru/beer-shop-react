@@ -101,9 +101,9 @@ export const getServerSideProps: GetServerSideProps =
         const props: IBeerDetailProps = {
             product: {},
             metaTags: {
-                titleBeerMeta: "",
-                descBeerMeta: "",
-                keywordsBeerMeta: "",
+                titleBeerMeta: "Лучшее пиво по отличной цене",
+                descBeerMeta: "Большой ассортимент пива в лучшем баре Калуги Пивградъ. Купите пиво по отличной цене.",
+                keywordsBeerMeta: "Каталог пива, пиво, пиво в Калуге, купить пиво в Калуге, купить пиво, вкусное пиво, крафт пиво, крафтовое пиво",
             },
         };
 

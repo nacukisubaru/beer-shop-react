@@ -42,9 +42,14 @@ const Snacks: FC<ISnacksProps> = ({ metaTags }) => {
     return (
         <>
             <Head>
-                <meta keywords={metaTags.keywordsSnacksMeta}></meta>
-                <meta description={metaTags.descSnacksMeta}></meta>
+                <meta
+                    name="keywords" 
+                    content={metaTags.keywordsSnacksMeta}></meta>
+                <meta 
+                     name="description"
+                     content={metaTags.descSnacksMeta}></meta>
                 <title>{metaTags.titleSnacksMeta + " | Пивградъ"}</title>
+                <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
             </Head>
             <div className="page-container">
                 <Menu productType="snacks" filterList={[]} />
@@ -83,9 +88,9 @@ export const getServerSideProps: GetServerSideProps =
     wrapper.getServerSideProps((store) => async ({ query }) => {
         const props: ISnacksProps = {
             metaTags: {
-                titleSnacksMeta: "",
-                descSnacksMeta: "",
-                keywordsSnacksMeta: "",
+                titleSnacksMeta:  "Каталог снеков",
+                descSnacksMeta: "Лучшие снеки к пиву в лучшем пивбаре Калуги. Пивградъ. Купите вкусных снеков к пиву.",
+                keywordsSnacksMeta: "Каталог снеков, снеки в Калуге, купить снеки в Калуге, купить снеки к пиву, снеки, купить снеки к пиву в Калуге, вкусные снеки, вкусные снеки к пиву",
             },
         };
 

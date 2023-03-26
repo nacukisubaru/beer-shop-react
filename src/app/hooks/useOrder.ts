@@ -38,7 +38,7 @@ export const useOrder = () => {
             dispatch(createOrder(basketHash));
         } else {
             setBackRedirectToOrder({isRedirect: true});
-            router.replace('/account');
+            router.replace('/account/profile');
         }
     }
 

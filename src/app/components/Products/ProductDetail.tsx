@@ -51,9 +51,10 @@ const ProductDetail: FC<IProductDetailProps> = ({
     return (
         <>
             <Head>
-                <meta keywords={seoProps.keywords}></meta>
-                <meta description={seoProps.desc}></meta>
+                <meta name="keywords" content={seoProps.keywords}></meta>
+                <meta name="description" content={seoProps.desc}></meta>
                 <title>{seoProps.title}</title>
+                <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
             </Head>
             <Menu filterList={[]} productType="beers" />
             <div className={styles.detailCardWrapp}>
@@ -66,6 +67,7 @@ const ProductDetail: FC<IProductDetailProps> = ({
                             className={styles.detailImage}
                             sx={{
                                 background: `url(${productProps.image}) center center no-repeat`,
+                                backgroundSize: "contain"
                             }}
                         ></Box>
                     </div>

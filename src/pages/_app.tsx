@@ -78,12 +78,6 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
                 "@media screen and (max-width: 481px) and (min-width: 479px)": {
                     fontSize: "40px",
                 },
-                "@media screen and (max-width: 321px) and (min-width: 319px)": {
-                    fontSize: "40px",
-                },
-                "@media screen and (max-width: 481px) and (min-width: 479px)": {
-                    fontSize: "40px",
-                },
                 "@media screen and (min-width: 500px) and (max-width: 720px)": {
                     fontSize: "40px",
                 },
@@ -120,12 +114,6 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
                 "@media screen and (max-width: 481px) and (min-width: 479px)": {
                     fontSize: "25px",
                 },
-                "@media screen and (max-width: 321px) and (min-width: 319px)": {
-                    fontSize: "25px",
-                },
-                "@media screen and (max-width: 481px) and (min-width: 479px)": {
-                    fontSize: "25px",
-                },
                 "@media screen and (min-width: 500px) and (max-width: 720px)": {
                     fontSize: "25px",
                 },
@@ -146,7 +134,10 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
             },
             subtitle1: {
                 fontSize: "60px",
+                fontFamily: 'Montserrat',
                 lineHeight: "unset",
+                color: "white",
+                textShadow: "2px 2px 10px #000",
                 "@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)":
                     {
                         fontSize: "43px",
@@ -155,12 +146,6 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
                     fontSize: "43px",
                 },
                 "@media screen and (max-width: 642px) and (min-width: 640px)": {
-                    fontSize: "43px",
-                },
-                "@media screen and (max-width: 321px) and (min-width: 319px)": {
-                    fontSize: "43px",
-                },
-                "@media screen and (max-width: 481px) and (min-width: 479px)": {
                     fontSize: "43px",
                 },
                 "@media screen and (max-width: 321px) and (min-width: 319px)": {
@@ -186,7 +171,11 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
             },
             subtitle2: {
                 fontSize: "40px",
+                fontFamily: 'Montserrat',
                 lineHeight: "unset",
+                color: "white",
+                marginBottom: "17px",
+                textShadow: "2px 2px 10px #000",
                 "@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)":
                     {
                         fontSize: "31px",
@@ -195,12 +184,6 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
                     fontSize: "31px",
                 },
                 "@media screen and (max-width: 642px) and (min-width: 640px)": {
-                    fontSize: "31px",
-                },
-                "@media screen and (max-width: 321px) and (min-width: 319px)": {
-                    fontSize: "31px",
-                },
-                "@media screen and (max-width: 481px) and (min-width: 479px)": {
                     fontSize: "31px",
                 },
                 "@media screen and (max-width: 321px) and (min-width: 319px)": {

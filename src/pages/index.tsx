@@ -21,32 +21,31 @@ import YMapContacts from "../app/components/YandexMaps/Contacts/YMapContacts";
 import HTMLReactParser from "html-react-parser";
 import TabsUI from "../app/components/Tabs/TabsUI";
 import CatalogFish from "../app/components/Products/Catalog/CatalogFish";
-import bannerImg from "../assets/images/banner.jpg";
 import Menu from "../app/components/Drawer/Menu/Menu";
 import PhotoGaleryList from "../app/components/PhotoGalery/PhotoGaleryList";
 import CatalogBeers from "../app/components/Products/Catalog/CatalogBeers";
-import Image from "next/image";
+import { host } from "../app/http/http.request.config";
 
 interface IMainPage {
-    bannerSlogan: string,
-    bannerSlogan2: string,
-    titleProducts: string,
-    titleGallery: string,
-    titleMap: string,
-    gallery: any,
-    banner: any,
-    titleMeta: string,
-    descriptionMeta: string,
-    keywordsMeta: string
+    bannerSlogan: string;
+    bannerSlogan2: string;
+    titleProducts: string;
+    titleGallery: string;
+    titleMap: string;
+    gallery: any;
+    banner: any;
+    titleMeta: string;
+    descriptionMeta: string;
+    keywordsMeta: string;
 }
 
 interface IMainpageData {
-    mainpage: IMainPage,
-    yandexmap: IYandexMap
+    mainpage: IMainPage;
+    yandexmap: IYandexMap;
 }
 
 interface IHomeProps {
-    data: IMainpageData
+    data: IMainpageData;
 }
 
 const Home: FC<IHomeProps> = ({ data }) => {
@@ -60,82 +59,53 @@ const Home: FC<IHomeProps> = ({ data }) => {
         banner,
         titleMeta,
         descriptionMeta,
-        keywordsMeta
+        keywordsMeta,
     } = data.mainpage;
 
     const { placeName, address, workTime, wayDesc, photosPlace } =
         data.yandexmap;
     const router = useRouter();
+
     return (
         <>
             <Head>
                 <title>{titleMeta}</title>
-                <meta keywords={keywordsMeta}
-                ></meta>
-                <meta description={descriptionMeta}
-                ></meta>
+                <meta name="keywords" content={keywordsMeta}></meta>
+                <meta name="description" content={descriptionMeta}></meta>
+                <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
             </Head>
             <div className="page-container">
-                <Menu
-                    filterList={[]}
-                    productType="beers"
-                />
+                <Menu filterList={[]} productType="beers" />
                 <div>
-                    {banner.length > 0 ? (
-                        <Box
-                            className="banner-image"
-                            sx={{
-                                background: `url(${banner[0].url}) center center no-repeat`,
-                                height: 200,
-                                width: 200,
-                                display: "flex",
-                                justifyContent: "center",
-                            }}
-                        >
-                            <div className="banner-content">
-                                <Typography
-                                    className="banner-text"
-                                    variant="subtitle1"
-                                >
-                                    {bannerSlogan
-                                        ? HTMLReactParser(
-                                              decodeHtml(bannerSlogan)
-                                          )
-                                        : HTMLReactParser(
-                                              decodeHtml(
-                                                  "Там где твои друзья<br/>Пивградъ"
-                                              )
-                                          )}
-                                </Typography>
-                                <Typography
-                                    className="banner-under-text"
-                                    variant="subtitle2"
-                                >
-                                    {bannerSlogan2
-                                        ? HTMLReactParser(
-                                              decodeHtml(bannerSlogan2)
-                                          )
-                                        : "попробуй яркий вкус свежего пива"}
-                                </Typography>
-                                <Button
-                                    className="banner-button"
-                                    variant="contained"
-                                    onClick={() => {
-                                        router.replace("/products/beers");
-                                    }}
-                                >
-                                    Попробовать
-                                </Button>
-                            </div>
-                        </Box>
-                    ) : (
-                        <Image
-                            className="banner-image-ssr"
-                            src={bannerImg}
-                            quality={100}
-                            alt="banner"
-                        />
-                    )}
+                    <Box
+                        className="banner-image"
+                        sx={{
+                            background: `url(${banner[0].url}) center center no-repeat`,
+                            backgroundSize: "cover"
+                        }}
+                    >
+                        <div className="banner-content">
+                            <Typography
+                                variant="subtitle1"
+                            >
+                                {HTMLReactParser(decodeHtml(bannerSlogan))}
+                            </Typography>
+                            <Typography
+                                variant="subtitle2"
+                            >
+                                {HTMLReactParser(decodeHtml(bannerSlogan2))}
+                            </Typography>
+                            <Button
+                                variant="contained"
+                                sx={{borderRadius: "19px"}}
+                                onClick={() => {
+                                    router.replace("/products/beers");
+                                }}
+                            >
+                                Попробовать
+                            </Button>
+                        </div>
+                    </Box>          
                 </div>
                 <div
                     style={{
@@ -146,9 +116,7 @@ const Home: FC<IHomeProps> = ({ data }) => {
                     }}
                 >
                     <Typography className="main-page-text" variant="h2">
-                        {titleProducts
-                            ? HTMLReactParser(decodeHtml(titleProducts))
-                            : "Наш асортимент"}
+                        {HTMLReactParser(decodeHtml(titleProducts))}
                     </Typography>
                 </div>
                 <div style={{ marginBottom: "60px" }}>
@@ -171,9 +139,7 @@ const Home: FC<IHomeProps> = ({ data }) => {
                             }}
                         >
                             <Typography className="main-page-text" variant="h2">
-                                {titleGallery
-                                    ? HTMLReactParser(decodeHtml(titleGallery))
-                                    : "Наш бар"}
+                                {HTMLReactParser(decodeHtml(titleGallery))}
                             </Typography>
                         </div>
                         <div style={{ marginBottom: "60px" }}>
@@ -190,9 +156,7 @@ const Home: FC<IHomeProps> = ({ data }) => {
                     }}
                 >
                     <Typography className="main-page-text" variant="h2">
-                        {titleMap
-                            ? HTMLReactParser(decodeHtml(titleMap))
-                            : "Мы находимся"}
+                        {HTMLReactParser(decodeHtml(titleMap))}
                     </Typography>
                 </div>
                 <YMapContacts
@@ -214,23 +178,29 @@ export const getServerSideProps: GetServerSideProps =
         const props: IHomeProps = {
             data: {
                 mainpage: {
-                    bannerSlogan: "",
-                    bannerSlogan2: "",
-                    titleProducts: "",
-                    titleGallery: "",
-                    titleMap: "",
-                    titleMeta: "",
-                    descriptionMeta: "",
-                    keywordsMeta: "",
-                    gallery: [],
-                    banner: [],
+                    bannerSlogan: "Там где твои друзья<br/>Пивградъ",
+                    bannerSlogan2: "попробуй яркий вкус свежего пива",
+                    titleProducts: "Наш асортимент",
+                    titleGallery: "Наш бар",
+                    titleMap: "Мы находимся",
+                    titleMeta: "Пивградъ",
+                    descriptionMeta: "Лучший пивбар в Калуге",
+                    keywordsMeta: "Пивградъ, пиво, пиво в Калуге, Калуга, снеки, рыба, снеки в Калуге, рыба в Калуге, Купить рыбу в Калуге, Купить снеки в Калуге, Купить пиво в Калуге",
+                    gallery: [
+                        {url: host + "/assets/beergrad-photo1.png", title: "Пивградъ вход"},
+                        {url: host + "/assets/beergrad-photo2.jpg", title: "Пивградъ вход"},
+                        {url: host + "/assets/beergrad-photo3.jpg", title: "Пивградъ ассортимент"}, 
+                        {url: host + "/assets/beergrad-photo4.jpg", title: "Пивградъ ассортимент"}, 
+                        {url: host + "/assets/beergrad-photo5.jpg", title: "Пивградъ ассортимент"}, 
+                    ],
+                    banner: [{url: host + "/assets/banner.jpg"}],
                 },
                 yandexmap: {
-                    placeName: "",
-                    address: "",
-                    workTime: "",
-                    wayDesc: "",
-                    photosPlace: {},
+                    placeName: "Пивградъ бар",
+                    address: "ул. Братьев Луканиных, 7, Калуга",
+                    workTime: "10:00-20:00",
+                    wayDesc: "Остановка Кошелев-проект м-н, Ленинский округ, Калуга",
+                    photosPlace:  {data: [{url: host + "/assets/beergrad-photo1.png"}]},
                 },
             },
         };
@@ -244,7 +214,6 @@ export const getServerSideProps: GetServerSideProps =
             resultMainPage.banner = resultMainPage.banner.data;
             props.data.mainpage = resultMainPage;
         }
-
         const resultMapPoints = await cmsQueryExecute(
             "/api/yandex-map-points?populate=*"
         );

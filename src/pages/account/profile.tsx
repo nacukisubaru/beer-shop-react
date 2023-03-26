@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { useAppSelector } from "../../app/hooks/useAppSelector";
 import Menu from "../../app/components/Drawer/Menu/Menu";
 import PersonalAccount from "../../app/components/Personal/PersonalAccount";
@@ -15,7 +15,12 @@ import { GetServerSideProps } from "next";
 import { cmsQueryExecute } from "../../app/helpers/cmsHelper";
 import Head from "next/head";
 
-export default function Account({data}) {
+
+interface AccountProps {
+    data: any
+}
+
+const Account: FC<AccountProps> = ({data}) => {
     const { isAuth } = useAppSelector((state) => state.userReducer);
     const { isVerificationCodeForm } = useAppSelector(
         (state) => state.accountFormsReducer
@@ -24,6 +29,7 @@ export default function Account({data}) {
         <>
             <Head>
                 <title>{ isAuth ? 'Личный кабинет | Пивградъ' : 'Авторизация | Пивградъ' }</title>
+                <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
             </Head>
             <Menu
                 filterList={[]}
@@ -39,6 +45,8 @@ export default function Account({data}) {
         </>
     );
 }
+
+export default Account;
 
 export const getServerSideProps: GetServerSideProps =
     wrapper.getServerSideProps((store) => async ({ query }) => {

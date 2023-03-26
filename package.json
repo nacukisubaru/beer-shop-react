@@ -48,10 +48,8 @@
   },
   "scripts": {
     "dev": "next dev",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "prod": "next build",
+    "prod-start": "next start"
   },
   "eslintConfig": {
     "extends": [
@@ -70,5 +68,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react-swipeable-views": "^0.13.1"
   }
 }
