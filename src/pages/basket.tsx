@@ -16,6 +16,7 @@ const Basket: FC<BasketProps> = ({ data }) => {
         <>
             <Head>
                 <title>Корзина | Пивградъ</title>
+                <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
             </Head>
             <div className="page-container">
                 <Menu

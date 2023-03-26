@@ -66,6 +66,7 @@ const Fish: FC<IFishProps> = ({ metaTags }) => {
                     content={metaTags.descFishsMeta}
                 ></meta>
                 <title>{metaTags.titleFishsMeta + " | Пивградъ"}</title>
+                <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
             </Head>
             <div className="page-container">
                 <Menu
@@ -121,7 +122,7 @@ export const getServerSideProps: GetServerSideProps =
     wrapper.getServerSideProps((store) => async ({ query }) => {
         const props: IFishProps = {
             metaTags: {
-                titleFishsMeta: "Каталог рыбы | Пивградъ",
+                titleFishsMeta: "Каталог рыбы",
                 descFishsMeta: "Покупайте рыбку к пиву в лучшем баре Калуги Пивграде.",
                 keywordsFishsMeta: "Каталог рыбы, рыба, рыба в Калуге, купить рыбу в Калуге, купить рыбу, вкусная рыба, копченая рыба, купить копченую рыбу, купить копченую рыбу в Калуге, купить рыбу к пиву, купить рыбу к пиву в Калуге",
             },

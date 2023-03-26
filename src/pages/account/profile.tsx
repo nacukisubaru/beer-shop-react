@@ -29,6 +29,7 @@ const Account: FC<AccountProps> = ({data}) => {
         <>
             <Head>
                 <title>{ isAuth ? 'Личный кабинет | Пивградъ' : 'Авторизация | Пивградъ' }</title>
+                <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
             </Head>
             <Menu
                 filterList={[]}

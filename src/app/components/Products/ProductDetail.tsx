@@ -54,6 +54,7 @@ const ProductDetail: FC<IProductDetailProps> = ({
                 <meta name="keywords" content={seoProps.keywords}></meta>
                 <meta name="description" content={seoProps.desc}></meta>
                 <title>{seoProps.title}</title>
+                <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
             </Head>
             <Menu filterList={[]} productType="beers" />
             <div className={styles.detailCardWrapp}>

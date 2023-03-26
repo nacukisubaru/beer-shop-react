@@ -72,6 +72,7 @@ const Home: FC<IHomeProps> = ({ data }) => {
                 <title>{titleMeta}</title>
                 <meta name="keywords" content={keywordsMeta}></meta>
                 <meta name="description" content={descriptionMeta}></meta>
+                <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
             </Head>
             <div className="page-container">
                 <Menu filterList={[]} productType="beers" />

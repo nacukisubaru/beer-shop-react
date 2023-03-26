@@ -63,6 +63,7 @@ const Beers: FC<IBeersProps> = ({ metaTags }) => {
                     content={metaTags.descBeersMeta}
                 ></meta>
                 <title>{metaTags.titleBeersMeta + " | Пивградъ"}</title>
+                <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
             </Head>
             <div className="page-container">
                 <Menu productType="beers" filterList={[<Filters key="sds" />]} />
@@ -101,7 +102,7 @@ export const getServerSideProps: GetServerSideProps =
     wrapper.getServerSideProps((store) => async ({ query }) => {
         const props: IBeersProps = {
             metaTags: {
-                titleBeersMeta: "Каталог пива | Пивградъ",
+                titleBeersMeta: "Каталог пива",
                 descBeersMeta: "Лучшее пиво в лучшем пивбаре Калуги. Пивградъ. В нашем баре широкий ассортимент пива и закусок к нему",
                 keywordsBeersMeta: "Каталог пива, пиво, пиво в Калуге, купить пиво в Калуге, купить пиво, вкусное пиво, крафт пиво, крафтовое пиво, пивас, купить пивас",
             },
