@@ -66,6 +66,7 @@ const ProductDetail: FC<IProductDetailProps> = ({
                             className={styles.detailImage}
                             sx={{
                                 background: `url(${productProps.image}) center center no-repeat`,
+                                backgroundSize: "contain"
                             }}
                         ></Box>
                     </div>

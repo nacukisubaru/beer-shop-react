@@ -21,11 +21,9 @@ import YMapContacts from "../app/components/YandexMaps/Contacts/YMapContacts";
 import HTMLReactParser from "html-react-parser";
 import TabsUI from "../app/components/Tabs/TabsUI";
 import CatalogFish from "../app/components/Products/Catalog/CatalogFish";
-import bannerImg from "../assets/images/banner.jpg";
 import Menu from "../app/components/Drawer/Menu/Menu";
 import PhotoGaleryList from "../app/components/PhotoGalery/PhotoGaleryList";
 import CatalogBeers from "../app/components/Products/Catalog/CatalogBeers";
-import Image from "next/image";
 import { host } from "../app/http/http.request.config";
 
 interface IMainPage {
@@ -67,7 +65,7 @@ const Home: FC<IHomeProps> = ({ data }) => {
     const { placeName, address, workTime, wayDesc, photosPlace } =
         data.yandexmap;
     const router = useRouter();
-console.log(photosPlace.data[0].url);
+
     return (
         <>
             <Head>
@@ -78,49 +76,35 @@ console.log(photosPlace.data[0].url);
             <div className="page-container">
                 <Menu filterList={[]} productType="beers" />
                 <div>
-                    {banner.length > 0 ? (
-                        <Box
-                            className="banner-image"
-                            sx={{
-                                background: `url(${banner[0].url}) center center no-repeat`,
-                                height: 200,
-                                width: 200,
-                                display: "flex",
-                                justifyContent: "center",
-                            }}
-                        >
-                            <div className="banner-content">
-                                <Typography
-                                    className="banner-text"
-                                    variant="subtitle1"
-                                >
-                                    {HTMLReactParser(decodeHtml(bannerSlogan))}
-                                </Typography>
-                                <Typography
-                                    className="banner-under-text"
-                                    variant="subtitle2"
-                                >
-                                    {HTMLReactParser(decodeHtml(bannerSlogan2))}
-                                </Typography>
-                                <Button
-                                    className="banner-button"
-                                    variant="contained"
-                                    onClick={() => {
-                                        router.replace("/products/beers");
-                                    }}
-                                >
-                                    Попробовать
-                                </Button>
-                            </div>
-                        </Box>
-                    ) : (
-                        <Image
-                            className="banner-image-ssr"
-                            src={bannerImg}
-                            quality={100}
-                            alt="banner"
-                        />
-                    )}
+                    <Box
+                        className="banner-image"
+                        sx={{
+                            background: `url(${banner[0].url}) center center no-repeat`,
+                            backgroundSize: "cover"
+                        }}
+                    >
+                        <div className="banner-content">
+                            <Typography
+                                variant="subtitle1"
+                            >
+                                {HTMLReactParser(decodeHtml(bannerSlogan))}
+                            </Typography>
+                            <Typography
+                                variant="subtitle2"
+                            >
+                                {HTMLReactParser(decodeHtml(bannerSlogan2))}
+                            </Typography>
+                            <Button
+                                variant="contained"
+                                sx={{borderRadius: "19px"}}
+                                onClick={() => {
+                                    router.replace("/products/beers");
+                                }}
+                            >
+                                Попробовать
+                            </Button>
+                        </div>
+                    </Box>          
                 </div>
                 <div
                     style={{

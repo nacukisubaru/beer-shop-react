@@ -24,7 +24,8 @@ body {
 .banner-image {
     height: 600px;
     width: 100%;
-    background-size: cover;
+    display: flex;
+    justify-content: center;
 }
 
 .banner-image-ssr {
@@ -41,41 +42,10 @@ body {
     position: absolute;
 }
 
-.banner-text {
-    color: white;
-    text-shadow: 1px 1px 1px #000;
-    margin-bottom: 10px;
-}
-
-.banner-text {
-    font-family: 'Kurale';
-    color: white;
-    text-shadow: 2px 2px 10px #000;
-}
-
-.banner-text2 {
-    font-family: "Kurale";
-    color: white;
-    text-shadow: 2px 2px 10px #000;
-    margin-bottom: 17px;
-}
-
-.banner-under-text {
-    font-family: 'Montserrat';
-    color: white;
-    /* width: 50%; */
-    margin-bottom: 17px;
-    text-shadow: 2px 2px 10px #000;
-}
-
 .banner-content {
     max-width: 79%;
     min-width: 59%;
     margin-top: 82px;
-}
-
-.banner-button {
-    border-radius: 19px;
 }
 
 .main-page-text {
@@ -99,7 +69,6 @@ body {
 .image-for-description {
     height: 482px;
     width: 325px;
-    background-size: cover;
     margin-right: 20px;
     margin-top: 22px;
     margin-bottom: 22px;

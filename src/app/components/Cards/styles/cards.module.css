@@ -17,7 +17,6 @@
 
 .cardImg {
     position: relative;
-    background-size: contain;
     margin-bottom: 5px;
 }
 
@@ -82,7 +81,7 @@
 
 
 .buttonBottom {
-    margin-bottom: 5px;
+    margin-bottom: 5px !important;
 }
 
 .cardContent {

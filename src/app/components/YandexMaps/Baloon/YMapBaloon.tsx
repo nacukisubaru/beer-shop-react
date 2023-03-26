@@ -42,8 +42,7 @@ const YMapBaloon: FC<YMapBaloonProps> = ({ baloonProps }) => {
                     className={styles.mapCardImg}
                     sx={{
                         background: `url(${baloonProps.image}) center center no-repeat`,
-                        height: 200,
-                        width: 200,
+                        backgroundSize: "contain"
                     }}
                 ></Box>
             </div>
@@ -53,9 +52,9 @@ const YMapBaloon: FC<YMapBaloonProps> = ({ baloonProps }) => {
                     {baloonProps.workTime}
                 </Typography>
             )}
-            
+
             {baloonProps.way && (
-                 <Typography style={{ fontSize: "15px" }}>
+                <Typography style={{ fontSize: "15px" }}>
                     <span style={{ fontWeight: "bold" }}>Проезд: </span>
                     {baloonProps.way}
                 </Typography>

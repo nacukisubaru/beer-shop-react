@@ -79,6 +79,7 @@ const AboutUs: FC<IAboutUsProps> = ({ data }) => {
                             className="image-for-description"
                             sx={{
                                 background: `url(${imageForText.data[0].url}) center center no-repeat`,
+                                backgroundSize: "cover"
                             }}
                         ></Box>
                     )}
@@ -89,6 +90,7 @@ const AboutUs: FC<IAboutUsProps> = ({ data }) => {
                             className="image-for-description"
                             sx={{
                                 background: `url(${imageForText2.data[0].url}) center center no-repeat`,
+                                backgroundSize: "cover"
                             }}
                         ></Box>
                     )}

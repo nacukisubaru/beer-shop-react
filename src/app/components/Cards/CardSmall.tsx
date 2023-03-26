@@ -1,8 +1,6 @@
 import { Box, Button, Card, Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 import { useRouter } from "next/router";
-import React, { FC, useEffect, useState } from "react";
-import { useAppSelector } from "../../hooks/useAppSelector";
+import React, { FC, useState } from "react";
 import { ICard } from "../../types/card.types";
 import styles from "./styles/cards.module.css";
 import CustomSnackBar from "../CustomUI/CustomSnackBar/CustomSnackBar";
@@ -83,6 +81,7 @@ const CardSmall: FC<ICardSmall> = ({
                             className={styles.cardImg}
                             sx={{
                                 background: `url(${image}) center center no-repeat`,
+                                backgroundSize: "contain",
                                 height: imageHeight,
                             }}
                         ></Box>
